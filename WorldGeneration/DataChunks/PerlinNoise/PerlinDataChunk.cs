@@ -13,6 +13,8 @@ namespace WorldGeneration.DataChunks.PerlinNoise
 {
     internal class PerlinDataChunk : ADataChunk
     {
+        protected int nbSummitCase;
+
         public Vector2f[,] SummitArray
         {
             get;
@@ -30,16 +32,18 @@ namespace WorldGeneration.DataChunks.PerlinNoise
         {
             this.NoiseFrequency = noiseFrequency;
 
-            this.SummitArray = new Vector2f[this.NoiseFrequency, this.NoiseFrequency];
+            this.nbSummitCase = nbCaseSide / noiseFrequency;
+            this.SummitArray = new Vector2f[this.nbSummitCase, this.nbSummitCase];
         }
 
         public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
             int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed + parentLayer.Id.GetHashCode());
             Random random = new Random(chunkSeed);
-            for (int i = 0; i < this.NoiseFrequency; i++)
+            int nbSummitCase = this.SummitArray.GetLength(0);
+            for (int i = 0; i < this.nbSummitCase; i++)
             {
-                for (int j = 0; j < this.NoiseFrequency; j++)
+                for (int j = 0; j < this.nbSummitCase; j++)
                 {
                     this.SummitArray[i, j] = this.GenerateSummitVector(dataChunksMonitor, parentLayer, j, i, random);
                 }
@@ -50,7 +54,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
         {
             double angle = random.NextDouble() * 2 * Math.PI;
 
-            return new Vector2f((float) Math.Cos(angle), (float) Math.Cos(angle));
+            return new Vector2f((float) Math.Cos(angle), (float) Math.Sin(angle));
         }
 
         protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
@@ -77,10 +81,10 @@ namespace WorldGeneration.DataChunks.PerlinNoise
                 float topRightValue = topRightVector.Dot(new Vector2f(1 - realX, realY));
                 float botRightValue = botRightVector.Dot(new Vector2f(1 - realX, 1 - realY));
 
-                float topValue = topLeftValue * (1 - Fade(x)) + topRightValue * Fade(x);
-                float botValue = botLeftValue * (1 - Fade(x)) + botRightValue * Fade(x);
+                float topValue = topLeftValue * (1 - Fade(realX)) + topRightValue * Fade(realX);
+                float botValue = botLeftValue * (1 - Fade(realX)) + botRightValue * Fade(realX);
 
-                caseGenerated.Value = topValue * (1 - Fade(y)) + botValue * Fade(y);
+                caseGenerated.Value = topValue * (1 - Fade(realY)) + botValue * Fade(realY);
 
                 return caseGenerated;
             }
@@ -97,7 +101,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             isThereVector = true;
             int frequencyNoiseY = (int)(y / this.NoiseFrequency) + 1;
 
-            if(frequencyNoiseY >= this.NoiseFrequency)
+            if(frequencyNoiseY >= this.nbSummitCase)
             {
                 ChunkContainer nextChunkContainer = (parentLayer as AExtendedDataChunkLayer).ExtendedChunksMonitor.GetChunkContainerAt(this.Position.X, this.Position.Y + 1);
 
@@ -120,7 +124,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             isThereVector = true;
             int frequencyNoiseX = (int)(x / this.NoiseFrequency) + 1;
 
-            if (frequencyNoiseX >= this.NoiseFrequency)
+            if (frequencyNoiseX >= this.nbSummitCase)
             {
                 ChunkContainer nextChunkContainer = (parentLayer as AExtendedDataChunkLayer).ExtendedChunksMonitor.GetChunkContainerAt(this.Position.X + 1, this.Position.Y);
 
@@ -145,14 +149,14 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             int frequencyNoiseY = (int)(y / this.NoiseFrequency) + 1;
 
             int offsetX = 0;
-            if (frequencyNoiseX >= this.NoiseFrequency)
+            if (frequencyNoiseX >= this.nbSummitCase)
             {
                 frequencyNoiseX = 0;
                 offsetX = 1;
             }
 
             int offsetY = 0;
-            if (frequencyNoiseY >= this.NoiseFrequency)
+            if (frequencyNoiseY >= this.nbSummitCase)
             {
                 frequencyNoiseY = 0;
                 offsetY = 1;

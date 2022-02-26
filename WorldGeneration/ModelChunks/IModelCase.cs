@@ -5,13 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 
-namespace WorldGeneration.ModelChunk
+namespace WorldGeneration.ModelChunks
 {
-    public interface IZModelCases : ICase
+    public interface IModelCase : ICase
     {
-        IModelCase this[int z]
-        {
-            get;
-        }
     }
 }
