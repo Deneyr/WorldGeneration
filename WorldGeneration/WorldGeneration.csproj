@@ -84,6 +84,7 @@
     <Compile Include="ChunksMonitoring\IChunk.cs" />
     <Compile Include="DataChunks\ADataChunk.cs" />
     <Compile Include="DataChunks\ADataChunkLayer.cs" />
+    <Compile Include="DataChunks\AExtendedDataChunkLayer.cs" />
     <Compile Include="DataChunks\DataChunkLayersMonitor.cs" />
     <Compile Include="DataChunks\IDataChunk.cs" />
     <Compile Include="DataChunks\IDataChunkLayer.cs" />
@@ -91,6 +92,12 @@
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunk.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunkLayer.cs" />
     <Compile Include="Maths\Vector2fExtension.cs" />
+    <Compile Include="ModelChunk\IModelCase.cs" />
+    <Compile Include="ModelChunk\IModelChunk.cs" />
+    <Compile Include="ModelChunk\IModelChunkLayer.cs" />
+    <Compile Include="ModelChunk\IZModelCases.cs" />
+    <Compile Include="ModelChunk\ModelChunkLayersMonitor.cs" />
+    <Compile Include="ModelChunk\ZModelCases.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorldGenerating\WorldGenerator.cs" />

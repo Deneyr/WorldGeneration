@@ -243,23 +243,29 @@ namespace WorldGeneration.ChunksMonitoring
             if (this.CurrentChunksLoaded.TryGetValue(chunkGenerated.Position, out ChunkContainer chunkContainer))
             {
                 chunkContainer.ContainedChunk = chunkGenerated;
-                IntRect chunkArea = new IntRect(chunkContainer.Position.X, chunkContainer.Position.Y, 1, 1);
-                if (this.CurrentArea.Intersects(chunkArea))
-                {
-                    this.ChunksToAdd?.Invoke(new List<ChunkContainer>() { chunkContainer });
-                }
+                //IntRect chunkArea = new IntRect(chunkContainer.Position.X, chunkContainer.Position.Y, 1, 1);
+                //if (this.CurrentArea.Intersects(chunkArea))
+                //{
+                //    this.ChunksToAdd?.Invoke(new List<ChunkContainer>() { chunkContainer });
+                //}
+                this.ChunksToAdd?.Invoke(new List<ChunkContainer>() { chunkContainer });
+
+                return true;
             }
             return false;
         }
 
         public ChunkContainer GetChunkContainerAt(int x, int y)
         {
-            if (x >= this.CurrentArea.Left
-                    && x < this.CurrentArea.Left + this.CurrentArea.Width
-                    && y >= this.CurrentArea.Top
-                    && y < this.CurrentArea.Top + this.CurrentArea.Height)
+            int localX = x - this.CurrentArea.Left;
+            int localY = y - this.CurrentArea.Top;
+
+            if (localX >= 0
+                    && localX < this.CurrentArea.Width
+                    && localY >= 0
+                    && localY < this.CurrentArea.Height)
             {
-                return this.CurrentChunksArea[y][x];
+                return this.CurrentChunksArea[localY][localX];
             }
             return null;
         }

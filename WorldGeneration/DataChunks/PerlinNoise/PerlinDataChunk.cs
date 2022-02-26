@@ -25,14 +25,6 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             private set;
         }
 
-        public virtual int NbCaseBorder
-        {
-            get
-            {
-                return 1;
-            }
-        }
-
         public PerlinDataChunk(Vector2i position, int nbCaseSide, int noiseFrequency): 
             base(position, nbCaseSide)
         {
@@ -41,7 +33,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             this.SummitArray = new Vector2f[this.NoiseFrequency, this.NoiseFrequency];
         }
 
-        public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, ADataChunkLayer parentLayer)
+        public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
             int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed + parentLayer.Id.GetHashCode());
             Random random = new Random(chunkSeed);
@@ -54,14 +46,14 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             }
         }
 
-        protected Vector2f GenerateSummitVector(DataChunkLayersMonitor dataChunksMonitor, ADataChunkLayer parentLayer, int x, int y, Random random)
+        protected Vector2f GenerateSummitVector(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
         {
             double angle = random.NextDouble() * 2 * Math.PI;
 
             return new Vector2f((float) Math.Cos(angle), (float) Math.Cos(angle));
         }
 
-        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, ADataChunkLayer parentLayer, int x, int y, Random random)
+        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
         {
             Vector2f topLeftVector = this.GetTopLeftVector(parentLayer, x, y);
 
@@ -95,19 +87,19 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             return null;
         }
 
-        private Vector2f GetTopLeftVector(ADataChunkLayer parentLayer, int x, int y)
+        private Vector2f GetTopLeftVector(IDataChunkLayer parentLayer, int x, int y)
         {
             return this.SummitArray[(int)(y / this.NoiseFrequency), (int)(x / this.NoiseFrequency)];
         }
 
-        private Vector2f GetBotLeftVector(ADataChunkLayer parentLayer, int x, int y, out bool isThereVector)
+        private Vector2f GetBotLeftVector(IDataChunkLayer parentLayer, int x, int y, out bool isThereVector)
         {
             isThereVector = true;
             int frequencyNoiseY = (int)(y / this.NoiseFrequency) + 1;
 
             if(frequencyNoiseY >= this.NoiseFrequency)
             {
-                ChunkContainer nextChunkContainer = parentLayer.ChunksMonitor.GetChunkContainerAt(this.Position.X, this.Position.Y + 1);
+                ChunkContainer nextChunkContainer = (parentLayer as AExtendedDataChunkLayer).ExtendedChunksMonitor.GetChunkContainerAt(this.Position.X, this.Position.Y + 1);
 
                 if(nextChunkContainer != null && nextChunkContainer.ContainedChunk != null)
                 {
@@ -123,14 +115,14 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             return this.SummitArray[frequencyNoiseY, (int)(x / this.NoiseFrequency)];
         }
 
-        private Vector2f GetTopRightVector(ADataChunkLayer parentLayer, int x, int y, out bool isThereVector)
+        private Vector2f GetTopRightVector(IDataChunkLayer parentLayer, int x, int y, out bool isThereVector)
         {
             isThereVector = true;
             int frequencyNoiseX = (int)(x / this.NoiseFrequency) + 1;
 
             if (frequencyNoiseX >= this.NoiseFrequency)
             {
-                ChunkContainer nextChunkContainer = parentLayer.ChunksMonitor.GetChunkContainerAt(this.Position.X + 1, this.Position.Y);
+                ChunkContainer nextChunkContainer = (parentLayer as AExtendedDataChunkLayer).ExtendedChunksMonitor.GetChunkContainerAt(this.Position.X + 1, this.Position.Y);
 
                 if (nextChunkContainer != null && nextChunkContainer.ContainedChunk != null)
                 {
@@ -146,7 +138,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             return this.SummitArray[(int)(y / this.NoiseFrequency), frequencyNoiseX];
         }
 
-        private Vector2f GetBotRightVector(ADataChunkLayer parentLayer, int x, int y, out bool isThereVector)
+        private Vector2f GetBotRightVector(IDataChunkLayer parentLayer, int x, int y, out bool isThereVector)
         {
             isThereVector = true;
             int frequencyNoiseX = (int)(x / this.NoiseFrequency) + 1;
@@ -166,7 +158,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
                 offsetY = 1;
             }
 
-            ChunkContainer nextChunkContainer = parentLayer.ChunksMonitor.GetChunkContainerAt(this.Position.X + offsetX, this.Position.Y + offsetY);
+            ChunkContainer nextChunkContainer = (parentLayer as AExtendedDataChunkLayer).ExtendedChunksMonitor.GetChunkContainerAt(this.Position.X + offsetX, this.Position.Y + offsetY);
 
             if (nextChunkContainer != null && nextChunkContainer.ContainedChunk != null)
             {

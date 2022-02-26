@@ -38,9 +38,17 @@ namespace WorldGeneration
 
             //chunksMonitor.UpdateChunksArea(new IntRect(-3, -2, 3, 3));
 
-            worldMonitor.WorldArea = new IntRect((int) -1920 / 2, (int) -1080 / 2, 1920, 1080);
+            IntRect area = new IntRect((int)-800 / 2, (int)-800 / 2, 800, 600);
+            area.Left /= 16;
+            area.Top /= 16;
+            area.Width /= 16;
+            area.Height /= 16;
+
+            worldMonitor.WorldArea = area;
 
             worldMonitor.UpdateWorld(Time.Zero);
+
+            Console.Read();
         }
     }
 }

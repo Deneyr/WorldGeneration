@@ -12,7 +12,9 @@ namespace WorldGeneration.DataChunks
 {
     internal abstract class ADataChunkLayer : IDataChunkLayer, IDisposable
     {
-        protected HashSet<ChunkContainer> notGeneratedChunkContainers;
+        //protected HashSet<ChunkContainer> notGeneratedChunkContainers;
+
+        protected List<ChunkContainer> newlyLoadedChunks;
 
         public ChunksMonitor ChunksMonitor
         {
@@ -38,52 +40,54 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
-        public virtual int NbCaseBorder
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
         public ADataChunkLayer(string id, int nbCaseSide)
         {
             this.Id = id;
             this.NbCaseSide = nbCaseSide;
 
+            this.newlyLoadedChunks = null;
+
             this.ChunksMonitor = new ChunksMonitor(0);
             this.ChunksMonitor.ChunksToLoad += OnChunksToLoad;
             this.ChunksMonitor.ChunksToUnload += OnChunksToUnload;
 
-            this.notGeneratedChunkContainers = new HashSet<ChunkContainer>();
+            //this.notGeneratedChunkContainers = new HashSet<ChunkContainer>();
             //this.LoadedChunks = new Dictionary<Vector2i, IDataChunk>();
+        }
+
+        protected virtual void OnChunksToLoad(List<ChunkContainer> obj)
+        {
+            this.InternalCreateChunks(this.ChunksMonitor, obj);
+
+            this.newlyLoadedChunks = obj;
         }
 
         protected virtual void OnChunksToUnload(List<ChunkContainer> obj)
         {
-            foreach (ChunkContainer chunkContainer in obj)
-            {
-                this.notGeneratedChunkContainers.Remove(chunkContainer);
-            }
-        }
-
-        protected void OnChunksToLoad(List<ChunkContainer> obj)
-        {
-            this.InternalCreateChunks(obj);
-
-            this.InternalPrepareChunks(obj);
-
-            this.InternalGenerateChunks(obj);
+            //foreach (ChunkContainer chunkContainer in obj)
+            //{
+            //    this.notGeneratedChunkContainers.Remove(chunkContainer);
+            //}
         }
 
         public virtual void UpdateLayerArea(IntRect newWorldArea)
         {
-            this.ChunksMonitor.UpdateChunksArea(this.GetLayerFromWorldArea(newWorldArea));
+            IntRect newLayerArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, newWorldArea);
+            this.ChunksMonitor.UpdateChunksArea(newLayerArea);
 
-            this.InternalEndingChunksGeneration();
+            if (this.newlyLoadedChunks != null)
+            {
+                this.InternalPrepareChunks(this.newlyLoadedChunks);
+
+                this.InternalGenerateChunks(this.newlyLoadedChunks);
+
+                this.newlyLoadedChunks = null;
+            }
+
+            //this.InternalEndingChunksGeneration();
         }
 
-        protected abstract void InternalCreateChunks(List<ChunkContainer> obj);
+        protected abstract void InternalCreateChunks(ChunksMonitor dataChunksMonitor, List<ChunkContainer> obj);
 
         protected virtual void InternalPrepareChunks(List<ChunkContainer> obj)
         {
@@ -97,55 +101,52 @@ namespace WorldGeneration.DataChunks
         {
             foreach (ChunkContainer chunkContainer in obj)
             {
-                if((chunkContainer.ContainedChunk as ADataChunk).GenerateChunk(this.DataChunksMonitor, this) == false)
-                {
-                    this.notGeneratedChunkContainers.Add(chunkContainer);
-                }
+                (chunkContainer.ContainedChunk as ADataChunk).GenerateChunk(this.DataChunksMonitor, this);
             }
         }
 
-        protected virtual void InternalEndingChunksGeneration()
-        {
-            if (this.notGeneratedChunkContainers.Count > 0)
-            {
-                IntRect trueArea = this.GetTrueEffectiveArea(this.ChunksMonitor.CurrentArea);
+        //protected virtual void InternalEndingChunksGeneration()
+        //{
+        //    if (this.notGeneratedChunkContainers.Count > 0)
+        //    {
+        //        IntRect trueArea = this.GetTrueEffectiveArea(this.ChunksMonitor.CurrentArea);
 
-                HashSet<ChunkContainer> notGeneratedContainerClone = new HashSet<ChunkContainer>(this.notGeneratedChunkContainers);
-                foreach (ChunkContainer chunkContainer in notGeneratedContainerClone)
-                {
-                    IntRect chunkArea = new IntRect(chunkContainer.Position.X, chunkContainer.Position.Y, 1, 1);
-                    if (trueArea.Intersects(chunkArea))
-                    {
-                        if ((chunkContainer.ContainedChunk as ADataChunk).EndGenerateChunk(this.DataChunksMonitor, this))
-                        {
-                            this.notGeneratedChunkContainers.Remove(chunkContainer);
-                        }
-                    }
-                }
-            }
-        }
+        //        HashSet<ChunkContainer> notGeneratedContainerClone = new HashSet<ChunkContainer>(this.notGeneratedChunkContainers);
+        //        foreach (ChunkContainer chunkContainer in notGeneratedContainerClone)
+        //        {
+        //            IntRect chunkArea = new IntRect(chunkContainer.Position.X, chunkContainer.Position.Y, 1, 1);
+        //            if (trueArea.Intersects(chunkArea))
+        //            {
+        //                if ((chunkContainer.ContainedChunk as ADataChunk).EndGenerateChunk(this.DataChunksMonitor, this))
+        //                {
+        //                    this.notGeneratedChunkContainers.Remove(chunkContainer);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
-        protected virtual IntRect GetLayerFromWorldArea(IntRect newWorldArea)
-        {
-            IntRect layerArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, newWorldArea);
+        //protected virtual IntRect GetLayerFromWorldArea(IntRect newWorldArea)
+        //{
+        //    IntRect layerArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, newWorldArea);
 
-            return new IntRect(
-                layerArea.Left - this.NbCaseBorder,
-                layerArea.Top - this.NbCaseBorder,
-                layerArea.Width + this.NbCaseBorder * 2,
-                layerArea.Height + this.NbCaseBorder * 2);
+        //    return new IntRect(
+        //        layerArea.Left - this.NbCaseBorder,
+        //        layerArea.Top - this.NbCaseBorder,
+        //        layerArea.Width + this.NbCaseBorder * 2,
+        //        layerArea.Height + this.NbCaseBorder * 2);
 
-        }
+        //}
 
-        protected virtual IntRect GetTrueEffectiveArea(IntRect newWorldArea)
-        {
-            return new IntRect(
-                newWorldArea.Left + this.NbCaseBorder,
-                newWorldArea.Top + this.NbCaseBorder,
-                newWorldArea.Width - this.NbCaseBorder * 2,
-                newWorldArea.Height - this.NbCaseBorder * 2);
+        //protected virtual IntRect GetTrueEffectiveArea(IntRect newWorldArea)
+        //{
+        //    return new IntRect(
+        //        newWorldArea.Left + this.NbCaseBorder,
+        //        newWorldArea.Top + this.NbCaseBorder,
+        //        newWorldArea.Width - this.NbCaseBorder * 2,
+        //        newWorldArea.Height - this.NbCaseBorder * 2);
 
-        }
+        //}
 
         public virtual void Dispose()
         {

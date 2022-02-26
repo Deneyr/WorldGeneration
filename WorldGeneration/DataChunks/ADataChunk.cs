@@ -10,7 +10,7 @@ using WorldGeneration.WorldGenerating;
 
 namespace WorldGeneration.DataChunks
 {
-    internal abstract class ADataChunk : IChunk
+    internal abstract class ADataChunk : IDataChunk
     {
         public ICase[,] CasesArray
         {
@@ -30,14 +30,14 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
-        protected List<Vector2i> notGeneratedCases;
+        //protected List<Vector2i> notGeneratedCases;
 
         public ADataChunk(Vector2i position, int nbCaseSide)
         {
-            this.Position = Position;
+            this.Position = position;
             this.NbCaseSide = nbCaseSide;
 
-            this.notGeneratedCases = null;
+            //this.notGeneratedCases = null;
 
             this.CasesArray = new ICase[this.NbCaseSide, this.NbCaseSide];
             for (int i = 0; i < this.NbCaseSide; i++)
@@ -49,14 +49,14 @@ namespace WorldGeneration.DataChunks
             }
         }
 
-        public abstract void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, ADataChunkLayer parentLayer);
+        public abstract void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer);
 
-        public virtual bool GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, ADataChunkLayer parentLayer)
+        public virtual void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
             int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed - parentLayer.Id.GetHashCode());
             Random random = new Random(chunkSeed);
 
-            this.notGeneratedCases = new List<Vector2i>();
+            //this.notGeneratedCases = new List<Vector2i>();
 
             for (int i = 0; i < this.NbCaseSide; i++)
             {
@@ -64,48 +64,39 @@ namespace WorldGeneration.DataChunks
                 {
                     ICase generatedCase = this.GenerateCase(dataChunksMonitor, parentLayer, j, i, random);
 
-                    if (generatedCase != null)
-                    {
-                        this.CasesArray[i, j] = generatedCase;
-                    }
-                    else
-                    {
-                        this.notGeneratedCases.Add(new Vector2i(j, i));
-                    }
+                    this.CasesArray[i, j] = generatedCase;
                 }
             }
-
-            return this.notGeneratedCases.Count == 0;
         }
 
-        public bool EndGenerateChunk(DataChunkLayersMonitor dataChunksMonitor, ADataChunkLayer parentLayer)
-        {
-            if(this.notGeneratedCases != null && this.notGeneratedCases.Count > 0)
-            {
-                int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed - parentLayer.Id.GetHashCode());
-                Random random = new Random(chunkSeed);
+        //public bool EndGenerateChunk(DataChunkLayersMonitor dataChunksMonitor, ADataChunkLayer parentLayer)
+        //{
+        //    if(this.notGeneratedCases != null && this.notGeneratedCases.Count > 0)
+        //    {
+        //        int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed - parentLayer.Id.GetHashCode());
+        //        Random random = new Random(chunkSeed);
 
-                List<Vector2i> remainingNotGeneratedCases = new List<Vector2i>();
-                foreach(Vector2i coordinateToGenerate in this.notGeneratedCases)
-                {
-                    ICase generatedCase = this.GenerateCase(dataChunksMonitor, parentLayer, coordinateToGenerate.X, coordinateToGenerate.Y, random);
+        //        List<Vector2i> remainingNotGeneratedCases = new List<Vector2i>();
+        //        foreach(Vector2i coordinateToGenerate in this.notGeneratedCases)
+        //        {
+        //            ICase generatedCase = this.GenerateCase(dataChunksMonitor, parentLayer, coordinateToGenerate.X, coordinateToGenerate.Y, random);
 
-                    if (generatedCase != null)
-                    {
-                        this.CasesArray[coordinateToGenerate.Y, coordinateToGenerate.X] = generatedCase;
-                    }
-                    else
-                    {
-                        this.notGeneratedCases.Add(coordinateToGenerate);
-                    }
-                }
-                this.notGeneratedCases = remainingNotGeneratedCases;
-            }
+        //            if (generatedCase != null)
+        //            {
+        //                this.CasesArray[coordinateToGenerate.Y, coordinateToGenerate.X] = generatedCase;
+        //            }
+        //            else
+        //            {
+        //                this.notGeneratedCases.Add(coordinateToGenerate);
+        //            }
+        //        }
+        //        this.notGeneratedCases = remainingNotGeneratedCases;
+        //    }
 
-            return this.notGeneratedCases.Count == 0;
-        }
+        //    return this.notGeneratedCases.Count == 0;
+        //}
 
-        protected abstract ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, ADataChunkLayer parentLayer, int x, int y, Random random);
+        protected abstract ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random);
 
         protected virtual int GenerateChunkSeed(int seed)
         {

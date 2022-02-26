@@ -9,12 +9,20 @@ using WorldGeneration.WorldGenerating;
 
 namespace WorldGeneration.DataChunks.PerlinNoise
 {
-    internal class PerlinDataChunkLayer : ADataChunkLayer
+    internal class PerlinDataChunkLayer : AExtendedDataChunkLayer
     {
         public int NoiseFrequency
         {
             get;
             private set;
+        }
+
+        public override int NbCaseBorder
+        {
+            get
+            {
+                return 1;
+            }
         }
 
         public PerlinDataChunkLayer(string id, int noiseFrequency, int nbInstanceSide) 
@@ -23,13 +31,13 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             this.NoiseFrequency = noiseFrequency;
         }
 
-        protected override void InternalCreateChunks(List<ChunkContainer> obj)
+        protected override void InternalCreateChunks(ChunksMonitor dataChunksMonitor, List<ChunkContainer> obj)
         {
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
                 PerlinDataChunk perlinDataChunk = new PerlinDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NoiseFrequency);
 
-                this.ChunksMonitor.AddChunkToMonitor(perlinDataChunk);
+                dataChunksMonitor.AddChunkToMonitor(perlinDataChunk);
             }
         }
     }

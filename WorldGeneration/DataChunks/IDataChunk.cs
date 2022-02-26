@@ -11,6 +11,8 @@ namespace WorldGeneration.DataChunks
 {
     internal interface IDataChunk : IChunk
     {
-        void GenerateChunk(WorldGenerator parentGenerator, ADataChunkLayer parentLayer);
+        void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer);
+
+        void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer);
     }
 }

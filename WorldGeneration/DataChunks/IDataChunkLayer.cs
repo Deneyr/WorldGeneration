@@ -27,11 +27,6 @@ namespace WorldGeneration.DataChunks
             get;
         }
 
-        int NbCaseBorder
-        {
-            get;
-        }
-
         DataChunkLayersMonitor DataChunksMonitor
         {
             set;
