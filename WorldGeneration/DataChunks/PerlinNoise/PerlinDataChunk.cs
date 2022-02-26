@@ -77,14 +77,17 @@ namespace WorldGeneration.DataChunks.PerlinNoise
                 float realY = ((y + 0.5f) % this.NoiseFrequency) / this.NoiseFrequency;
 
                 float topLeftValue = topLeftVector.Dot(new Vector2f(realX, realY));
-                float botLeftValue = botLeftVector.Dot(new Vector2f(realX, 1 - realY));
-                float topRightValue = topRightVector.Dot(new Vector2f(1 - realX, realY));
-                float botRightValue = botRightVector.Dot(new Vector2f(1 - realX, 1 - realY));
+                float botLeftValue = botLeftVector.Dot(new Vector2f(realX, realY - 1));
+                float topRightValue = topRightVector.Dot(new Vector2f(realX - 1, realY));
+                float botRightValue = botRightVector.Dot(new Vector2f(realX - 1, realY - 1));
 
-                float topValue = topLeftValue * (1 - Fade(realX)) + topRightValue * Fade(realX);
-                float botValue = botLeftValue * (1 - Fade(realX)) + botRightValue * Fade(realX);
+                float fadeX = Fade(realX);
+                float fadeY = Fade(realY);
 
-                caseGenerated.Value = topValue * (1 - Fade(realY)) + botValue * Fade(realY);
+                float topValue = topLeftValue * (1 - fadeX) + topRightValue * fadeX;
+                float botValue = botLeftValue * (1 - fadeX) + botRightValue * fadeX;
+
+                caseGenerated.Value = topValue * (1 - fadeY) + botValue * fadeY;
 
                 return caseGenerated;
             }
@@ -178,6 +181,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
         public static float Fade(float t)
         {
             return t * t * t * (t * (t * 6 - 15) + 10);         // 6t^5 - 15t^4 + 10t^3
+            //return (3 - 2 * t) * t * t;
         }
     }
 }
