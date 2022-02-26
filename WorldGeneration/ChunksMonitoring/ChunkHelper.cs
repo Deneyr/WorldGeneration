@@ -23,7 +23,7 @@ namespace WorldGeneration.ChunksMonitoring
             return (new Vector2i(chunkPosition.Left, chunkPosition.Top)) * nbCaseSide + (new Vector2i(chunkPosition.Width, chunkPosition.Height));
         }
 
-        public static ICase GetCaseAtLocalCoordinate(IChunk chunk, int x, int y)
+        public static ICase GetCaseAtLocalCoordinates(IChunk chunk, int x, int y)
         {
             if (x >= 0
                 && x < chunk.NbCaseSide
@@ -35,7 +35,7 @@ namespace WorldGeneration.ChunksMonitoring
             return null;
         }
 
-        public static ICase GetCaseAtWorldCoordinate(IChunk chunk, int x, int y)
+        public static ICase GetCaseAtWorldCoordinates(IChunk chunk, int x, int y)
         {
             IntRect chunkPosition = GetChunkPositionFromWorldPosition(chunk.NbCaseSide, new Vector2i(x, y));
 

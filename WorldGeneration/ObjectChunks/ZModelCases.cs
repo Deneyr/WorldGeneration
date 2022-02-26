@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.System;
 
-namespace WorldGeneration.ModelChunks
+namespace WorldGeneration.ObjectChunks
 {
-    public class ZModelCases : IZModelCases
+    public class ZObjectCases : IZObjectCases
     {
-        private IModelCase[] zModelCases;
+        private IObjectCase[] zModelCases;
 
-        public IModelCase this[int z]
+        public IObjectCase this[int z]
         {
             get
             {
@@ -24,9 +24,9 @@ namespace WorldGeneration.ModelChunks
             get;
         }
 
-        public ZModelCases(int nbZCases)
+        public ZObjectCases(int nbZCases)
         {
-            this.zModelCases = new IModelCase[nbZCases];
+            this.zModelCases = new IObjectCase[nbZCases];
         }
     }
 }

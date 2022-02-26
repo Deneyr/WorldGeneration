@@ -5,9 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 
-namespace WorldGeneration.ModelChunks
+namespace WorldGeneration.ObjectChunks
 {
-    public interface IModelCase : ICase
+    public interface IZObjectCases : ICase
     {
+        IObjectCase this[int z]
+        {
+            get;
+        }
     }
 }

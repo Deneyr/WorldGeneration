@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldGeneration.ModelChunks
+namespace WorldGeneration.ObjectChunks
 {
-    public interface IModelChunkLayer
+    public interface IObjectChunkLayer
     {
     }
 }

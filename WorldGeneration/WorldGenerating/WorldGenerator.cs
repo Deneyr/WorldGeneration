@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.ObjectChunks;
 
 namespace WorldGeneration.WorldGenerating
 {
@@ -23,6 +24,7 @@ namespace WorldGeneration.WorldGenerating
         private Task chunkGenerationTask;
 
         private DataChunkLayersMonitor dataChunksMonitor;
+        private ObjectChunkLayersMonitor objectChunkMonitor;
 
         public int NbChunkCaseSide
         {
@@ -42,6 +44,7 @@ namespace WorldGeneration.WorldGenerating
             this.WorldSeed = seed;
 
             this.dataChunksMonitor = new DataChunkLayersMonitor(this.WorldSeed);
+            this.objectChunkMonitor = new ObjectChunkLayersMonitor(this.dataChunksMonitor, nbChunkCaseSide, seed);
 
             this.wasAreaUpdated = false;
 
@@ -77,9 +80,10 @@ namespace WorldGeneration.WorldGenerating
                 this.dataChunksMonitor.UpdateWorldArea(newWorldArea);
 
                 // Chunk generation
+                IChunk chunkGenerated = this.objectChunkMonitor.GenerateChunkAt(chunkToGenerate.Position);
 
                 // Raise Event
-                this.ChunkGenerated?.Invoke(null);
+                this.ChunkGenerated?.Invoke(chunkGenerated);
 
                 lock (this.mainLock)
                 {

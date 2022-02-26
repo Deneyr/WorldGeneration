@@ -36,6 +36,8 @@ namespace WorldGeneration.DataChunks
 
         //bool UnLoadDataChunk(Vector2i chunkPosition);
 
+        ICase GetCaseAtWorldCoordinates(int x, int y);
+
         void UpdateLayerArea(IntRect newWorldArea);
     }
 }

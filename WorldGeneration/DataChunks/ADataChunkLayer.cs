@@ -105,6 +105,18 @@ namespace WorldGeneration.DataChunks
             }
         }
 
+        public virtual ICase GetCaseAtWorldCoordinates(int x, int y)
+        {
+            IntRect casePosition = ChunkHelper.GetChunkPositionFromWorldPosition(this.NbCaseSide, new Vector2i(x, y));
+
+            ChunkContainer chunkContainer = this.ChunksMonitor.GetChunkContainerAt(casePosition.Left, casePosition.Top);
+            if(chunkContainer != null && chunkContainer.ContainedChunk != null)
+            {
+                return ChunkHelper.GetCaseAtLocalCoordinates(chunkContainer.ContainedChunk, casePosition.Width, casePosition.Height);
+            }
+            return null;
+        }
+
         //protected virtual void InternalEndingChunksGeneration()
         //{
         //    if (this.notGeneratedChunkContainers.Count > 0)

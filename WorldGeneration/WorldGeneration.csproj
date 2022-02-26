@@ -92,12 +92,13 @@
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunk.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunkLayer.cs" />
     <Compile Include="Maths\Vector2fExtension.cs" />
-    <Compile Include="ModelChunks\IModelCase.cs" />
-    <Compile Include="ModelChunks\IModelChunk.cs" />
-    <Compile Include="ModelChunks\IModelChunkLayer.cs" />
-    <Compile Include="ModelChunks\IZModelCases.cs" />
-    <Compile Include="ModelChunks\ModelChunkLayersMonitor.cs" />
-    <Compile Include="ModelChunks\ZModelCases.cs" />
+    <Compile Include="ObjectChunks\IObjectCase.cs" />
+    <Compile Include="ObjectChunks\IObjectChunk.cs" />
+    <Compile Include="ObjectChunks\IObjectChunkLayer.cs" />
+    <Compile Include="ObjectChunks\IZObjectCases.cs" />
+    <Compile Include="ObjectChunks\ObjectChunkLayersMonitor.cs" />
+    <Compile Include="ObjectChunks\TestChunk.cs" />
+    <Compile Include="ObjectChunks\ZModelCases.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorldGenerating\WorldGenerator.cs" />
@@ -107,9 +108,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ObjectChunks\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

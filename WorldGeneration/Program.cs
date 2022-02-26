@@ -1,5 +1,6 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,41 @@ namespace WorldGeneration
 
             worldMonitor.UpdateWorld(Time.Zero);
 
-            Console.Read();
+            //Console.Read();
+
+            Clock clock = new Clock();
+
+            var mode = new SFML.Window.VideoMode(800, 600);
+            //RenderWindow window = new RenderWindow(SFML.Window.VideoMode.DesktopMode, "WorldTestGenerator", Styles.Fullscreen);
+            RenderWindow window = new SFML.Graphics.RenderWindow(mode, "WorldTestGenerator");
+            window.SetVerticalSyncEnabled(true);
+
+            RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
+            rectangle.FillColor = new Color(128, 128, 128);
+
+            rectangle.Position = new Vector2f(0, 0);
+            View view = window.DefaultView;
+            view.Center = new Vector2f(0, 0);
+            window.SetView(view);
+
+            // Start the game loop
+            while (window.IsOpen)
+            {
+                Time deltaTime = clock.Restart();
+
+                // Process events
+                window.DispatchEvents();
+
+                worldMonitor.UpdateWorld(deltaTime);
+
+                // Draw window
+                window.Clear();
+
+                window.Draw(rectangle);
+
+                // Finally, display the rendered frame on screen
+                window.Display();
+            }
         }
     }
 }
