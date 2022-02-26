@@ -168,7 +168,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             {
                 PerlinDataChunk perlinDataChunk = nextChunkContainer.ContainedChunk as PerlinDataChunk;
 
-                return perlinDataChunk.SummitArray[frequencyNoiseX, frequencyNoiseY];
+                return perlinDataChunk.SummitArray[frequencyNoiseY, frequencyNoiseX];
             }
 
             isThereVector = false;

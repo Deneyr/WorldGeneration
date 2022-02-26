@@ -101,6 +101,8 @@
     <Compile Include="ObjectChunks\ZModelCases.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewTest\ViewChunk.cs" />
+    <Compile Include="ViewTest\ViewMonitor.cs" />
     <Compile Include="WorldGenerating\WorldGenerator.cs" />
     <Compile Include="WorldGenerating\WorldMonitor.cs" />
   </ItemGroup>

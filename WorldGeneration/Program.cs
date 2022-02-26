@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.ViewTest;
 using WorldGeneration.WorldGenerating;
 
 namespace WorldGeneration
@@ -25,7 +26,6 @@ namespace WorldGeneration
             //Console.WriteLine(boo1 + " " + boo2);
 
             WorldMonitor worldMonitor = new WorldMonitor(16, 0, 123456789);
-
             worldMonitor.WorldGenerator.ConstructWorldGenerator();
 
             //PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 16, 8);
@@ -39,7 +39,7 @@ namespace WorldGeneration
 
             //chunksMonitor.UpdateChunksArea(new IntRect(-3, -2, 3, 3));
 
-            IntRect area = new IntRect((int)-800 / 2, (int)-800 / 2, 800, 600);
+            IntRect area = new IntRect((int)-1920 / 2, (int)-1080 / 2, 1920, 1080);
             area.Left /= 16;
             area.Top /= 16;
             area.Width /= 16;
@@ -53,18 +53,20 @@ namespace WorldGeneration
 
             Clock clock = new Clock();
 
-            var mode = new SFML.Window.VideoMode(800, 600);
+            var mode = new SFML.Window.VideoMode(1920, 1080);
             //RenderWindow window = new RenderWindow(SFML.Window.VideoMode.DesktopMode, "WorldTestGenerator", Styles.Fullscreen);
             RenderWindow window = new SFML.Graphics.RenderWindow(mode, "WorldTestGenerator");
             window.SetVerticalSyncEnabled(true);
 
-            RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
-            rectangle.FillColor = new Color(128, 128, 128);
+            //RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
+            //rectangle.FillColor = new Color(128, 128, 128);
 
-            rectangle.Position = new Vector2f(0, 0);
+            //rectangle.Position = new Vector2f(0, 0);
             View view = window.DefaultView;
             view.Center = new Vector2f(0, 0);
             window.SetView(view);
+
+            ViewMonitor viewMonitor = new ViewMonitor(view, worldMonitor);
 
             // Start the game loop
             while (window.IsOpen)
@@ -79,7 +81,7 @@ namespace WorldGeneration
                 // Draw window
                 window.Clear();
 
-                window.Draw(rectangle);
+                viewMonitor.DrawIn(window, deltaTime);
 
                 // Finally, display the rendered frame on screen
                 window.Display();
