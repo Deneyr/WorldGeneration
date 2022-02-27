@@ -39,15 +39,15 @@ namespace WorldGeneration
 
             //chunksMonitor.UpdateChunksArea(new IntRect(-3, -2, 3, 3));
 
-            IntRect area = new IntRect((int)-1920 , (int)-1080 , 1920 * 2, 1080 * 2);
-            area.Left /= 16;
-            area.Top /= 16;
-            area.Width /= 16;
-            area.Height /= 16;
+            //IntRect area = new IntRect((int)-1920 , (int)-1080 , 1920 * 2, 1080 * 2);
+            //area.Left /= 16;
+            //area.Top /= 16;
+            //area.Width /= 16;
+            //area.Height /= 16;
 
-            worldMonitor.WorldArea = area;
+            //worldMonitor.WorldArea = area;
 
-            worldMonitor.UpdateWorld(Time.Zero);
+            //worldMonitor.UpdateWorld(Time.Zero);
 
             //Console.Read();
 
@@ -56,7 +56,7 @@ namespace WorldGeneration
             var mode = new SFML.Window.VideoMode(1920, 1080);
             //RenderWindow window = new RenderWindow(SFML.Window.VideoMode.DesktopMode, "WorldTestGenerator", Styles.Fullscreen);
             RenderWindow window = new SFML.Graphics.RenderWindow(mode, "WorldTestGenerator");
-            window.SetVerticalSyncEnabled(true);
+            window.SetVerticalSyncEnabled(false);
 
             //RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
             //rectangle.FillColor = new Color(128, 128, 128);
@@ -64,7 +64,6 @@ namespace WorldGeneration
             //rectangle.Position = new Vector2f(0, 0);
             View view = window.DefaultView;
             view.Center = new Vector2f(0, 0);
-            view.Zoom(4f);
             window.SetView(view);
 
             ViewMonitor viewMonitor = new ViewMonitor(view, worldMonitor);

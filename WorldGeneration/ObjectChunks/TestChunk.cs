@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.DataChunks.PerlinNoise;
 
 namespace WorldGeneration.ObjectChunks
 {
@@ -64,7 +65,14 @@ namespace WorldGeneration.ObjectChunks
 
         public ICase GenerateCaseAtWorldCoordinates(ObjectChunkLayersMonitor dataChunksMonitor, Vector2i position)
         {
-            return dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscape"].GetCaseAtWorldCoordinates(position.X, position.Y);
+            PerlinDataCase dataCase = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscape"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
+            PerlinDataCase dataCase2 = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscapeLevel2"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
+            PerlinDataCase dataCase3 = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscapeLevel3"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
+
+            TestCase generatedCase = new TestCase(position.X, position.Y);
+            generatedCase.Value = dataCase.Value + dataCase2.Value * 0.5f + dataCase3.Value * 0.25f;
+
+            return generatedCase;
         }
     }
 }

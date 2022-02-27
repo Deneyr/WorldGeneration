@@ -57,6 +57,12 @@ namespace WorldGeneration.WorldGenerating
             // high period 1024 cases ? lets try three octaves deep after it
             PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 32, 16);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel2", 16, 8);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel3", 8, 4);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
         }
 
         private void InternalUpdate()

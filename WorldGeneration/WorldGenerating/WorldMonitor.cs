@@ -44,7 +44,7 @@ namespace WorldGeneration.WorldGenerating
             get
             {
                 IntRect layerArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbChunkCaseSide, this.WorldArea);
-
+                //return layerArea;
                 return new IntRect(
                     layerArea.Left - 1,
                     layerArea.Top - 1,

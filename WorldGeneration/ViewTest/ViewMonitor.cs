@@ -1,5 +1,6 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,11 +36,18 @@ namespace WorldGeneration.ViewTest
             }
         }
 
+        public Vector2f Position
+        {
+            get;
+            private set;
+        }
+
         public ViewMonitor(View defaultView, WorldMonitor worldMonitor)
         {
             this.worldMonitor = worldMonitor;
 
             this.currentViewSize = defaultView.Size;
+            this.Position = new Vector2f(0, 0);
 
             this.worldMonitor.MainChunksMonitor.ChunksToAdd += OnChunksToAdd;
             this.worldMonitor.MainChunksMonitor.ChunksToUnload += ChunksToUnload;
@@ -59,7 +67,14 @@ namespace WorldGeneration.ViewTest
         {
             foreach (ChunkContainer chunkContainer in obj)
             {
-                this.viewChunkDisplayed.Add(chunkContainer.Position, new ViewChunk(chunkContainer.ContainedChunk));
+                if (this.viewChunkDisplayed.ContainsKey(chunkContainer.Position) == false)
+                {
+                    this.viewChunkDisplayed.Add(chunkContainer.Position, new ViewChunk(chunkContainer.ContainedChunk));
+                }
+                else
+                {
+
+                }
             }
         }
 
@@ -69,11 +84,56 @@ namespace WorldGeneration.ViewTest
 
             //sw.Start();
 
-            this.CurrentViewSize = window.DefaultView.Size;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
+            {
+                Vector2f position = this.Position;
 
-            View defaultView = window.DefaultView;
+                position.Y -= deltaTime.AsSeconds() * 320;
 
-            FloatRect viewBound = new FloatRect(defaultView.Center.X - defaultView.Size.X / 2, defaultView.Center.Y - defaultView.Size.Y / 2, defaultView.Size.X, defaultView.Size.Y);
+                this.Position = position;
+            }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+            {
+                Vector2f position = this.Position;
+
+                position.Y += deltaTime.AsSeconds() * 320;
+
+                this.Position = position;
+            }
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+            {
+                Vector2f position = this.Position;
+
+                position.X -= deltaTime.AsSeconds() * 320;
+
+                this.Position = position;
+            }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+            {
+                Vector2f position = this.Position;
+
+                position.X += deltaTime.AsSeconds() * 320;
+
+                this.Position = position;
+            }
+
+            View newView = new View(this.Position, this.CurrentViewSize);
+
+            FloatRect viewBound = new FloatRect(newView.Center.X - newView.Size.X / 2, newView.Center.Y - newView.Size.Y / 2, newView.Size.X, newView.Size.Y);
+            IntRect worldViewArea = ViewAreaToWorldArea(viewBound);
+            worldMonitor.WorldArea = worldViewArea;
+
+            RectangleShape rectangleShape = new RectangleShape(newView.Size);
+            rectangleShape.Origin = new Vector2f(newView.Size.X / 2, newView.Size.Y / 2);
+            rectangleShape.Position = this.Position;
+            rectangleShape.OutlineThickness = 5;
+            rectangleShape.OutlineColor = Color.Red;
+            rectangleShape.FillColor = Color.Transparent;
+
+            newView.Zoom(2f);
+
+            window.SetView(newView);
 
             foreach (ViewChunk viewChunk in this.viewChunkDisplayed.Values)
             {
@@ -85,13 +145,26 @@ namespace WorldGeneration.ViewTest
                 //    viewChunkBound.Height * ViewMonitor.MODEL_TO_VIEW);
                 //if (viewBound.Intersects(realViewChunkBound))
                 //{
-                    viewChunk.DrawIn(window, deltaTime);
+                viewChunk.DrawIn(window, deltaTime);
                 //}
             }
+
+            window.Draw(rectangleShape);
 
             //sw.Stop();
 
             //Console.WriteLine("time consume = " + sw.Elapsed);
+        }
+
+        public static IntRect ViewAreaToWorldArea(FloatRect viewArea)
+        {
+            IntRect area = new IntRect((int)(viewArea.Left), (int)(viewArea.Top), (int)(viewArea.Width), (int)(viewArea.Height));
+            area.Left /= 16;
+            area.Top /= 16;
+            area.Width /= 16;
+            area.Height /= 16;
+
+            return area;
         }
 
         public void Dispose()

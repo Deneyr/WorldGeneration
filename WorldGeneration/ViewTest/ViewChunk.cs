@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.ObjectChunks;
 
 namespace WorldGeneration.ViewTest
 {
@@ -42,10 +43,10 @@ namespace WorldGeneration.ViewTest
             {
                 for (int j = 0; j < this.NbCaseSide; j++)
                 {
-                    PerlinDataCase perlinCase = ChunkHelper.GetCaseAtLocalCoordinates(chunk, j, i) as PerlinDataCase;
+                    TestCase testCase = ChunkHelper.GetCaseAtLocalCoordinates(chunk, j, i) as TestCase;
 
                     RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
-                    byte colorValue = (byte) ((perlinCase.Value + 1) / 2 * 255);
+                    byte colorValue = (byte) ((testCase.Value + 1) / 2 * 255);
                     if (colorValue < 140)
                     {
                         colorValue = 0;
@@ -53,7 +54,7 @@ namespace WorldGeneration.ViewTest
                     rectangle.FillColor = new Color(colorValue, colorValue, colorValue);
 
                     Vector2i modelPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(chunk.Position.X, chunk.Position.Y, j, i));
-                    rectangle.Position = new Vector2f(modelPosition.X * ViewMonitor.MODEL_TO_VIEW, modelPosition.Y * ViewMonitor.MODEL_TO_VIEW);
+                    rectangle.Position = new Vector2f(modelPosition.X * ViewMonitor.MODEL_TO_VIEW + 0.001f, modelPosition.Y * ViewMonitor.MODEL_TO_VIEW + 0.001f);
 
                     this.caseArray[i, j] = rectangle;
                 }

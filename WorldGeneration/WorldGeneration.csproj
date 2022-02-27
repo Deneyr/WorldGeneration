@@ -97,6 +97,7 @@
     <Compile Include="ObjectChunks\IObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\IZObjectCases.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayersMonitor.cs" />
+    <Compile Include="ObjectChunks\TestCase.cs" />
     <Compile Include="ObjectChunks\TestChunk.cs" />
     <Compile Include="ObjectChunks\ZModelCases.cs" />
     <Compile Include="Program.cs" />
