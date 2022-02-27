@@ -15,6 +15,12 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             private set;
         }
 
+        public int BlurLength
+        {
+            get;
+            private set;
+        }
+
         public override int NbCaseBorder
         {
             get
@@ -23,17 +29,18 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             }
         }
 
-        public VoronoiDataChunkLayer(string id, int nbPointsInside, int nbCaseSide)
+        public VoronoiDataChunkLayer(string id, int nbPointsInside, int nbCaseSide, int blurLength)
             : base(id, nbCaseSide)
         {
-            this.NbPointsInside = nbCaseSide;
+            this.NbPointsInside = nbPointsInside;
+            this.BlurLength = blurLength;
         }
 
         protected override void InternalCreateChunks(ChunksMonitor dataChunksMonitor, List<ChunkContainer> obj)
         {
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
-                VoronoiDataChunk voronoiDataChunk = new VoronoiDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbPointsInside);
+                VoronoiDataChunk voronoiDataChunk = new VoronoiDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbPointsInside, this.BlurLength);
 
                 dataChunksMonitor.AddChunkToMonitor(voronoiDataChunk);
             }

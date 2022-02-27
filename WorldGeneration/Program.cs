@@ -15,6 +15,8 @@ namespace WorldGeneration
 {
     class Program
     {
+        private static RenderWindow window;
+
         static void Main(string[] args)
         {
 
@@ -26,7 +28,7 @@ namespace WorldGeneration
             //Console.WriteLine(boo1 + " " + boo2);
 
             WorldMonitor worldMonitor = new WorldMonitor(16, 0, 123456789);
-            worldMonitor.WorldGenerator.ConstructWorldGenerator();
+            worldMonitor.WorldGenerator.ConstructWorldGenerator2();
 
             //PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 16, 8);
             //worldMonitor.WorldGenerator.AddDataLayerToGenerator(perlinDataChunkLayer);
@@ -55,7 +57,7 @@ namespace WorldGeneration
 
             var mode = new SFML.Window.VideoMode(1920, 1080);
             //RenderWindow window = new RenderWindow(SFML.Window.VideoMode.DesktopMode, "WorldTestGenerator", Styles.Fullscreen);
-            RenderWindow window = new SFML.Graphics.RenderWindow(mode, "WorldTestGenerator");
+            window = new SFML.Graphics.RenderWindow(mode, "WorldTestGenerator");
             window.SetVerticalSyncEnabled(false);
 
             //RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
@@ -67,6 +69,9 @@ namespace WorldGeneration
             window.SetView(view);
 
             ViewMonitor viewMonitor = new ViewMonitor(view, worldMonitor);
+
+            window.KeyPressed += OnKeyPressed;
+            window.KeyPressed += viewMonitor.OnKeyPressed;
 
             // Start the game loop
             while (window.IsOpen)
@@ -85,6 +90,14 @@ namespace WorldGeneration
 
                 // Finally, display the rendered frame on screen
                 window.Display();
+            }
+        }
+
+        private static void OnKeyPressed(object sender, KeyEventArgs e)
+        {
+            if(e.Code == Keyboard.Key.Escape)
+            {
+                window.Close();
             }
         }
     }

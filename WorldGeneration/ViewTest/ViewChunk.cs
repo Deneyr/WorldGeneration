@@ -39,10 +39,10 @@ namespace WorldGeneration.ViewTest
             Random rand = new Random();
             biomeValueToColor = new Dictionary<int, Color>();
 
-            biomeValueToColor.Add(0, new Color((uint)rand.Next(0, int.MaxValue)));
-            biomeValueToColor.Add(1, new Color((uint)rand.Next(0, int.MaxValue)));
-            biomeValueToColor.Add(2, new Color((uint)rand.Next(0, int.MaxValue)));
-            biomeValueToColor.Add(3, new Color((uint)rand.Next(0, int.MaxValue)));
+            biomeValueToColor.Add(0, Color.Blue);
+            biomeValueToColor.Add(1, Color.Green);
+            biomeValueToColor.Add(2, Color.Red);
+            biomeValueToColor.Add(3, Color.Yellow);
         }
 
         public ViewChunk(IChunk chunk)
@@ -62,16 +62,24 @@ namespace WorldGeneration.ViewTest
 
                     Color color = biomeValueToColor[testCase.BiomeValue % 4];
 
-                    byte colorValue = this.ClampColorValue((byte) ((testCase.Value + 1) / 2 * 255));
+                    float value = (testCase.Value + 1) / 2;
+                    byte colorValue = this.ClampColorValue((byte)(value * 255));
+
+                    value = this.ClampColorValue(value);
+
+                    color.R = (byte) (color.R * value);
+                    color.G = (byte) (color.G * value);
+                    color.B = (byte) (color.B * value);
+
                     if (colorValue < 140)
                     {
-                        colorValue = 0;
+                        color = Color.Black;
                     }
                     //rectangle.FillColor = new Color(colorValue, colorValue, colorValue);
                     rectangle.FillColor = color;
 
                     Vector2i modelPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(chunk.Position.X, chunk.Position.Y, j, i));
-                    rectangle.Position = new Vector2f(modelPosition.X * ViewMonitor.MODEL_TO_VIEW + 0.01f, modelPosition.Y * ViewMonitor.MODEL_TO_VIEW + 0.01f);
+                    rectangle.Position = new Vector2f(modelPosition.X * ViewMonitor.MODEL_TO_VIEW + 0.1f, modelPosition.Y * ViewMonitor.MODEL_TO_VIEW + 0.1f);
 
                     this.caseArray[i, j] = rectangle;
                 }
@@ -80,7 +88,12 @@ namespace WorldGeneration.ViewTest
 
         private byte ClampColorValue(byte value)
         {
-            return (byte) ((value / 8) * 8);
+            return (byte) ((value / 16) * 16);
+        }
+
+        private float ClampColorValue(float value)
+        {
+            return (float) (Math.Floor(value * 16)) / 16f;
         }
 
         public void DrawIn(RenderWindow window, Time deltaTime)

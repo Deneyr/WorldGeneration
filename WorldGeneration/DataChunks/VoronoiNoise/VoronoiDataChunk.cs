@@ -20,16 +20,23 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             private set;
         }
 
+        public int BlurLength
+        {
+            get;
+            private set;
+        }
+
         public List<Tuple<Vector2i, int>> Points
         {
             get;
             private set;
         }
 
-        public VoronoiDataChunk(Vector2i position, int nbCaseSide, int nbPointsInside) 
+        public VoronoiDataChunk(Vector2i position, int nbCaseSide, int nbPointsInside, int blurLength) 
             : base(position, nbCaseSide)
         {
             this.NbPointsInside = nbPointsInside;
+            this.BlurLength = blurLength;
 
             this.Points = new List<Tuple<Vector2i, int>> ();
         }
@@ -78,7 +85,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             foreach(Tuple<Vector2i, int> point in this.surroundingPoints)
             {
                 Vector2f pointPosition = new Vector2f(point.Item1.X, point.Item1.Y);
-                float len2Dist = (pointPosition - casePosition).Len2();
+                float len2Dist = (pointPosition - casePosition).Len2() + random.Next(-this.BlurLength, this.BlurLength);
                 if (len2Dist < minDist)
                 {
                     minDist = len2Dist;

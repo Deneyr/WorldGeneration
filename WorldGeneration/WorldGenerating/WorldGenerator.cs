@@ -54,7 +54,7 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator()
         {
-            VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 4, 32);
+            VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 16, 32);
             this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
 
             // Region is 1024 cases width
@@ -82,6 +82,26 @@ namespace WorldGeneration.WorldGenerating
 
             //perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel4", 32, 1);
             //this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+        }
+
+        public void ConstructWorldGenerator2()
+        {
+            VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 256, 1024);
+            this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
+
+            // Region is 1024 cases width
+            // high period 2048 cases ? lets try three octaves deep after it
+            PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 1024, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel2", 512, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel3", 256, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel4", 32, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
         }
 
         private void InternalUpdate()

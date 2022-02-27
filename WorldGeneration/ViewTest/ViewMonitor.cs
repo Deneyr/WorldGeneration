@@ -21,6 +21,8 @@ namespace WorldGeneration.ViewTest
 
         private Vector2f currentViewSize;
 
+        private int currentZoom;
+
         public Vector2f CurrentViewSize
         {
             get
@@ -48,6 +50,7 @@ namespace WorldGeneration.ViewTest
 
             this.currentViewSize = defaultView.Size;
             this.Position = new Vector2f(0, 0);
+            this.currentZoom = 1;
 
             this.worldMonitor.MainChunksMonitor.ChunksToAdd += OnChunksToAdd;
             this.worldMonitor.MainChunksMonitor.ChunksToUnload += ChunksToUnload;
@@ -119,6 +122,7 @@ namespace WorldGeneration.ViewTest
             }
 
             View newView = new View(this.Position, this.CurrentViewSize);
+            newView.Zoom(this.currentZoom);
 
             FloatRect viewBound = new FloatRect(newView.Center.X - newView.Size.X / 2, newView.Center.Y - newView.Size.Y / 2, newView.Size.X, newView.Size.Y);
             IntRect worldViewArea = ViewAreaToWorldArea(viewBound);
@@ -131,7 +135,7 @@ namespace WorldGeneration.ViewTest
             rectangleShape.OutlineColor = Color.Red;
             rectangleShape.FillColor = Color.Transparent;
 
-            newView.Zoom(2f);
+            //newView.Zoom(this.currentZoom + 1);
 
             window.SetView(newView);
 
@@ -154,6 +158,18 @@ namespace WorldGeneration.ViewTest
             //sw.Stop();
 
             //Console.WriteLine("time consume = " + sw.Elapsed);
+        }
+
+        public void OnKeyPressed(object sender, KeyEventArgs e)
+        {
+            if (e.Code == Keyboard.Key.Up)
+            {
+                this.currentZoom += 1;
+            }
+            else if(e.Code == Keyboard.Key.Down)
+            {
+                this.currentZoom -= 1;
+            }
         }
 
         public static IntRect ViewAreaToWorldArea(FloatRect viewArea)
