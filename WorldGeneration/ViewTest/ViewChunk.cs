@@ -46,6 +46,10 @@ namespace WorldGeneration.ViewTest
 
                     RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
                     byte colorValue = (byte) ((perlinCase.Value + 1) / 2 * 255);
+                    if (colorValue < 140)
+                    {
+                        colorValue = 0;
+                    }
                     rectangle.FillColor = new Color(colorValue, colorValue, colorValue);
 
                     Vector2i modelPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(chunk.Position.X, chunk.Position.Y, j, i));

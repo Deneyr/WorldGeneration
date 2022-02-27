@@ -25,7 +25,7 @@ namespace WorldGeneration
 
             //Console.WriteLine(boo1 + " " + boo2);
 
-            WorldMonitor worldMonitor = new WorldMonitor(16, 0, 123456789);
+            WorldMonitor worldMonitor = new WorldMonitor(16, 0, 12346789);
             worldMonitor.WorldGenerator.ConstructWorldGenerator();
 
             //PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 16, 8);
@@ -39,7 +39,7 @@ namespace WorldGeneration
 
             //chunksMonitor.UpdateChunksArea(new IntRect(-3, -2, 3, 3));
 
-            IntRect area = new IntRect((int)-1920 / 2, (int)-1080 / 2, 1920, 1080);
+            IntRect area = new IntRect((int)-1920 , (int)-1080 , 1920 * 2, 1080 * 2);
             area.Left /= 16;
             area.Top /= 16;
             area.Width /= 16;
@@ -64,6 +64,7 @@ namespace WorldGeneration
             //rectangle.Position = new Vector2f(0, 0);
             View view = window.DefaultView;
             view.Center = new Vector2f(0, 0);
+            view.Zoom(4f);
             window.SetView(view);
 
             ViewMonitor viewMonitor = new ViewMonitor(view, worldMonitor);

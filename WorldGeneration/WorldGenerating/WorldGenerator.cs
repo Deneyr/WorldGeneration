@@ -53,7 +53,9 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator()
         {
-            PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 16, 8);
+            // Region is 1024 cases width
+            // high period 1024 cases ? lets try three octaves deep after it
+            PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 32, 16);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
         }
 
@@ -69,8 +71,6 @@ namespace WorldGeneration.WorldGenerating
                     wasAreaUpdated = true;
                     newWorldArea = this.newWorldArea;
                     chunkToGenerate = this.chunkToGenerate;
-
-                    this.wasAreaUpdated = false;
                 }
             }
 
@@ -101,6 +101,7 @@ namespace WorldGeneration.WorldGenerating
         internal bool OrderChunkGeneration(IntRect newWorldArea, ChunkContainer chunkToGenerate)
         {
             bool resultOrderGeneration = false;
+            bool createTask = false;
             lock (this.mainLock)
             {
                 if(this.wasAreaUpdated == false)
@@ -111,6 +112,7 @@ namespace WorldGeneration.WorldGenerating
                     this.wasAreaUpdated = true;
 
                     resultOrderGeneration = true;
+                    createTask = true;
                 }
                 else if(this.chunkToGenerate.Position == chunkToGenerate.Position)
                 {
@@ -118,7 +120,7 @@ namespace WorldGeneration.WorldGenerating
                 }
             }
 
-            if (resultOrderGeneration)
+            if (createTask)
             {
                 this.chunkGenerationTask = new Task(this.InternalUpdate);
                 this.chunkGenerationTask.Start();
