@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.ObjectChunks;
 
 namespace WorldGeneration.WorldGenerating
@@ -53,16 +54,34 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator()
         {
+            VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 4, 32);
+            this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
+
             // Region is 1024 cases width
-            // high period 1024 cases ? lets try three octaves deep after it
-            PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 32, 16);
+            // high period 2048 cases ? lets try three octaves deep after it
+            PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 32, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
 
-            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel2", 16, 8);
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel2", 16, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
 
-            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel3", 8, 4);
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel3", 8, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel4", 2, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            //PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 1024, 1);
+            //this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            //perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel2", 512, 1);
+            //this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            //perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel3", 256, 1);
+            //this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+
+            //perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel4", 32, 1);
+            //this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
         }
 
         private void InternalUpdate()

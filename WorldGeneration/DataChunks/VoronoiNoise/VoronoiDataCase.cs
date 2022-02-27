@@ -1,14 +1,14 @@
-﻿using System;
+﻿using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 
-namespace WorldGeneration.ObjectChunks
+namespace WorldGeneration.DataChunks.VoronoiNoise
 {
-    public class TestCase : ICase
+    internal class VoronoiDataCase : ICase
     {
         public Vector2i Position
         {
@@ -16,19 +16,13 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
-        public float Value
+        public int Value
         {
             get;
             set;
         }
 
-        public int BiomeValue
-        {
-            get;
-            set;
-        }
-
-        public TestCase(int x, int y)
+        public VoronoiDataCase(int x, int y)
         {
             this.Position = new Vector2i(x, y);
             this.Value = 0;

@@ -25,7 +25,7 @@ namespace WorldGeneration
 
             //Console.WriteLine(boo1 + " " + boo2);
 
-            WorldMonitor worldMonitor = new WorldMonitor(16, 0, 12346789);
+            WorldMonitor worldMonitor = new WorldMonitor(16, 0, 123456789);
             worldMonitor.WorldGenerator.ConstructWorldGenerator();
 
             //PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 16, 8);
