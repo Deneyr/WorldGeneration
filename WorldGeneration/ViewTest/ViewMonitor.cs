@@ -135,7 +135,7 @@ namespace WorldGeneration.ViewTest
             rectangleShape.OutlineColor = Color.Red;
             rectangleShape.FillColor = Color.Transparent;
 
-            //newView.Zoom(this.currentZoom + 1);
+            newView.Zoom(this.currentZoom + 1);
 
             window.SetView(newView);
 

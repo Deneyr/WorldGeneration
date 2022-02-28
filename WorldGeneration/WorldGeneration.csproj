@@ -85,6 +85,8 @@
     <Compile Include="DataChunks\ADataChunk.cs" />
     <Compile Include="DataChunks\ADataChunkLayer.cs" />
     <Compile Include="DataChunks\AExtendedDataChunkLayer.cs" />
+    <Compile Include="DataChunks\DataAgreggator\AltitudeDataAgreggator.cs" />
+    <Compile Include="DataChunks\DataAgreggator\IDataAgreggator.cs" />
     <Compile Include="DataChunks\DataChunkLayersMonitor.cs" />
     <Compile Include="DataChunks\IDataChunk.cs" />
     <Compile Include="DataChunks\IDataChunkLayer.cs" />

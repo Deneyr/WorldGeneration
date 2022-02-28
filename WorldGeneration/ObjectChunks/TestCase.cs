@@ -16,7 +16,7 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
-        public float Value
+        public int AltitudeValue
         {
             get;
             set;
@@ -31,7 +31,8 @@ namespace WorldGeneration.ObjectChunks
         public TestCase(int x, int y)
         {
             this.Position = new Vector2i(x, y);
-            this.Value = 0;
+            this.AltitudeValue = 0;
+            this.BiomeValue = 0;
         }
     }
 }

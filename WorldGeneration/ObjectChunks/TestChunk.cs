@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.VoronoiNoise;
 
@@ -64,17 +65,19 @@ namespace WorldGeneration.ObjectChunks
             return true;
         }
 
-        public ICase GenerateCaseAtWorldCoordinates(ObjectChunkLayersMonitor dataChunksMonitor, Vector2i position)
+        public ICase GenerateCaseAtWorldCoordinates(ObjectChunkLayersMonitor objectChunksMonitor, Vector2i position)
         {
-            VoronoiDataCase voroDataCase = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["biome"].GetCaseAtWorldCoordinates(position.X, position.Y) as VoronoiDataCase;
+            VoronoiDataCase voroDataCase = objectChunksMonitor.DataChunkMonitor.DataChunksLayers["biome"].GetCaseAtWorldCoordinates(position.X, position.Y) as VoronoiDataCase;
 
-            PerlinDataCase dataCase = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscape"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
-            PerlinDataCase dataCase2 = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscapeLevel2"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
-            PerlinDataCase dataCase3 = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscapeLevel3"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
-            PerlinDataCase dataCase4 = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscapeLevel4"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
+            //PerlinDataCase dataCase = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscape"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
+            //PerlinDataCase dataCase2 = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscapeLevel2"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
+            //PerlinDataCase dataCase3 = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscapeLevel3"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
+            //PerlinDataCase dataCase4 = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscapeLevel4"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
 
             TestCase generatedCase = new TestCase(position.X, position.Y);
-            generatedCase.Value = dataCase.Value + dataCase2.Value * 0.5f + dataCase3.Value * 0.25f + dataCase4.Value * 0.125f;
+            //generatedCase.AltitudeValue = dataCase.Value + dataCase2.Value * 0.5f + dataCase3.Value * 0.25f + dataCase4.Value * 0.15f;
+
+            generatedCase.AltitudeValue = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator).GetAltitudeAtWorldCoordinates(position.X, position.Y);
 
             generatedCase.BiomeValue = voroDataCase.Value;
 

@@ -16,6 +16,12 @@ namespace WorldGeneration.DataChunks
 
         protected List<ChunkContainer> newlyLoadedChunks;
 
+        public DataChunkLayersMonitor DataChunksMonitor
+        {
+            protected get;
+            set;
+        }
+
         public ChunksMonitor ChunksMonitor
         {
             get;
@@ -26,12 +32,6 @@ namespace WorldGeneration.DataChunks
         {
             get;
             private set;
-        }
-
-        public DataChunkLayersMonitor DataChunksMonitor
-        {
-            protected get;
-            set;
         }
 
         public int NbCaseSide

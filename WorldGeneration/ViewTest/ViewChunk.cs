@@ -62,16 +62,16 @@ namespace WorldGeneration.ViewTest
 
                     Color color = biomeValueToColor[testCase.BiomeValue % 4];
 
-                    float value = (testCase.Value + 1) / 2;
-                    byte colorValue = this.ClampColorValue((byte)(value * 255));
+                    //float value = (testCase.AltitudeValue + 1) / 2;
+                    float colorValue = testCase.AltitudeValue / 24f;
 
-                    value = this.ClampColorValue(value);
+                    //value = this.ClampColorValue(value);
 
-                    color.R = (byte) (color.R * value);
-                    color.G = (byte) (color.G * value);
-                    color.B = (byte) (color.B * value);
+                    color.R = (byte) (color.R * colorValue);
+                    color.G = (byte) (color.G * colorValue);
+                    color.B = (byte) (color.B * colorValue);
 
-                    if (colorValue < 140)
+                    if (colorValue < 0.55)
                     {
                         color = Color.Black;
                     }
@@ -93,7 +93,7 @@ namespace WorldGeneration.ViewTest
 
         private float ClampColorValue(float value)
         {
-            return (float) (Math.Floor(value * 16)) / 16f;
+            return (float) (Math.Floor(value * 24)) / 24;
         }
 
         public void DrawIn(RenderWindow window, Time deltaTime)

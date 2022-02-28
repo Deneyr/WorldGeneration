@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks;
+using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.ObjectChunks;
@@ -59,17 +60,25 @@ namespace WorldGeneration.WorldGenerating
 
             // Region is 1024 cases width
             // high period 2048 cases ? lets try three octaves deep after it
+            AltitudeDataAgreggator altitudeDataAgreggator = new AltitudeDataAgreggator(24);
+
             PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 32, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(1, perlinDataChunkLayer);
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel2", 16, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.5f, perlinDataChunkLayer);
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel3", 8, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.25f, perlinDataChunkLayer);
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel4", 2, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.15f, perlinDataChunkLayer);
+
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
 
             //PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 1024, 1);
             //this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
@@ -91,17 +100,25 @@ namespace WorldGeneration.WorldGenerating
 
             // Region is 1024 cases width
             // high period 2048 cases ? lets try three octaves deep after it
+            AltitudeDataAgreggator altitudeDataAgreggator = new AltitudeDataAgreggator(24);
+
             PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 1024, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(1, perlinDataChunkLayer);
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel2", 512, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.5f, perlinDataChunkLayer);
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel3", 256, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.25f, perlinDataChunkLayer);
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel4", 32, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.15f, perlinDataChunkLayer);
+
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
         }
 
         private void InternalUpdate()

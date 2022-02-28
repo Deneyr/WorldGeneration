@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
+using WorldGeneration.DataChunks.DataAgreggator;
 
 namespace WorldGeneration.DataChunks
 {
@@ -22,6 +23,12 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
+        internal Dictionary<string, IDataAgreggator> DataAgreggators
+        {
+            get;
+            private set;
+        }
+
         internal List<IDataChunkLayer> WorldLayers
         {
             get;
@@ -33,6 +40,8 @@ namespace WorldGeneration.DataChunks
             this.WorldSeed = worldSeed;
 
             this.DataChunksLayers = new Dictionary<string, IDataChunkLayer>();
+            this.DataAgreggators = new Dictionary<string, IDataAgreggator>();
+
             this.WorldLayers = new List<IDataChunkLayer>();
         }
 
@@ -42,6 +51,11 @@ namespace WorldGeneration.DataChunks
 
             this.DataChunksLayers.Add(dataChunkLayerToAdd.Id, dataChunkLayerToAdd);
             this.WorldLayers.Add(dataChunkLayerToAdd);
+        }
+
+        internal void AddDataAgreggatorToGenerator(string id, IDataAgreggator dataAgreggator)
+        {
+            this.DataAgreggators.Add(id, dataAgreggator);
         }
 
         internal void UpdateWorldArea(IntRect newWorldArea)
