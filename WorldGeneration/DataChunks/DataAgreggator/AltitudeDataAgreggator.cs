@@ -46,6 +46,10 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             altitudeValue = (altitudeValue + 1) / 2;
 
             return (int) (altitudeValue * this.NbAltitudeLevel);
+
+            //// TEST
+            //Random random = new Random();
+            //return random.Next(0, this.NbAltitudeLevel);
         }
 
         internal void AddAltitudeLayer(float weight, IDataChunkLayer altitudeLayer)

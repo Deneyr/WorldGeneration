@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks;
@@ -13,7 +14,7 @@ using WorldGeneration.ObjectChunks;
 
 namespace WorldGeneration.WorldGenerating
 {
-    internal class WorldGenerator
+    internal class WorldGenerator: IDisposable
     {
         private readonly object mainLock = new object();
 
@@ -23,7 +24,8 @@ namespace WorldGeneration.WorldGenerating
 
         public event Action<IChunk> ChunkGenerated;
 
-        private Task chunkGenerationTask;
+        private Thread chunkGenerationThread;
+        private volatile bool isThreadRunning;
 
         private DataChunkLayersMonitor dataChunksMonitor;
         private ObjectChunkLayersMonitor objectChunkMonitor;
@@ -50,7 +52,9 @@ namespace WorldGeneration.WorldGenerating
 
             this.wasAreaUpdated = false;
 
-            this.chunkGenerationTask = null;
+            this.isThreadRunning = true;
+            this.chunkGenerationThread = new Thread(new ThreadStart(this.InternalUpdate));
+            this.chunkGenerationThread.Start();
         }
 
         public void ConstructWorldGenerator()
@@ -131,50 +135,53 @@ namespace WorldGeneration.WorldGenerating
 
         private void InternalUpdate()
         {
-            bool wasAreaUpdated = false;
-            IntRect newWorldArea = new IntRect();
-            ChunkContainer chunkToGenerate = null;
-            lock (this.mainLock)
+            while (this.isThreadRunning)
             {
-                if (this.wasAreaUpdated)
-                {
-                    wasAreaUpdated = true;
-                    newWorldArea = this.newWorldArea;
-                    chunkToGenerate = this.chunkToGenerate;
-                }
-            }
-
-            if (wasAreaUpdated)
-            {
-                // Update data chunks
-                this.dataChunksMonitor.UpdateWorldArea(newWorldArea);
-
-                // Chunk generation
-                IChunk chunkGenerated = this.objectChunkMonitor.GenerateChunkAt(chunkToGenerate.Position);
-
-                // Raise Event
-                this.ChunkGenerated?.Invoke(chunkGenerated);
-
+                bool wasAreaUpdated = false;
+                IntRect newWorldArea = new IntRect();
+                ChunkContainer chunkToGenerate = null;
                 lock (this.mainLock)
                 {
-                    this.newWorldArea = new IntRect();
-
-                    this.chunkToGenerate = null;
-
-                    this.wasAreaUpdated = false;
+                    if (this.wasAreaUpdated)
+                    {
+                        wasAreaUpdated = true;
+                        newWorldArea = this.newWorldArea;
+                        chunkToGenerate = this.chunkToGenerate;
+                    }
                 }
 
-                this.chunkGenerationTask = null;
+                if (wasAreaUpdated)
+                {
+                    // Update data chunks
+                    this.dataChunksMonitor.UpdateWorldArea(newWorldArea);
+
+                    // Chunk generation
+                    IChunk chunkGenerated = this.objectChunkMonitor.GenerateChunkAt(chunkToGenerate.Position);
+
+                    // Raise Event
+                    this.ChunkGenerated?.Invoke(chunkGenerated);
+
+                    lock (this.mainLock)
+                    {
+                        this.newWorldArea = new IntRect();
+
+                        this.chunkToGenerate = null;
+
+                        this.wasAreaUpdated = false;
+                    }
+                }
+
+                Thread.Sleep(20);
             }
         }
 
         internal bool OrderChunkGeneration(IntRect newWorldArea, ChunkContainer chunkToGenerate)
         {
             bool resultOrderGeneration = false;
-            bool createTask = false;
+
             lock (this.mainLock)
             {
-                if(this.wasAreaUpdated == false)
+                if (this.wasAreaUpdated == false)
                 {
                     this.newWorldArea = newWorldArea;
                     this.chunkToGenerate = chunkToGenerate;
@@ -182,7 +189,6 @@ namespace WorldGeneration.WorldGenerating
                     this.wasAreaUpdated = true;
 
                     resultOrderGeneration = true;
-                    createTask = true;
                 }
                 else if(this.chunkToGenerate.Position == chunkToGenerate.Position)
                 {
@@ -190,14 +196,12 @@ namespace WorldGeneration.WorldGenerating
                 }
             }
 
-            if (createTask)
-            {
-                this.chunkGenerationTask = new Task(this.InternalUpdate);
-                this.chunkGenerationTask.Start();
-            }
-
             return resultOrderGeneration;
         }
 
+        public void Dispose()
+        {
+            this.isThreadRunning = false;
+        }
     }
 }

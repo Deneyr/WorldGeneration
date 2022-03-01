@@ -58,7 +58,7 @@ namespace WorldGeneration
             var mode = new SFML.Window.VideoMode(1920, 1080);
             //RenderWindow window = new RenderWindow(SFML.Window.VideoMode.DesktopMode, "WorldTestGenerator", Styles.Fullscreen);
             window = new SFML.Graphics.RenderWindow(mode, "WorldTestGenerator");
-            window.SetVerticalSyncEnabled(false);
+            window.SetVerticalSyncEnabled(true);
 
             //RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
             //rectangle.FillColor = new Color(128, 128, 128);

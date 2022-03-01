@@ -29,6 +29,9 @@ namespace WorldGeneration.DataChunks.DataAgreggator
         public int GetBiomeAtWorldCoordinates(int x, int y)
         {
             return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as VoronoiDataCase).Value % this.NbBiomeLevel;
+
+            // TEST
+            //return 0;
         }
     }
 }
