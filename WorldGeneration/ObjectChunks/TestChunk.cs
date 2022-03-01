@@ -78,8 +78,7 @@ namespace WorldGeneration.ObjectChunks
             //generatedCase.AltitudeValue = dataCase.Value + dataCase2.Value * 0.5f + dataCase3.Value * 0.25f + dataCase4.Value * 0.15f;
 
             generatedCase.AltitudeValue = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator).GetAltitudeAtWorldCoordinates(position.X, position.Y);
-
-            generatedCase.BiomeValue = voroDataCase.Value;
+            generatedCase.BiomeValue = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["biome"] as BiomeDataAgreggator).GetBiomeAtWorldCoordinates(position.X, position.Y);
 
             return generatedCase;
         }

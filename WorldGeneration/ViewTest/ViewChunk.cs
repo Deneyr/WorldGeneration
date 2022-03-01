@@ -60,7 +60,7 @@ namespace WorldGeneration.ViewTest
 
                     RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
 
-                    Color color = biomeValueToColor[testCase.BiomeValue % 4];
+                    Color color = biomeValueToColor[testCase.BiomeValue];
 
                     //float value = (testCase.AltitudeValue + 1) / 2;
                     float colorValue = testCase.AltitudeValue / 24f;

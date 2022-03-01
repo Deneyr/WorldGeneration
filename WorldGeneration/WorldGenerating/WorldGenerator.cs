@@ -55,8 +55,11 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator()
         {
+            BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator(4);
+
             VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 16, 32);
             this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
+            biomeDataAgreggator.BiomeLayer = voronoiDataChunkLayer;
 
             // Region is 1024 cases width
             // high period 2048 cases ? lets try three octaves deep after it
@@ -79,6 +82,7 @@ namespace WorldGeneration.WorldGenerating
             altitudeDataAgreggator.AddAltitudeLayer(0.15f, perlinDataChunkLayer);
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
 
             //PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 1024, 1);
             //this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
@@ -95,8 +99,11 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator2()
         {
+            BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator(4);
+
             VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 256, 1024);
             this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
+            biomeDataAgreggator.BiomeLayer = voronoiDataChunkLayer;
 
             // Region is 1024 cases width
             // high period 2048 cases ? lets try three octaves deep after it
@@ -119,6 +126,7 @@ namespace WorldGeneration.WorldGenerating
             altitudeDataAgreggator.AddAltitudeLayer(0.15f, perlinDataChunkLayer);
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
         }
 
         private void InternalUpdate()
