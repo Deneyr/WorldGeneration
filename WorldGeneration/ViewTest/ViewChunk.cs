@@ -79,7 +79,7 @@ namespace WorldGeneration.ViewTest
                     rectangle.FillColor = color;
 
                     Vector2i modelPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(chunk.Position.X, chunk.Position.Y, j, i));
-                    rectangle.Position = new Vector2f(modelPosition.X * ViewMonitor.MODEL_TO_VIEW + 0.1f, modelPosition.Y * ViewMonitor.MODEL_TO_VIEW + 0.1f);
+                    rectangle.Position = new Vector2f(modelPosition.X * ViewMonitor.MODEL_TO_VIEW - 0.0000001f, modelPosition.Y * ViewMonitor.MODEL_TO_VIEW - 0.0000001f);
 
                     this.caseArray[i, j] = rectangle;
                 }

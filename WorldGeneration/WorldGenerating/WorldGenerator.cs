@@ -142,7 +142,8 @@ namespace WorldGeneration.WorldGenerating
                 ChunkContainer chunkToGenerate = null;
                 lock (this.mainLock)
                 {
-                    if (this.wasAreaUpdated)
+                    if (this.wasAreaUpdated
+                        || Monitor.Wait(this.mainLock))
                     {
                         wasAreaUpdated = true;
                         newWorldArea = this.newWorldArea;
@@ -171,7 +172,7 @@ namespace WorldGeneration.WorldGenerating
                     }
                 }
 
-                Thread.Sleep(20);
+                //Thread.Sleep(20);
             }
         }
 
@@ -189,6 +190,8 @@ namespace WorldGeneration.WorldGenerating
                     this.wasAreaUpdated = true;
 
                     resultOrderGeneration = true;
+
+                    Monitor.Pulse(this.mainLock);
                 }
                 else if(this.chunkToGenerate.Position == chunkToGenerate.Position)
                 {
