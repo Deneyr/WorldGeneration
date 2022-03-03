@@ -67,7 +67,7 @@ namespace WorldGeneration.WorldGenerating
 
             // Region is 1024 cases width
             // high period 2048 cases ? lets try three octaves deep after it
-            AltitudeDataAgreggator altitudeDataAgreggator = new AltitudeDataAgreggator(24);
+            AltitudeDataAgreggator altitudeDataAgreggator = new AltitudeDataAgreggator(32);
 
             PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 32, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
@@ -111,7 +111,7 @@ namespace WorldGeneration.WorldGenerating
 
             // Region is 1024 cases width
             // high period 2048 cases ? lets try three octaves deep after it
-            AltitudeDataAgreggator altitudeDataAgreggator = new AltitudeDataAgreggator(24);
+            AltitudeDataAgreggator altitudeDataAgreggator = new AltitudeDataAgreggator(32);
 
             PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 1024, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
@@ -128,6 +128,10 @@ namespace WorldGeneration.WorldGenerating
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel4", 32, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddAltitudeLayer(0.15f, perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel5", 16, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddSeaLayer(0.1f, perlinDataChunkLayer);
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);

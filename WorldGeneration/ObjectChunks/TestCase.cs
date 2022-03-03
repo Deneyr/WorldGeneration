@@ -28,11 +28,18 @@ namespace WorldGeneration.ObjectChunks
             set;
         }
 
+        public bool IsUnderSea
+        {
+            get;
+            set;
+        }
+
         public TestCase(int x, int y)
         {
             this.Position = new Vector2i(x, y);
             this.AltitudeValue = 0;
             this.BiomeValue = 0;
+            this.IsUnderSea = false;
         }
     }
 }

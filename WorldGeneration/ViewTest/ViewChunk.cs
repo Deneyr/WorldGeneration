@@ -62,20 +62,17 @@ namespace WorldGeneration.ViewTest
 
                     Color color = biomeValueToColor[testCase.BiomeValue];
 
-                    //float value = (testCase.AltitudeValue + 1) / 2;
-                    float colorValue = testCase.AltitudeValue / 24f;
-
-                    //value = this.ClampColorValue(value);
+                    float colorValue = testCase.AltitudeValue / 32f;
 
                     color.R = (byte) (color.R * colorValue);
                     color.G = (byte) (color.G * colorValue);
                     color.B = (byte) (color.B * colorValue);
 
-                    if (colorValue < 0.55)
+                    //if (colorValue < 0.55)
+                    if(testCase.IsUnderSea)
                     {
                         color = Color.Black;
                     }
-                    //rectangle.FillColor = new Color(colorValue, colorValue, colorValue);
                     rectangle.FillColor = color;
 
                     Vector2i modelPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(chunk.Position.X, chunk.Position.Y, j, i));
