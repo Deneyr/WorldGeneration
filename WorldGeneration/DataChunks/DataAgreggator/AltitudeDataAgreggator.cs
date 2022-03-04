@@ -71,11 +71,14 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             //    isUnderSea = true;
             //}
 
-            if(altitudeValue < 0.5)
+            int midAltitudeLevel = this.NbAltitudeLevel / 2;
+            float seaValue = (this.SeaAltitudeLayer.Item2.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
+            if (altitudeLevel < midAltitudeLevel)
             {
-                if (this.SeaAltitudeLayer.Item2 != null)
+                if (altitudeLevel == midAltitudeLevel - 1
+                    && this.SeaAltitudeLayer.Item2 != null)
                 {
-                    float seaAltitudeValue = altitudeValue + (this.SeaAltitudeLayer.Item2.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value * this.SeaAltitudeLayer.Item1;
+                    float seaAltitudeValue = altitudeValue + seaValue * this.SeaAltitudeLayer.Item1;
 
                     if (seaAltitudeValue < 0.5)
                     {
@@ -87,6 +90,25 @@ namespace WorldGeneration.DataChunks.DataAgreggator
                     isUnderSea = true;
                 }
             }
+            else if (altitudeLevel >= midAltitudeLevel)
+            {
+                if (seaValue > 0)
+                {
+                    //float squareAltitudeLevel = midAltitudeLevel / 2;
+                    //float squareAltitudeValue = squareAltitudeLevel / this.NbAltitudeLevel;
+                    float ratioAltitude = Math.Max(0, (0.2f - Math.Abs(altitudeValue - 0.6f)) / 0.2f);
+
+                    ratioAltitude = ratioAltitude * ratioAltitude;
+
+                    float value = ((float)Math.Sqrt(seaValue)) * 0.6f * ratioAltitude;
+
+                    altitudeValue += value;
+                }
+            }
+
+            altitudeValue = Math.Min(1, altitudeValue);
+
+            altitudeLevel = (int)(altitudeValue * this.NbAltitudeLevel);
 
             return altitudeLevel;
 
@@ -97,17 +119,6 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
         private float computeAltitude(float altitudeValue)
         {
-            //if(altitudeValue < 0.55)
-            //{
-            //    return altitudeValue;
-            //}
-            //else
-            //{
-            //    return (altitudeValue - 0.55f) * (altitudeValue - 0.55f) * 0.45f + 0.55f;
-            //}
-            //double a = altitudeValue - 0.5;
-            //return (float)(Math.Tan(a) + 0.5);
-
             if(altitudeValue < 0.33f)
             {
                 return 1.25f * altitudeValue;
@@ -118,7 +129,7 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             }
             else
             {
-                return 1.25f * (altitudeValue - 0.33f) + 1.167f;
+                return 1.25f * (altitudeValue - 0.333f) + 0.167f;
             }
         }
 

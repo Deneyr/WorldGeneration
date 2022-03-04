@@ -17,6 +17,8 @@ namespace WorldGeneration.ViewTest
 
         private static Dictionary<int, Color> biomeValueToColor;
 
+        private static Dictionary<int, Color> altitudeValueToColor;
+
         public int NbCaseSide
         {
             get;
@@ -43,6 +45,12 @@ namespace WorldGeneration.ViewTest
             biomeValueToColor.Add(1, Color.Green);
             biomeValueToColor.Add(2, Color.Red);
             biomeValueToColor.Add(3, Color.Yellow);
+
+            altitudeValueToColor = new Dictionary<int, Color>();
+            altitudeValueToColor.Add(0, Color.Yellow);
+            altitudeValueToColor.Add(1, Color.Green);
+            altitudeValueToColor.Add(2, new Color(255, 128, 0));
+            altitudeValueToColor.Add(3, Color.White);
         }
 
         public ViewChunk(IChunk chunk)
@@ -62,14 +70,32 @@ namespace WorldGeneration.ViewTest
 
                     Color color = biomeValueToColor[testCase.BiomeValue];
 
+                    int elevation = testCase.AltitudeValue - 16;
+                    if (elevation < 0)
+                    {
+                        color = altitudeValueToColor[0];
+                    }
+                    else if(elevation < 3)
+                    {
+                        color = altitudeValueToColor[1];
+                    }
+                    else if(elevation < 9)
+                    {
+                        color = altitudeValueToColor[2];
+                    }
+                    else
+                    {
+                        color = altitudeValueToColor[3];
+                    }
+
                     float colorValue = testCase.AltitudeValue / 32f;
 
-                    color.R = (byte) (color.R * colorValue);
-                    color.G = (byte) (color.G * colorValue);
-                    color.B = (byte) (color.B * colorValue);
+                    color.R = (byte)(color.R * colorValue);
+                    color.G = (byte)(color.G * colorValue);
+                    color.B = (byte)(color.B * colorValue);
 
                     //if (colorValue < 0.55)
-                    if(testCase.IsUnderSea)
+                    if (testCase.IsUnderSea)
                     {
                         color = Color.Black;
                     }
