@@ -89,6 +89,9 @@
     <Compile Include="DataChunks\DataAgreggator\BiomeDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\IDataAgreggator.cs" />
     <Compile Include="DataChunks\DataChunkLayersMonitor.cs" />
+    <Compile Include="DataChunks\DSNoise\BiomeDSNoise\BiomeDSDataCase.cs" />
+    <Compile Include="DataChunks\DSNoise\BiomeDSNoise\BiomeDSDataChunk.cs" />
+    <Compile Include="DataChunks\DSNoise\BiomeDSNoise\BiomeDSDataChunkLayer.cs" />
     <Compile Include="DataChunks\DSNoise\DSDataCase.cs" />
     <Compile Include="DataChunks\DSNoise\DSDataChunk.cs" />
     <Compile Include="DataChunks\DSNoise\DSDataChunkLayer.cs" />

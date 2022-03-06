@@ -93,7 +93,7 @@ namespace WorldGeneration.DataChunks.DSNoise
             //}
             //List<ChunkContainer> chunksToGenerate = chunksToGenerateDictionary.Values.ToList();
 
-            List<ChunkContainer> chunksToGenerate = this.ExtendedChunksMonitor.CurrentChunksLoaded.Values.ToList();
+            List<ChunkContainer> chunksToGenerate = this.ExtendedChunksMonitor.CurrentChunksLoaded.Values.Where(pElem => (pElem.ContainedChunk as DSDataChunk).IsFullyGenerated == false).ToList();
 
             // Generate
             if (this.newlyLoadedChunks != null
@@ -134,9 +134,9 @@ namespace WorldGeneration.DataChunks.DSNoise
         {
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
-                DSDataChunk dsDataChunk = new DSDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide);
+                DSDataChunk dSDataChunk = new DSDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide);
 
-                dataChunksMonitor.AddChunkToMonitor(dsDataChunk);
+                dataChunksMonitor.AddChunkToMonitor(dSDataChunk);
             }
         }
     }

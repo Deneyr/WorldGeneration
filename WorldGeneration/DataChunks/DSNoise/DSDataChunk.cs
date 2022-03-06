@@ -51,7 +51,7 @@ namespace WorldGeneration.DataChunks.DSNoise
 
             if(currentNbStep == 0)
             {
-                this.IsFullyGenerated = false;
+                this.IsFullyGenerated = true;
             }
 
             int chunkSeed = this.GenerateChunkSeed((dataChunksMonitor.WorldSeed - parentLayer.Id.GetHashCode()) * currentNbStep);
@@ -215,12 +215,16 @@ namespace WorldGeneration.DataChunks.DSNoise
             return null;
         }
 
-        protected virtual ICase GenerateCaseFrom(IDataChunkLayer parentLayer, int x, int y, ICase topLeftCase, ICase topRightCase, ICase botLeftCase, ICase botRightCase, float valueGenerated)
+        protected virtual ICase GenerateCaseFrom(IDataChunkLayer parentLayer, int x, int y, ICase topLeftCase, ICase topRightCase, ICase botLeftCase, ICase botRightCase, int valueGenerated)
         {
+            Random random = new Random(valueGenerated);
+
             DSDataCase generatedCase = new DSDataCase(x, y);
 
+            float ratioValueGenerated = (float)((random.NextDouble() * 2) - 1);
+
             generatedCase.Value = ((topLeftCase as DSDataCase).Value + (topRightCase as DSDataCase).Value + (botLeftCase as DSDataCase).Value + (botRightCase as DSDataCase).Value) / 4 
-                + valueGenerated * this.GetCurrentAddingRatio((parentLayer as DSDataChunkLayer).CurrentNbStep);
+                + ratioValueGenerated * this.GetCurrentAddingRatio((parentLayer as DSDataChunkLayer).CurrentNbStep);
 
             return generatedCase;
         }
@@ -228,12 +232,12 @@ namespace WorldGeneration.DataChunks.DSNoise
         protected virtual float GetCurrentAddingRatio(int currentNbStep)
         {
             float ratio = 2f / (currentNbStep + 3);
-            return ratio * ratio * 0.85f;
+            return ratio * ratio * 0.8f;
         }
 
         protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
         {
-            float valueGenerated = (float)((random.NextDouble() * 2) - 1);
+            int valueGenerated = random.Next();
             if (this.GetCasesSummit(parentLayer, x, y, out ICase topLeftCase, out ICase topRightCase, out ICase botLeftCase, out ICase botRightCase))
             {
                 return this.GenerateCaseFrom(parentLayer, x, y, topLeftCase, topRightCase, botLeftCase, botRightCase, valueGenerated);
