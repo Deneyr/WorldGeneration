@@ -100,7 +100,7 @@ namespace WorldGeneration.DataChunks
 
         protected virtual int GenerateChunkSeed(int seed)
         {
-            return this.Position.X * this.Position.Y * seed + seed + this.NbCaseSide + this.Position.X + this.Position.Y;
+            return this.Position.X * this.Position.Y * seed + seed + this.NbCaseSide + this.Position.X + this.Position.Y * this.Position.Y;
         }
     }
 }

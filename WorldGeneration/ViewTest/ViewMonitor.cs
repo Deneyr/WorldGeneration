@@ -49,7 +49,7 @@ namespace WorldGeneration.ViewTest
             this.worldMonitor = worldMonitor;
 
             this.currentViewSize = defaultView.Size;
-            this.Position = new Vector2f(0, 0);
+            this.Position = new Vector2f(-15000, -1000);
             this.currentZoom = 1;
 
             this.worldMonitor.MainChunksMonitor.ChunksToAdd += OnChunksToAdd;
@@ -121,6 +121,7 @@ namespace WorldGeneration.ViewTest
                 this.Position = position;
             }
 
+            this.CurrentViewSize = new Vector2f(1920, 1080);
             View newView = new View(this.Position, this.CurrentViewSize);
             newView.Zoom(this.currentZoom);
 
@@ -135,7 +136,7 @@ namespace WorldGeneration.ViewTest
             rectangleShape.OutlineColor = Color.Red;
             rectangleShape.FillColor = Color.Transparent;
 
-            newView.Zoom(this.currentZoom + 1);
+            // newView.Zoom(this.currentZoom + 1);
 
             window.SetView(newView);
 

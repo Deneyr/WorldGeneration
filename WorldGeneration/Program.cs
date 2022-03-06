@@ -7,7 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.DataChunks;
+using WorldGeneration.DataChunks.DSNoise;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.ViewTest;
 using WorldGeneration.WorldGenerating;
 
@@ -26,6 +29,30 @@ namespace WorldGeneration
             //bool boo2 = test1.Intersects(test2);
 
             //Console.WriteLine(boo1 + " " + boo2);
+
+
+
+
+            //DSDataChunkLayer dsDataChunkLayer = new DSDataChunkLayer("biome", 7);
+            //DataChunkLayersMonitor dataChunkLayerMonitor = new DataChunkLayersMonitor(123);
+            //dsDataChunkLayer.DataChunksMonitor = dataChunkLayerMonitor;
+
+            //VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 256, 0);
+            //voronoiDataChunkLayer.DataChunksMonitor = dataChunkLayerMonitor;
+
+            //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
+            //sw.Start();
+
+            //dsDataChunkLayer.UpdateLayerArea(new IntRect(0, 0, 2, 2));
+            ////voronoiDataChunkLayer.UpdateLayerArea(new IntRect(0, 0, 2, 2));
+
+            //sw.Stop();
+
+            //Console.WriteLine(sw.ElapsedMilliseconds / 1000f);
+
+
+
 
             WorldMonitor worldMonitor = new WorldMonitor(32, 0, 123456789);
             worldMonitor.WorldGenerator.ConstructWorldGenerator2();

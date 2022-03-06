@@ -67,7 +67,7 @@ namespace WorldGeneration.ObjectChunks
 
         public ICase GenerateCaseAtWorldCoordinates(ObjectChunkLayersMonitor objectChunksMonitor, Vector2i position)
         {
-            VoronoiDataCase voroDataCase = objectChunksMonitor.DataChunkMonitor.DataChunksLayers["biome"].GetCaseAtWorldCoordinates(position.X, position.Y) as VoronoiDataCase;
+            //VoronoiDataCase voroDataCase = objectChunksMonitor.DataChunkMonitor.DataChunksLayers["biome"].GetCaseAtWorldCoordinates(position.X, position.Y) as VoronoiDataCase;
 
             //PerlinDataCase dataCase = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscape"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;
             //PerlinDataCase dataCase2 = dataChunksMonitor.DataChunkMonitor.DataChunksLayers["landscapeLevel2"].GetCaseAtWorldCoordinates(position.X, position.Y) as PerlinDataCase;

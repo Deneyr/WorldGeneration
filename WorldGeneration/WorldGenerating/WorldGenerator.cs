@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks;
 using WorldGeneration.DataChunks.DataAgreggator;
+using WorldGeneration.DataChunks.DSNoise;
 using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.ObjectChunks;
@@ -103,11 +104,11 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator2()
         {
-            BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator(4);
+            BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator(255);
 
-            VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 256, 1024);
-            this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
-            biomeDataAgreggator.BiomeLayer = voronoiDataChunkLayer;
+            //VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 1, 128, 0);
+            //this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
+            //biomeDataAgreggator.BiomeLayer = voronoiDataChunkLayer;
 
             // Region is 1024 cases width
             // high period 2048 cases ? lets try three octaves deep after it
@@ -131,7 +132,11 @@ namespace WorldGeneration.WorldGenerating
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel5", 20, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
-            altitudeDataAgreggator.AddSeaLayer(0.1f, perlinDataChunkLayer);
+            altitudeDataAgreggator.AddSeaLayer(0.03f, perlinDataChunkLayer);
+
+            DSDataChunkLayer dSDataChunkLayer = new DSDataChunkLayer("biome", 7);
+            this.dataChunksMonitor.AddDataLayerToGenerator(dSDataChunkLayer);
+            biomeDataAgreggator.BiomeLayer = dSDataChunkLayer;
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);

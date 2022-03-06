@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorldGeneration.DataChunks.DSNoise;
 using WorldGeneration.DataChunks.VoronoiNoise;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
@@ -28,7 +29,7 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
         public int GetBiomeAtWorldCoordinates(int x, int y)
         {
-            return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as VoronoiDataCase).Value % this.NbBiomeLevel;
+            return (int) ((this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as DSDataCase).Value * this.NbBiomeLevel);
 
             // TEST
             //return 0;

@@ -90,21 +90,21 @@ namespace WorldGeneration.DataChunks.DataAgreggator
                     isUnderSea = true;
                 }
             }
-            else if (altitudeLevel >= midAltitudeLevel)
-            {
-                if (seaValue > 0)
-                {
-                    //float squareAltitudeLevel = midAltitudeLevel / 2;
-                    //float squareAltitudeValue = squareAltitudeLevel / this.NbAltitudeLevel;
-                    float ratioAltitude = Math.Max(0, (0.2f - Math.Abs(altitudeValue - 0.6f)) / 0.2f);
+            //else if (altitudeLevel >= midAltitudeLevel)
+            //{
+            //    if (seaValue > 0)
+            //    {
+            //        //float squareAltitudeLevel = midAltitudeLevel / 2;
+            //        //float squareAltitudeValue = squareAltitudeLevel / this.NbAltitudeLevel;
+            //        float ratioAltitude = Math.Max(0, (0.2f - Math.Abs(altitudeValue - 0.7f)) / 0.2f);
 
-                    ratioAltitude = ratioAltitude * ratioAltitude;
+            //        ratioAltitude = ratioAltitude * ratioAltitude;
 
-                    float value = ((float)Math.Sqrt(seaValue)) * 0.6f * ratioAltitude;
+            //        float value = ((float)Math.Sqrt(seaValue)) * 0.5f * ratioAltitude;
 
-                    altitudeValue += value;
-                }
-            }
+            //        altitudeValue += value;
+            //    }
+            //}
 
             altitudeValue = Math.Min(1, altitudeValue);
 
