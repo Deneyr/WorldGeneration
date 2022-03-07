@@ -135,7 +135,8 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddSeaLayer(0.03f, perlinDataChunkLayer);
 
-            BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biome", 7, 4);
+            //BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biome", 7, 4);
+            DSDataChunkLayer biomeDSDataChunkLayer = new DSDataChunkLayer("biome", 7);
             this.dataChunksMonitor.AddDataLayerToGenerator(biomeDSDataChunkLayer);
             biomeDataAgreggator.BiomeLayer = biomeDSDataChunkLayer;
 

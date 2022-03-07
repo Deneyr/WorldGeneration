@@ -49,7 +49,7 @@ namespace WorldGeneration.ViewTest
             this.worldMonitor = worldMonitor;
 
             this.currentViewSize = defaultView.Size;
-            this.Position = new Vector2f(-15000, -1000);
+            this.Position = new Vector2f(-1500, -100);
             this.currentZoom = 1;
 
             this.worldMonitor.MainChunksMonitor.ChunksToAdd += OnChunksToAdd;

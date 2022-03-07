@@ -28,6 +28,12 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
             private set;
         }
 
+        public float TotalValueSum
+        {
+            get;
+            private set;
+        }
+
         public BiomeDSDataCase(int nbBiome, int x, int y)
         {
             this.Position = new Vector2i(x, y);
@@ -38,6 +44,7 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
                 this.Value[i] = 0;
             }
             this.CurrentBiome = 0;
+            this.TotalValueSum = 1;
         }
 
         public void UpdateCurrentBiome()
@@ -45,6 +52,7 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
             int nbBiome = this.Value.GetLength(0);
             int indexMax = 0;
             float valueMax = float.MinValue;
+            this.TotalValueSum = 0;
             for (int i = 0; i < nbBiome; i++)
             {
                 if(valueMax < this.Value[i])
@@ -52,6 +60,7 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
                     valueMax = this.Value[i];
                     indexMax = i;
                 }
+                this.TotalValueSum += this.Value[i];
             }
 
             this.CurrentBiome = indexMax;

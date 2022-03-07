@@ -74,6 +74,8 @@ namespace WorldGeneration.DataChunks.DSNoise
             if (this.newlyExtendedLoadedChunks != null)
             {
                 this.InternalPrepareChunks(this.newlyExtendedLoadedChunks);
+
+                this.newlyExtendedLoadedChunks = null;
             }
 
             //Dictionary<Vector2i, ChunkContainer> chunksToGenerateDictionary = new Dictionary<Vector2i, ChunkContainer>();
@@ -93,12 +95,11 @@ namespace WorldGeneration.DataChunks.DSNoise
             //}
             //List<ChunkContainer> chunksToGenerate = chunksToGenerateDictionary.Values.ToList();
 
-            List<ChunkContainer> chunksToGenerate = this.ExtendedChunksMonitor.CurrentChunksLoaded.Values.Where(pElem => (pElem.ContainedChunk as DSDataChunk).IsFullyGenerated == false).ToList();
-
             // Generate
-            if (this.newlyLoadedChunks != null
-                && chunksToGenerate.Count > 0)
+            if (this.newlyLoadedChunks != null)
             {
+                List<ChunkContainer> chunksToGenerate = this.ExtendedChunksMonitor.CurrentChunksLoaded.Values.Where(pElem => (pElem.ContainedChunk as DSDataChunk).MustBeGenerated(this)).ToList();
+
                 for (int i = 0; i < this.NbPower; i++)
                 {
                     this.InternalGenerateChunks(chunksToGenerate);
@@ -112,22 +113,11 @@ namespace WorldGeneration.DataChunks.DSNoise
                     this.CurrentStepLength /= 2;
                     this.CurrentStepPower *= 2;
                 }
+
+                this.newlyLoadedChunks = null;
             }
 
-            this.newlyLoadedChunks = null;
-            this.newlyExtendedLoadedChunks = null;
-
             //this.InternalEndingChunksGeneration();
-        }
-
-        internal bool IsOutGeneratingArea(IChunk chunk)
-        {
-            IntRect currentExtendedArea = this.ExtendedChunksMonitor.CurrentArea;
-
-            return currentExtendedArea.Left == chunk.Position.X
-                || currentExtendedArea.Left + currentExtendedArea.Width - 1 == chunk.Position.X
-                || currentExtendedArea.Top == chunk.Position.Y
-                || currentExtendedArea.Top + currentExtendedArea.Height - 1 == chunk.Position.Y;
         }
 
         protected override void InternalCreateChunks(ChunksMonitor dataChunksMonitor, List<ChunkContainer> obj)

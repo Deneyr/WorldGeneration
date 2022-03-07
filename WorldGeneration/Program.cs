@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks;
 using WorldGeneration.DataChunks.DSNoise;
+using WorldGeneration.DataChunks.DSNoise.BiomeDSNoise;
 using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.ViewTest;
@@ -37,15 +38,19 @@ namespace WorldGeneration
             //DataChunkLayersMonitor dataChunkLayerMonitor = new DataChunkLayersMonitor(123);
             //dsDataChunkLayer.DataChunksMonitor = dataChunkLayerMonitor;
 
-            //VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 256, 0);
+            //BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biome", 7, 4);
+            //biomeDSDataChunkLayer.DataChunksMonitor = dataChunkLayerMonitor;
+
+            //VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 256, 1024);
             //voronoiDataChunkLayer.DataChunksMonitor = dataChunkLayerMonitor;
 
             //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
             //sw.Start();
 
-            //dsDataChunkLayer.UpdateLayerArea(new IntRect(0, 0, 2, 2));
-            ////voronoiDataChunkLayer.UpdateLayerArea(new IntRect(0, 0, 2, 2));
+            ////dsDataChunkLayer.UpdateLayerArea(new IntRect(0, 0, 2, 2));
+            //voronoiDataChunkLayer.UpdateLayerArea(new IntRect(0, 0, 2, 2));
+            ////biomeDSDataChunkLayer.UpdateLayerArea(new IntRect(0, 0, 2, 2));
 
             //sw.Stop();
 

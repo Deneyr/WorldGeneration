@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 
@@ -12,17 +13,13 @@ namespace WorldGeneration.DataChunks.DSNoise
     {
         //protected HashSet<Vector2i> notGeneratedCases;
 
-        internal bool IsFullyGenerated
-        {
-            get;
-            private set;
-        }
+        private ChunkPosition currentChunkPosition;
 
         public DSDataChunk(Vector2i position, int nbCaseSide) 
             : base(position, nbCaseSide)
         {
             //this.notGeneratedCases = new HashSet<Vector2i>();
-            this.IsFullyGenerated = false;
+            this.currentChunkPosition = ChunkPosition.NOT_GENERATED;
         }
 
         public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
@@ -41,17 +38,12 @@ namespace WorldGeneration.DataChunks.DSNoise
         {
             DSDataChunkLayer dataChunkLayer = parentLayer as DSDataChunkLayer;
 
-            if (dataChunkLayer.IsOutGeneratingArea(this))
-            {
-                return;
-            }
-
             int currentNbStep = dataChunkLayer.CurrentNbStep;
             bool isCurrentStepSquare = currentNbStep % 2 == 1;
 
             if(currentNbStep == 0)
             {
-                this.IsFullyGenerated = true;
+                this.currentChunkPosition = this.GetChunkPosition(parentLayer);
             }
 
             int chunkSeed = this.GenerateChunkSeed((dataChunksMonitor.WorldSeed - parentLayer.Id.GetHashCode()) * currentNbStep);
@@ -77,10 +69,6 @@ namespace WorldGeneration.DataChunks.DSNoise
                         {
                             this.CasesArray[yCaseToGenerate, xCaseToGenerate] = generatedCase;
                         }
-                        else
-                        {
-                            this.IsFullyGenerated = false;
-                        }
                     }
                 }
             }
@@ -98,10 +86,6 @@ namespace WorldGeneration.DataChunks.DSNoise
                         if (generatedCase != null)
                         {
                             this.CasesArray[yCaseToGenerate, xCaseToGenerate] = generatedCase;
-                        }
-                        else
-                        {
-                            this.IsFullyGenerated = false;
                         }
                     }
                 }
@@ -238,9 +222,13 @@ namespace WorldGeneration.DataChunks.DSNoise
         protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
         {
             int valueGenerated = random.Next();
-            if (this.GetCasesSummit(parentLayer, x, y, out ICase topLeftCase, out ICase topRightCase, out ICase botLeftCase, out ICase botRightCase))
+
+            if (this.CasesArray[y, x] == null)
             {
-                return this.GenerateCaseFrom(parentLayer, x, y, topLeftCase, topRightCase, botLeftCase, botRightCase, valueGenerated);
+                if (this.GetCasesSummit(parentLayer, x, y, out ICase topLeftCase, out ICase topRightCase, out ICase botLeftCase, out ICase botRightCase))
+                {
+                    return this.GenerateCaseFrom(parentLayer, x, y, topLeftCase, topRightCase, botLeftCase, botRightCase, valueGenerated);
+                }
             }
 
             //if(this.Position.X == 0 && this.Position.Y == 0)
@@ -249,6 +237,122 @@ namespace WorldGeneration.DataChunks.DSNoise
             //}
 
             return null;
+        }
+
+        internal bool MustBeGenerated(IDataChunkLayer parentLayer)
+        {
+            if(this.currentChunkPosition == ChunkPosition.CENTER)
+            {
+                return false;
+            }
+
+            ChunkPosition newArea = this.GetChunkPosition(parentLayer);
+
+            if(newArea == ChunkPosition.OUT_BORDER)
+            {
+                return false;
+            }
+
+            if(this.currentChunkPosition == newArea)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private ChunkPosition GetChunkPosition(IDataChunkLayer parentLayer)
+        {
+            IntRect currentArea = parentLayer.ChunksMonitor.CurrentArea;
+
+            int horizontalPosition = -1;
+            if(this.Position.X < currentArea.Left - 1)
+            {
+                horizontalPosition = -1;
+            }
+            else if(this.Position.X < currentArea.Left)
+            {
+                horizontalPosition = 0;
+            }
+            else if(this.Position.X < currentArea.Left + currentArea.Width)
+            {
+                horizontalPosition = 1;
+            }
+            else if(this.Position.X <= currentArea.Left + currentArea.Width)
+            {
+                horizontalPosition = 2;
+            }
+
+            int verticalPosition = -1;
+            if (this.Position.Y < currentArea.Top - 1)
+            {
+                verticalPosition = -1;
+            }
+            else if (this.Position.Y < currentArea.Top)
+            {
+                verticalPosition = 0;
+            }
+            else if (this.Position.Y < currentArea.Top + currentArea.Height)
+            {
+                verticalPosition = 1;
+            }
+            else if (this.Position.Y <= currentArea.Top + currentArea.Height)
+            {
+                verticalPosition = 2;
+            }
+
+            switch (horizontalPosition)
+            {
+                case 0:
+                    switch (verticalPosition)
+                    {
+                        case 0:
+                            return ChunkPosition.TOP_LEFT;
+                        case 1:
+                            return ChunkPosition.LEFT;
+                        case 2:
+                            return ChunkPosition.BOT_LEFT;
+                    }
+                    break;
+                case 1:
+                    switch (verticalPosition)
+                    {
+                        case 0:
+                            return ChunkPosition.TOP;
+                        case 1:
+                            return ChunkPosition.CENTER;
+                        case 2:
+                            return ChunkPosition.BOT;
+                    }
+                    break;
+                case 2:
+                    switch (verticalPosition)
+                    {
+                        case 0:
+                            return ChunkPosition.TOP_RIGHT;
+                        case 1:
+                            return ChunkPosition.RIGHT;
+                        case 2:
+                            return ChunkPosition.BOT_RIGHT;
+                    }
+                    break; 
+            }
+            return ChunkPosition.OUT_BORDER;
+        }
+
+        internal enum ChunkPosition
+        {
+            NOT_GENERATED,
+            OUT_BORDER,
+            CENTER,
+            TOP,
+            TOP_LEFT,
+            LEFT,
+            BOT_LEFT,
+            BOT,
+            BOT_RIGHT,
+            RIGHT,
+            TOP_RIGHT
         }
     }
 }
