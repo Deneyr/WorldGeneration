@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.DataChunks.DataAgreggator;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks
 {
     internal class DataChunkLayersMonitor
     {
+        private WeatherMonitor weatherMonitor;
+
         internal int WorldSeed
         {
             get;
@@ -38,6 +41,8 @@ namespace WorldGeneration.DataChunks
         internal DataChunkLayersMonitor(int worldSeed)
         {
             this.WorldSeed = worldSeed;
+
+            this.weatherMonitor = new WeatherMonitor(@"Resources\WorldGenerator\weatherTexture.bmp");
 
             this.DataChunksLayers = new Dictionary<string, IDataChunkLayer>();
             this.DataAgreggators = new Dictionary<string, IDataAgreggator>();

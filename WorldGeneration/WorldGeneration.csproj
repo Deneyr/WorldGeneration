@@ -103,6 +103,8 @@
     <Compile Include="DataChunks\VoronoiNoise\VoronoiDataCase.cs" />
     <Compile Include="DataChunks\VoronoiNoise\VoronoiDataChunk.cs" />
     <Compile Include="DataChunks\VoronoiNoise\VoronoiDataChunkLayer.cs" />
+    <Compile Include="DataChunks\WeatherMonitoring\BiomeType.cs" />
+    <Compile Include="DataChunks\WeatherMonitoring\WeatherMonitor.cs" />
     <Compile Include="Maths\Vector2fExtension.cs" />
     <Compile Include="ObjectChunks\IObjectCase.cs" />
     <Compile Include="ObjectChunks\IObjectChunk.cs" />

@@ -22,6 +22,12 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             set;
         }
 
+        public float BorderValue
+        {
+            get;
+            set;
+        }
+
         public VoronoiDataCase(int x, int y)
         {
             this.Position = new Vector2i(x, y);

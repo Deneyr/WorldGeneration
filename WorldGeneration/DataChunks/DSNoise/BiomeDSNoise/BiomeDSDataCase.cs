@@ -47,23 +47,23 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
             this.TotalValueSum = 1;
         }
 
-        public void UpdateCurrentBiome()
-        {
-            int nbBiome = this.Value.GetLength(0);
-            int indexMax = 0;
-            float valueMax = float.MinValue;
-            this.TotalValueSum = 0;
-            for (int i = 0; i < nbBiome; i++)
-            {
-                if(valueMax < this.Value[i])
-                {
-                    valueMax = this.Value[i];
-                    indexMax = i;
-                }
-                this.TotalValueSum += this.Value[i];
-            }
+        //public void UpdateCurrentBiome()
+        //{
+        //    int nbBiome = this.Value.GetLength(0);
+        //    int indexMax = 0;
+        //    float valueMax = float.MinValue;
+        //    this.TotalValueSum = 0;
+        //    for (int i = 0; i < nbBiome; i++)
+        //    {
+        //        if(valueMax < this.Value[i])
+        //        {
+        //            valueMax = this.Value[i];
+        //            indexMax = i;
+        //        }
+        //        this.TotalValueSum += this.Value[i];
+        //    }
 
-            this.CurrentBiome = indexMax;
-        }
+        //    this.CurrentBiome = indexMax;
+        //}
     }
 }

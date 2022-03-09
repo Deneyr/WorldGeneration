@@ -29,9 +29,14 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
 
             BiomeDSDataCase generatedCase = new BiomeDSDataCase(this.NbBiome, 0, 0);
 
-            generatedCase.Value[random.Next(0, this.NbBiome)] = 0.5f;
+            //generatedCase.Value[random.Next(0, this.NbBiome)] = 0.5f;
 
-            generatedCase.UpdateCurrentBiome();
+            for (int i = 0; i < this.NbBiome; i++)
+            {
+                generatedCase.Value[i] = (float)(random.NextDouble() - 0.5f);
+            }
+
+            //generatedCase.UpdateCurrentBiome();
 
             this.CasesArray[0, 0] = generatedCase;
         }
@@ -52,7 +57,7 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
                 + ratioValueGenerated * this.GetCurrentAddingRatio((parentLayer as DSDataChunkLayer).CurrentNbStep);
             }
 
-            generatedCase.UpdateCurrentBiome();
+            //generatedCase.UpdateCurrentBiome();
 
             return generatedCase;
         }

@@ -30,8 +30,9 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
         public int GetBiomeAtWorldCoordinates(int x, int y)
         {
-            //return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as BiomeDSDataCase).CurrentBiome % this.NbBiomeLevel;
-            return (int) ((this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as DSDataCase).Value * 255);
+            return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as VoronoiDataCase).Value % this.NbBiomeLevel;
+            //return (int) ((this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as DSDataCase).Value * 255);
+            //return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as BiomeDSDataCase).CurrentBiome;
 
             // TEST
             //return 0;

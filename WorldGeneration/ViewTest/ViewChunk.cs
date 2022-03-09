@@ -68,9 +68,9 @@ namespace WorldGeneration.ViewTest
 
                     RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
 
-                    //Color color = biomeValueToColor[testCase.BiomeValue];
+                    Color color = biomeValueToColor[testCase.BiomeValue];
 
-                    Color color = new Color((byte)(testCase.BiomeValue), (byte)(testCase.BiomeValue), (byte)(testCase.BiomeValue));
+                    //Color color = new Color((byte)(testCase.BiomeValue), (byte)(testCase.BiomeValue), (byte)(testCase.BiomeValue));
 
                     //Color color;
                     //int elevation = testCase.AltitudeValue - 16;
@@ -93,15 +93,15 @@ namespace WorldGeneration.ViewTest
 
                     float colorValue = testCase.AltitudeValue / 32f;
 
-                    //color.R = (byte)(color.R * colorValue);
-                    //color.G = (byte)(color.G * colorValue);
-                    //color.B = (byte)(color.B * colorValue);
+                    color.R = (byte)(color.R * colorValue);
+                    color.G = (byte)(color.G * colorValue);
+                    color.B = (byte)(color.B * colorValue);
 
-                    //if (colorValue < 0.55)
-                    //if (testCase.IsUnderSea)
-                    //{
-                    //    color = Color.Black;
-                    //}
+                    if (colorValue < 0.55)
+                    if (testCase.IsUnderSea)
+                    {
+                        color = Color.Black;
+                    }
                     rectangle.FillColor = color;
 
                     Vector2i modelPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(chunk.Position.X, chunk.Position.Y, j, i));

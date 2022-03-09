@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.DataChunks.DSNoise.BiomeDSNoise;
 using WorldGeneration.Maths;
 
 namespace WorldGeneration.DataChunks.VoronoiNoise
@@ -13,6 +14,8 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
     internal class VoronoiDataChunk : ADataChunk
     {
         List<Tuple<Vector2i, int>> surroundingPoints;
+
+        protected BiomeDSDataChunkLayer biomeDSDataChunk;
 
         public int NbPointsInside
         {
@@ -74,13 +77,18 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
                         this.surroundingPoints.AddRange((chunkContainer.ContainedChunk as VoronoiDataChunk).Points);
                     }
                 }
+
+                this.biomeDSDataChunk = dataChunksMonitor.DataChunksLayers["biomeOffset"] as BiomeDSDataChunkLayer;
             }
 
             int nearestPointValue = 0;
             float minDist = int.MaxValue;
 
             Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x, y)));
-            Vector2f casePosition = new Vector2f(worldCasePosition.X, worldCasePosition.Y);
+
+            BiomeDSDataCase biomeDSDataCase = this.biomeDSDataChunk.GetCaseAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y) as BiomeDSDataCase;
+
+            Vector2f casePosition = new Vector2f(worldCasePosition.X + biomeDSDataCase.Value[0] * 20, worldCasePosition.Y + biomeDSDataCase.Value[1] * 20);
 
             foreach(Tuple<Vector2i, int> point in this.surroundingPoints)
             {

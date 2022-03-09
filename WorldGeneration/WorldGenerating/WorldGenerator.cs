@@ -107,9 +107,7 @@ namespace WorldGeneration.WorldGenerating
         {
             BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator(4);
 
-            //VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 1, 128, 0);
-            //this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
-            //biomeDataAgreggator.BiomeLayer = voronoiDataChunkLayer;
+            // Part Altitude
 
             // Region is 1024 cases width
             // high period 2048 cases ? lets try three octaves deep after it
@@ -135,10 +133,16 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddSeaLayer(0.03f, perlinDataChunkLayer);
 
-            //BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biome", 7, 4);
-            DSDataChunkLayer biomeDSDataChunkLayer = new DSDataChunkLayer("biome", 7);
+            // Part Biomes
+
+            BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biomeOffset", 5, 4);
+            //DSDataChunkLayer biomeDSDataChunkLayer = new DSDataChunkLayer("biomeOffset", 7);
             this.dataChunksMonitor.AddDataLayerToGenerator(biomeDSDataChunkLayer);
-            biomeDataAgreggator.BiomeLayer = biomeDSDataChunkLayer;
+            //biomeDataAgreggator.BiomeLayer = biomeDSDataChunkLayer;
+
+            VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 1, 32, 0);
+            this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
+            biomeDataAgreggator.BiomeLayer = voronoiDataChunkLayer;
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
