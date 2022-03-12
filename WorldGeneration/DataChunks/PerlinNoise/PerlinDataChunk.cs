@@ -54,7 +54,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
         //    }
         //}
 
-        public PerlinDataChunk(Vector2i position, int nbCaseSide, int noiseFrequency): 
+        public PerlinDataChunk(Vector2i position, int nbCaseSide, int noiseFrequency) :
             base(position, nbCaseSide)
         {
             this.NoiseFrequency = noiseFrequency;
@@ -81,7 +81,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
         {
             double angle = random.NextDouble() * 2 * Math.PI;
 
-            return new Vector2f((float) Math.Cos(angle), (float) Math.Sin(angle));
+            return new Vector2f((float)Math.Cos(angle), (float)Math.Sin(angle));
         }
 
         protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
@@ -98,10 +98,10 @@ namespace WorldGeneration.DataChunks.PerlinNoise
 
             if (isThereVector)
             {
-                PerlinDataCase caseGenerated = new PerlinDataCase(x, y);
+                PerlinDataCase caseGenerated = new PerlinDataCase(x * this.SampleLevel, y * this.SampleLevel);
 
-                float realX = ((x + 0.5f) % this.NoiseFrequency) / this.NoiseFrequency;
-                float realY = ((y + 0.5f) % this.NoiseFrequency) / this.NoiseFrequency;
+                float realX = ((x * this.SampleLevel + 0.5f) % this.NoiseFrequency) / this.NoiseFrequency;
+                float realY = ((y * this.SampleLevel + 0.5f) % this.NoiseFrequency) / this.NoiseFrequency;
 
                 float topLeftValue = topLeftVector.Dot(new Vector2f(realX, realY));
                 float botLeftValue = botLeftVector.Dot(new Vector2f(realX, realY - 1));
@@ -131,11 +131,11 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             isThereVector = true;
             int frequencyNoiseY = (int)(y / this.NoiseFrequency) + 1;
 
-            if(frequencyNoiseY >= this.nbSummitCase)
+            if (frequencyNoiseY >= this.nbSummitCase)
             {
                 ChunkContainer nextChunkContainer = (parentLayer as AExtendedDataChunkLayer).ExtendedChunksMonitor.GetChunkContainerAt(this.Position.X, this.Position.Y + 1);
 
-                if(nextChunkContainer != null && nextChunkContainer.ContainedChunk != null)
+                if (nextChunkContainer != null && nextChunkContainer.ContainedChunk != null)
                 {
                     PerlinDataChunk perlinDataChunk = nextChunkContainer.ContainedChunk as PerlinDataChunk;
 

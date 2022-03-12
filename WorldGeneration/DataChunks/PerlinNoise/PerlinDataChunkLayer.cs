@@ -36,6 +36,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
                 PerlinDataChunk perlinDataChunk = new PerlinDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NoiseFrequency);
+                perlinDataChunk.SampleLevel = this.SampleLevel;
 
                 dataChunksMonitor.AddChunkToMonitor(perlinDataChunk);
             }

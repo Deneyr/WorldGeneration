@@ -26,6 +26,7 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
                 BiomeDSDataChunk biomeDSDataChunk = new BiomeDSDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbBiome);
+                biomeDSDataChunk.SampleLevel = this.SampleLevel;
 
                 dataChunksMonitor.AddChunkToMonitor(biomeDSDataChunk);
             }

@@ -10,11 +10,6 @@ namespace WorldGeneration.ChunksMonitoring
 {
     public interface IChunk
     {
-        ICase[,] CasesArray
-        {
-            get;
-        }
-
         Vector2i Position
         {
             get;
@@ -24,5 +19,7 @@ namespace WorldGeneration.ChunksMonitoring
         {
             get;
         }
+
+        ICase GetCaseAtLocal(int x, int y);
     }
 }

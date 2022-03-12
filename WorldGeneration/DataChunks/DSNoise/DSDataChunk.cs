@@ -31,7 +31,7 @@ namespace WorldGeneration.DataChunks.DSNoise
 
             generatedCase.Value = (((float) random.NextDouble()) / 2 - 0.25f) + 0.5f;
 
-            this.CasesArray[0, 0] = generatedCase;
+            this.casesArray[0, 0] = generatedCase;
         }
 
         public override void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
@@ -67,7 +67,7 @@ namespace WorldGeneration.DataChunks.DSNoise
 
                         if (generatedCase != null)
                         {
-                            this.CasesArray[yCaseToGenerate, xCaseToGenerate] = generatedCase;
+                            this.casesArray[yCaseToGenerate, xCaseToGenerate] = generatedCase;
                         }
                     }
                 }
@@ -85,7 +85,7 @@ namespace WorldGeneration.DataChunks.DSNoise
 
                         if (generatedCase != null)
                         {
-                            this.CasesArray[yCaseToGenerate, xCaseToGenerate] = generatedCase;
+                            this.casesArray[yCaseToGenerate, xCaseToGenerate] = generatedCase;
                         }
                     }
                 }
@@ -184,7 +184,7 @@ namespace WorldGeneration.DataChunks.DSNoise
             if(xChunkOffset == 0
                 && yChunkOffset == 0)
             {
-                return this.CasesArray[y, x];
+                return this.casesArray[y, x];
             }
             else
             {
@@ -192,7 +192,7 @@ namespace WorldGeneration.DataChunks.DSNoise
 
                 if(nextChunkContainer != null && nextChunkContainer.ContainedChunk != null)
                 {
-                    return nextChunkContainer.ContainedChunk.CasesArray[y, x];
+                    return nextChunkContainer.ContainedChunk.GetCaseAtLocal(x, y);
                 }
             }
 
@@ -203,7 +203,7 @@ namespace WorldGeneration.DataChunks.DSNoise
         {
             Random random = new Random(valueGenerated);
 
-            DSDataCase generatedCase = new DSDataCase(x, y);
+            DSDataCase generatedCase = new DSDataCase(x * this.SampleLevel, y * this.SampleLevel);
 
             float ratioValueGenerated = (float)((random.NextDouble() * 2) - 1);
 
@@ -223,7 +223,7 @@ namespace WorldGeneration.DataChunks.DSNoise
         {
             int valueGenerated = random.Next();
 
-            if (this.CasesArray[y, x] == null)
+            if (this.casesArray[y, x] == null)
             {
                 if (this.GetCasesSummit(parentLayer, x, y, out ICase topLeftCase, out ICase topRightCase, out ICase botLeftCase, out ICase botRightCase))
                 {

@@ -30,7 +30,7 @@ namespace WorldGeneration.ChunksMonitoring
                 && y >= 0
                 && y < chunk.NbCaseSide)
             {
-                return chunk.CasesArray[y, x];
+                return chunk.GetCaseAtLocal(x, y);
             }
             return null;
         }
@@ -42,7 +42,7 @@ namespace WorldGeneration.ChunksMonitoring
             if (chunkPosition.Left == chunk.Position.X
                 && chunkPosition.Top == chunk.Position.Y)
             {
-                return chunk.CasesArray[chunkPosition.Width, chunkPosition.Height];
+                return chunk.GetCaseAtLocal(chunkPosition.Width, chunkPosition.Height);
             }
             return null;
         }

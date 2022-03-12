@@ -12,11 +12,9 @@ namespace WorldGeneration.DataChunks
 {
     internal abstract class ADataChunk : IDataChunk
     {
-        public ICase[,] CasesArray
-        {
-            get;
-            private set;
-        }
+        protected int realNbCaseSide;
+
+        protected ICase[,] casesArray;
 
         public Vector2i Position
         {
@@ -30,6 +28,12 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
+        public int SampleLevel
+        {
+            get;
+            set;
+        }
+
         //protected List<Vector2i> notGeneratedCases;
 
         public ADataChunk(Vector2i position, int nbCaseSide)
@@ -37,14 +41,16 @@ namespace WorldGeneration.DataChunks
             this.Position = position;
             this.NbCaseSide = nbCaseSide;
 
+            this.SampleLevel = 1;
+            this.realNbCaseSide = (int) Math.Ceiling(((float) nbCaseSide) / this.SampleLevel);
             //this.notGeneratedCases = null;
 
-            this.CasesArray = new ICase[this.NbCaseSide, this.NbCaseSide];
-            for (int i = 0; i < this.NbCaseSide; i++)
+            this.casesArray = new ICase[this.realNbCaseSide, this.realNbCaseSide];
+            for (int i = 0; i < this.realNbCaseSide; i++)
             {
-                for (int j = 0; j < this.NbCaseSide; j++)
+                for (int j = 0; j < this.realNbCaseSide; j++)
                 {
-                    this.CasesArray[i, j] = null;
+                    this.casesArray[i, j] = null;
                 }
             }
         }
@@ -58,13 +64,13 @@ namespace WorldGeneration.DataChunks
 
             //this.notGeneratedCases = new List<Vector2i>();
 
-            for (int i = 0; i < this.NbCaseSide; i++)
+            for (int i = 0; i < this.realNbCaseSide; i++)
             {
-                for (int j = 0; j < this.NbCaseSide; j++)
+                for (int j = 0; j < this.realNbCaseSide; j++)
                 {
                     ICase generatedCase = this.GenerateCase(dataChunksMonitor, parentLayer, j, i, random);
 
-                    this.CasesArray[i, j] = generatedCase;
+                    this.casesArray[i, j] = generatedCase;
                 }
             }
         }
@@ -101,6 +107,11 @@ namespace WorldGeneration.DataChunks
         protected virtual int GenerateChunkSeed(int seed)
         {
             return this.Position.X * this.Position.Y * seed + seed + this.NbCaseSide + this.Position.X + this.Position.Y * this.Position.Y;
+        }
+
+        public ICase GetCaseAtLocal(int x, int y)
+        {
+            return this.casesArray[y / this.SampleLevel, x / this.SampleLevel];
         }
     }
 }

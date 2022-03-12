@@ -55,7 +55,7 @@ namespace WorldGeneration.DataChunks.DSNoise
         public override void UpdateLayerArea(IntRect newWorldArea)
         {
             this.CurrentNbStep = 0;
-            this.CurrentStepLength = this.NbCaseSide;
+            this.CurrentStepLength = this.realNbCaseSide;
             this.CurrentStepPower = 1;
 
             IntRect newLayerArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, newWorldArea);
@@ -125,6 +125,7 @@ namespace WorldGeneration.DataChunks.DSNoise
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
                 DSDataChunk dSDataChunk = new DSDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide);
+                dSDataChunk.SampleLevel = this.SampleLevel;
 
                 dataChunksMonitor.AddChunkToMonitor(dSDataChunk);
             }

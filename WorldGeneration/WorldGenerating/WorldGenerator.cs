@@ -119,11 +119,13 @@ namespace WorldGeneration.WorldGenerating
 
             HPerlinDataChunkLayer hPerlinDataChunkLayer = new HPerlinDataChunkLayer("temperature", 512, 1);
             hPerlinDataChunkLayer.Margin = 32;
+            hPerlinDataChunkLayer.SampleLevel = 4;
             this.dataChunksMonitor.AddDataLayerToGenerator(hPerlinDataChunkLayer);
             weatherDataAgreggator.TemperatureLayer = hPerlinDataChunkLayer;
 
             hPerlinDataChunkLayer = new HPerlinDataChunkLayer("humidity", 512, 1);
             hPerlinDataChunkLayer.Margin = 32;
+            hPerlinDataChunkLayer.SampleLevel = 4;
             this.dataChunksMonitor.AddDataLayerToGenerator(hPerlinDataChunkLayer);
             weatherDataAgreggator.HumidityLayer = hPerlinDataChunkLayer;
 

@@ -38,14 +38,14 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
 
             //generatedCase.UpdateCurrentBiome();
 
-            this.CasesArray[0, 0] = generatedCase;
+            this.casesArray[0, 0] = generatedCase;
         }
 
         protected override ICase GenerateCaseFrom(IDataChunkLayer parentLayer, int x, int y, ICase topLeftCase, ICase topRightCase, ICase botLeftCase, ICase botRightCase, int valueGenerated)
         {
             Random random = new Random(valueGenerated);
 
-            BiomeDSDataCase generatedCase = new BiomeDSDataCase(this.NbBiome, 0, 0);
+            BiomeDSDataCase generatedCase = new BiomeDSDataCase(this.NbBiome, x * this.SampleLevel, y * this.SampleLevel);
 
             float ratioValueGenerated;
 

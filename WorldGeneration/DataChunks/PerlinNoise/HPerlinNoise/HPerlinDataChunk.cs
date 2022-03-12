@@ -29,11 +29,11 @@ namespace WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise
             }
             int minIndex = int.MaxValue;
             int maxIndex = int.MinValue;
-            for (int i = 0; i < this.NbCaseSide; i++)
+            for (int i = 0; i < this.realNbCaseSide; i++)
             {
-                for (int j = 0; j < this.NbCaseSide; j++)
+                for (int j = 0; j < this.realNbCaseSide; j++)
                 {
-                    int value = (int)((((this.CasesArray[i, j] as PerlinDataCase).Value + 1) / 2) * densitySize);
+                    int value = (int)((((this.casesArray[i, j] as PerlinDataCase).Value + 1) / 2) * densitySize);
                     densityFunction[value]++;
 
                     if(minIndex > value)
@@ -48,7 +48,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise
                 }
             }
 
-            float nbValue = 1 + this.NbCaseSide * this.NbCaseSide;
+            float nbValue = 1 + this.realNbCaseSide * this.realNbCaseSide;
             int spectrumValue = maxIndex - minIndex + 1;
             //float ratioValue = ((float) (spectrumValue)) / densitySize;
 
@@ -59,11 +59,11 @@ namespace WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise
                 cumulativeValue = distributionFunction[i];
             }
 
-            for (int i = 0; i < this.NbCaseSide; i++)
+            for (int i = 0; i < this.realNbCaseSide; i++)
             {
-                for (int j = 0; j < this.NbCaseSide; j++)
+                for (int j = 0; j < this.realNbCaseSide; j++)
                 {
-                    PerlinDataCase perlinCase = this.CasesArray[i, j] as PerlinDataCase;
+                    PerlinDataCase perlinCase = this.casesArray[i, j] as PerlinDataCase;
                     float scaledValue = (perlinCase.Value + 1) / 2;
                     int value = (int)(scaledValue * densitySize);
                     perlinCase.Value = scaledValue * 0.3f + distributionFunction[value] * 0.7f;

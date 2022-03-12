@@ -14,11 +14,7 @@ namespace WorldGeneration.ObjectChunks
 {
     public class TestChunk: IObjectChunk
     {
-        public ICase[,] CasesArray
-        {
-            get;
-            private set;
-        }
+        protected ICase[,] casesArray;
 
         public Vector2i Position
         {
@@ -41,12 +37,12 @@ namespace WorldGeneration.ObjectChunks
 
             //this.notGeneratedCases = null;
 
-            this.CasesArray = new ICase[this.NbCaseSide, this.NbCaseSide];
+            this.casesArray = new ICase[this.NbCaseSide, this.NbCaseSide];
             for (int i = 0; i < this.NbCaseSide; i++)
             {
                 for (int j = 0; j < this.NbCaseSide; j++)
                 {
-                    this.CasesArray[i, j] = null;
+                    this.casesArray[i, j] = null;
                 }
             }
         }
@@ -58,7 +54,7 @@ namespace WorldGeneration.ObjectChunks
                 for (int j = 0; j < this.NbCaseSide; j++)
                 {
                     Vector2i worldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position.X, this.Position.Y, j, i));
-                    this.CasesArray[i, j] = this.GenerateCaseAtWorldCoordinates(dataChunksMonitor, worldPosition);
+                    this.casesArray[i, j] = this.GenerateCaseAtWorldCoordinates(dataChunksMonitor, worldPosition);
                 }
             }
 
@@ -82,6 +78,11 @@ namespace WorldGeneration.ObjectChunks
             generatedCase.IsUnderSea = isUnderSea;
 
             return generatedCase;
+        }
+
+        public ICase GetCaseAtLocal(int x, int y)
+        {
+            return this.casesArray[y, x];
         }
     }
 }

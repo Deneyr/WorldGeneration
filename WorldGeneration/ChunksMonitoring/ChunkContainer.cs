@@ -16,18 +16,6 @@ namespace WorldGeneration.ChunksMonitoring
             private set;
         }
 
-        public ICase[,] CasesArray
-        {
-            get
-            {
-                if (this.ContainedChunk != null)
-                {
-                    return this.ContainedChunk.CasesArray;
-                }
-                return null;
-            }
-        }
-
         public int NbCaseSide
         {
             get
@@ -49,6 +37,15 @@ namespace WorldGeneration.ChunksMonitoring
         public ChunkContainer(int left, int top)
         {
             this.Position = new Vector2i(left, top);
+        }
+
+        public ICase GetCaseAtLocal(int x, int y)
+        {
+            if (this.ContainedChunk != null)
+            {
+                return this.ContainedChunk.GetCaseAtLocal(x, y);
+            }
+            return null;
         }
     }
 }

@@ -60,7 +60,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
 
         protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
         {
-            VoronoiDataCase generatedCase = new VoronoiDataCase(x, y);
+            VoronoiDataCase generatedCase = new VoronoiDataCase(x * this.SampleLevel, y * this.SampleLevel);
 
             if (this.surroundingPoints == null)
             {
@@ -83,7 +83,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             int nearestPointValue = 0;
             float minDist = int.MaxValue;
 
-            Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x, y)));
+            Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x * this.SampleLevel, y * this.SampleLevel)));
 
             //BiomeDSDataCase biomeDSDataCase = this.biomeDSDataChunk.GetCaseAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y) as BiomeDSDataCase;
 

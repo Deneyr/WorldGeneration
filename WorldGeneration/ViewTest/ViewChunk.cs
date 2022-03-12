@@ -31,11 +31,6 @@ namespace WorldGeneration.ViewTest
             get;
             private set;
         }
-
-        public ICase[,] CasesArray
-        {
-            get;
-        }
          
         static ViewChunk()
         {
@@ -61,7 +56,7 @@ namespace WorldGeneration.ViewTest
 
         public ViewChunk(IChunk chunk)
         {
-            this.NbCaseSide = chunk.CasesArray.GetLength(0);
+            this.NbCaseSide = chunk.NbCaseSide;
             this.Position = chunk.Position;
 
             this.caseArray = new RectangleShape[this.NbCaseSide, this.NbCaseSide];
@@ -134,6 +129,11 @@ namespace WorldGeneration.ViewTest
             {
                 window.Draw(rectangleShape);
             }
+        }
+
+        public ICase GetCaseAtLocal(int x, int y)
+        {
+            return null;
         }
     }
 }

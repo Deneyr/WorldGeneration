@@ -40,6 +40,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
                 VoronoiDataChunk voronoiDataChunk = new VoronoiDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbPointsInside);
+                voronoiDataChunk.SampleLevel = this.SampleLevel;
 
                 dataChunksMonitor.AddChunkToMonitor(voronoiDataChunk);
             }
