@@ -47,8 +47,8 @@ namespace WorldGeneration.DataChunks.WeatherMonitoring
 
         public BiomeType GetBiomeAt(float x, float y)
         {
-            int i = (int) y * this.biomeMatrix.GetLength(0);
-            int j = (int) x * this.biomeMatrix.GetLength(1);
+            int i = (int) (y * this.biomeMatrix.GetLength(0));
+            int j = (int) (x * this.biomeMatrix.GetLength(1));
 
             return this.biomeMatrix[i, j];
         }

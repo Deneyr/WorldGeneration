@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks;
 
 namespace WorldGeneration.ViewTest
@@ -15,7 +16,7 @@ namespace WorldGeneration.ViewTest
     {
         private RectangleShape[,] caseArray;
 
-        private static Dictionary<int, Color> biomeValueToColor;
+        private static Dictionary<BiomeType, Color> biomeValueToColor;
 
         private static Dictionary<int, Color> altitudeValueToColor;
 
@@ -39,12 +40,17 @@ namespace WorldGeneration.ViewTest
         static ViewChunk()
         {
             Random rand = new Random();
-            biomeValueToColor = new Dictionary<int, Color>();
+            biomeValueToColor = new Dictionary<BiomeType, Color>();
 
-            biomeValueToColor.Add(0, Color.Blue);
-            biomeValueToColor.Add(1, Color.Green);
-            biomeValueToColor.Add(2, Color.Red);
-            biomeValueToColor.Add(3, Color.Yellow);
+            biomeValueToColor.Add(BiomeType.BOREAL_FOREST, new Color(0x23725eff));
+            biomeValueToColor.Add(BiomeType.TUNDRA, new Color(0xbefff2ff));
+            biomeValueToColor.Add(BiomeType.TEMPERATE_RAINFOREST, new Color(0x223d35ff));
+            biomeValueToColor.Add(BiomeType.TEMPERATE_FOREST, new Color(0x44b36aff));
+            biomeValueToColor.Add(BiomeType.SAVANNA, new Color(0xb8c862ff));
+            biomeValueToColor.Add(BiomeType.DESERT, new Color(0xffffb2ff));
+            biomeValueToColor.Add(BiomeType.RAINFOREST, new Color(0x214d29ff));
+            biomeValueToColor.Add(BiomeType.SEASONAL_FOREST, new Color(0x6a9026ff));
+            biomeValueToColor.Add(BiomeType.TROPICAL_WOODLAND, new Color(0xbca135ff));
 
             altitudeValueToColor = new Dictionary<int, Color>();
             altitudeValueToColor.Add(0, Color.Yellow);

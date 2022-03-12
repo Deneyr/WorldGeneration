@@ -40,10 +40,18 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
+        public int Margin
+        {
+            get;
+            set;
+        }
+
         public ADataChunkLayer(string id, int nbCaseSide)
         {
             this.Id = id;
             this.NbCaseSide = nbCaseSide;
+
+            this.Margin = 0;
 
             this.newlyLoadedChunks = null;
 
@@ -72,6 +80,15 @@ namespace WorldGeneration.DataChunks
 
         public virtual void UpdateLayerArea(IntRect newWorldArea)
         {
+            if (this.Margin > 0)
+            {
+                newWorldArea = new IntRect(
+                    newWorldArea.Left - this.Margin,
+                    newWorldArea.Top - this.Margin,
+                    newWorldArea.Width + 2 * this.Margin,
+                    newWorldArea.Height + 2 * this.Margin);
+            }
+
             IntRect newLayerArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, newWorldArea);
             this.ChunksMonitor.UpdateChunksArea(newLayerArea);
 
@@ -117,70 +134,10 @@ namespace WorldGeneration.DataChunks
             return null;
         }
 
-        //protected virtual void InternalEndingChunksGeneration()
-        //{
-        //    if (this.notGeneratedChunkContainers.Count > 0)
-        //    {
-        //        IntRect trueArea = this.GetTrueEffectiveArea(this.ChunksMonitor.CurrentArea);
-
-        //        HashSet<ChunkContainer> notGeneratedContainerClone = new HashSet<ChunkContainer>(this.notGeneratedChunkContainers);
-        //        foreach (ChunkContainer chunkContainer in notGeneratedContainerClone)
-        //        {
-        //            IntRect chunkArea = new IntRect(chunkContainer.Position.X, chunkContainer.Position.Y, 1, 1);
-        //            if (trueArea.Intersects(chunkArea))
-        //            {
-        //                if ((chunkContainer.ContainedChunk as ADataChunk).EndGenerateChunk(this.DataChunksMonitor, this))
-        //                {
-        //                    this.notGeneratedChunkContainers.Remove(chunkContainer);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        //protected virtual IntRect GetLayerFromWorldArea(IntRect newWorldArea)
-        //{
-        //    IntRect layerArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, newWorldArea);
-
-        //    return new IntRect(
-        //        layerArea.Left - this.NbCaseBorder,
-        //        layerArea.Top - this.NbCaseBorder,
-        //        layerArea.Width + this.NbCaseBorder * 2,
-        //        layerArea.Height + this.NbCaseBorder * 2);
-
-        //}
-
-        //protected virtual IntRect GetTrueEffectiveArea(IntRect newWorldArea)
-        //{
-        //    return new IntRect(
-        //        newWorldArea.Left + this.NbCaseBorder,
-        //        newWorldArea.Top + this.NbCaseBorder,
-        //        newWorldArea.Width - this.NbCaseBorder * 2,
-        //        newWorldArea.Height - this.NbCaseBorder * 2);
-
-        //}
-
         public virtual void Dispose()
         {
             this.ChunksMonitor.ChunksToLoad -= OnChunksToLoad;
             this.ChunksMonitor.ChunksToUnload -= OnChunksToUnload;
         }
-
-        //public bool LoadDataChunk(Vector2i chunkPosition)
-        //{
-        //    if (this.LoadedChunks.TryGetValue(chunkPosition, out IDataChunk dataChunk))
-        //    {
-        //        throw new Exception("Already loaded data chunk : " + chunkPosition);
-        //    }
-
-        //    return this.InternalLoadDataChunk(chunkPosition);
-        //}
-
-        //protected abstract bool InternalLoadDataChunk(Vector2i chunkPosition);
-
-        //public bool UnLoadDataChunk(Vector2i chunkPosition)
-        //{
-        //    return this.LoadedChunks.Remove(chunkPosition);
-        //}
     }
 }

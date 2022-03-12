@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.ObjectChunks
 {
@@ -22,7 +23,7 @@ namespace WorldGeneration.ObjectChunks
             set;
         }
 
-        public int BiomeValue
+        public BiomeType BiomeValue
         {
             get;
             set;
@@ -38,7 +39,7 @@ namespace WorldGeneration.ObjectChunks
         {
             this.Position = new Vector2i(x, y);
             this.AltitudeValue = 0;
-            this.BiomeValue = 0;
+            this.BiomeValue = BiomeType.TEMPERATE_FOREST;
             this.IsUnderSea = false;
         }
     }

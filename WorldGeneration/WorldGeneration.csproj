@@ -88,6 +88,7 @@
     <Compile Include="DataChunks\DataAgreggator\AltitudeDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\BiomeDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\IDataAgreggator.cs" />
+    <Compile Include="DataChunks\DataAgreggator\WeatherDataAgreggator.cs" />
     <Compile Include="DataChunks\DataChunkLayersMonitor.cs" />
     <Compile Include="DataChunks\DSNoise\BiomeDSNoise\BiomeDSDataCase.cs" />
     <Compile Include="DataChunks\DSNoise\BiomeDSNoise\BiomeDSDataChunk.cs" />
@@ -97,9 +98,13 @@
     <Compile Include="DataChunks\DSNoise\DSDataChunkLayer.cs" />
     <Compile Include="DataChunks\IDataChunk.cs" />
     <Compile Include="DataChunks\IDataChunkLayer.cs" />
+    <Compile Include="DataChunks\PerlinNoise\HPerlinNoise\HPerlinDataChunk.cs" />
+    <Compile Include="DataChunks\PerlinNoise\HPerlinNoise\HPerlinDataChunkLayer.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataCase.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunk.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunkLayer.cs" />
+    <Compile Include="DataChunks\VoronoiNoise\BiomeVoronoiNoise\BiomeVoronoiDataChunk.cs" />
+    <Compile Include="DataChunks\VoronoiNoise\BiomeVoronoiNoise\BiomeVoronoiDataChunkLayer.cs" />
     <Compile Include="DataChunks\VoronoiNoise\VoronoiDataCase.cs" />
     <Compile Include="DataChunks\VoronoiNoise\VoronoiDataChunk.cs" />
     <Compile Include="DataChunks\VoronoiNoise\VoronoiDataChunkLayer.cs" />

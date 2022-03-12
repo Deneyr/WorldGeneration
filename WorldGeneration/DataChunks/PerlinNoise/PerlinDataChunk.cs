@@ -27,6 +27,33 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             private set;
         }
 
+        //private int[] gaussian = new int[100];
+
+        //public override void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
+        //{
+        //    base.GenerateChunk(dataChunksMonitor, parentLayer);
+
+        //    for (int i = 0; i < 100; i++)
+        //    {
+        //        gaussian[i] = 0;
+        //    }
+
+        //    for (int i = 0; i < this.NbCaseSide; i++)
+        //    {
+        //        for (int j = 0; j < this.NbCaseSide; j++)
+        //        {
+        //            if((this.CasesArray[i, j] as PerlinDataCase).Value > 0.65)
+        //            {
+        //                Console.WriteLine();
+        //            }
+
+        //            int value = (int) ((((this.CasesArray[i, j] as PerlinDataCase).Value + 1) / 2) * 100);
+
+        //            gaussian[value]++;
+        //        }
+        //    }
+        //}
+
         public PerlinDataChunk(Vector2i position, int nbCaseSide, int noiseFrequency): 
             base(position, nbCaseSide)
         {

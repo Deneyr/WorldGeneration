@@ -13,9 +13,9 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
 {
     internal class VoronoiDataChunk : ADataChunk
     {
-        List<Tuple<Vector2i, int>> surroundingPoints;
+        List<VoronoiDataPoint> surroundingPoints;
 
-        protected BiomeDSDataChunkLayer biomeDSDataChunk;
+        //protected BiomeDSDataChunkLayer biomeDSDataChunk;
 
         public int NbPointsInside
         {
@@ -23,25 +23,24 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             private set;
         }
 
-        public int BlurLength
+        //public int BlurLength
+        //{
+        //    get;
+        //    private set;
+        //}
+
+        public List<VoronoiDataPoint> Points
         {
             get;
             private set;
         }
 
-        public List<Tuple<Vector2i, int>> Points
-        {
-            get;
-            private set;
-        }
-
-        public VoronoiDataChunk(Vector2i position, int nbCaseSide, int nbPointsInside, int blurLength) 
+        public VoronoiDataChunk(Vector2i position, int nbCaseSide, int nbPointsInside) 
             : base(position, nbCaseSide)
         {
             this.NbPointsInside = nbPointsInside;
-            this.BlurLength = blurLength;
 
-            this.Points = new List<Tuple<Vector2i, int>> ();
+            this.Points = new List<VoronoiDataPoint>();
         }
 
         public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
@@ -53,7 +52,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
                 Vector2i pointPosition = new Vector2i(random.Next(0, this.NbCaseSide), random.Next(0, this.NbCaseSide));
                 Vector2i worldPointPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, pointPosition));
 
-                this.Points.Add(new Tuple<Vector2i, int>(worldPointPosition, random.Next()));
+                this.Points.Add(new VoronoiDataPoint(worldPointPosition, random.Next()));
             }
 
             this.surroundingPoints = null;
@@ -65,7 +64,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
 
             if (this.surroundingPoints == null)
             {
-                this.surroundingPoints = new List<Tuple<Vector2i, int>>();
+                this.surroundingPoints = new List<VoronoiDataPoint>();
 
                 VoronoiDataChunkLayer voronoiDataLayer = parentLayer as VoronoiDataChunkLayer;
                 for(int i = -1; i < 2; i++)
@@ -78,7 +77,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
                     }
                 }
 
-                this.biomeDSDataChunk = dataChunksMonitor.DataChunksLayers["biomeOffset"] as BiomeDSDataChunkLayer;
+                //this.biomeDSDataChunk = dataChunksMonitor.DataChunksLayers["biomeOffset"] as BiomeDSDataChunkLayer;
             }
 
             int nearestPointValue = 0;
@@ -86,24 +85,46 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
 
             Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x, y)));
 
-            BiomeDSDataCase biomeDSDataCase = this.biomeDSDataChunk.GetCaseAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y) as BiomeDSDataCase;
+            //BiomeDSDataCase biomeDSDataCase = this.biomeDSDataChunk.GetCaseAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y) as BiomeDSDataCase;
 
-            Vector2f casePosition = new Vector2f(worldCasePosition.X + biomeDSDataCase.Value[0] * 20, worldCasePosition.Y + biomeDSDataCase.Value[1] * 20);
+            //Vector2f casePosition = new Vector2f(worldCasePosition.X + biomeDSDataCase.Value[0] * 20, worldCasePosition.Y + biomeDSDataCase.Value[1] * 20);
+            Vector2f casePosition = new Vector2f(worldCasePosition.X, worldCasePosition.Y);
 
-            foreach(Tuple<Vector2i, int> point in this.surroundingPoints)
+            foreach (VoronoiDataPoint point in this.surroundingPoints)
             {
-                Vector2f pointPosition = new Vector2f(point.Item1.X, point.Item1.Y);
-                float len2Dist = (pointPosition - casePosition).Len2() + random.Next(-this.BlurLength, this.BlurLength);
+                Vector2f pointPosition = new Vector2f(point.PointPosition.X, point.PointPosition.Y);
+                float len2Dist = (pointPosition - casePosition).Len2();
                 if (len2Dist < minDist)
                 {
                     minDist = len2Dist;
-                    nearestPointValue = point.Item2;
+                    nearestPointValue = point.PointValue;
                 }
             }
 
             generatedCase.Value = nearestPointValue;
 
             return generatedCase;
+        }
+
+        internal class VoronoiDataPoint
+        {
+            public Vector2i PointPosition
+            {
+                get;
+                set;
+            }
+
+            public int PointValue
+            {
+                get;
+                set;
+            }
+
+            public VoronoiDataPoint(Vector2i pointPosition, int pointValue)
+            {
+                this.PointPosition = pointPosition;
+                this.PointValue = pointValue;
+            }
         }
     }
 }

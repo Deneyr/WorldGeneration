@@ -11,7 +11,9 @@ using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.DSNoise;
 using WorldGeneration.DataChunks.DSNoise.BiomeDSNoise;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise;
 using WorldGeneration.DataChunks.VoronoiNoise;
+using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 using WorldGeneration.ObjectChunks;
 
 namespace WorldGeneration.WorldGenerating
@@ -61,9 +63,9 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator()
         {
-            BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator(4);
+            BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator();
 
-            VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 16, 32);
+            VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 2, 16);
             this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
             biomeDataAgreggator.BiomeLayer = voronoiDataChunkLayer;
 
@@ -105,7 +107,29 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator2()
         {
-            BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator(4);
+            WeatherDataAgreggator weatherDataAgreggator = new WeatherDataAgreggator();
+            BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator();
+
+            // Part Biomes
+
+            //BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biomeOffset", 5, 4);
+            ////DSDataChunkLayer biomeDSDataChunkLayer = new DSDataChunkLayer("biomeOffset", 7);
+            //this.dataChunksMonitor.AddDataLayerToGenerator(biomeDSDataChunkLayer);
+            ////biomeDataAgreggator.BiomeLayer = biomeDSDataChunkLayer;
+
+            HPerlinDataChunkLayer hPerlinDataChunkLayer = new HPerlinDataChunkLayer("temperature", 512, 1);
+            hPerlinDataChunkLayer.Margin = 32;
+            this.dataChunksMonitor.AddDataLayerToGenerator(hPerlinDataChunkLayer);
+            weatherDataAgreggator.TemperatureLayer = hPerlinDataChunkLayer;
+
+            hPerlinDataChunkLayer = new HPerlinDataChunkLayer("humidity", 512, 1);
+            hPerlinDataChunkLayer.Margin = 32;
+            this.dataChunksMonitor.AddDataLayerToGenerator(hPerlinDataChunkLayer);
+            weatherDataAgreggator.HumidityLayer = hPerlinDataChunkLayer;
+
+            BiomeVoronoiDataChunkLayer biomeVoronoiDataChunkLayer = new BiomeVoronoiDataChunkLayer("biome", 1, 32);
+            this.dataChunksMonitor.AddDataLayerToGenerator(biomeVoronoiDataChunkLayer);
+            biomeDataAgreggator.BiomeLayer = biomeVoronoiDataChunkLayer;
 
             // Part Altitude
 
@@ -133,19 +157,10 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddSeaLayer(0.03f, perlinDataChunkLayer);
 
-            // Part Biomes
-
-            BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biomeOffset", 5, 4);
-            //DSDataChunkLayer biomeDSDataChunkLayer = new DSDataChunkLayer("biomeOffset", 7);
-            this.dataChunksMonitor.AddDataLayerToGenerator(biomeDSDataChunkLayer);
-            //biomeDataAgreggator.BiomeLayer = biomeDSDataChunkLayer;
-
-            VoronoiDataChunkLayer voronoiDataChunkLayer = new VoronoiDataChunkLayer("biome", 1, 32, 0);
-            this.dataChunksMonitor.AddDataLayerToGenerator(voronoiDataChunkLayer);
-            biomeDataAgreggator.BiomeLayer = voronoiDataChunkLayer;
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("weather", weatherDataAgreggator);
         }
 
         private void InternalUpdate()

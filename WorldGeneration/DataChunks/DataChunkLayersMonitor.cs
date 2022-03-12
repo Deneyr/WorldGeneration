@@ -12,7 +12,11 @@ namespace WorldGeneration.DataChunks
 {
     internal class DataChunkLayersMonitor
     {
-        private WeatherMonitor weatherMonitor;
+        internal WeatherMonitor WeatherMonitor
+        {
+            get;
+            private set;
+        }
 
         internal int WorldSeed
         {
@@ -42,7 +46,7 @@ namespace WorldGeneration.DataChunks
         {
             this.WorldSeed = worldSeed;
 
-            this.weatherMonitor = new WeatherMonitor(@"Resources\WorldGenerator\weatherTexture.bmp");
+            this.WeatherMonitor = new WeatherMonitor(@"Resources\WorldGenerator\weatherTexture.bmp");
 
             this.DataChunksLayers = new Dictionary<string, IDataChunkLayer>();
             this.DataAgreggators = new Dictionary<string, IDataAgreggator>();

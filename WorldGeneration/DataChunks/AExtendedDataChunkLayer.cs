@@ -38,6 +38,15 @@ namespace WorldGeneration.DataChunks
 
         public override void UpdateLayerArea(IntRect newWorldArea)
         {
+            if (this.Margin > 0)
+            {
+                newWorldArea = new IntRect(
+                    newWorldArea.Left - this.Margin,
+                    newWorldArea.Top - this.Margin,
+                    newWorldArea.Width + 2 * this.Margin,
+                    newWorldArea.Height + 2 * this.Margin);
+            }
+
             IntRect newLayerArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, newWorldArea);
 
             IntRect newExtendedLayerArea = new IntRect(
