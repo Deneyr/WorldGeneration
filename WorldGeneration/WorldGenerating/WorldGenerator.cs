@@ -110,7 +110,7 @@ namespace WorldGeneration.WorldGenerating
             // Test
             //TestNoiseDataAgreggator testNoiseDataAgreggator = new TestNoiseDataAgreggator();
 
-            //DSDataChunkLayer testLayer = new DSDataChunkLayer("test1", 5);
+            //PerlinDataChunkLayer testLayer = new HPerlinDataChunkLayer("test1", 128, 1);
             //testLayer.SampleLevel = 4;
             //this.dataChunksMonitor.AddDataLayerToGenerator(testLayer);
             //testNoiseDataAgreggator.TestLayer = testLayer;

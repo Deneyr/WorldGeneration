@@ -25,7 +25,7 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             //return ((this.TestLayer.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value + 1) / 2;
             //return (int) ((this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as DSDataCase).Value * 255);
             //return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as BiomeDSDataCase).CurrentBiome;
-            return (this.TestLayer.GetCaseAtWorldCoordinates(x, y) as DSDataCase).Value;
+            return (this.TestLayer.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
             // TEST
             //return 0;
         }
