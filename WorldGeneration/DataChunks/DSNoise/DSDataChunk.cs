@@ -15,8 +15,8 @@ namespace WorldGeneration.DataChunks.DSNoise
 
         private ChunkPosition currentChunkPosition;
 
-        public DSDataChunk(Vector2i position, int nbCaseSide) 
-            : base(position, nbCaseSide)
+        public DSDataChunk(Vector2i position, int nbCaseSide, int sampleLevel) 
+            : base(position, nbCaseSide, sampleLevel)
         {
             //this.notGeneratedCases = new HashSet<Vector2i>();
             this.currentChunkPosition = ChunkPosition.NOT_GENERATED;
@@ -29,7 +29,7 @@ namespace WorldGeneration.DataChunks.DSNoise
 
             DSDataCase generatedCase = new DSDataCase(0, 0);
 
-            generatedCase.Value = (((float) random.NextDouble()) / 2 - 0.25f) + 0.5f;
+            generatedCase.Value = ((float) random.NextDouble()) / 2 + 0.25f;
 
             this.casesArray[0, 0] = generatedCase;
         }
@@ -161,24 +161,24 @@ namespace WorldGeneration.DataChunks.DSNoise
             if(x < 0)
             {
                 xChunkOffset = -1;
-                x = this.NbCaseSide + x;
+                x = this.realNbCaseSide + x;
             }
-            else if(x >= this.NbCaseSide)
+            else if(x >= this.realNbCaseSide)
             {
                 xChunkOffset = 1;
-                x = this.NbCaseSide - x;
+                x = this.realNbCaseSide - x;
             }
 
 
             if (y < 0)
             {
                 yChunkOffset = -1;
-                y = this.NbCaseSide + y;
+                y = this.realNbCaseSide + y;
             }
-            else if (y >= this.NbCaseSide)
+            else if (y >= this.realNbCaseSide)
             {
                 yChunkOffset = 1;
-                y = this.NbCaseSide - y;
+                y = this.realNbCaseSide - y;
             }
 
             if(xChunkOffset == 0
@@ -192,7 +192,7 @@ namespace WorldGeneration.DataChunks.DSNoise
 
                 if(nextChunkContainer != null && nextChunkContainer.ContainedChunk != null)
                 {
-                    return nextChunkContainer.ContainedChunk.GetCaseAtLocal(x, y);
+                    return nextChunkContainer.ContainedChunk.GetCaseAtLocal(x * this.SampleLevel, y * this.SampleLevel);
                 }
             }
 
@@ -216,7 +216,7 @@ namespace WorldGeneration.DataChunks.DSNoise
         protected virtual float GetCurrentAddingRatio(int currentNbStep)
         {
             float ratio = 2f / (currentNbStep + 3);
-            return ratio * ratio * 0.8f;
+            return ratio * ratio * 0.75f;
         }
 
         protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)

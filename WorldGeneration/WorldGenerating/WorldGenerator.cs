@@ -107,14 +107,29 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator2()
         {
+            // Test
+            //TestNoiseDataAgreggator testNoiseDataAgreggator = new TestNoiseDataAgreggator();
+
+            //DSDataChunkLayer testLayer = new DSDataChunkLayer("test1", 5);
+            //testLayer.SampleLevel = 4;
+            //this.dataChunksMonitor.AddDataLayerToGenerator(testLayer);
+            //testNoiseDataAgreggator.TestLayer = testLayer;
+
+            //this.dataChunksMonitor.AddDataAgreggatorToGenerator("test", testNoiseDataAgreggator);
+
+            // End Test
+
             WeatherDataAgreggator weatherDataAgreggator = new WeatherDataAgreggator();
             BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator();
+            Offset2DDataAgreggator offset2DDataAgreggator = new Offset2DDataAgreggator();
 
             // Part Biomes
 
-            //BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biomeOffset", 5, 4);
+            BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biomeOffset", 5, 2);
+            biomeDSDataChunkLayer.SampleLevel = 2;
             ////DSDataChunkLayer biomeDSDataChunkLayer = new DSDataChunkLayer("biomeOffset", 7);
-            //this.dataChunksMonitor.AddDataLayerToGenerator(biomeDSDataChunkLayer);
+            this.dataChunksMonitor.AddDataLayerToGenerator(biomeDSDataChunkLayer);
+            offset2DDataAgreggator.OffsetLayer = biomeDSDataChunkLayer;
             ////biomeDataAgreggator.BiomeLayer = biomeDSDataChunkLayer;
 
             HPerlinDataChunkLayer hPerlinDataChunkLayer = new HPerlinDataChunkLayer("temperature", 512, 1);
@@ -163,6 +178,7 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("weather", weatherDataAgreggator);
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("2DOffset", offset2DDataAgreggator);
         }
 
         private void InternalUpdate()

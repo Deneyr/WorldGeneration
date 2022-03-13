@@ -88,6 +88,8 @@
     <Compile Include="DataChunks\DataAgreggator\AltitudeDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\BiomeDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\IDataAgreggator.cs" />
+    <Compile Include="DataChunks\DataAgreggator\Offset2DDataAgreggator.cs" />
+    <Compile Include="DataChunks\DataAgreggator\TestNoiseDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\WeatherDataAgreggator.cs" />
     <Compile Include="DataChunks\DataChunkLayersMonitor.cs" />
     <Compile Include="DataChunks\DSNoise\BiomeDSNoise\BiomeDSDataCase.cs" />

@@ -36,12 +36,12 @@ namespace WorldGeneration.DataChunks
 
         //protected List<Vector2i> notGeneratedCases;
 
-        public ADataChunk(Vector2i position, int nbCaseSide)
+        public ADataChunk(Vector2i position, int nbCaseSide, int sampleLevel)
         {
             this.Position = position;
             this.NbCaseSide = nbCaseSide;
 
-            this.SampleLevel = 1;
+            this.SampleLevel = sampleLevel;
             this.realNbCaseSide = (int) Math.Ceiling(((float) nbCaseSide) / this.SampleLevel);
             //this.notGeneratedCases = null;
 

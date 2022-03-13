@@ -18,8 +18,7 @@ namespace WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise
         {
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
-                HPerlinDataChunk hPerlinDataChunk = new HPerlinDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NoiseFrequency);
-                hPerlinDataChunk.SampleLevel = this.SampleLevel;
+                HPerlinDataChunk hPerlinDataChunk = new HPerlinDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NoiseFrequency, this.SampleLevel);
 
                 dataChunksMonitor.AddChunkToMonitor(hPerlinDataChunk);
             }

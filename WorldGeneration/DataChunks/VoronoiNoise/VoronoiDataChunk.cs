@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.DSNoise.BiomeDSNoise;
 using WorldGeneration.Maths;
 
@@ -16,6 +17,8 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
         List<VoronoiDataPoint> surroundingPoints;
 
         //protected BiomeDSDataChunkLayer biomeDSDataChunk;
+
+        protected Offset2DDataAgreggator offset2DDataAgreggator;
 
         public int NbPointsInside
         {
@@ -35,8 +38,8 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             private set;
         }
 
-        public VoronoiDataChunk(Vector2i position, int nbCaseSide, int nbPointsInside) 
-            : base(position, nbCaseSide)
+        public VoronoiDataChunk(Vector2i position, int nbCaseSide, int nbPointsInside, int sampleLevel) 
+            : base(position, nbCaseSide, sampleLevel)
         {
             this.NbPointsInside = nbPointsInside;
 
@@ -54,6 +57,8 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
 
                 this.Points.Add(new VoronoiDataPoint(worldPointPosition, random.Next()));
             }
+
+            this.offset2DDataAgreggator = dataChunksMonitor.DataAgreggators["2DOffset"] as Offset2DDataAgreggator;
 
             this.surroundingPoints = null;
         }
@@ -86,9 +91,9 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x * this.SampleLevel, y * this.SampleLevel)));
 
             //BiomeDSDataCase biomeDSDataCase = this.biomeDSDataChunk.GetCaseAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y) as BiomeDSDataCase;
-
-            //Vector2f casePosition = new Vector2f(worldCasePosition.X + biomeDSDataCase.Value[0] * 20, worldCasePosition.Y + biomeDSDataCase.Value[1] * 20);
-            Vector2f casePosition = new Vector2f(worldCasePosition.X, worldCasePosition.Y);
+            Vector2f offsetVector = this.offset2DDataAgreggator.GetOffsetAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y);
+            Vector2f casePosition = new Vector2f(worldCasePosition.X + offsetVector.X * 20, worldCasePosition.Y + offsetVector.Y * 20);
+            //Vector2f casePosition = new Vector2f(worldCasePosition.X, worldCasePosition.Y);
 
             foreach (VoronoiDataPoint point in this.surroundingPoints)
             {

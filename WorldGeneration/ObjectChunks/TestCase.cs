@@ -35,12 +35,19 @@ namespace WorldGeneration.ObjectChunks
             set;
         }
 
+        public float TestValue
+        {
+            get;
+            set;
+        }
+
         public TestCase(int x, int y)
         {
             this.Position = new Vector2i(x, y);
             this.AltitudeValue = 0;
             this.BiomeValue = BiomeType.TEMPERATE_FOREST;
             this.IsUnderSea = false;
+            this.TestValue = 0;
         }
     }
 }

@@ -12,8 +12,8 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
 {
     internal class BiomeVoronoiDataChunk : VoronoiDataChunk
     {
-        public BiomeVoronoiDataChunk(Vector2i position, int nbCaseSide, int nbPointsInside)
-            : base(position, nbCaseSide, nbPointsInside)
+        public BiomeVoronoiDataChunk(Vector2i position, int nbCaseSide, int nbPointsInside, int sampleLevel)
+            : base(position, nbCaseSide, nbPointsInside, sampleLevel)
         {
 
         }

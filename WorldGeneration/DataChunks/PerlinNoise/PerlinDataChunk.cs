@@ -54,8 +54,8 @@ namespace WorldGeneration.DataChunks.PerlinNoise
         //    }
         //}
 
-        public PerlinDataChunk(Vector2i position, int nbCaseSide, int noiseFrequency) :
-            base(position, nbCaseSide)
+        public PerlinDataChunk(Vector2i position, int nbCaseSide, int noiseFrequency, int sampleLevel) :
+            base(position, nbCaseSide, sampleLevel)
         {
             this.NoiseFrequency = noiseFrequency;
 

@@ -9,8 +9,8 @@ namespace WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise
 {
     internal class HPerlinDataChunk: PerlinDataChunk
     {
-        public HPerlinDataChunk(Vector2i position, int nbCaseSide, int noiseFrequency) 
-            : base(position, nbCaseSide, noiseFrequency)
+        public HPerlinDataChunk(Vector2i position, int nbCaseSide, int noiseFrequency, int sampleLevel) 
+            : base(position, nbCaseSide, noiseFrequency, sampleLevel)
         {
         }
 

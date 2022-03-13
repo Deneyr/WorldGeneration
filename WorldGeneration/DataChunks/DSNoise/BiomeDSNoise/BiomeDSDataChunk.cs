@@ -16,8 +16,8 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
             private set;
         }
 
-        public BiomeDSDataChunk(Vector2i position, int nbCaseSide, int nbBiome) 
-            : base(position, nbCaseSide)
+        public BiomeDSDataChunk(Vector2i position, int nbCaseSide, int nbBiome, int sampleLevel) 
+            : base(position, nbCaseSide, sampleLevel)
         {
             this.NbBiome = nbBiome;
         }

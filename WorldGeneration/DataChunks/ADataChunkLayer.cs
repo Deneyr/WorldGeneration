@@ -14,8 +14,6 @@ namespace WorldGeneration.DataChunks
     {
         //protected HashSet<ChunkContainer> notGeneratedChunkContainers;
 
-        protected int realNbCaseSide;
-
         protected List<ChunkContainer> newlyLoadedChunks;
 
         public DataChunkLayersMonitor DataChunksMonitor
@@ -61,8 +59,6 @@ namespace WorldGeneration.DataChunks
 
             this.Margin = 0;
             this.SampleLevel = 1;
-
-            this.realNbCaseSide = (int)Math.Ceiling(((float)nbCaseSide) / this.SampleLevel);
 
             this.newlyLoadedChunks = null;
 

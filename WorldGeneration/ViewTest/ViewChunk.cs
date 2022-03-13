@@ -69,36 +69,16 @@ namespace WorldGeneration.ViewTest
 
                     RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
 
+                    //Color color = Color.White;
                     Color color = biomeValueToColor[testCase.BiomeValue];
 
-                    //Color color = new Color((byte)(testCase.BiomeValue), (byte)(testCase.BiomeValue), (byte)(testCase.BiomeValue));
-
-                    //Color color;
-                    //int elevation = testCase.AltitudeValue - 16;
-                    //if (elevation < 0)
-                    //{
-                    //    color = altitudeValueToColor[0];
-                    //}
-                    //else if (elevation < 3)
-                    //{
-                    //    color = altitudeValueToColor[1];
-                    //}
-                    //else if (elevation < 8)
-                    //{
-                    //    color = altitudeValueToColor[2];
-                    //}
-                    //else
-                    //{
-                    //    color = altitudeValueToColor[3];
-                    //}
-
                     float colorValue = testCase.AltitudeValue / 32f;
+                    //float colorValue = testCase.TestValue;
 
                     color.R = (byte)(color.R * colorValue);
                     color.G = (byte)(color.G * colorValue);
                     color.B = (byte)(color.B * colorValue);
 
-                    if (colorValue < 0.55)
                     if (testCase.IsUnderSea)
                     {
                         color = Color.Black;

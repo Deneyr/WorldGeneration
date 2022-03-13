@@ -18,8 +18,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
         {
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
-                BiomeVoronoiDataChunk voronoiDataChunk = new BiomeVoronoiDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbPointsInside);
-                voronoiDataChunk.SampleLevel = this.SampleLevel;
+                BiomeVoronoiDataChunk voronoiDataChunk = new BiomeVoronoiDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbPointsInside, this.SampleLevel);
 
                 dataChunksMonitor.AddChunkToMonitor(voronoiDataChunk);
             }
