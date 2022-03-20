@@ -72,7 +72,7 @@ namespace WorldGeneration.ViewTest
                     //Color color = Color.White;
                     Color color = biomeValueToColor[testCase.BiomeValue];
 
-                    float colorValue = testCase.AltitudeValue / 32f;
+                    float colorValue = testCase.AltitudeValue / 32f * testCase.TestValue;
                     //float colorValue = testCase.TestValue;
 
                     color.R = (byte)(color.R * colorValue);

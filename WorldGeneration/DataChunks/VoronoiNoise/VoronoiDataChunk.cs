@@ -14,11 +14,9 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
 {
     internal class VoronoiDataChunk : ADataChunk
     {
-        List<VoronoiDataPoint> surroundingPoints;
+        protected List<VoronoiDataPoint> surroundingPoints;
 
         //protected BiomeDSDataChunkLayer biomeDSDataChunk;
-
-        protected Offset2DDataAgreggator offset2DDataAgreggator;
 
         public int NbPointsInside
         {
@@ -58,8 +56,6 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
                 this.Points.Add(new VoronoiDataPoint(worldPointPosition, random.Next()));
             }
 
-            this.offset2DDataAgreggator = dataChunksMonitor.DataAgreggators["2DOffset"] as Offset2DDataAgreggator;
-
             this.surroundingPoints = null;
         }
 
@@ -69,20 +65,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
 
             if (this.surroundingPoints == null)
             {
-                this.surroundingPoints = new List<VoronoiDataPoint>();
-
-                VoronoiDataChunkLayer voronoiDataLayer = parentLayer as VoronoiDataChunkLayer;
-                for(int i = -1; i < 2; i++)
-                {
-                    for (int j = -1; j < 2; j++)
-                    {
-                        ChunkContainer chunkContainer = voronoiDataLayer.ExtendedChunksMonitor.GetChunkContainerAt(this.Position.X + j, this.Position.Y + i);
-
-                        this.surroundingPoints.AddRange((chunkContainer.ContainedChunk as VoronoiDataChunk).Points);
-                    }
-                }
-
-                //this.biomeDSDataChunk = dataChunksMonitor.DataChunksLayers["biomeOffset"] as BiomeDSDataChunkLayer;
+                this.CreateSurroundingPoints(parentLayer);
             }
 
             int nearestPointValue = 0;
@@ -90,10 +73,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
 
             Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x * this.SampleLevel, y * this.SampleLevel)));
 
-            //BiomeDSDataCase biomeDSDataCase = this.biomeDSDataChunk.GetCaseAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y) as BiomeDSDataCase;
-            Vector2f offsetVector = this.offset2DDataAgreggator.GetOffsetAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y);
-            Vector2f casePosition = new Vector2f(worldCasePosition.X + offsetVector.X * 20, worldCasePosition.Y + offsetVector.Y * 20);
-            //Vector2f casePosition = new Vector2f(worldCasePosition.X, worldCasePosition.Y);
+            Vector2f casePosition = new Vector2f(worldCasePosition.X, worldCasePosition.Y);
 
             foreach (VoronoiDataPoint point in this.surroundingPoints)
             {
@@ -109,6 +89,22 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             generatedCase.Value = nearestPointValue;
 
             return generatedCase;
+        }
+
+        protected virtual void CreateSurroundingPoints(IDataChunkLayer parentLayer)
+        {
+            this.surroundingPoints = new List<VoronoiDataPoint>();
+
+            VoronoiDataChunkLayer voronoiDataLayer = parentLayer as VoronoiDataChunkLayer;
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    ChunkContainer chunkContainer = voronoiDataLayer.ExtendedChunksMonitor.GetChunkContainerAt(this.Position.X + j, this.Position.Y + i);
+
+                    this.surroundingPoints.AddRange((chunkContainer.ContainedChunk as VoronoiDataChunk).Points);
+                }
+            }
         }
 
         internal class VoronoiDataPoint

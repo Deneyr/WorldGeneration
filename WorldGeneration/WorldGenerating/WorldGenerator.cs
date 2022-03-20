@@ -108,7 +108,7 @@ namespace WorldGeneration.WorldGenerating
         public void ConstructWorldGenerator2()
         {
             // Test
-            //TestNoiseDataAgreggator testNoiseDataAgreggator = new TestNoiseDataAgreggator();
+            TestNoiseDataAgreggator testNoiseDataAgreggator = new TestNoiseDataAgreggator();
 
             //PerlinDataChunkLayer testLayer = new HPerlinDataChunkLayer("test1", 128, 1);
             //testLayer.SampleLevel = 4;
@@ -148,6 +148,8 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataLayerToGenerator(biomeVoronoiDataChunkLayer);
             biomeDataAgreggator.BiomeLayer = biomeVoronoiDataChunkLayer;
 
+            testNoiseDataAgreggator.TestLayer = biomeVoronoiDataChunkLayer;
+
             // Part Altitude
 
             // Region is 1024 cases width
@@ -179,6 +181,8 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("weather", weatherDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("2DOffset", offset2DDataAgreggator);
+
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("test", testNoiseDataAgreggator);
         }
 
         private void InternalUpdate()

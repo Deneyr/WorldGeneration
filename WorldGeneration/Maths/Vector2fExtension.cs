@@ -19,6 +19,16 @@ namespace WorldGeneration.Maths
             return (float) Math.Sqrt(obj.Len2());
         }
 
+        public static float Len2(this Vector2i obj)
+        {
+            return obj.X * obj.X + obj.Y * obj.Y;
+        }
+
+        public static float Len(this Vector2i obj)
+        {
+            return (float)Math.Sqrt(obj.Len2());
+        }
+
         public static float Angle(this Vector2f obj)
         {
             double len = obj.Len();

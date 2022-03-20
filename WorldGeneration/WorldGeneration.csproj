@@ -105,6 +105,7 @@
     <Compile Include="DataChunks\PerlinNoise\PerlinDataCase.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunk.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunkLayer.cs" />
+    <Compile Include="DataChunks\VoronoiNoise\BiomeVoronoiNoise\BiomeVoronoiDataCase.cs" />
     <Compile Include="DataChunks\VoronoiNoise\BiomeVoronoiNoise\BiomeVoronoiDataChunk.cs" />
     <Compile Include="DataChunks\VoronoiNoise\BiomeVoronoiNoise\BiomeVoronoiDataChunkLayer.cs" />
     <Compile Include="DataChunks\VoronoiNoise\VoronoiDataCase.cs" />

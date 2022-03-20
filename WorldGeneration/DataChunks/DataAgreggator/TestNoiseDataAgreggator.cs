@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.DSNoise;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
 {
@@ -25,7 +26,7 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             //return ((this.TestLayer.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value + 1) / 2;
             //return (int) ((this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as DSDataCase).Value * 255);
             //return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as BiomeDSDataCase).CurrentBiome;
-            return (this.TestLayer.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
+            return (this.TestLayer.GetCaseAtWorldCoordinates(x, y) as BiomeVoronoiDataCase).BorderValue;
             // TEST
             //return 0;
         }
