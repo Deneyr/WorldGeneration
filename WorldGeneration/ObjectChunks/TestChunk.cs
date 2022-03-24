@@ -74,7 +74,8 @@ namespace WorldGeneration.ObjectChunks
             //generatedCase.AltitudeValue = dataCase.Value + dataCase2.Value * 0.5f + dataCase3.Value * 0.25f + dataCase4.Value * 0.15f;
 
             generatedCase.AltitudeValue = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator).GetAltitudeAtWorldCoordinates(position.X, position.Y, out bool isUnderSea);
-            generatedCase.BiomeValue = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["biome"] as BiomeDataAgreggator).GetBiomeAtWorldCoordinates(position.X, position.Y);
+            float borderValue = 0;
+            generatedCase.BiomeValue = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["biome"] as BiomeDataAgreggator).GetBiomeAtWorldCoordinates(position.X, position.Y, out borderValue);
             generatedCase.IsUnderSea = isUnderSea;
 
             generatedCase.TestValue = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["test"] as TestNoiseDataAgreggator).GetTestValueAtWorldCoordinates(position.X, position.Y);

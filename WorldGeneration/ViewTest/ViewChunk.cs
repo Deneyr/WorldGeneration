@@ -72,7 +72,9 @@ namespace WorldGeneration.ViewTest
                     //Color color = Color.White;
                     Color color = biomeValueToColor[testCase.BiomeValue];
 
-                    float colorValue = testCase.AltitudeValue / 32f * testCase.TestValue;
+                    color = this.GetAltitudeColor(testCase.AltitudeValue);
+
+                    float colorValue = testCase.AltitudeValue / 32f;
                     //float colorValue = testCase.TestValue;
 
                     color.R = (byte)(color.R * colorValue);
@@ -86,10 +88,31 @@ namespace WorldGeneration.ViewTest
                     rectangle.FillColor = color;
 
                     Vector2i modelPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(chunk.Position.X, chunk.Position.Y, j, i));
-                    rectangle.Position = new Vector2f(modelPosition.X * ViewMonitor.MODEL_TO_VIEW - 0.0000001f, modelPosition.Y * ViewMonitor.MODEL_TO_VIEW - 0.0000001f);
+                    rectangle.Position = new Vector2f(modelPosition.X * ViewMonitor.MODEL_TO_VIEW - ((float) Math.PI / 100000), modelPosition.Y * ViewMonitor.MODEL_TO_VIEW - ((float)Math.PI / 100000));
 
                     this.caseArray[i, j] = rectangle;
                 }
+            }
+        }
+
+        private Color GetAltitudeColor(int altitude)
+        {
+            altitude -= 16;
+            if (altitude < 0)
+            {
+                return altitudeValueToColor[0];
+            }
+            else if(altitude < 3)
+            {
+                return altitudeValueToColor[1];
+            }
+            else if(altitude < 9)
+            {
+                return altitudeValueToColor[2];
+            }
+            else
+            {
+                return altitudeValueToColor[3];
             }
         }
 

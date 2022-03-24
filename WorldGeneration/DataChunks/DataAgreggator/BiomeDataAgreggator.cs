@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WorldGeneration.DataChunks.DSNoise;
 using WorldGeneration.DataChunks.DSNoise.BiomeDSNoise;
 using WorldGeneration.DataChunks.VoronoiNoise;
+using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
@@ -22,9 +23,13 @@ namespace WorldGeneration.DataChunks.DataAgreggator
         {
         }
 
-        public BiomeType GetBiomeAtWorldCoordinates(int x, int y)
+        public BiomeType GetBiomeAtWorldCoordinates(int x, int y, out float borderValue)
         {
-            return (BiomeType) (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as VoronoiDataCase).Value;
+            BiomeVoronoiDataCase biomeVoronoiDataCase = this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as BiomeVoronoiDataCase;
+
+            borderValue = biomeVoronoiDataCase.BorderValue;
+
+            return (BiomeType) biomeVoronoiDataCase.Value;
             //return (int) ((this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as DSDataCase).Value * 255);
             //return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as BiomeDSDataCase).CurrentBiome;
 

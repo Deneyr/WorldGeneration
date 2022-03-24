@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
 {
     internal class AltitudeDataAgreggator: IDataAgreggator
     {
+        private AltitudeBiomeMonitor altitudeBiomeMonitor;
+
         public int NbAltitudeLevel
         {
             get;
@@ -27,11 +30,19 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             private set;
         }
 
+        internal BiomeDataAgreggator BiomeDataAgreggator
+        {
+            get;
+            set;
+        }
+
         public AltitudeDataAgreggator(int nbAltitudeLevel)
         {
             this.NbAltitudeLevel = nbAltitudeLevel;
             this.AltitudeLayers = new List<Tuple<float, IDataChunkLayer>>();
             this.SeaAltitudeLayer = new Tuple<float, IDataChunkLayer>(0, null);
+
+            this.altitudeBiomeMonitor = new AltitudeBiomeMonitor();
         }
 
         public int GetAltitudeAtWorldCoordinates(int x, int y, out bool isUnderSea)
@@ -61,7 +72,7 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
             altitudeValue = (altitudeValue + 1) / 2;
 
-            altitudeValue = this.computeAltitude(altitudeValue);
+            //altitudeValue = this.computeAltitude(altitudeValue);
 
             int altitudeLevel = (int)(altitudeValue * this.NbAltitudeLevel);
 
@@ -107,6 +118,14 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             //}
 
             altitudeValue = Math.Min(1, altitudeValue);
+
+            if(altitudeValue >= 0.5f)
+            {
+                BiomeType biomeType = this.BiomeDataAgreggator.GetBiomeAtWorldCoordinates(x, y, out float borderValue);
+                float newAltitudeValue = this.altitudeBiomeMonitor.FilterAltitudeFromBiome(biomeType, (altitudeValue - 0.5f) * 2f) / 2f + 0.5f;
+
+                altitudeValue = altitudeValue * (1 - borderValue) + borderValue * newAltitudeValue;
+            }
 
             altitudeLevel = (int)(altitudeValue * this.NbAltitudeLevel);
 
