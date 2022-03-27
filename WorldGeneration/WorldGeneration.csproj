@@ -55,6 +55,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.5.0.0-beta01\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="SFML.Audio, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SFML.Audio.2.5.0\lib\netstandard2.0\SFML.Audio.dll</HintPath>
     </Reference>
@@ -69,12 +72,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Geometry, Version=0.9.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bezier.0.9.4\lib\netstandard2.0\System.Geometry.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -121,6 +123,7 @@
     <Compile Include="DataChunks\WeatherMonitoring\AltitudeBiomeMonitor.cs" />
     <Compile Include="DataChunks\WeatherMonitoring\BiomeType.cs" />
     <Compile Include="DataChunks\WeatherMonitoring\WeatherMonitor.cs" />
+    <Compile Include="Maths\CubicBezierCurve.cs" />
     <Compile Include="Maths\Vector2fExtension.cs" />
     <Compile Include="ObjectChunks\IObjectCase.cs" />
     <Compile Include="ObjectChunks\IObjectChunk.cs" />
