@@ -68,7 +68,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
                 this.CreateSurroundingPoints(parentLayer);
             }
 
-            int nearestPointValue = 0;
+            VoronoiDataPoint nearestPoint = null;
             float minDist = int.MaxValue;
 
             Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x * this.SampleLevel, y * this.SampleLevel)));
@@ -82,11 +82,11 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
                 if (len2Dist < minDist)
                 {
                     minDist = len2Dist;
-                    nearestPointValue = point.PointValue;
+                    nearestPoint = point;
                 }
             }
 
-            generatedCase.Value = nearestPointValue;
+            generatedCase.ParentDataPoint = nearestPoint;
 
             return generatedCase;
         }

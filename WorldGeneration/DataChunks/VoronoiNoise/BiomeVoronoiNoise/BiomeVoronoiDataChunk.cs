@@ -73,7 +73,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
 
             if (this.areThereOtherBiomes)
             {
-                int secondNearestPointValue = 0;
+                VoronoiDataPoint secondNearestPoint = null;
                 float secondMinDist = int.MaxValue;
 
                 Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x * this.SampleLevel, y * this.SampleLevel)));
@@ -86,7 +86,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
                 //Vector2i centerPointPosition = this.firstChunkPoint.PointPosition;
                 //Vector2f vectorToCase = new Vector2f(casePosition.X - centerPointPosition.X, casePosition.Y - centerPointPosition.Y);
 
-                int nearestPointValue = 0;
+                VoronoiDataPoint nearestPoint = null;
                 float minDist = int.MaxValue;
                 //float firstPointWeight = 0;
                 foreach (VoronoiDataPoint point in this.surroundingPoints)
@@ -96,19 +96,20 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
                     float lenDist = (pointPosition - casePosition).Len();
                     if (lenDist < minDist)
                     {
-                        if (point.PointValue != nearestPointValue)
+                        if (nearestPoint != null
+                            && point.PointValue != nearestPoint.PointValue)
                         {
-                            secondNearestPointValue = nearestPointValue;
+                            secondNearestPoint = nearestPoint;
                             secondMinDist = minDist;
                         }
 
                         minDist = lenDist;
-                        nearestPointValue = point.PointValue;
+                        nearestPoint = point;
                     }
                     else if (lenDist < secondMinDist
-                        && point.PointValue != nearestPointValue)
+                        && point.PointValue != nearestPoint.PointValue)
                     {
-                        secondNearestPointValue = point.PointValue;
+                        secondNearestPoint = point;
                         secondMinDist = lenDist;
                     }
 
@@ -123,7 +124,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
 
                 //generatedCase.UpdateBiomeWeight(this.firstChunkPoint.PointValue, firstPointWeight);
 
-                generatedCase.Value = nearestPointValue;
+                generatedCase.ParentDataPoint = nearestPoint;
 
                 if (secondMinDist != int.MaxValue)
                 {
@@ -132,7 +133,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
             }
             else
             {
-                generatedCase.Value = this.surroundingPoints.First().PointValue;
+                generatedCase.ParentDataPoint = this.surroundingPoints.First();
                 //generatedCase.UpdateBiomeWeight(generatedCase.Value, 1);
                 generatedCase.BorderValue = 1;
             }

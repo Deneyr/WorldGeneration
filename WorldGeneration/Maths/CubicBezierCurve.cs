@@ -88,29 +88,6 @@ namespace WorldGeneration.Maths
             }
             else
             {
-                //if (roots.Item1.Imaginary == -roots.Item2.Imaginary)
-                //{
-                //    t = (float)roots.Item3.Real;
-                //}
-                //else if (roots.Item1.Imaginary == -roots.Item3.Imaginary)
-                //{
-                //    t = (float)roots.Item2.Real;
-                //}
-                //else
-                //{
-                //    if (roots.Item1.Imaginary == roots.Item2.Imaginary)
-                //    {
-                //        t = (float)roots.Item3.Real;
-                //    }
-                //    else if (roots.Item1.Imaginary == roots.Item3.Imaginary)
-                //    {
-                //        t = (float)roots.Item2.Real;
-                //    }
-                //    else
-                //    {
-                //        t = (float)roots.Item1.Real;
-                //    }
-                //}
                 throw new Exception("No real solution to bezier curve equation");
             }
 
