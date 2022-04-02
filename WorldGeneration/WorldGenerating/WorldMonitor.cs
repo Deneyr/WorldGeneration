@@ -112,15 +112,19 @@ namespace WorldGeneration.WorldGenerating
 
         private void OnChunksRemoved(List<ChunkContainer> obj)
         {
-            
-        }
-
-        private void OnChunksToUnload(List<ChunkContainer> obj)
-        {
+            // Test : we remove the chunks of the pending list here to avoid potential desynch between the current area and the chunk to load
             foreach (ChunkContainer chunkContainer in obj)
             {
                 this.pendingChunkContainersToOrder.Remove(chunkContainer.Position);
             }
+        }
+
+        private void OnChunksToUnload(List<ChunkContainer> obj)
+        {
+            //foreach (ChunkContainer chunkContainer in obj)
+            //{
+            //    this.pendingChunkContainersToOrder.Remove(chunkContainer.Position);
+            //}
         }
 
         public void UpdateWorld(Time deltaTime)

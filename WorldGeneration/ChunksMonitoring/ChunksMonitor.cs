@@ -201,6 +201,10 @@ namespace WorldGeneration.ChunksMonitoring
                         chunkContainer.ContainedChunk = chunkContainerFromPool.ContainedChunk;
                         realChunksToAdd.Add(chunkContainer);
                     }
+                    else
+                    {
+                        chunksToLoad.Add(chunkContainer);
+                    }
 
                     this.CurrentChunksLoaded[chunkContainer.Position] = chunkContainer;
                     this.chunksPoolQueue.Remove(chunkContainerFromPool);

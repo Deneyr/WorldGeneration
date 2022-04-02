@@ -170,11 +170,11 @@ namespace WorldGeneration.WorldGenerating
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel4", 32, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
-            altitudeDataAgreggator.AddAltitudeLayer(0.12f, perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.11f, perlinDataChunkLayer);
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel5", 16, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
-            altitudeDataAgreggator.AddAltitudeLayer(0.05f, perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.04f, perlinDataChunkLayer);
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeWaterLevel", 20, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
