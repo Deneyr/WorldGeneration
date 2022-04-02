@@ -103,28 +103,29 @@ namespace WorldGeneration.WorldGenerating
             {
                 this.pendingChunkContainersToOrder.Add(chunkContainer.Position, chunkContainer);
             }
+            //chunkLoaded += obj.Count;
         }
 
         private void OnChunksAdded(List<ChunkContainer> obj)
         {
-            
+            //chunkAdded += obj.Count;
         }
 
         private void OnChunksRemoved(List<ChunkContainer> obj)
         {
-            // Test : we remove the chunks of the pending list here to avoid potential desynch between the current area and the chunk to load
+            //chunkAdded -= obj.Count;
+        }
+
+        //private int chunkAdded = 0;
+        //private int chunkLoaded = 0;
+
+        private void OnChunksToUnload(List<ChunkContainer> obj)
+        {
             foreach (ChunkContainer chunkContainer in obj)
             {
                 this.pendingChunkContainersToOrder.Remove(chunkContainer.Position);
             }
-        }
-
-        private void OnChunksToUnload(List<ChunkContainer> obj)
-        {
-            //foreach (ChunkContainer chunkContainer in obj)
-            //{
-            //    this.pendingChunkContainersToOrder.Remove(chunkContainer.Position);
-            //}
+            //chunkLoaded -= obj.Count;
         }
 
         public void UpdateWorld(Time deltaTime)

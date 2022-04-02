@@ -13,6 +13,9 @@ namespace WorldGeneration.ChunksMonitoring
         protected Dictionary<Vector2i, ChunkContainer> chunksPoolDictionary;
         protected List<ChunkContainer> chunksPoolQueue;
 
+        private List<ChunkContainer> chunksToRemove;
+        private List<ChunkContainer> chunksToAdd;
+
         public int ChunksPoolLimit
         {
             get;
@@ -53,6 +56,9 @@ namespace WorldGeneration.ChunksMonitoring
 
             this.CurrentChunksLoaded = new Dictionary<Vector2i, ChunkContainer>();
             this.CurrentChunksArea = new List<List<ChunkContainer>>();
+
+            this.chunksToRemove = new List<ChunkContainer>();
+            this.chunksToAdd = new List<ChunkContainer>();
         }
 
         public void Reinitialize()
@@ -73,8 +79,8 @@ namespace WorldGeneration.ChunksMonitoring
                 return;
             }
 
-            List<ChunkContainer> chunksToRemove = new List<ChunkContainer>();
-            List<ChunkContainer> chunksToAdd = new List<ChunkContainer>();
+            this.chunksToRemove.Clear();
+            this.chunksToAdd.Clear();
 
             // Part Remove
             int topHeightToRemove = Math.Min(Math.Max(newArea.Top - this.CurrentArea.Top, 0), this.CurrentArea.Height);
@@ -82,12 +88,12 @@ namespace WorldGeneration.ChunksMonitoring
 
             for(int i = 0; i < topHeightToRemove; i++)
             {
-                chunksToRemove.InsertRange(0, this.CurrentChunksArea.First());
+                this.chunksToRemove.InsertRange(0, this.CurrentChunksArea.First());
                 this.CurrentChunksArea.RemoveAt(0);
             }
             for (int i = 0; i < botHeightToRemove; i++)
             {
-                chunksToRemove.InsertRange(0, this.CurrentChunksArea.Last());
+                this.chunksToRemove.InsertRange(0, this.CurrentChunksArea.Last());
                 this.CurrentChunksArea.RemoveAt(this.CurrentChunksArea.Count - 1);
             }
 
@@ -103,7 +109,7 @@ namespace WorldGeneration.ChunksMonitoring
                     {
                         for (int j = 0; j < leftWidthToRemove; j++)
                         {
-                            chunksToRemove.Insert(0, this.CurrentChunksArea[i][j]);
+                            this.chunksToRemove.Insert(0, this.CurrentChunksArea[i][j]);
                         }
                         this.CurrentChunksArea[i].RemoveRange(0, leftWidthToRemove);
                     }
@@ -116,7 +122,7 @@ namespace WorldGeneration.ChunksMonitoring
                     {
                         for (int j = 0; j < rightWidthToRemove; j++)
                         {
-                            chunksToRemove.Insert(0, this.CurrentChunksArea[i][columnCount - j - 1]);
+                            this.chunksToRemove.Insert(0, this.CurrentChunksArea[i][columnCount - j - 1]);
                         }
                         this.CurrentChunksArea[i].RemoveRange(columnCount - rightWidthToRemove, rightWidthToRemove);
                     }
@@ -140,7 +146,7 @@ namespace WorldGeneration.ChunksMonitoring
                         for (int j = leftWidthToAdd - 1; j >= 0; j--)
                         {
                             ChunkContainer newChunkContainer = new ChunkContainer(newArea.Left + j, startTop + i);
-                            chunksToAdd.Add(newChunkContainer);
+                            this.chunksToAdd.Add(newChunkContainer);
                             this.CurrentChunksArea[i].Insert(0, newChunkContainer);
                         }
                     }
@@ -154,7 +160,7 @@ namespace WorldGeneration.ChunksMonitoring
                         for (int j = 0; j < rightWidthToAdd; j++)
                         {
                             ChunkContainer newChunkContainer = new ChunkContainer(startRight - j, startTop + i);
-                            chunksToAdd.Add(newChunkContainer);
+                            this.chunksToAdd.Add(newChunkContainer);
                             this.CurrentChunksArea[i].Insert(columnCount, newChunkContainer);
                         }
                     }
@@ -171,7 +177,7 @@ namespace WorldGeneration.ChunksMonitoring
                 for (int j = 0; j < newArea.Width; j++)
                 {
                     ChunkContainer newChunkContainer = new ChunkContainer(newArea.Left + j, newArea.Top + i);
-                    chunksToAdd.Add(newChunkContainer);
+                    this.chunksToAdd.Add(newChunkContainer);
                     newRowChunkContainer.Add(newChunkContainer);
                 }
                 this.CurrentChunksArea.Insert(0, newRowChunkContainer);
@@ -183,7 +189,7 @@ namespace WorldGeneration.ChunksMonitoring
                 for (int j = 0; j < newArea.Width; j++)
                 {
                     ChunkContainer newChunkContainer = new ChunkContainer(newArea.Left + j, startBot + i);
-                    chunksToAdd.Add(newChunkContainer);
+                    this.chunksToAdd.Add(newChunkContainer);
                     newRowChunkContainer.Add(newChunkContainer);
                 }
                 this.CurrentChunksArea.Add(newRowChunkContainer);
@@ -192,7 +198,7 @@ namespace WorldGeneration.ChunksMonitoring
             // Update Add from Pool
             List<ChunkContainer> chunksToLoad = new List<ChunkContainer>();
             List<ChunkContainer> realChunksToAdd = new List<ChunkContainer>();
-            foreach (ChunkContainer chunkContainer in chunksToAdd)
+            foreach (ChunkContainer chunkContainer in this.chunksToAdd)
             {
                 if(this.CurrentChunksLoaded.TryGetValue(chunkContainer.Position, out ChunkContainer chunkContainerFromPool))
                 {
@@ -218,24 +224,28 @@ namespace WorldGeneration.ChunksMonitoring
 
             this.CurrentArea = newArea;
 
-            // Notify Remove
-            this.ChunksRemoved?.Invoke(chunksToRemove);
-
-            // Notify Unload
-            foreach(ChunkContainer chunkContainerToRemove in chunksToRemove)
+            List<ChunkContainer> realChunksToRemove = new List<ChunkContainer>();
+            List<ChunkContainer> chunksToUnload = new List<ChunkContainer>();
+            foreach (ChunkContainer chunkContainerToRemove in this.chunksToRemove)
             {
-                if(chunkContainerToRemove.ContainedChunk != null)
+                if (chunkContainerToRemove.ContainedChunk != null)
                 {
                     this.chunksPoolQueue.Add(chunkContainerToRemove);
+                    realChunksToRemove.Add(chunkContainerToRemove);
+
                 }
                 else
                 {
                     this.CurrentChunksLoaded.Remove(chunkContainerToRemove.Position);
+                    chunksToUnload.Add(chunkContainerToRemove);
                 }
             }
+            // Notify Remove
+            this.ChunksRemoved?.Invoke(realChunksToRemove);
+
+            // Notify Unload
             //this.chunksPoolQueue.AddRange(chunksToRemove);
             int nbChunksToUnload = Math.Max(this.chunksPoolQueue.Count - this.ChunksPoolLimit, 0);
-            List<ChunkContainer> chunksToUnload = new List<ChunkContainer>();
             for(int i = 0; i < nbChunksToUnload; i++)
             {
                 ChunkContainer chunkContainerToUnload = this.chunksPoolQueue.First();
