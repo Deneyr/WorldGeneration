@@ -222,7 +222,18 @@ namespace WorldGeneration.ChunksMonitoring
             this.ChunksRemoved?.Invoke(chunksToRemove);
 
             // Notify Unload
-            this.chunksPoolQueue.AddRange(chunksToRemove);
+            foreach(ChunkContainer chunkContainerToRemove in chunksToRemove)
+            {
+                if(chunkContainerToRemove.ContainedChunk != null)
+                {
+                    this.chunksPoolQueue.Add(chunkContainerToRemove);
+                }
+                else
+                {
+                    this.CurrentChunksLoaded.Remove(chunkContainerToRemove.Position);
+                }
+            }
+            //this.chunksPoolQueue.AddRange(chunksToRemove);
             int nbChunksToUnload = Math.Max(this.chunksPoolQueue.Count - this.ChunksPoolLimit, 0);
             List<ChunkContainer> chunksToUnload = new List<ChunkContainer>();
             for(int i = 0; i < nbChunksToUnload; i++)
