@@ -1,10 +1,12 @@
-﻿using System;
+﻿using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
 {
@@ -136,20 +138,50 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             //return random.Next(0, this.NbAltitudeLevel);
         }
 
-        private float computeAltitude(float altitudeValue)
+        public Vector3f GetNormalAtWorldCoordinate(int x, int y)
         {
-            if(altitudeValue < 0.33f)
+            float altitudeCenter = this.GetFloatAltitudeAtWorldCoordinates(x, y);
+            float altitudeTop = this.GetFloatAltitudeAtWorldCoordinates(x, y - 1);
+            float altitudeLeft = this.GetFloatAltitudeAtWorldCoordinates(x - 1, y);
+            float altitudeBot = this.GetFloatAltitudeAtWorldCoordinates(x, y + 1);
+            float altitudeRight = this.GetFloatAltitudeAtWorldCoordinates(x + 1, y);
+
+
+            Vector3f verticalVector = new Vector3f(0, -1, ((altitudeCenter - altitudeTop) + (altitudeBot - altitudeCenter)) / 2);
+            Vector3f horizontalVector = new Vector3f(1, 0, ((altitudeCenter - altitudeLeft) + (altitudeRight - altitudeCenter)) / 2);
+
+            Vector3f normalVector = verticalVector.Cross(horizontalVector);
+            if(normalVector.IsZero())
             {
-                return 1.25f * altitudeValue;
+                return normalVector;
             }
-            else if(altitudeValue < 0.66f)
+            return normalVector.Normalize();
+        }
+
+        public float GetFloatAltitudeAtWorldCoordinates(int x, int y)
+        {
+            float altitudeValue = 0;
+            foreach (Tuple<float, IDataChunkLayer> altitudeLayer in this.AltitudeLayers)
             {
-                return 0.5f * (altitudeValue - 0.5f) + 0.5f;
+                PerlinDataCase dataCase = altitudeLayer.Item2.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase;
+                float layerValue = altitudeLayer.Item1 * dataCase.Value;
+                altitudeValue += layerValue;
             }
-            else
-            {
-                return 1.25f * (altitudeValue - 0.333f) + 0.167f;
-            }
+
+            altitudeValue = (altitudeValue + 1) / 2;
+            altitudeValue = Math.Min(1, altitudeValue);
+
+            //if (altitudeValue >= 0.5f)
+            //{
+            //    BiomeType biomeType = this.BiomeDataAgreggator.GetBiomeAtWorldCoordinates(x, y, out float borderValue);
+            //    float newAltitudeValue = this.altitudeBiomeMonitor.FilterAltitudeFromBiome(biomeType, (altitudeValue - 0.5f) * 2f) / 2f + 0.5f;
+
+            //    altitudeValue = altitudeValue * (1 - borderValue) + borderValue * newAltitudeValue;
+            //}
+
+            float altitudeLevel = altitudeValue * this.NbAltitudeLevel;
+
+            return altitudeLevel;
         }
 
         internal void AddAltitudeLayer(float weight, IDataChunkLayer altitudeLayer)

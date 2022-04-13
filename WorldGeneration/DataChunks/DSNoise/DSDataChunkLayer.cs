@@ -58,6 +58,15 @@ namespace WorldGeneration.DataChunks.DSNoise
             this.CurrentStepLength = (int)Math.Ceiling(((float)this.NbCaseSide) / this.SampleLevel);
             this.CurrentStepPower = 1;
 
+            if (this.Margin > 0)
+            {
+                newWorldArea = new IntRect(
+                    newWorldArea.Left - this.Margin,
+                    newWorldArea.Top - this.Margin,
+                    newWorldArea.Width + 2 * this.Margin,
+                    newWorldArea.Height + 2 * this.Margin);
+            }
+
             IntRect newLayerArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, newWorldArea);
 
             IntRect newExtendedLayerArea = new IntRect(

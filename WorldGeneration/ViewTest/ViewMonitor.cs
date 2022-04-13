@@ -53,14 +53,14 @@ namespace WorldGeneration.ViewTest
             this.currentZoom = 1;
 
             this.worldMonitor.MainChunksMonitor.ChunksToAdd += OnChunksToAdd;
-            this.worldMonitor.MainChunksMonitor.ChunksToUnload += ChunksToUnload;
+            this.worldMonitor.MainChunksMonitor.ChunksRemoved += ChunksToRemoved;
 
             this.viewChunkDisplayed = new Dictionary<Vector2i, ViewChunk>();
         }
 
-        private void ChunksToUnload(List<ChunkContainer> obj)
+        private void ChunksToRemoved(List<ChunkContainer> obj)
         {
-            foreach(ChunkContainer chunkContainer in obj)
+            foreach(ChunkContainer chunkContainer in obj)                       
             {
                 this.viewChunkDisplayed.Remove(chunkContainer.Position);
             }
@@ -187,7 +187,7 @@ namespace WorldGeneration.ViewTest
         public void Dispose()
         {
             this.worldMonitor.MainChunksMonitor.ChunksToAdd -= OnChunksToAdd;
-            this.worldMonitor.MainChunksMonitor.ChunksToUnload -= ChunksToUnload;
+            this.worldMonitor.MainChunksMonitor.ChunksToUnload -= ChunksToRemoved;
 
             this.worldMonitor = null;
         }

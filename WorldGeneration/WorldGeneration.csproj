@@ -98,6 +98,7 @@
     <Compile Include="DataChunks\DataAgreggator\BiomeDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\IDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\Offset2DDataAgreggator.cs" />
+    <Compile Include="DataChunks\DataAgreggator\RiverDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\TestNoiseDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\WeatherDataAgreggator.cs" />
     <Compile Include="DataChunks\DataChunkLayersMonitor.cs" />
@@ -123,6 +124,9 @@
     <Compile Include="DataChunks\WeatherMonitoring\AltitudeBiomeMonitor.cs" />
     <Compile Include="DataChunks\WeatherMonitoring\BiomeType.cs" />
     <Compile Include="DataChunks\WeatherMonitoring\WeatherMonitor.cs" />
+    <Compile Include="DataChunks\WebNoise\WebDataCase.cs" />
+    <Compile Include="DataChunks\WebNoise\WebDataChunk.cs" />
+    <Compile Include="DataChunks\WebNoise\WebDataChunkLayer.cs" />
     <Compile Include="Maths\CubicBezierCurve.cs" />
     <Compile Include="Maths\Vector2fExtension.cs" />
     <Compile Include="ObjectChunks\IObjectCase.cs" />

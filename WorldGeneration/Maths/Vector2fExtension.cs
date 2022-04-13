@@ -29,6 +29,16 @@ namespace WorldGeneration.Maths
             return (float)Math.Sqrt(obj.Len2());
         }
 
+        public static float Len2(this Vector3f obj)
+        {
+            return obj.X * obj.X + obj.Y * obj.Y + obj.Z * obj.Z;
+        }
+
+        public static float Len(this Vector3f obj)
+        {
+            return (float)Math.Sqrt(obj.Len2());
+        }
+
         public static float Angle(this Vector2f obj)
         {
             double len = obj.Len();
@@ -65,6 +75,19 @@ namespace WorldGeneration.Maths
             return obj.X * vector.Y - obj.Y * vector.X;
         }
 
+        public static float Dot(this Vector3f obj, Vector3f vector)
+        {
+            return obj.X * vector.X + obj.Y * vector.Y + obj.Z * vector.Z;
+        }
+
+        public static Vector3f Cross(this Vector3f obj, Vector3f vector)
+        {
+            return new Vector3f(
+                obj.Y * vector.Z - obj.Z * vector.Y,
+                obj.Z * vector.X - obj.X * vector.Z,
+                obj.X * vector.Y - obj.Y * vector.X);
+        }
+
         public static Vector2f Projection (this Vector2f obj, Vector2f vector)
         {
             float vectorLen = vector.Len();
@@ -81,6 +104,24 @@ namespace WorldGeneration.Maths
         public static Vector2f Normalize(this Vector2f obj)
         {
             return obj / obj.Len();
+        }
+
+        public static Vector3f Normalize(this Vector3f obj)
+        {
+            return obj / obj.Len();
+        }
+
+        public static bool IsZero(this Vector2f obj)
+        {
+            return obj.X == 0
+                && obj.Y == 0;
+        }
+
+        public static bool IsZero(this Vector3f obj)
+        {
+            return obj.X == 0
+                && obj.Y == 0
+                && obj.Z == 0;
         }
 
     }
