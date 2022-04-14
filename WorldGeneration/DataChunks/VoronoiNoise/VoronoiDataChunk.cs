@@ -53,10 +53,18 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
                 Vector2i pointPosition = new Vector2i(random.Next(0, this.NbCaseSide), random.Next(0, this.NbCaseSide));
                 Vector2i worldPointPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, pointPosition));
 
-                this.Points.Add(new VoronoiDataPoint(worldPointPosition, random.Next()));
+                VoronoiDataPoint voronoiDataPoint = this.CreateVoronoiDataPoint();
+                voronoiDataPoint.PointPosition = worldPointPosition;
+                voronoiDataPoint.PointValue = random.Next();
+                this.Points.Add(voronoiDataPoint);
             }
 
             this.surroundingPoints = null;
+        }
+
+        protected virtual VoronoiDataPoint CreateVoronoiDataPoint()
+        {
+            return new VoronoiDataPoint();
         }
 
         protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
@@ -121,10 +129,8 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
                 set;
             }
 
-            public VoronoiDataPoint(Vector2i pointPosition, int pointValue)
+            public VoronoiDataPoint()
             {
-                this.PointPosition = pointPosition;
-                this.PointValue = pointValue;
             }
         }
     }

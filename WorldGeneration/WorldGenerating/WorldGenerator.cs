@@ -122,15 +122,22 @@ namespace WorldGeneration.WorldGenerating
             WeatherDataAgreggator weatherDataAgreggator = new WeatherDataAgreggator();
             BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator();
             Offset2DDataAgreggator offset2DDataAgreggator = new Offset2DDataAgreggator();
+            RiverDataAgreggator riverDataAgreggator = new RiverDataAgreggator();
 
             // Part Biomes
 
             BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biomeOffset", 5, 2);
             biomeDSDataChunkLayer.SampleLevel = 2;
-            ////DSDataChunkLayer biomeDSDataChunkLayer = new DSDataChunkLayer("biomeOffset", 7);
             this.dataChunksMonitor.AddDataLayerToGenerator(biomeDSDataChunkLayer);
             offset2DDataAgreggator.OffsetLayer = biomeDSDataChunkLayer;
-            ////biomeDataAgreggator.BiomeLayer = biomeDSDataChunkLayer;
+
+            PerlinDataChunkLayer offsetPerlinDataChunkLayer = new PerlinDataChunkLayer("offsetX", 16, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(offsetPerlinDataChunkLayer);
+            offset2DDataAgreggator.SmoothOffsetLayerX = offsetPerlinDataChunkLayer;
+
+            offsetPerlinDataChunkLayer = new PerlinDataChunkLayer("offsetY", 16, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(offsetPerlinDataChunkLayer);
+            offset2DDataAgreggator.SmoothOffsetLayerY = offsetPerlinDataChunkLayer;
 
             HPerlinDataChunkLayer hPerlinDataChunkLayer = new HPerlinDataChunkLayer("temperature", 512, 1);
             hPerlinDataChunkLayer.Margin = 32;
@@ -147,6 +154,7 @@ namespace WorldGeneration.WorldGenerating
             BiomeVoronoiDataChunkLayer biomeVoronoiDataChunkLayer = new BiomeVoronoiDataChunkLayer("biome", 1, 32);
             this.dataChunksMonitor.AddDataLayerToGenerator(biomeVoronoiDataChunkLayer);
             biomeDataAgreggator.BiomeLayer = biomeVoronoiDataChunkLayer;
+            riverDataAgreggator.RiverLayer = biomeVoronoiDataChunkLayer;
 
             testNoiseDataAgreggator.TestLayer = biomeVoronoiDataChunkLayer;
 
@@ -186,6 +194,7 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("weather", weatherDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("2DOffset", offset2DDataAgreggator);
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("river", riverDataAgreggator);
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("test", testNoiseDataAgreggator);
         }

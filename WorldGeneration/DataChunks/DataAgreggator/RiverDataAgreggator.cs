@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorldGeneration.DataChunks.WebNoise;
+using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
 {
@@ -27,7 +27,7 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
         public float GetRiverValueAtWorldCoordinates(int x, int y)
         {
-            return (this.RiverLayer.GetCaseAtWorldCoordinates(x, y) as WebDataCase).Value;
+            return (this.RiverLayer.GetCaseAtWorldCoordinates(x, y) as BiomeVoronoiDataCase).RiverBorderValue < 3 ? 0 : 1;
         }
     }
 }
