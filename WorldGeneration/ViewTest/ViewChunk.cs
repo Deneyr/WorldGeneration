@@ -81,7 +81,7 @@ namespace WorldGeneration.ViewTest
                     color.G = (byte)(color.G * colorValue);
                     color.B = (byte)(color.B * colorValue);
 
-                    if (testCase.IsUnderSea || testCase.TestValue < 1)
+                    if (testCase.IsUnderSea /*|| testCase.TestValue > 0*/)
                     {
                         color = Color.Black;
                     }

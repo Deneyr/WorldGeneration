@@ -44,7 +44,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
                 int biomeValue = (int) dataChunksMonitor.WeatherMonitor.GetBiomeAt(temperature, humidity);
 
                 point.PointValue = biomeValue;
-                (point as BiomeVoronoiDataPoint).RiverPointValue = this.GetMatrixValueFrom(3, 3, temperature, humidity);
+                (point as BiomeVoronoiDataPoint).RiverPointValue = this.GetMatrixValueFrom(2, 2, temperature, humidity);
             }
 
             //this.firstChunkPoint = this.Points.First();
@@ -180,7 +180,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
             Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x * this.SampleLevel, y * this.SampleLevel)));
 
             Vector2f offsetVector = this.offset2DDataAgreggator.GetSmoothOffsetAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y);
-            Vector2f casePosition = new Vector2f(worldCasePosition.X + offsetVector.X * 10, worldCasePosition.Y + offsetVector.Y * 10);
+            Vector2f casePosition = new Vector2f(worldCasePosition.X + offsetVector.X * 2, worldCasePosition.Y + offsetVector.Y * 2);
 
             nearestPoint = null;
             minDist = int.MaxValue;

@@ -9,6 +9,8 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 {
     internal class RiverDataAgreggator: IDataAgreggator
     {
+        private static readonly float RIVER_WIDTH = 3;
+
         public int NbBiomeLevel
         {
             get;
@@ -27,7 +29,23 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
         public float GetRiverValueAtWorldCoordinates(int x, int y)
         {
-            return (this.RiverLayer.GetCaseAtWorldCoordinates(x, y) as BiomeVoronoiDataCase).RiverBorderValue < 3 ? 0 : 1;
+            float riverBorderValue = (this.RiverLayer.GetCaseAtWorldCoordinates(x, y) as BiomeVoronoiDataCase).RiverBorderValue;
+
+            if(riverBorderValue < RIVER_WIDTH)
+            {
+                riverBorderValue = (RIVER_WIDTH - riverBorderValue) / RIVER_WIDTH;
+                riverBorderValue = riverBorderValue / 2;
+
+                return this.GetRiverDepthFrom(riverBorderValue);
+            }
+
+            return 0;
+        }
+
+
+        public float GetRiverDepthFrom(float x)
+        {
+            return -0.9f * x * x * x - 2.6f * x * x + 3.5f * x; 
         }
     }
 }

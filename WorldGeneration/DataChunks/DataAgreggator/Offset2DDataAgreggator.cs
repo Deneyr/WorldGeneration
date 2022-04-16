@@ -47,6 +47,9 @@ namespace WorldGeneration.DataChunks.DataAgreggator
         {
             float offsetVector1 = (this.SmoothOffsetLayerX.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
             float offsetVector2 = (this.SmoothOffsetLayerY.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
+
+            offsetVector1 = offsetVector1 * 2 - 1;
+            offsetVector2 = offsetVector2 * 2 - 1;
             //return (int) ((this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as DSDataCase).Value * 255);
             //return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as BiomeDSDataCase).CurrentBiome;
             return new Vector2f(offsetVector1, offsetVector2);
