@@ -169,21 +169,26 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddAltitudeLayer(1, perlinDataChunkLayer);
 
-            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel2", 512, 1);
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape2Level2", 512, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddAltitudeLayer(0.5f, perlinDataChunkLayer);
 
-            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel3", 256, 1);
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape3Level3", 256, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddAltitudeLayer(0.25f, perlinDataChunkLayer);
 
-            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel4", 32, 1);
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape4Level4", 32, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddAltitudeLayer(0.11f, perlinDataChunkLayer);
 
-            perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeLevel5", 16, 1);
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape5Level5", 16, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddAltitudeLayer(0.04f, perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape6Level6", 8, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.02f, perlinDataChunkLayer);
+
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeWaterLevel", 20, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
