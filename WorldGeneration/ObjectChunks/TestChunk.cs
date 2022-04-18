@@ -49,19 +49,22 @@ namespace WorldGeneration.ObjectChunks
 
         public bool GenerateChunk(ObjectChunkLayersMonitor dataChunksMonitor, IObjectChunkLayer parentLayer)
         {
+            int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed - "TestChunkLayerGenerator".GetHashCode());
+            Random random = new Random(chunkSeed);
+
             for (int i = 0; i < this.NbCaseSide; i++)
             {
                 for (int j = 0; j < this.NbCaseSide; j++)
                 {
                     Vector2i worldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position.X, this.Position.Y, j, i));
-                    this.casesArray[i, j] = this.GenerateCaseAtWorldCoordinates(dataChunksMonitor, worldPosition);
+                    this.casesArray[i, j] = this.GenerateCaseAtWorldCoordinates(dataChunksMonitor, worldPosition, random);
                 }
             }
 
             return true;
         }
 
-        public ICase GenerateCaseAtWorldCoordinates(ObjectChunkLayersMonitor objectChunksMonitor, Vector2i position)
+        public ICase GenerateCaseAtWorldCoordinates(ObjectChunkLayersMonitor objectChunksMonitor, Vector2i position, Random random)
         {
             //VoronoiDataCase voroDataCase = objectChunksMonitor.DataChunkMonitor.DataChunksLayers["biome"].GetCaseAtWorldCoordinates(position.X, position.Y) as VoronoiDataCase;
 
@@ -80,15 +83,23 @@ namespace WorldGeneration.ObjectChunks
 
             if (generatedCase.AltitudeValue > 14 && generatedCase.AltitudeValue < 22)
             {
-                generatedCase.TestValue = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["river"] as RiverDataAgreggator).GetRiverValueAtWorldCoordinates(position.X, position.Y);
-                generatedCase.AltitudeValue -= (int) Math.Ceiling(generatedCase.TestValue * 4);
+                generatedCase.RiverValue = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["river"] as RiverDataAgreggator).GetRiverValueAtWorldCoordinates(position.X, position.Y);
+                generatedCase.AltitudeValue -= (int) Math.Ceiling(generatedCase.RiverValue * 4);
             }
             else
             {
-                generatedCase.TestValue = 0;
+                generatedCase.RiverValue = 0;
             }
 
+            generatedCase.IsThereTree = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereTreeAtWorldCoordinate(position.X, position.Y, 0.2f, random.NextDouble());
+            generatedCase.IsThereFlower = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereFlowerAtWorldCoordinate(position.X, position.Y, 0.05f, random.NextDouble());
+
             return generatedCase;
+        }
+
+        protected virtual int GenerateChunkSeed(int seed)
+        {
+            return this.Position.X * this.Position.Y % seed - seed - this.NbCaseSide - this.Position.X + this.Position.Y * this.Position.Y;
         }
 
         public ICase GetCaseAtLocal(int x, int y)

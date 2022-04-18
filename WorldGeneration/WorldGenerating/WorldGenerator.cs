@@ -123,6 +123,7 @@ namespace WorldGeneration.WorldGenerating
             BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator();
             Offset2DDataAgreggator offset2DDataAgreggator = new Offset2DDataAgreggator();
             RiverDataAgreggator riverDataAgreggator = new RiverDataAgreggator();
+            FloraDataAgreggator floraDataAgreggator = new FloraDataAgreggator();
 
             // Part Biomes
 
@@ -189,12 +190,18 @@ namespace WorldGeneration.WorldGenerating
             altitudeDataAgreggator.AddSeaLayer(0.03f, perlinDataChunkLayer);
             altitudeDataAgreggator.BiomeDataAgreggator = biomeDataAgreggator;
 
+            // Part flora & rocks
+            hPerlinDataChunkLayer = new HPerlinDataChunkLayer("flora", 256, 1);
+            hPerlinDataChunkLayer.SampleLevel = 4;
+            this.dataChunksMonitor.AddDataLayerToGenerator(hPerlinDataChunkLayer);
+            floraDataAgreggator.FloraLayer = hPerlinDataChunkLayer;
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("weather", weatherDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("2DOffset", offset2DDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("river", riverDataAgreggator);
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("flora", floraDataAgreggator);
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("test", testNoiseDataAgreggator);
         }

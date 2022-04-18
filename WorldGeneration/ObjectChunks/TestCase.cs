@@ -35,7 +35,19 @@ namespace WorldGeneration.ObjectChunks
             set;
         }
 
-        public float TestValue
+        public float RiverValue
+        {
+            get;
+            set;
+        }
+
+        public bool IsThereTree
+        {
+            get;
+            set;
+        }
+
+        public bool IsThereFlower
         {
             get;
             set;
@@ -47,7 +59,9 @@ namespace WorldGeneration.ObjectChunks
             this.AltitudeValue = 0;
             this.BiomeValue = BiomeType.TEMPERATE_FOREST;
             this.IsUnderSea = false;
-            this.TestValue = 0;
+            this.RiverValue = 0;
+            this.IsThereTree = false;
+            this.IsThereFlower = false;
         }
     }
 }

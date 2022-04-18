@@ -34,7 +34,7 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             if(riverBorderValue < RIVER_WIDTH)
             {
                 riverBorderValue = (RIVER_WIDTH - riverBorderValue) / RIVER_WIDTH;
-                riverBorderValue = riverBorderValue / 2;
+                //riverBorderValue = riverBorderValue / 2;
 
                 return this.GetRiverDepthFrom(riverBorderValue);
             }
@@ -45,7 +45,8 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
         public float GetRiverDepthFrom(float x)
         {
-            return -0.9f * x * x * x - 2.6f * x * x + 3.5f * x; 
+            //return -0.9f * x * x * x - 2.6f * x * x + 3.5f * x; 
+            return -x * x + 2 * x;
         }
     }
 }

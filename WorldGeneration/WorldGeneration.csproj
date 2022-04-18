@@ -96,6 +96,7 @@
     <Compile Include="DataChunks\AExtendedDataChunkLayer.cs" />
     <Compile Include="DataChunks\DataAgreggator\AltitudeDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\BiomeDataAgreggator.cs" />
+    <Compile Include="DataChunks\DataAgreggator\FloraDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\IDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\Offset2DDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\RiverDataAgreggator.cs" />
