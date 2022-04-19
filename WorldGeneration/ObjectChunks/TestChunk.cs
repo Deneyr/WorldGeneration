@@ -9,11 +9,14 @@ using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.VoronoiNoise;
+using WorldGeneration.ObjectChunks.BiomeManager;
 
 namespace WorldGeneration.ObjectChunks
 {
     public class TestChunk: IObjectChunk
     {
+        private FloraRatioBiomeManager floraRatioManager;
+
         protected ICase[,] casesArray;
 
         public Vector2i Position
@@ -30,12 +33,13 @@ namespace WorldGeneration.ObjectChunks
 
         //protected List<Vector2i> notGeneratedCases;
 
-        public TestChunk(Vector2i position, int nbCaseSide)
+        public TestChunk(Vector2i position, int nbCaseSide, int seaLevel)
         {
             this.Position = position;
             this.NbCaseSide = nbCaseSide;
 
             //this.notGeneratedCases = null;
+            this.floraRatioManager = new FloraRatioBiomeManager(seaLevel);
 
             this.casesArray = new ICase[this.NbCaseSide, this.NbCaseSide];
             for (int i = 0; i < this.NbCaseSide; i++)
@@ -91,8 +95,11 @@ namespace WorldGeneration.ObjectChunks
                 generatedCase.RiverValue = 0;
             }
 
-            generatedCase.IsThereTree = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereTreeAtWorldCoordinate(position.X, position.Y, 0.2f, random.NextDouble());
-            generatedCase.IsThereFlower = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereFlowerAtWorldCoordinate(position.X, position.Y, 0.05f, random.NextDouble());
+            if (generatedCase.IsUnderSea == false && generatedCase.RiverValue == 0)
+            {
+                generatedCase.IsThereTree = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereTreeAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetTreeRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue), random.NextDouble());
+                //generatedCase.IsThereFlower = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereFlowerAtWorldCoordinate(position.X, position.Y, 0.05f, random.NextDouble());
+            }
 
             return generatedCase;
         }

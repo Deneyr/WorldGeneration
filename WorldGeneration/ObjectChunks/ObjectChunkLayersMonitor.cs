@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks;
+using WorldGeneration.DataChunks.DataAgreggator;
 
 namespace WorldGeneration.ObjectChunks
 {
@@ -39,7 +40,7 @@ namespace WorldGeneration.ObjectChunks
 
         public IChunk GenerateChunkAt(Vector2i position)
         {
-            TestChunk newChunk = new TestChunk(position, this.NbCaseSide);
+            TestChunk newChunk = new TestChunk(position, this.NbCaseSide, (this.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator).SeaLevel);
 
             newChunk.GenerateChunk(this, null);
 

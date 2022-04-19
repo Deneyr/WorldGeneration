@@ -20,6 +20,14 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             private set;
         }
 
+        public int SeaLevel
+        {
+            get
+            {
+                return this.NbAltitudeLevel / 2 - 1;
+            }
+        }
+
         internal List<Tuple<float, IDataChunkLayer>> AltitudeLayers
         {
             get;
@@ -85,12 +93,12 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             //}
 
             int midAltitudeLevel = this.NbAltitudeLevel / 2;
-            float seaValue = (this.SeaAltitudeLayer.Item2.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
             if (altitudeLevel < midAltitudeLevel)
             {
                 if (altitudeLevel == midAltitudeLevel - 1
                     && this.SeaAltitudeLayer.Item2 != null)
                 {
+                    float seaValue = (this.SeaAltitudeLayer.Item2.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
                     float seaAltitudeValue = altitudeValue + seaValue * this.SeaAltitudeLayer.Item1;
 
                     if (seaAltitudeValue < 0.5)

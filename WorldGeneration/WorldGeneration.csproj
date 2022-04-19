@@ -130,6 +130,7 @@
     <Compile Include="DataChunks\WebNoise\WebDataChunkLayer.cs" />
     <Compile Include="Maths\CubicBezierCurve.cs" />
     <Compile Include="Maths\Vector2fExtension.cs" />
+    <Compile Include="ObjectChunks\BiomeManager\FloraRatioBiomeManager.cs" />
     <Compile Include="ObjectChunks\IObjectCase.cs" />
     <Compile Include="ObjectChunks\IObjectChunk.cs" />
     <Compile Include="ObjectChunks\IObjectChunkLayer.cs" />

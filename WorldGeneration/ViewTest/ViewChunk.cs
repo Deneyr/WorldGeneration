@@ -89,11 +89,11 @@ namespace WorldGeneration.ViewTest
                     {
 
                     }
-                    else if (testCase.IsThereTree && testCase.AltitudeValue < 20)
+                    else if (testCase.IsThereTree) /*&& testCase.AltitudeValue < 20)*/
                     {
                         color = Color.Green;
                     }
-                    else if (testCase.IsThereFlower && testCase.AltitudeValue < 18)
+                    else if (testCase.IsThereFlower) /*&& testCase.AltitudeValue < 18)*/
                     {
                         color = Color.Red;
                     }
