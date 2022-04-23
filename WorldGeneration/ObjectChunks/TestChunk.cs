@@ -98,6 +98,7 @@ namespace WorldGeneration.ObjectChunks
             if (generatedCase.IsUnderSea == false && generatedCase.RiverValue == 0)
             {
                 generatedCase.IsThereTree = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereTreeAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetTreeRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue), random.NextDouble());
+                generatedCase.IsThereRock = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereRockAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetRockRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue), random.NextDouble());
                 generatedCase.IsThereFlower = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereFlowerAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetVegetationRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue), random.NextDouble());
             }
 

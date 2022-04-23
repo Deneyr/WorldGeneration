@@ -93,6 +93,10 @@ namespace WorldGeneration.ViewTest
                     {
                         color = Color.Green;
                     }
+                    else if (testCase.IsThereRock) /*&& testCase.AltitudeValue < 18)*/
+                    {
+                        color = new Color(150, 150, 150);
+                    }
                     else if (testCase.IsThereFlower) /*&& testCase.AltitudeValue < 18)*/
                     {
                         color = Color.Red;

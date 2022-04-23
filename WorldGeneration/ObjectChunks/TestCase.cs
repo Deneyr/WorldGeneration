@@ -47,6 +47,12 @@ namespace WorldGeneration.ObjectChunks
             set;
         }
 
+        public bool IsThereRock
+        {
+            get;
+            set;
+        }
+
         public bool IsThereFlower
         {
             get;

@@ -315,5 +315,27 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
         {
             return 0;
         }
+
+        // Part rock
+
+        public float GetRockRatioFromBiomeAltitude(BiomeType biome, int altitude)
+        {
+            if (altitude > this.seaAltitude + 4)
+            {
+                if (altitude < this.seaAltitude + 5)
+                {
+                    return 0.05f;
+                }
+                else if (altitude < this.seaAltitude + 8)
+                {
+                    return 0.1f;
+                }
+                else if (altitude < this.seaAltitude + 11)
+                {
+                    return 0.05f;
+                }
+            }
+            return 0;
+        }
     }
 }

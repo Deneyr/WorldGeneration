@@ -33,5 +33,10 @@ namespace WorldGeneration.DataChunks.DataAgreggator
         {
             return randomValue < flowerRatio;
         }
+
+        public bool IsThereRockAtWorldCoordinate(int x, int y, float rockRatio, double randomValue)
+        {
+            return randomValue < rockRatio;
+        }
     }
 }
