@@ -24,6 +24,8 @@ namespace WorldGeneration.DataChunks.DataAgreggator
         {
             float perlinValue = (this.FloraLayer.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
 
+            perlinValue = perlinValue * perlinValue;
+
             return randomValue < (treeRatio * perlinValue);
         }
 

@@ -16,6 +16,8 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
             this.seaAltitude = seaAltitude;
         }
 
+        // Part trees
+
         public float GetTreeRatioFromBiomeAltitude(BiomeType biome, int altitude)
         {
             switch (biome)
@@ -44,13 +46,13 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
 
         private float GetTreeRatioFromBorealForest(int altitude)
         {
-            if (altitude > this.seaAltitude + 1)
+            if (altitude > this.seaAltitude)
             {
-                if (altitude < this.seaAltitude + 2)
+                if (altitude < this.seaAltitude + 1)
                 {
                     return 0.1f;
                 }
-                else if(altitude < this.seaAltitude + 4)
+                else if(altitude < this.seaAltitude + 3)
                 {
                     return 0.05f;
                 }
@@ -62,14 +64,14 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
         {
             if (altitude > this.seaAltitude)
             {
-                return 0.0001f;
+                return 0.0006f;
             }
             return 0;
         }
 
         private float GetTreeRatioFromRainForest(int altitude)
         {
-            if (altitude > this.seaAltitude + 1)
+            if (altitude > this.seaAltitude)
             {
                 if (altitude < this.seaAltitude + 2)
                 {
@@ -87,20 +89,20 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
         {
             if (altitude > this.seaAltitude + 1)
             {
-                return 0.0005f;
+                return 0.01f;
             }
             return 0;
         }
 
         private float GetTreeRatioFromSeasonalForest(int altitude)
         {
-            if (altitude > this.seaAltitude + 1)
+            if (altitude > this.seaAltitude)
             {
-                if (altitude < this.seaAltitude + 2)
+                if (altitude < this.seaAltitude + 3)
                 {
                     return 0.3f;
                 }
-                else if (altitude < this.seaAltitude + 4)
+                else if (altitude < this.seaAltitude + 5)
                 {
                     return 0.1f;
                 }
@@ -110,7 +112,7 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
 
         private float GetTreeRatioFromTemperateForest(int altitude)
         {
-            if (altitude > this.seaAltitude + 1)
+            if (altitude > this.seaAltitude)
             {
                 if (altitude < this.seaAltitude + 3)
                 {
@@ -122,13 +124,13 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
 
         private float GetTreeRatioFromTemperateRainForest(int altitude)
         {
-            if (altitude > this.seaAltitude + 1)
+            if (altitude > this.seaAltitude)
             {
-                if (altitude < this.seaAltitude + 2)
+                if (altitude < this.seaAltitude + 3)
                 {
                     return 0.4f;
                 }
-                else if (altitude < this.seaAltitude + 4)
+                else if (altitude < this.seaAltitude + 5)
                 {
                     return 0.2f;
                 }
@@ -144,9 +146,9 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
                 {
                     return 0.5f;
                 }
-                else if (altitude < this.seaAltitude + 5)
+                else if (altitude < this.seaAltitude + 6)
                 {
-                    return 0.3f;
+                    return 0.4f;
                 }
             }
             return 0;
@@ -156,11 +158,161 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
         {
             if (altitude > this.seaAltitude + 1)
             {
-                if (altitude < this.seaAltitude + 3)
+                if (altitude < this.seaAltitude + 4)
                 {
                     return 0.05f;
                 }
             }
+            return 0;
+        }
+
+        // Part vegetation
+
+        public float GetVegetationRatioFromBiomeAltitude(BiomeType biome, int altitude)
+        {
+            switch (biome)
+            {
+                case BiomeType.BOREAL_FOREST:
+                    return this.GetVegetationRatioFromBorealForest(altitude);
+                case BiomeType.DESERT:
+                    return this.GetVegetationRatioFromDesert(altitude);
+                case BiomeType.RAINFOREST:
+                    return this.GetVegetationRatioFromRainForest(altitude);
+                case BiomeType.SAVANNA:
+                    return this.GetVegetationRatioFromSavanna(altitude);
+                case BiomeType.SEASONAL_FOREST:
+                    return this.GetVegetationRatioFromSeasonalForest(altitude);
+                case BiomeType.TEMPERATE_FOREST:
+                    return this.GetVegetationRatioFromTemperateForest(altitude);
+                case BiomeType.TEMPERATE_RAINFOREST:
+                    return this.GetVegetationRatioFromTemperateRainForest(altitude);
+                case BiomeType.TROPICAL_WOODLAND:
+                    return this.GetVegetationRatioFromTropicalWoodland(altitude);
+                case BiomeType.TUNDRA:
+                    return this.GetVegetationRatioFromTundra(altitude);
+            }
+            return 0;
+        }
+
+        private float GetVegetationRatioFromBorealForest(int altitude)
+        {
+            if (altitude > this.seaAltitude)
+            {
+                if (altitude < this.seaAltitude + 3)
+                {
+                    return 0.1f;
+                }
+                else if (altitude < this.seaAltitude + 5)
+                {
+                    return 0.02f;
+                }
+            }
+            return 0;
+        }
+
+        private float GetVegetationRatioFromDesert(int altitude)
+        {
+            return 0;
+        }
+
+        private float GetVegetationRatioFromRainForest(int altitude)
+        {
+            if (altitude > this.seaAltitude)
+            {
+                if (altitude < this.seaAltitude + 3)
+                {
+                    return 0.2f;
+                }
+                else if (altitude < this.seaAltitude + 5)
+                {
+                    return 0.04f;
+                }
+            }
+            return 0;
+        }
+
+        private float GetVegetationRatioFromSavanna(int altitude)
+        {
+            if (altitude > this.seaAltitude)
+            {
+                if (altitude < this.seaAltitude + 3)
+                {
+                    return 0.3f;
+                }
+                else if (altitude < this.seaAltitude + 6)
+                {
+                    return 0.2f;
+                }
+            }
+            return 0;
+        }
+
+        private float GetVegetationRatioFromSeasonalForest(int altitude)
+        {
+            if (altitude > this.seaAltitude)
+            {
+                if (altitude < this.seaAltitude + 3)
+                {
+                    return 0.1f;
+                }
+                else if (altitude < this.seaAltitude + 5)
+                {
+                    return 0.02f;
+                }
+            }
+            return 0;
+        }
+
+        private float GetVegetationRatioFromTemperateForest(int altitude)
+        {
+            if (altitude > this.seaAltitude)
+            {
+                if (altitude < this.seaAltitude + 3)
+                {
+                    return 0.1f;
+                }
+                else if (altitude < this.seaAltitude + 5)
+                {
+                    return 0.02f;
+                }
+            }
+            return 0;
+        }
+
+        private float GetVegetationRatioFromTemperateRainForest(int altitude)
+        {
+            if (altitude > this.seaAltitude)
+            {
+                if (altitude < this.seaAltitude + 3)
+                {
+                    return 0.2f;
+                }
+                else if (altitude < this.seaAltitude + 5)
+                {
+                    return 0.04f;
+                }
+            }
+            return 0;
+        }
+
+        private float GetVegetationRatioFromTropicalWoodland(int altitude)
+        {
+            if (altitude > this.seaAltitude)
+            {
+                if (altitude < this.seaAltitude + 3)
+                {
+                    return 0.4f;
+                }
+                else if (altitude < this.seaAltitude + 5)
+                {
+                    return 0.3f;
+                }
+            }
+            return 0;
+        }
+
+        private float GetVegetationRatioFromTundra(int altitude)
+        {
             return 0;
         }
     }
