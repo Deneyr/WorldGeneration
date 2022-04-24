@@ -116,6 +116,15 @@
     <Compile Include="DataChunks\PerlinNoise\PerlinDataCase.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunk.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunkLayer.cs" />
+    <Compile Include="DataChunks\StructureNoise\AStructureDataChunkLayer.cs" />
+    <Compile Include="DataChunks\StructureNoise\AStructureDataChunk.cs" />
+    <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructure.cs" />
+    <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructureContainer.cs" />
+    <Compile Include="DataChunks\StructureNoise\DataStructure\IDataStructure.cs" />
+    <Compile Include="DataChunks\StructureNoise\DataStructure\IDataStructureCase.cs" />
+    <Compile Include="DataChunks\StructureNoise\DataStructure\IDataStructureTemplate.cs" />
+    <Compile Include="DataChunks\StructureNoise\TallGrassStructure\TallGrassStructureDataChunk.cs" />
+    <Compile Include="DataChunks\StructureNoise\TallGrassStructure\TallGrassStructureDataChunkLayer.cs" />
     <Compile Include="DataChunks\VoronoiNoise\BiomeVoronoiNoise\BiomeVoronoiDataCase.cs" />
     <Compile Include="DataChunks\VoronoiNoise\BiomeVoronoiNoise\BiomeVoronoiDataChunk.cs" />
     <Compile Include="DataChunks\VoronoiNoise\BiomeVoronoiNoise\BiomeVoronoiDataChunkLayer.cs" />

@@ -25,14 +25,13 @@ namespace WorldGeneration
         {
 
             //IntRect test1 = new IntRect(0, 0, 1, 3);
-            //IntRect test2 = new IntRect(1, 0, 1, 1);
+            //IntRect test2 = new IntRect(1, 2, 2, 3);
             //bool boo1 = test2.Intersects(test1);
             //bool boo2 = test1.Intersects(test2);
 
             //Console.WriteLine(boo1 + " " + boo2);
 
-
-
+            //Console.WriteLine(test2.Contains(1, 2));
 
             //DSDataChunkLayer dsDataChunkLayer = new DSDataChunkLayer("biome", 7);
             //DataChunkLayersMonitor dataChunkLayerMonitor = new DataChunkLayersMonitor(123);
