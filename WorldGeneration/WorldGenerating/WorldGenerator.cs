@@ -177,17 +177,25 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddAltitudeLayer(0.25f, perlinDataChunkLayer);
 
-            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape4Level4", 32, 1);
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape4Level4", 128, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
-            altitudeDataAgreggator.AddAltitudeLayer(0.11f, perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.12f, perlinDataChunkLayer);
 
-            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape5Level5", 16, 1);
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape5Level5", 64, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
-            altitudeDataAgreggator.AddAltitudeLayer(0.04f, perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.4f, perlinDataChunkLayer);
 
-            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape6Level6", 8, 1);
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape6Level6", 32, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
-            altitudeDataAgreggator.AddAltitudeLayer(0.02f, perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.2f, perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape7Level7", 16, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.1f, perlinDataChunkLayer);
+
+            perlinDataChunkLayer = new PerlinDataChunkLayer("landscape8Level8", 8, 1);
+            this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
+            altitudeDataAgreggator.AddAltitudeLayer(0.05f, perlinDataChunkLayer);
 
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeWaterLevel", 20, 1);
