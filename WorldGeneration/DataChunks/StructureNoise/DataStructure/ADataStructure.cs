@@ -189,11 +189,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int j = 0; j < topIndex; j++)
                 {
-                    (this.dataStructureCases[i, j] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[i, j] = null;
                 }
                 for (int j = 0; j < botIndex; j++)
                 {
-                    (this.dataStructureCases[height - i - 1, j] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[height - i - 1, j] = null;
                 }
             }
             if(height % 2 == 1)
@@ -204,7 +204,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int j = 0; j < topIndex; j++)
                 {
-                    (this.dataStructureCases[midHeight, j] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[midHeight, j] = null;
                 }
             }
 
@@ -238,11 +238,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int j = 0; j < topIndex; j++)
                 {
-                    (this.dataStructureCases[i, width - j - 1] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[i, width - j - 1] = null;
                 }
                 for (int j = 0; j < botIndex; j++)
                 {
-                    (this.dataStructureCases[height - i - 1, width - j - 1] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[height - i - 1, width - j - 1] = null;
                 }
             }
             if (height % 2 == 1)
@@ -253,7 +253,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int j = 0; j < topIndex; j++)
                 {
-                    (this.dataStructureCases[midHeight, width - j - 1] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[midHeight, width - j - 1] = null;
                 }
             }
 
@@ -289,11 +289,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int i = 0; i < leftIndex; i++)
                 {
-                    (this.dataStructureCases[i, j] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[i, j] = null;
                 }
                 for (int i = 0; i < rightIndex; i++)
                 {
-                    (this.dataStructureCases[i, width - j - 1] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[i, width - j - 1] = null;
                 }
             }
             if (width % 2 == 1)
@@ -304,7 +304,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int i = 0; i < leftIndex; i++)
                 {
-                    (this.dataStructureCases[i, midWidth] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[i, midWidth] = null;
                 }
             }
 
@@ -338,11 +338,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int i = 0; i < leftIndex; i++)
                 {
-                    (this.dataStructureCases[height - i - 1, j] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[height - i - 1, j] = null;
                 }
                 for (int i = 0; i < rightIndex; i++)
                 {
-                    (this.dataStructureCases[height - i - 1, width - j - 1] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[height - i - 1, width - j - 1] = null;
                 }
             }
             if (width % 2 == 1)
@@ -353,7 +353,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int i = 0; i < leftIndex; i++)
                 {
-                    (this.dataStructureCases[height - i - 1, midWidth] as TallGrassStructureCase).IsNull = true;
+                    this.dataStructureCases[height - i - 1, midWidth] = null;
                 }
             }
 

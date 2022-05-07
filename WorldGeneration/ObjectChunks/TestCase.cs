@@ -59,7 +59,7 @@ namespace WorldGeneration.ObjectChunks
             set;
         }
 
-        public int IsThereTallGrass
+        public bool IsThereTallGrass
         {
             get;
             set;
@@ -74,7 +74,7 @@ namespace WorldGeneration.ObjectChunks
             this.RiverValue = 0;
             this.IsThereTree = false;
             this.IsThereFlower = false;
-            this.IsThereTallGrass = -1;
+            this.IsThereTallGrass = false;
         }
     }
 }

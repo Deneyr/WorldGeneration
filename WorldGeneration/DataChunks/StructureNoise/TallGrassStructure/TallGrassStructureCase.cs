@@ -9,16 +9,10 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
     internal class TallGrassStructureCase : ADataStructureCase
     {
-        public bool IsNull
-        {
-            get;
-            set;
-        }
-
         public TallGrassStructureCase(IDataStructure parentDataStructure, int x, int y) 
             : base(parentDataStructure, x, y)
         {
-            this.IsNull = false;
+            
         }
     }
 }

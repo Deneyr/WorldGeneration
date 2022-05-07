@@ -219,12 +219,12 @@ namespace WorldGeneration.WorldGenerating
             // Part Tall Grass
             TallGrassStructureDataChunkLayer tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("tallGrass", 128);
             tallGrassStructureDataChunkLayer.NbMinDataStructure = 2;
-            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 14;
+            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 16;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
             tallGrassDataAgreggator.TallGrassBiome = tallGrassStructureDataChunkLayer;
 
-            this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
+            this.dataChunksMonitor.AddAltitudeAgreggatorToGenerator("altitude", altitudeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("weather", weatherDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("2DOffset", offset2DDataAgreggator);

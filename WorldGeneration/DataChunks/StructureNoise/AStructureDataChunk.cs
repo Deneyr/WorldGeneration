@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise
 {
@@ -78,8 +80,8 @@ namespace WorldGeneration.DataChunks.StructureNoise
             }
         }
 
-        public void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
-        { 
+        public virtual void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
+        {
             int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed + parentLayer.Id.GetHashCode());
             Random random = new Random(chunkSeed);
 
@@ -99,12 +101,12 @@ namespace WorldGeneration.DataChunks.StructureNoise
                 int listIndex = random.Next(0, cellList.Count);
                 Vector2i cellCoordinate = cellList[listIndex];
 
-                this.dataStructures[cellCoordinate.X, cellCoordinate.Y] = this.GenerateDataStructure(random, new Vector2i(cellCoordinate.Y * this.nbCaseStructureCell, cellCoordinate.X * this.nbCaseStructureCell));
+                this.dataStructures[cellCoordinate.X, cellCoordinate.Y] = this.GenerateDataStructure(random, dataChunksMonitor, new Vector2i(cellCoordinate.Y * this.nbCaseStructureCell, cellCoordinate.X * this.nbCaseStructureCell));
                 cellList.RemoveAt(listIndex);
             }
         }
 
-        private IDataStructure GenerateDataStructure(Random random, Vector2i cellChunkCoordinate)
+        private IDataStructure GenerateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, Vector2i cellChunkCoordinate)
         {
             int width = random.Next(this.structDimension.Left, this.structDimension.Width + 1);
             int height = random.Next(this.structDimension.Top, this.structDimension.Height + 1);
@@ -112,18 +114,22 @@ namespace WorldGeneration.DataChunks.StructureNoise
             int x = random.Next(cellChunkCoordinate.X, cellChunkCoordinate.X + this.nbCaseStructureCell - width);
             int y = random.Next(cellChunkCoordinate.Y, cellChunkCoordinate.Y + this.nbCaseStructureCell - height);
 
-            //Vector2i structureWorldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x, y)));
+            IntRect structureDim = new IntRect(x, y, width, height);
+            Vector2i structureCenter = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position.X, this.Position.Y, x + width / 2, y + height / 2));
 
-            IDataStructure dataStructure = this.CreateDataStructure(random, new IntRect(x, y, width, height));
+            IDataStructure dataStructure = this.CreateDataStructure(random, dataChunksMonitor, new IntRect(x, y, width, height), structureCenter);
 
-            dataStructure.GenerateStructure(random, null);
+            if (dataStructure != null)
+            {
+                dataStructure.GenerateStructure(random, null);
+            }
 
             return dataStructure;
         }
 
-        protected abstract IDataStructure CreateDataStructure(Random random, IntRect boundingBox);
+        protected abstract IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, Vector2i structureCenter);
 
-        public void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
+        public virtual void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
             // Nothing to do
         }

@@ -20,16 +20,11 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
         }
 
-        public int IsThereTallGrassAtWorldCoordinates(int x, int y)
+        public bool IsThereTallGrassAtWorldCoordinates(int x, int y)
         {
             TallGrassStructureCase tallGrassStructureCase = this.TallGrassBiome.GetCaseAtWorldCoordinates(x, y) as TallGrassStructureCase;
 
-            if(tallGrassStructureCase == null)
-            {
-                return -1;
-            }
-
-            return tallGrassStructureCase.IsNull ? 0 : 1;
+            return tallGrassStructureCase != null;
         }
     }
 }

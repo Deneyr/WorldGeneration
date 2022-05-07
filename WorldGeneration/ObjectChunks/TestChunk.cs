@@ -15,8 +15,6 @@ namespace WorldGeneration.ObjectChunks
 {
     public class TestChunk: IObjectChunk
     {
-        private FloraRatioBiomeManager floraRatioManager;
-
         protected ICase[,] casesArray;
 
         public Vector2i Position
@@ -37,9 +35,6 @@ namespace WorldGeneration.ObjectChunks
         {
             this.Position = position;
             this.NbCaseSide = nbCaseSide;
-
-            //this.notGeneratedCases = null;
-            this.floraRatioManager = new FloraRatioBiomeManager(seaLevel);
 
             this.casesArray = new ICase[this.NbCaseSide, this.NbCaseSide];
             for (int i = 0; i < this.NbCaseSide; i++)
@@ -97,9 +92,11 @@ namespace WorldGeneration.ObjectChunks
 
             if (generatedCase.IsUnderSea == false && generatedCase.RiverValue == 0)
             {
-                generatedCase.IsThereTree = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereTreeAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetTreeRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue));
-                generatedCase.IsThereRock = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereRockAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetRockRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue));
-                generatedCase.IsThereFlower = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereFlowerAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetVegetationRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue));
+                FloraRatioBiomeManager floraRatioManager = objectChunksMonitor.DataChunkMonitor.FloraRatioManager;
+
+                generatedCase.IsThereTree = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereTreeAtWorldCoordinate(position.X, position.Y, floraRatioManager.GetTreeRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue));
+                generatedCase.IsThereRock = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereRockAtWorldCoordinate(position.X, position.Y, floraRatioManager.GetRockRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue));
+                generatedCase.IsThereFlower = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereFlowerAtWorldCoordinate(position.X, position.Y, floraRatioManager.GetVegetationRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue));
                 generatedCase.IsThereTallGrass = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["tallGrass"] as TallGrassDataAgreggator).IsThereTallGrassAtWorldCoordinates(position.X, position.Y);
             }
 

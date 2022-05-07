@@ -7,12 +7,25 @@ using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.ObjectChunks.BiomeManager;
 
 namespace WorldGeneration.DataChunks
 {
     internal class DataChunkLayersMonitor
     {
         internal WeatherMonitor WeatherMonitor
+        {
+            get;
+            private set;
+        }
+
+        internal FloraRatioBiomeManager FloraRatioManager
+        {
+            get;
+            private set;
+        }
+
+        internal TallGrassBiomeManager TallGrassBiomeManager
         {
             get;
             private set;
@@ -65,6 +78,14 @@ namespace WorldGeneration.DataChunks
         internal void AddDataAgreggatorToGenerator(string id, IDataAgreggator dataAgreggator)
         {
             this.DataAgreggators.Add(id, dataAgreggator);
+        }
+
+        internal void AddAltitudeAgreggatorToGenerator(string id, AltitudeDataAgreggator altitudeDataAgreggator)
+        {
+            this.AddDataAgreggatorToGenerator(id, altitudeDataAgreggator);
+
+            this.FloraRatioManager = new FloraRatioBiomeManager(altitudeDataAgreggator.SeaLevel);
+            this.TallGrassBiomeManager = new TallGrassBiomeManager(altitudeDataAgreggator.SeaLevel);
         }
 
         internal void UpdateWorldArea(IntRect newWorldArea)
