@@ -117,7 +117,7 @@ namespace WorldGeneration.DataChunks
         {
             foreach(ChunkContainer chunkContainer in obj)
             {
-                (chunkContainer.ContainedChunk as ADataChunk).PrepareChunk(this.DataChunksMonitor, this);
+                (chunkContainer.ContainedChunk as IDataChunk).PrepareChunk(this.DataChunksMonitor, this);
             }
         }
 
@@ -125,7 +125,7 @@ namespace WorldGeneration.DataChunks
         {
             foreach (ChunkContainer chunkContainer in obj)
             {
-                (chunkContainer.ContainedChunk as ADataChunk).GenerateChunk(this.DataChunksMonitor, this);
+                (chunkContainer.ContainedChunk as IDataChunk).GenerateChunk(this.DataChunksMonitor, this);
             }
         }
 

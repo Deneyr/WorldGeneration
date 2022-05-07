@@ -97,6 +97,17 @@ namespace WorldGeneration.ViewTest
                     {
                         color = new Color(150, 150, 150);
                     }
+                    else if (testCase.IsThereTallGrass >= 0) /*&& testCase.AltitudeValue < 18)*/
+                    {
+                        if (testCase.IsThereTallGrass == 0)
+                        {
+                            //color = Color.Cyan;
+                        }
+                        else
+                        {
+                            color = Color.Yellow;
+                        }
+                    }
                     else if (testCase.IsThereFlower) /*&& testCase.AltitudeValue < 18)*/
                     {
                         color = Color.Red;

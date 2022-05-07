@@ -66,7 +66,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             this.nbStructures = random.Next(this.nbMinDataStructure, this.nbMaxDataStructure + 1);
             this.nbStructureCells = (int) Math.Ceiling(Math.Sqrt(nbStructures));
 
-            this.nbCaseStructureCell = this.NbCaseSide / nbStructureCells;
+            this.nbCaseStructureCell = this.NbCaseSide / this.nbStructureCells;
 
             this.dataStructures = new IDataStructure[this.nbStructureCells, this.nbStructureCells];
             for(int i = 0; i < this.nbStructureCells; i++)
@@ -116,6 +116,8 @@ namespace WorldGeneration.DataChunks.StructureNoise
 
             IDataStructure dataStructure = this.CreateDataStructure(random, new IntRect(x, y, width, height));
 
+            dataStructure.GenerateStructure(random, null);
+
             return dataStructure;
         }
 
@@ -123,7 +125,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
 
         public void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
-            
+            // Nothing to do
         }
 
         public ICase GetCaseAtLocal(int x, int y)
@@ -131,11 +133,14 @@ namespace WorldGeneration.DataChunks.StructureNoise
             int cellCoordinateX = x / this.nbCaseStructureCell;
             int cellCoordinateY = y / this.nbCaseStructureCell;
 
-            IDataStructure dataStructure = this.dataStructures[cellCoordinateY, cellCoordinateX];
-
-            if(dataStructure != null)
+            if (cellCoordinateX < this.nbStructureCells && cellCoordinateY < this.nbStructureCells)
             {
-                return dataStructure.GetStructureCaseAtChunkCoordinate(x, y);
+                IDataStructure dataStructure = this.dataStructures[cellCoordinateY, cellCoordinateX];
+
+                if (dataStructure != null)
+                {
+                    return dataStructure.GetStructureCaseAtChunkCoordinate(x, y);
+                }
             }
 
             return null;

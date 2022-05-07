@@ -20,6 +20,11 @@ namespace WorldGeneration.DataChunks.DataAgreggator
         {
         }
 
+        public float GetFloraVariationAtWorldCoordinate(int x, int y)
+        {
+            return (this.FloraLayer.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
+        }
+
         public bool IsThereTreeAtWorldCoordinate(int x, int y, float treeRatio, double randomValue)
         {
             float perlinValue = (this.FloraLayer.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;

@@ -18,7 +18,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 
         protected override IDataStructure CreateDataStructure(Random random, IntRect boundingBox)
         {
-            return null;
+            return new TallGrassStructure(boundingBox.Left, boundingBox.Top, boundingBox.Width, boundingBox.Height);
         }
     }
 }

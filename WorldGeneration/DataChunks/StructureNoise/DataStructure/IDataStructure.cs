@@ -14,7 +14,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             get;
         }
 
-        void GenerateStructure(IDataStructureTemplate structureTemplate);
+        void GenerateStructure(Random random, IDataStructureTemplate structureTemplate);
 
         IDataStructureCase GetStructureCaseAtChunkCoordinate(int x, int y);
     }

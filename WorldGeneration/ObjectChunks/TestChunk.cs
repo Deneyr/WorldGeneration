@@ -100,6 +100,7 @@ namespace WorldGeneration.ObjectChunks
                 generatedCase.IsThereTree = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereTreeAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetTreeRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue), random.NextDouble());
                 generatedCase.IsThereRock = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereRockAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetRockRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue), random.NextDouble());
                 generatedCase.IsThereFlower = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator).IsThereFlowerAtWorldCoordinate(position.X, position.Y, this.floraRatioManager.GetVegetationRatioFromBiomeAltitude(generatedCase.BiomeValue, generatedCase.AltitudeValue), random.NextDouble());
+                generatedCase.IsThereTallGrass = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["tallGrass"] as TallGrassDataAgreggator).IsThereTallGrassAtWorldCoordinates(position.X, position.Y);
             }
 
             return generatedCase;

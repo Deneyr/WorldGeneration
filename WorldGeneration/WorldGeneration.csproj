@@ -100,6 +100,7 @@
     <Compile Include="DataChunks\DataAgreggator\IDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\Offset2DDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\RiverDataAgreggator.cs" />
+    <Compile Include="DataChunks\DataAgreggator\TallGrassDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\TestNoiseDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\WeatherDataAgreggator.cs" />
     <Compile Include="DataChunks\DataChunkLayersMonitor.cs" />
@@ -119,10 +120,14 @@
     <Compile Include="DataChunks\StructureNoise\AStructureDataChunkLayer.cs" />
     <Compile Include="DataChunks\StructureNoise\AStructureDataChunk.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructure.cs" />
+    <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructureCase.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructureContainer.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\IDataStructure.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\IDataStructureCase.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\IDataStructureTemplate.cs" />
+    <Compile Include="DataChunks\StructureNoise\DataStructure\PerlinStructureNoise.cs" />
+    <Compile Include="DataChunks\StructureNoise\TallGrassStructure\TallGrassStructure.cs" />
+    <Compile Include="DataChunks\StructureNoise\TallGrassStructure\TallGrassStructureCase.cs" />
     <Compile Include="DataChunks\StructureNoise\TallGrassStructure\TallGrassStructureDataChunk.cs" />
     <Compile Include="DataChunks\StructureNoise\TallGrassStructure\TallGrassStructureDataChunkLayer.cs" />
     <Compile Include="DataChunks\VoronoiNoise\BiomeVoronoiNoise\BiomeVoronoiDataCase.cs" />

@@ -12,6 +12,7 @@ using WorldGeneration.DataChunks.DSNoise;
 using WorldGeneration.DataChunks.DSNoise.BiomeDSNoise;
 using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise;
+using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
 using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 using WorldGeneration.ObjectChunks;
@@ -124,6 +125,7 @@ namespace WorldGeneration.WorldGenerating
             Offset2DDataAgreggator offset2DDataAgreggator = new Offset2DDataAgreggator();
             RiverDataAgreggator riverDataAgreggator = new RiverDataAgreggator();
             FloraDataAgreggator floraDataAgreggator = new FloraDataAgreggator();
+            TallGrassDataAgreggator tallGrassDataAgreggator = new TallGrassDataAgreggator();
 
             // Part Biomes
 
@@ -209,12 +211,21 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataLayerToGenerator(hPerlinDataChunkLayer);
             floraDataAgreggator.FloraLayer = hPerlinDataChunkLayer;
 
+            // Part Tall Grass
+            TallGrassStructureDataChunkLayer tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("tallGrass", 256);
+            tallGrassStructureDataChunkLayer.NbMinDataStructure = 50;
+            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 70;
+            tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);
+            this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
+            tallGrassDataAgreggator.TallGrassBiome = tallGrassStructureDataChunkLayer;
+
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("altitude", altitudeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("weather", weatherDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("2DOffset", offset2DDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("river", riverDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("flora", floraDataAgreggator);
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("tallGrass", tallGrassDataAgreggator);
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("test", testNoiseDataAgreggator);
         }

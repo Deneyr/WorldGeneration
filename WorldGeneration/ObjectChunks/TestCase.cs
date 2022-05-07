@@ -59,6 +59,12 @@ namespace WorldGeneration.ObjectChunks
             set;
         }
 
+        public int IsThereTallGrass
+        {
+            get;
+            set;
+        }
+
         public TestCase(int x, int y)
         {
             this.Position = new Vector2i(x, y);
@@ -68,6 +74,7 @@ namespace WorldGeneration.ObjectChunks
             this.RiverValue = 0;
             this.IsThereTree = false;
             this.IsThereFlower = false;
+            this.IsThereTallGrass = -1;
         }
     }
 }
