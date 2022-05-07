@@ -117,6 +117,9 @@
     <Compile Include="DataChunks\PerlinNoise\PerlinDataCase.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunk.cs" />
     <Compile Include="DataChunks\PerlinNoise\PerlinDataChunkLayer.cs" />
+    <Compile Include="DataChunks\PureNoise\PureNoiseDataCase.cs" />
+    <Compile Include="DataChunks\PureNoise\PureNoiseDataChunk.cs" />
+    <Compile Include="DataChunks\PureNoise\PureNoiseDataChunkLayer.cs" />
     <Compile Include="DataChunks\StructureNoise\AStructureDataChunkLayer.cs" />
     <Compile Include="DataChunks\StructureNoise\AStructureDataChunk.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructure.cs" />

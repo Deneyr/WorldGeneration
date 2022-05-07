@@ -12,6 +12,7 @@ using WorldGeneration.DataChunks.DSNoise;
 using WorldGeneration.DataChunks.DSNoise.BiomeDSNoise;
 using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise;
+using WorldGeneration.DataChunks.PureNoise;
 using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
 using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
@@ -127,6 +128,10 @@ namespace WorldGeneration.WorldGenerating
             FloraDataAgreggator floraDataAgreggator = new FloraDataAgreggator();
             TallGrassDataAgreggator tallGrassDataAgreggator = new TallGrassDataAgreggator();
 
+            PureNoiseDataChunkLayer pureNoiseDataChunkLayer = new PureNoiseDataChunkLayer("pureNoise", 32);
+            this.dataChunksMonitor.AddDataLayerToGenerator(pureNoiseDataChunkLayer);
+            floraDataAgreggator.PureNoiseLayer = pureNoiseDataChunkLayer;
+
             // Part Biomes
 
             BiomeDSDataChunkLayer biomeDSDataChunkLayer = new BiomeDSDataChunkLayer("biomeOffset", 5, 2);
@@ -212,9 +217,9 @@ namespace WorldGeneration.WorldGenerating
             floraDataAgreggator.FloraLayer = hPerlinDataChunkLayer;
 
             // Part Tall Grass
-            TallGrassStructureDataChunkLayer tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("tallGrass", 256);
-            tallGrassStructureDataChunkLayer.NbMinDataStructure = 50;
-            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 70;
+            TallGrassStructureDataChunkLayer tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("tallGrass", 128);
+            tallGrassStructureDataChunkLayer.NbMinDataStructure = 2;
+            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 14;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
             tallGrassDataAgreggator.TallGrassBiome = tallGrassStructureDataChunkLayer;
