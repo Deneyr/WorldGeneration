@@ -121,6 +121,7 @@ namespace WorldGeneration.WorldGenerating
 
             // End Test
 
+            AltitudeDataAgreggator altitudeDataAgreggator = new AltitudeDataAgreggator(32);
             WeatherDataAgreggator weatherDataAgreggator = new WeatherDataAgreggator();
             BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator();
             Offset2DDataAgreggator offset2DDataAgreggator = new Offset2DDataAgreggator();
@@ -170,8 +171,6 @@ namespace WorldGeneration.WorldGenerating
 
             // Region is 1024 cases width
             // high period 2048 cases ? lets try three octaves deep after it
-            AltitudeDataAgreggator altitudeDataAgreggator = new AltitudeDataAgreggator(32);
-
             PerlinDataChunkLayer perlinDataChunkLayer = new PerlinDataChunkLayer("landscape", 1024, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
             altitudeDataAgreggator.AddAltitudeLayer(1, perlinDataChunkLayer);
@@ -217,12 +216,21 @@ namespace WorldGeneration.WorldGenerating
             floraDataAgreggator.FloraLayer = hPerlinDataChunkLayer;
 
             // Part Tall Grass
-            TallGrassStructureDataChunkLayer tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("tallGrass", 128);
-            tallGrassStructureDataChunkLayer.NbMinDataStructure = 2;
-            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 16;
-            tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);
+            TallGrassStructureDataChunkLayer tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("tallGrass", 256);
+            tallGrassStructureDataChunkLayer.NbMinDataStructure = 4;
+            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 20;
+            tallGrassStructureDataChunkLayer.StructDimension = new IntRect(20, 20, 40, 40);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
             tallGrassDataAgreggator.TallGrassBiome = tallGrassStructureDataChunkLayer;
+
+            tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("secondTallGrass", 128);
+            tallGrassStructureDataChunkLayer.NbMinDataStructure = 4;
+            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 20;
+            tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);
+            this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
+            tallGrassDataAgreggator.SecondTallGrassBiome = tallGrassStructureDataChunkLayer;
+
+            // Register data aggregators
 
             this.dataChunksMonitor.AddAltitudeAgreggatorToGenerator("altitude", altitudeDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("biome", biomeDataAgreggator);

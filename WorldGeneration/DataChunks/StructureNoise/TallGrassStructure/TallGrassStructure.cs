@@ -27,7 +27,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
                 }
             }
 
-            this.GenerateStructureBoundaries2(random, 4, 1);
+            this.GenerateStructureBoundaries2(random, Math.Min(heightMax, widthMax) / 3, 1);
         }
     }
 }

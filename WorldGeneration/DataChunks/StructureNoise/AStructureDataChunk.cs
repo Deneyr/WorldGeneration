@@ -66,8 +66,11 @@ namespace WorldGeneration.DataChunks.StructureNoise
         private void InitDataStructureArray(Random random)
         {
             this.nbStructures = random.Next(this.nbMinDataStructure, this.nbMaxDataStructure + 1);
-            this.nbStructureCells = (int) Math.Ceiling(Math.Sqrt(nbStructures));
 
+            int minSideCells = (int) Math.Ceiling(Math.Sqrt(this.nbStructures));
+            int maxSideCells = this.NbCaseSide / Math.Max(this.structDimension.Width, this.structDimension.Height);
+
+            this.nbStructureCells = random.Next(minSideCells, maxSideCells + 1);
             this.nbCaseStructureCell = this.NbCaseSide / this.nbStructureCells;
 
             this.dataStructures = new IDataStructure[this.nbStructureCells, this.nbStructureCells];
