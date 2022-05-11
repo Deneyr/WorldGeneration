@@ -8,5 +8,16 @@ namespace WorldGeneration.ObjectChunks
 {
     public interface IObjectChunkLayer
     {
+        int ObjectChunkMargin
+        {
+            get;
+        }
+
+        string Id
+        {
+            get;
+        }
+
+        void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk);
     }
 }

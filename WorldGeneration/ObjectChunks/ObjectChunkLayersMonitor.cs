@@ -18,6 +18,12 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
+        internal List<IObjectChunkLayer> ObjectChunksLayers
+        {
+            get;
+            private set;
+        }
+
         public int NbCaseSide
         {
             get;
@@ -35,16 +41,58 @@ namespace WorldGeneration.ObjectChunks
             this.WorldSeed = worldSeed;
             this.NbCaseSide = nbCaseSide;
 
+            this.ObjectChunksLayers = new List<IObjectChunkLayer>();
+
             this.DataChunkMonitor = dataChunkLayersMonitor;
         }
 
-        public IChunk GenerateChunkAt(Vector2i position)
+        internal void AddObjectLayerToGenerator(IObjectChunkLayer objectChunkLayerToAdd)
         {
-            TestChunk newChunk = new TestChunk(position, this.NbCaseSide, (this.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator).SeaLevel);
+            this.ObjectChunksLayers.Add(objectChunkLayerToAdd);
+        }
 
-            newChunk.GenerateChunk(this, null);
+        private float timeMean = 0;
+        private int nb = 0;
+
+        public IObjectChunk GenerateChunkAt(Vector2i position)
+        {
+            //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
+            //sw.Start();
+
+            //TestChunk newChunk = new TestChunk(position, this.NbCaseSide, (this.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator).SeaLevel);
+
+            //newChunk.GenerateChunk(this, null);
+
+            //sw.Stop();
+
+            //timeMean = timeMean * nb + sw.ElapsedMilliseconds;
+            //nb++;
+            //timeMean = timeMean / nb;
+
+            //return newChunk;
+
+            IObjectChunk newChunk = this.CreateObjectChunkAt(position);
+
+            foreach (IObjectChunkLayer objectChunkLayer in this.ObjectChunksLayers)
+            {
+                objectChunkLayer.ComputeObjectChunk(this, newChunk);
+            }
+
+            //sw.Stop();
+
+            //timeMean = timeMean * nb + sw.ElapsedMilliseconds;
+            //nb++;
+            //timeMean = timeMean / nb;
 
             return newChunk;
+        }
+
+        private IObjectChunk CreateObjectChunkAt(Vector2i position)
+        {
+            int nbAltitudeLevel = (this.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator).NbAltitudeLevel;
+
+            return new ObjectChunk(position, this.NbCaseSide, nbAltitudeLevel);
         }
     }
 }

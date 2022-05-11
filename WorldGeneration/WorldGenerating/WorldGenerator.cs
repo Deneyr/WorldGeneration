@@ -17,6 +17,7 @@ using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
 using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 using WorldGeneration.ObjectChunks;
+using WorldGeneration.ObjectChunks.ObjectChunkLayers;
 
 namespace WorldGeneration.WorldGenerating
 {
@@ -109,6 +110,8 @@ namespace WorldGeneration.WorldGenerating
 
         public void ConstructWorldGenerator2()
         {
+            // PART DATAS
+
             // Test
             TestNoiseDataAgreggator testNoiseDataAgreggator = new TestNoiseDataAgreggator();
 
@@ -241,6 +244,23 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("tallGrass", tallGrassDataAgreggator);
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("test", testNoiseDataAgreggator);
+
+            // PART OBJECTS
+
+            BiomeObjectChunkLayer biomeObjectChunkLayer = new BiomeObjectChunkLayer("biomeLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(biomeObjectChunkLayer);
+
+            AltitudeObjectChunkLayer altitudeObjectChunkLayer = new AltitudeObjectChunkLayer("altitudeLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(altitudeObjectChunkLayer);
+
+            FloraCObjectChunkLayer floraCObjectChunkLayer = new FloraCObjectChunkLayer("floraCLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(floraCObjectChunkLayer);
+
+            StructureTallGrassObjectChunkLayer structureTallGrassObjectChunkLayer = new StructureTallGrassObjectChunkLayer("structureTallGrassLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(structureTallGrassObjectChunkLayer);
+
+            FloraNCObjectChunkLayer floraNCObjectChunkLayer = new FloraNCObjectChunkLayer("floraNCLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(floraNCObjectChunkLayer);
         }
 
         private void InternalUpdate()

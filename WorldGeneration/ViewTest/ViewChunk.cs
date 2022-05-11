@@ -65,16 +65,21 @@ namespace WorldGeneration.ViewTest
             {
                 for (int j = 0; j < this.NbCaseSide; j++)
                 {
-                    TestCase testCase = ChunkHelper.GetCaseAtLocalCoordinates(chunk, j, i) as TestCase;
+                    ZObjectCase zObjectCase = ChunkHelper.GetCaseAtLocalCoordinates(chunk, j, i) as ZObjectCase;
+                    ObjectCase testCase = zObjectCase[zObjectCase.GroundAltitude] as ObjectCase;
+                    //TestCase testCase = ChunkHelper.GetCaseAtLocalCoordinates(chunk, j, i) as TestCase;
 
                     RectangleShape rectangle = new RectangleShape(new Vector2f(16, 16));
 
                     //Color color = Color.White;
-                    Color color = biomeValueToColor[testCase.BiomeValue];
+                    Color color = biomeValueToColor[zObjectCase.ObjectBiome];
+                    //Color color = biomeValueToColor[testCase.BiomeValue];
 
-                    color = this.GetAltitudeColor(testCase.AltitudeValue);
+                    color = this.GetAltitudeColor(testCase.Altitude);
+                    //color = this.GetAltitudeColor(testCase.AltitudeValue);
 
-                    float colorValue = testCase.AltitudeValue / 32f;
+                    float colorValue = testCase.Altitude / 32f;
+                    //float colorValue = testCase.AltitudeValue / 32f;
                     //float colorValue = testCase.TestValue;
 
                     color.R = (byte)(color.R * colorValue);

@@ -40,7 +40,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             TallGrassStructure tallGrassStructure = null;
             if (random.NextDouble() < ratio)
             {
-                tallGrassStructure = new TallGrassStructure(boundingBox.Left, boundingBox.Top, boundingBox.Width, boundingBox.Height);
+                tallGrassStructure = new TallGrassStructure(structureCenter, biomeValue, boundingBox);
             }
 
             return tallGrassStructure;

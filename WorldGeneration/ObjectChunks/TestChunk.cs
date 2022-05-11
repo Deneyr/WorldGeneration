@@ -29,6 +29,8 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
+        public IZObjectCase[,] ZCasesArray => throw new NotImplementedException();
+
         //protected List<Vector2i> notGeneratedCases;
 
         public TestChunk(Vector2i position, int nbCaseSide, int seaLevel)

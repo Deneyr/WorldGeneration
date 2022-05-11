@@ -9,6 +9,9 @@ namespace WorldGeneration.ObjectChunks
 {
     public interface IObjectChunk : IChunk
     {
-        bool GenerateChunk(ObjectChunkLayersMonitor dataChunksMonitor, IObjectChunkLayer parentLayer);
+        IZObjectCase[,] ZCasesArray
+        {
+            get;
+        }
     }
 }

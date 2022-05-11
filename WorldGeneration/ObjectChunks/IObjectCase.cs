@@ -9,5 +9,9 @@ namespace WorldGeneration.ObjectChunks
 {
     public interface IObjectCase : ICase
     {
+        int Altitude
+        {
+            get;
+        }
     }
 }

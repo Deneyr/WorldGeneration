@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
+using SFML.System;
 using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 {
@@ -12,16 +14,29 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
     {
         protected IDataStructureCase[,] dataStructureCases;
 
+        public Vector2i StructureWorldCenter
+        {
+            get;
+        }
+
+        public BiomeType StructureBiome
+        {
+            get;
+        }
+
         public IntRect StructureBoundingBox
         {
             get;
             private set;
         }
 
-        public ADataStructure(int left, int top, int width, int height)
+        public ADataStructure(Vector2i structureWorldCenter, BiomeType structureBiome, IntRect structureBoundingBox)
         {
-            this.StructureBoundingBox = new IntRect(left, top, width, height);
-            this.dataStructureCases = new IDataStructureCase[height, width];
+            this.StructureWorldCenter = structureWorldCenter;
+            this.StructureBiome = structureBiome;
+
+            this.StructureBoundingBox = structureBoundingBox;
+            this.dataStructureCases = new IDataStructureCase[structureBoundingBox.Height, structureBoundingBox.Width];
         }
 
         public abstract void GenerateStructure(Random random, IDataStructureTemplate structureTemplate);

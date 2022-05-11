@@ -1,16 +1,19 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
     internal class TallGrassStructure : ADataStructure
     {
-        public TallGrassStructure(int left, int top, int width, int height) 
-            : base(left, top, width, height)
+        public TallGrassStructure(Vector2i structureWorldCenter, BiomeType structureBiome, IntRect structureBoundingBox) 
+            : base(structureWorldCenter, structureBiome, structureBoundingBox)
         {
         }
 
