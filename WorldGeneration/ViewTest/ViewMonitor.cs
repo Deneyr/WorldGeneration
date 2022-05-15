@@ -122,19 +122,19 @@ namespace WorldGeneration.ViewTest
             }
 
             this.CurrentViewSize = new Vector2f(1920, 1080);
-            View newView = new View(this.Position, this.CurrentViewSize);
+            View newView = new View(new Vector2f((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2), this.CurrentViewSize);
             newView.Zoom(this.currentZoom);
 
             FloatRect viewBound = new FloatRect(newView.Center.X - newView.Size.X / 2, newView.Center.Y - newView.Size.Y / 2, newView.Size.X, newView.Size.Y);
             IntRect worldViewArea = ViewAreaToWorldArea(viewBound);
             worldMonitor.WorldArea = worldViewArea;
 
-            RectangleShape rectangleShape = new RectangleShape(newView.Size);
-            rectangleShape.Origin = new Vector2f(newView.Size.X / 2, newView.Size.Y / 2);
-            rectangleShape.Position = this.Position;
-            rectangleShape.OutlineThickness = 5;
-            rectangleShape.OutlineColor = Color.Red;
-            rectangleShape.FillColor = Color.Transparent;
+            //RectangleShape rectangleShape = new RectangleShape(newView.Size);
+            //rectangleShape.Origin = new Vector2f(newView.Size.X / 2, newView.Size.Y / 2);
+            //rectangleShape.Position = this.Position;
+            //rectangleShape.OutlineThickness = 5;
+            //rectangleShape.OutlineColor = Color.Red;
+            //rectangleShape.FillColor = Color.Transparent;
 
             // newView.Zoom(this.currentZoom + 1);
 
@@ -154,7 +154,7 @@ namespace WorldGeneration.ViewTest
                 //}
             }
 
-            window.Draw(rectangleShape);
+            //window.Draw(rectangleShape);
 
             //sw.Stop();
 

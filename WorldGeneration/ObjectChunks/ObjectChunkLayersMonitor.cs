@@ -51,8 +51,8 @@ namespace WorldGeneration.ObjectChunks
             this.ObjectChunksLayers.Add(objectChunkLayerToAdd);
         }
 
-        private float timeMean = 0;
-        private int nb = 0;
+        //private float timeMean = 0;
+        //private int nb = 0;
 
         public IObjectChunk GenerateChunkAt(Vector2i position)
         {
