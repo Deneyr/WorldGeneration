@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.System;
+using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace WorldGeneration.ObjectChunks
 {
@@ -16,6 +17,12 @@ namespace WorldGeneration.ObjectChunks
         }
 
         public Vector2i Position
+        {
+            get;
+            private set;
+        }
+
+        public LandCase Land
         {
             get;
             private set;
@@ -65,6 +72,8 @@ namespace WorldGeneration.ObjectChunks
         {
             this.Position = worldPosition;
             this.Altitude = altitude;
+
+            this.Land = new LandCase();
         }
     }
 }
