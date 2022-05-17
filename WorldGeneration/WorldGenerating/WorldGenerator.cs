@@ -253,6 +253,12 @@ namespace WorldGeneration.WorldGenerating
             AltitudeObjectChunkLayer altitudeObjectChunkLayer = new AltitudeObjectChunkLayer("altitudeLayer");
             this.objectChunkMonitor.AddObjectLayerToGenerator(altitudeObjectChunkLayer);
 
+            BiomeTransitionObjectChunkLayer biomeTransitionObjectChunkLayer = new BiomeTransitionObjectChunkLayer("biomeTransitionLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(biomeTransitionObjectChunkLayer);
+
+            AltitudeTransitionObjectChunkLayer altitudeTransitionObjectChunkLayer = new AltitudeTransitionObjectChunkLayer("altitudeTransitionLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(altitudeTransitionObjectChunkLayer);
+
             FloraCObjectChunkLayer floraCObjectChunkLayer = new FloraCObjectChunkLayer("floraCLayer");
             this.objectChunkMonitor.AddObjectLayerToGenerator(floraCObjectChunkLayer);
 

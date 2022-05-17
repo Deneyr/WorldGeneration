@@ -30,6 +30,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
 
             List<LandTransition> landTransitions = this.altitudeObjectChunkLayer.GetLandTransitionAtLocal(localPosition.X, localPosition.Y);
+            LandCase firstLandCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
             int currentAltitude = zObjectCase.GroundAltitude;
 
             foreach(LandTransition landTransition in landTransitions)
@@ -42,8 +43,13 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
                 }
 
                 LandCase landCase = (zObjectCase[currentAltitude] as ObjectCase).Land;
-                landCase.LandWall = landCase.LandGroundList.First().Clone() as ILandWall;
+                landCase.LandWall = firstLandCase.LandGroundList.First().Clone() as ILandWall;
                 landCase.LandWall.LandTransition = landTransition;
+
+                foreach(ILandGround landGround in firstLandCase.LandGroundList)
+                {
+                    landCase.LandGroundOverWallList.Add(landGround.Clone(landTransition) as ILandGround);
+                }
 
                 currentAltitude++;
             }

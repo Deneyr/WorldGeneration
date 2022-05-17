@@ -163,6 +163,7 @@
     <Compile Include="ObjectChunks\ObjectChunkLayers\AltitudeObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayers\AltitudeTransitionObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayers\BiomeObjectChunkLayer.cs" />
+    <Compile Include="ObjectChunks\ObjectChunkLayers\BiomeTransitionObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayers\FloraNCObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayers\FloraCObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayers\StructureTallGrassObjectChunkLayer.cs" />
