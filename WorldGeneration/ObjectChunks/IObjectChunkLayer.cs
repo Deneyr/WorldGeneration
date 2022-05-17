@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorldGeneration.ObjectChunks
 {
-    public interface IObjectChunkLayer
+    internal interface IObjectChunkLayer
     {
         int ObjectChunkMargin
         {
@@ -17,6 +17,8 @@ namespace WorldGeneration.ObjectChunks
         {
             get;
         }
+
+        void InitObjectChunkLayer(int nbCaseSide);
 
         void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk);
     }

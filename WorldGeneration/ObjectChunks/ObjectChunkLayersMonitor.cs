@@ -10,7 +10,7 @@ using WorldGeneration.DataChunks.DataAgreggator;
 
 namespace WorldGeneration.ObjectChunks
 {
-    public class ObjectChunkLayersMonitor
+    internal class ObjectChunkLayersMonitor
     {
         internal DataChunkLayersMonitor DataChunkMonitor
         {
@@ -18,13 +18,19 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
-        internal List<IObjectChunkLayer> ObjectChunksLayers
+        internal List<IObjectChunkLayer> WorldObjectLayers
         {
             get;
             private set;
         }
 
-        public int NbCaseSide
+        internal Dictionary<string, IObjectChunkLayer> ObjectChunksLayers
+        {
+            get;
+            private set;
+        }
+
+        internal int NbCaseSide
         {
             get;
             private set;
@@ -36,25 +42,39 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
+        internal int MaxObjectChunkLayerMargin
+        {
+            get;
+            private set;
+        }
+
         internal ObjectChunkLayersMonitor(DataChunkLayersMonitor dataChunkLayersMonitor, int nbCaseSide, int worldSeed)
         {
             this.WorldSeed = worldSeed;
             this.NbCaseSide = nbCaseSide;
 
-            this.ObjectChunksLayers = new List<IObjectChunkLayer>();
+            this.MaxObjectChunkLayerMargin = 0;
+
+            this.WorldObjectLayers = new List<IObjectChunkLayer>();
+            this.ObjectChunksLayers = new Dictionary<string, IObjectChunkLayer>();
 
             this.DataChunkMonitor = dataChunkLayersMonitor;
         }
 
         internal void AddObjectLayerToGenerator(IObjectChunkLayer objectChunkLayerToAdd)
         {
-            this.ObjectChunksLayers.Add(objectChunkLayerToAdd);
+            this.WorldObjectLayers.Add(objectChunkLayerToAdd);
+            this.ObjectChunksLayers.Add(objectChunkLayerToAdd.Id, objectChunkLayerToAdd);
+
+            objectChunkLayerToAdd.InitObjectChunkLayer(this.NbCaseSide);
+
+            this.MaxObjectChunkLayerMargin = Math.Max(this.MaxObjectChunkLayerMargin, objectChunkLayerToAdd.ObjectChunkMargin);
         }
 
         //private float timeMean = 0;
         //private int nb = 0;
 
-        public IObjectChunk GenerateChunkAt(Vector2i position)
+        internal IObjectChunk GenerateChunkAt(Vector2i position)
         {
             //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
@@ -74,7 +94,7 @@ namespace WorldGeneration.ObjectChunks
 
             IObjectChunk newChunk = this.CreateObjectChunkAt(position);
 
-            foreach (IObjectChunkLayer objectChunkLayer in this.ObjectChunksLayers)
+            foreach (IObjectChunkLayer objectChunkLayer in this.WorldObjectLayers)
             {
                 objectChunkLayer.ComputeObjectChunk(this, newChunk);
             }

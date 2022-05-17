@@ -31,6 +31,6 @@ namespace WorldGeneration.ObjectChunks
             get;
         }
 
-        void SetCaseAt(IObjectCase objectCase, int altitude);
+        void SetCaseAt(IObjectCase objectCase);
     }
 }

@@ -12,6 +12,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
         LandTransition LandTransition
         {
             get;
+            set;
         }
 
         ILandObject Clone(LandTransition wallLandTransition);

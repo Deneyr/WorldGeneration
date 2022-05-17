@@ -75,7 +75,7 @@ namespace WorldGeneration.ViewTest
                     Color color = biomeValueToColor[zObjectCase.ObjectBiome];
                     //Color color = biomeValueToColor[testCase.BiomeValue];
 
-                    color = this.GetAltitudeColor(testCase.Altitude);
+                    //color = this.GetAltitudeColor(testCase.Altitude);
                     //color = this.GetAltitudeColor(testCase.AltitudeValue);
 
                     float colorValue = testCase.Altitude / 32f;
@@ -86,30 +86,30 @@ namespace WorldGeneration.ViewTest
                     color.G = (byte)(color.G * colorValue);
                     color.B = (byte)(color.B * colorValue);
 
-                    if (testCase.IsUnderSea /*|| testCase.TestValue > 0*/)
-                    {
-                        color = Color.Black;
-                    }
-                    else if (testCase.RiverValue > 0)
-                    {
+                    //if (testCase.IsUnderSea /*|| testCase.TestValue > 0*/)
+                    //{
+                    //    color = Color.Black;
+                    //}
+                    //else if (testCase.RiverValue > 0)
+                    //{
 
-                    }
-                    else if (testCase.IsThereTree) /*&& testCase.AltitudeValue < 20)*/
-                    {
-                        color = Color.Green;
-                    }
-                    else if (testCase.IsThereRock) /*&& testCase.AltitudeValue < 18)*/
-                    {
-                        color = new Color(150, 150, 150);
-                    }
-                    else if (testCase.IsThereTallGrass) /*&& testCase.AltitudeValue < 18)*/
-                    {
-                        color = Color.Yellow;
-                    }
-                    else if (testCase.IsThereFlower) /*&& testCase.AltitudeValue < 18)*/
-                    {
-                        color = Color.Red;
-                    }
+                    //}
+                    //else if (testCase.IsThereTree) /*&& testCase.AltitudeValue < 20)*/
+                    //{
+                    //    color = Color.Green;
+                    //}
+                    //else if (testCase.IsThereRock) /*&& testCase.AltitudeValue < 18)*/
+                    //{
+                    //    color = new Color(150, 150, 150);
+                    //}
+                    //else if (testCase.IsThereTallGrass) /*&& testCase.AltitudeValue < 18)*/
+                    //{
+                    //    color = Color.Yellow;
+                    //}
+                    //else if (testCase.IsThereFlower) /*&& testCase.AltitudeValue < 18)*/
+                    //{
+                    //    color = Color.Red;
+                    //}
                     rectangle.FillColor = color;
 
                     Vector2i modelPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(chunk.Position.X, chunk.Position.Y, j, i));

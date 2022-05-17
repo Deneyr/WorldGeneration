@@ -12,7 +12,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
         public LandTransition LandTransition
         {
             get;
-            protected set;
+            set;
         }
 
         public ALandObject()

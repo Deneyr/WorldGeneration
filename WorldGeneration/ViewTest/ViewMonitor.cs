@@ -86,8 +86,11 @@ namespace WorldGeneration.ViewTest
             //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
             //sw.Start();
-
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.T))
+            {
+                this.Position = new Vector2f(0, 0);
+            }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
             {
                 Vector2f position = this.Position;
 

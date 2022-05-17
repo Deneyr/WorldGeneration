@@ -4,21 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
+using WorldGeneration.ObjectChunks.ObjectLands.LandInterface;
 
-namespace WorldGeneration.ObjectChunks.ObjectLands.MountainObject
+namespace WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject
 {
-    public class MountainLandObject : GroundLandObject
+    public class TropicalWoodlandGroundLandObject : GroundLandObject, ILandWall
     {
-        public MountainType LandMountainType
+        public TropicalWoodlandGroundLandObject(LandType landType)
+            : base(landType)
         {
-            get;
-            private set;
-        }
-
-        public MountainLandObject(MountainType grassType) :
-            base(LandType.MONTAIN)
-        {
-            this.LandMountainType = grassType;
         }
 
         public override ILandObject Clone(LandTransition wallLandTransition)
@@ -27,7 +21,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.MountainObject
 
             if (landTransitionOverWall != LandTransition.NONE)
             {
-                MountainLandObject grassLandObject = new MountainLandObject(this.LandMountainType);
+                TropicalWoodlandGroundLandObject grassLandObject = new TropicalWoodlandGroundLandObject(this.Type);
                 grassLandObject.LandTransition = landTransitionOverWall;
 
                 return grassLandObject;
@@ -37,17 +31,10 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.MountainObject
 
         public override ILandObject Clone()
         {
-            MountainLandObject grassLandObject = new MountainLandObject(this.LandMountainType);
+            TropicalWoodlandGroundLandObject grassLandObject = new TropicalWoodlandGroundLandObject(this.Type);
             grassLandObject.LandTransition = this.LandTransition;
 
             return grassLandObject;
         }
-    }
-
-    public enum MountainType
-    {
-        NONE = -1,
-        ROUGH = 0,
-        PROJECTING = 1,
     }
 }

@@ -28,7 +28,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GrassObject
             if (landTransitionOverWall != LandTransition.NONE)
             {
                 GrassLandObject grassLandObject = new GrassLandObject(this.LandGrassType);
-                grassLandObject.SetTransition(landTransitionOverWall);
+                grassLandObject.LandTransition = landTransitionOverWall;
 
                 return grassLandObject;
             }
@@ -38,7 +38,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GrassObject
         public override ILandObject Clone()
         {
             GrassLandObject grassLandObject = new GrassLandObject(this.LandGrassType);
-            grassLandObject.SetTransition(this.LandTransition);
+            grassLandObject.LandTransition = this.LandTransition;
 
             return grassLandObject;
         }

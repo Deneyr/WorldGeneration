@@ -146,10 +146,10 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {2, 1, 2}
         };
 
-        public static int NeedToFillLandAt(
-            int[,] mountainArea,
-            IntRect area,
-            int i, int j)
+        public static int NeedToFillAt(
+            int[,] biomeArea,
+            int i, int j,
+            int margin)
         {
             bool[,] subAreaBool = new bool[3, 3];
             int[,] subAreaInt = new int[3, 3];
@@ -160,7 +160,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {
                 for (int x = -1; x < 2; x++)
                 {
-                    int altitude = mountainArea[i + y + 2, j + x + 2];
+                    int altitude = biomeArea[i + y + margin, j + x + margin];
 
                     maxValue = Math.Max(maxValue, altitude);
 
@@ -197,6 +197,57 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             }
             return subAreaInt[1, 1];
         }
+
+        //public static int NeedToFillAltitudeLandAt(
+        //    int[,] mountainArea,
+        //    int i, int j)
+        //{
+        //    bool[,] subAreaBool = new bool[3, 3];
+        //    int[,] subAreaInt = new int[3, 3];
+
+        //    int maxValue = int.MinValue;
+        //    int minValue = int.MaxValue;
+        //    for (int y = -1; y < 2; y++)
+        //    {
+        //        for (int x = -1; x < 2; x++)
+        //        {
+        //            int altitude = mountainArea[i + y + 2, j + x + 2];
+
+        //            maxValue = Math.Max(maxValue, altitude);
+
+        //            minValue = Math.Min(minValue, altitude);
+
+        //            subAreaInt[y + 1, x + 1] = altitude;
+        //        }
+        //    }
+
+        //    bool needToFill = false;
+        //    if (subAreaInt[1, 1] != maxValue)
+        //    {
+        //        for (int y = 0; y < 3; y++)
+        //        {
+        //            for (int x = 0; x < 3; x++)
+        //            {
+        //                if (subAreaInt[y, x] != maxValue)
+        //                {
+        //                    subAreaBool[y, x] = false;
+        //                }
+        //                else
+        //                {
+        //                    subAreaBool[y, x] = true;
+        //                }
+        //            }
+        //        }
+
+        //        needToFill = NeedToFill(ref subAreaBool);
+        //    }
+
+        //    if (needToFill)
+        //    {
+        //        return maxValue;
+        //    }
+        //    return subAreaInt[1, 1];
+        //}
 
         private static bool MatchMatrix(ref bool[,] array, ref int[,] matrix)
         {

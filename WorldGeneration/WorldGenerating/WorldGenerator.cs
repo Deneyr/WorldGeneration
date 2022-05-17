@@ -143,11 +143,11 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataLayerToGenerator(biomeDSDataChunkLayer);
             offset2DDataAgreggator.OffsetLayer = biomeDSDataChunkLayer;
 
-            PerlinDataChunkLayer offsetPerlinDataChunkLayer = new PerlinDataChunkLayer("offsetX", 16, 1);
+            PerlinDataChunkLayer offsetPerlinDataChunkLayer = new PerlinDataChunkLayer("offsetX", 32, 6);
             this.dataChunksMonitor.AddDataLayerToGenerator(offsetPerlinDataChunkLayer);
             offset2DDataAgreggator.SmoothOffsetLayerX = offsetPerlinDataChunkLayer;
 
-            offsetPerlinDataChunkLayer = new PerlinDataChunkLayer("offsetY", 16, 1);
+            offsetPerlinDataChunkLayer = new PerlinDataChunkLayer("offsetY", 32, 6);
             this.dataChunksMonitor.AddDataLayerToGenerator(offsetPerlinDataChunkLayer);
             offset2DDataAgreggator.SmoothOffsetLayerY = offsetPerlinDataChunkLayer;
 
@@ -283,6 +283,9 @@ namespace WorldGeneration.WorldGenerating
 
                 if (wasAreaUpdated)
                 {
+                    // Extend newWorldArea to fit margin exigences from the objectChunkMonitor
+                    newWorldArea = this.ExtendAreaToGenerate(newWorldArea);
+
                     // Update data chunks
                     this.dataChunksMonitor.UpdateWorldArea(newWorldArea);
 
@@ -330,6 +333,15 @@ namespace WorldGeneration.WorldGenerating
             }
 
             return resultOrderGeneration;
+        }
+
+        private IntRect ExtendAreaToGenerate(IntRect areaToExtend)
+        {
+            return new IntRect(
+                areaToExtend.Left - this.objectChunkMonitor.MaxObjectChunkLayerMargin, 
+                areaToExtend.Top - this.objectChunkMonitor.MaxObjectChunkLayerMargin, 
+                areaToExtend.Width + 2 * this.objectChunkMonitor.MaxObjectChunkLayerMargin, 
+                areaToExtend.Height + 2 * this.objectChunkMonitor.MaxObjectChunkLayerMargin);
         }
 
         public void Dispose()

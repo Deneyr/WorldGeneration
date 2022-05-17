@@ -9,7 +9,7 @@ using WorldGeneration.ChunksMonitoring;
 
 namespace WorldGeneration.ObjectChunks
 {
-    public abstract class AObjectChunkLayer : IObjectChunkLayer
+    internal abstract class AObjectChunkLayer : IObjectChunkLayer
     {
         public virtual int ObjectChunkMargin
         {
@@ -30,7 +30,21 @@ namespace WorldGeneration.ObjectChunks
             this.Id = id;
         }
 
-        public abstract void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk);
+        public virtual void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk)
+        {
+            int chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
+            Random random = new Random(chunkSeed);
+
+            for (int i = 0; i < objectChunk.NbCaseSide; i++)
+            {
+                for (int j = 0; j < objectChunk.NbCaseSide; j++)
+                {
+                    this.ComputeChunkArea(objectChunksMonitor, random, objectChunk, new Vector2i(j, i), this.GetWorldPosition(objectChunk, j, i));
+                }
+            }
+        }
+
+        protected abstract void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition);
 
         protected virtual int GenerateChunkSeed(IObjectChunk objectChunk, int seed)
         {
@@ -41,6 +55,11 @@ namespace WorldGeneration.ObjectChunks
         protected Vector2i GetWorldPosition(IObjectChunk objectChunk, int localX, int localY)
         {
             return ChunkHelper.GetWorldPositionFromChunkPosition(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, localX, localY));
+        }
+
+        public virtual void InitObjectChunkLayer(int nbCaseSide)
+        {
+            // To override
         }
     }
 }

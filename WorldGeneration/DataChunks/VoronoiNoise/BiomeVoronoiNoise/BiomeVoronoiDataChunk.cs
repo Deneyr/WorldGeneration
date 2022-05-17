@@ -180,7 +180,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
             Vector2i worldCasePosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position, new Vector2i(x * this.SampleLevel, y * this.SampleLevel)));
 
             Vector2f offsetVector = this.offset2DDataAgreggator.GetSmoothOffsetAtWorldCoordinates(worldCasePosition.X, worldCasePosition.Y);
-            Vector2f casePosition = new Vector2f(worldCasePosition.X + offsetVector.X * 2, worldCasePosition.Y + offsetVector.Y * 2);
+            Vector2f casePosition = new Vector2f(worldCasePosition.X + offsetVector.X * 3.5f, worldCasePosition.Y + offsetVector.Y * 3.5f);
 
             nearestPoint = null;
             minDist = int.MaxValue;

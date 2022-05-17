@@ -49,7 +49,7 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
-        internal List<IDataChunkLayer> WorldLayers
+        internal List<IDataChunkLayer> WorldDataLayers
         {
             get;
             private set;
@@ -64,7 +64,7 @@ namespace WorldGeneration.DataChunks
             this.DataChunksLayers = new Dictionary<string, IDataChunkLayer>();
             this.DataAgreggators = new Dictionary<string, IDataAgreggator>();
 
-            this.WorldLayers = new List<IDataChunkLayer>();
+            this.WorldDataLayers = new List<IDataChunkLayer>();
         }
 
         internal void AddDataLayerToGenerator(IDataChunkLayer dataChunkLayerToAdd)
@@ -72,7 +72,7 @@ namespace WorldGeneration.DataChunks
             dataChunkLayerToAdd.DataChunksMonitor = this;
 
             this.DataChunksLayers.Add(dataChunkLayerToAdd.Id, dataChunkLayerToAdd);
-            this.WorldLayers.Add(dataChunkLayerToAdd);
+            this.WorldDataLayers.Add(dataChunkLayerToAdd);
         }
 
         internal void AddDataAgreggatorToGenerator(string id, IDataAgreggator dataAgreggator)
@@ -90,7 +90,7 @@ namespace WorldGeneration.DataChunks
 
         internal void UpdateWorldArea(IntRect newWorldArea)
         {
-            foreach (IDataChunkLayer dataChunkLayer in this.WorldLayers)
+            foreach (IDataChunkLayer dataChunkLayer in this.WorldDataLayers)
             {
                 dataChunkLayer.UpdateLayerArea(newWorldArea);
             }

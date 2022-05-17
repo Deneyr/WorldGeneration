@@ -58,8 +58,10 @@ namespace WorldGeneration.ObjectChunks
             this.GroundAltitude = -1;
         }
 
-        public void SetCaseAt(IObjectCase objectCase, int altitude)
+        public void SetCaseAt(IObjectCase objectCase)
         {
+            int altitude = objectCase.Altitude;
+
             if (objectCase == null)
             {
                 if (this.zModelCases[altitude] != null && this.GroundAltitude == altitude)

@@ -22,11 +22,6 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
             this.Type = landType;
         }
 
-        public void SetTransition(LandTransition landTransition)
-        {
-            this.LandTransition = landTransition;
-        }
-
         public override ILandObject Clone(LandTransition wallLandTransition)
         {
             LandTransition landTransitionOverWall = this.GetLandTransitionOverWall(wallLandTransition);
@@ -34,7 +29,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
             if (landTransitionOverWall != LandTransition.NONE)
             {
                 GroundLandObject groundLandObject = new GroundLandObject(this.Type);
-                groundLandObject.SetTransition(landTransitionOverWall);
+                groundLandObject.LandTransition = landTransitionOverWall;
 
                 return groundLandObject;
             }
@@ -44,7 +39,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
         public override ILandObject Clone()
         {
             GroundLandObject groundLandObject = new GroundLandObject(this.Type);
-            groundLandObject.SetTransition(this.LandTransition);
+            groundLandObject.LandTransition = this.LandTransition;
 
             return groundLandObject;
         }
@@ -53,9 +48,10 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
     public enum LandType
     {
         GROUND = 0,
-        SAND = 1,
-        GRASS = 2,
-        STONE = 3,
-        SNOW = 4
+        SEA_DEPTH = 1,
+        SAND = 2,
+        GRASS = 3,
+        MONTAIN = 4,
+        SNOW = 5,
     }
 }
