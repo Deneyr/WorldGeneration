@@ -11,7 +11,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 {
     internal class AltitudeTransitionObjectChunkLayer : AObjectChunkLayer
     {
-        AltitudeObjectChunkLayer altitudeObjectChunkLayer;
+        private AltitudeObjectChunkLayer altitudeObjectChunkLayer;
 
         public AltitudeTransitionObjectChunkLayer(string id) 
             : base(id)
@@ -31,16 +31,16 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
             List<LandTransition> landTransitions = this.altitudeObjectChunkLayer.GetLandTransitionAtLocal(localPosition.X, localPosition.Y);
             LandCase firstLandCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
-            int currentAltitude = zObjectCase.GroundAltitude;
+            int currentAltitude = zObjectCase.GroundAltitude + 1;
 
             foreach(LandTransition landTransition in landTransitions)
             {
-                if(zObjectCase[currentAltitude] == null)
-                {
-                    ObjectCase objectCase = new ObjectCase(zObjectCase.Position, currentAltitude);
+                //if(zObjectCase[currentAltitude] == null)
+                //{
+                ObjectCase objectCase = new ObjectCase(zObjectCase.Position, currentAltitude);
 
-                    zObjectCase.SetCaseAt(objectCase);
-                }
+                zObjectCase.SetCaseAt(objectCase);
+                //}
 
                 LandCase landCase = (zObjectCase[currentAltitude] as ObjectCase).Land;
                 landCase.LandWall = firstLandCase.LandGroundList.First().Clone() as ILandWall;
@@ -48,7 +48,12 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
                 foreach(ILandGround landGround in firstLandCase.LandGroundList)
                 {
-                    landCase.LandGroundOverWallList.Add(landGround.Clone(landTransition) as ILandGround);
+                    ILandGround newLandGroundOverWall = landGround.Clone(landTransition) as ILandGround;
+
+                    if (newLandGroundOverWall != null)
+                    {
+                        landCase.LandGroundOverWallList.Add(newLandGroundOverWall);
+                    }
                 }
 
                 currentAltitude++;

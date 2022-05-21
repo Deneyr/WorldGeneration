@@ -86,10 +86,10 @@ namespace WorldGeneration.ViewTest
                     color.G = (byte)(color.G * colorValue);
                     color.B = (byte)(color.B * colorValue);
 
-                    //if (testCase.IsUnderSea /*|| testCase.TestValue > 0*/)
-                    //{
-                    //    color = Color.Black;
-                    //}
+                    if (testCase.Land.LandWater != null /*|| testCase.TestValue > 0*/)
+                    {
+                        //color = Color.Black;
+                    }
                     //else if (testCase.RiverValue > 0)
                     //{
 

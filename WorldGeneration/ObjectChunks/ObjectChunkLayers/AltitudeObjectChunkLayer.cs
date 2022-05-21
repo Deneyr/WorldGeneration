@@ -15,6 +15,26 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 {
     internal class AltitudeObjectChunkLayer : A2PassObjectChunkLayer
     {
+        //public int[,] InitialAltitudeAreaBuffer
+        //{
+        //    get;
+        //    private set;
+        //}
+
+        public override int ObjectChunkMargin
+        {
+            get
+            {
+                return 3;
+            }
+        }
+
+        public int[,] WaterLevelAreaBuffer
+        {
+            get;
+            private set;
+        }
+
         private AltitudeDataAgreggator altitudeDataAgreggator;
 
         private RiverDataAgreggator riverDataAgreggator;
@@ -30,6 +50,8 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         public AltitudeObjectChunkLayer(string id) 
             : base(id)
         {
+            //this.InitialAltitudeAreaBuffer = null;
+            this.WaterLevelAreaBuffer = null;
         }
 
         public override void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk)
@@ -113,21 +135,54 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
                 riverDepth = Math.Min(Math.Max(altitude - this.altitudeDataAgreggator.SeaLevel + 1, 0), riverDepth);
             }
 
+            int waterAltitude = -1;
+
+            if(riverDepth > 0)
+            {
+                waterAltitude = altitude;
+            }
+
+            //int seaDepth = 0;
+            if (isUnderSea)
+            {
+                waterAltitude = Math.Max(this.altitudeDataAgreggator.SeaLevel, altitude);
+            }
+
+            //int realRiverDepth = 0;
+            //if(riverDepth > 0)
+            //{
+            //    realRiverDepth = riverDepth + 1;
+            //}
+
+            //this.InitialAltitudeAreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = altitude;
+            this.WaterLevelAreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = waterAltitude;
+
             altitude = altitude - riverDepth;
 
             this.AreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = altitude;
         }
 
-        //protected override void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
-        //{
+        protected override void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        {
+            base.ComputeSecondBufferArea(objectChunksMonitor, random, objectChunk, localPosition, worldPosition);
 
-        //}
+            int waterLevel = this.GetWaterLevelAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+            if (waterLevel >= 0)
+            {
+                int initialAltitude = this.GetAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+                int newAltitude = this.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+                if (newAltitude >= waterLevel && newAltitude > this.altitudeDataAgreggator.SeaLevel)
+                {
+                    this.WaterLevelAreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = -1;
+                }
+            }
+        }
 
         protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
 
-            int computedAltitude = LandCreationHelper.NeedToFillAt(this.AreaBuffer, localPosition.Y, localPosition.X, this.ObjectChunkMargin);
+            int computedAltitude = this.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
 
             ObjectCase objectCase = new ObjectCase(zObjectCase.Position, computedAltitude);
 
@@ -136,6 +191,25 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             objectCase.Land.AddLandGround(groundLandObject);
 
             zObjectCase.SetCaseAt(objectCase);
+        }
+
+        public override void InitObjectChunkLayer(int nbCaseSide)
+        {
+            base.InitObjectChunkLayer(nbCaseSide);
+
+            int caseSideExtended = nbCaseSide + this.ObjectChunkMargin * 2;
+            //this.InitialAltitudeAreaBuffer = new int[caseSideExtended, caseSideExtended];
+            this.WaterLevelAreaBuffer = new int[caseSideExtended, caseSideExtended];
+        }
+
+        //public int GetInitialAltitudeAreaBufferValueAtLocal(int x, int y)
+        //{
+        //    return this.InitialAltitudeAreaBuffer[y + this.ObjectChunkMargin, x + this.ObjectChunkMargin];
+        //}
+
+        public int GetWaterLevelAreaBufferValueAtLocal(int x, int y)
+        {
+            return this.WaterLevelAreaBuffer[y + this.ObjectChunkMargin, x + this.ObjectChunkMargin];
         }
 
         private LandType GetAltitudeLandType(BiomeType biomeType, int altitude)

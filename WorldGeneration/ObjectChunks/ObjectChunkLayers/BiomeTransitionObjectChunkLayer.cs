@@ -12,7 +12,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 {
     internal class BiomeTransitionObjectChunkLayer : AObjectChunkLayer
     {
-        BiomeObjectChunkLayer biomeObjectChunkLayer;
+        private BiomeObjectChunkLayer biomeObjectChunkLayer;
 
         public BiomeTransitionObjectChunkLayer(string id)
             : base(id)
@@ -28,14 +28,15 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
         protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
-            IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
-
             List<LandTransition> landTransitions = this.biomeObjectChunkLayer.GetLandTransitionAtLocal(localPosition.X, localPosition.Y);
-            LandCase landCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
-            BiomeType secondBiomeType = (BiomeType)this.biomeObjectChunkLayer.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
 
             if (landTransitions.Any())
             {
+                IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
+
+                LandCase landCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
+                BiomeType secondBiomeType = (BiomeType)this.biomeObjectChunkLayer.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+
                 GroundLandObject groundLandObject = landCase.LandGroundList.First() as GroundLandObject;
 
                 GroundLandObject newLandObject = BiomeObjectChunkLayer.CreateGroundLandObject(secondBiomeType, groundLandObject.Type);

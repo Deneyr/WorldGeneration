@@ -72,6 +72,17 @@ namespace WorldGeneration.ObjectChunks
                 }
             }
 
+            int transitionObjectChunkMargin = this.ObjectChunkMargin - 2;
+            for (int i = -transitionObjectChunkMargin; i < objectChunk.NbCaseSide + transitionObjectChunkMargin; i++)
+            {
+                for (int j = -transitionObjectChunkMargin; j < objectChunk.NbCaseSide + transitionObjectChunkMargin; j++)
+                {
+                    Vector2i worldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, j, i));
+
+                    this.ComputeTransitionAreaBuffer(objectChunksMonitor, random, objectChunk, new Vector2i(j, i), worldPosition);
+                }
+            }
+
             for (int i = 0; i < objectChunk.NbCaseSide; i++)
             {
                 for (int j = 0; j < objectChunk.NbCaseSide; j++)
@@ -83,15 +94,23 @@ namespace WorldGeneration.ObjectChunks
 
         protected virtual void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
+            int i = localPosition.Y + this.ObjectChunkMargin - 1;
+            int j = localPosition.X + this.ObjectChunkMargin - 1;
+
+            this.SecondAreaBuffer[i, j] = LandCreationHelper.NeedToFillAt(this.AreaBuffer, localPosition.Y, localPosition.X, this.ObjectChunkMargin);
+        }
+
+        protected virtual void ComputeTransitionAreaBuffer(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        {
             int[,] subAreaInt = new int[3, 3];
             int maxLocalAltitude = int.MinValue;
 
             maxLocalAltitude = this.GetComputedMatrix(localPosition.Y, localPosition.X, ref subAreaInt);
 
             int diffAltitude = maxLocalAltitude - subAreaInt[1, 1];
-            int i = localPosition.Y + this.ObjectChunkMargin - 1;
-            int j = localPosition.X + this.ObjectChunkMargin - 1;
-            this.SecondAreaBuffer[i, j] = maxLocalAltitude;
+            int i = localPosition.Y + this.ObjectChunkMargin - 2;
+            int j = localPosition.X + this.ObjectChunkMargin - 2;
+            //this.SecondAreaBuffer[i, j] = maxLocalAltitude;
 
             this.TransitionAreaBuffer[i, j].Clear();
 
@@ -115,11 +134,13 @@ namespace WorldGeneration.ObjectChunks
             int maxValue = int.MinValue;
             int minValue = int.MaxValue;
 
+            int secondObjectChunkMargin = this.ObjectChunkMargin - 1;
+
             for (int y = -1; y < 2; y++)
             {
                 for (int x = -1; x < 2; x++)
                 {
-                    int altitude = this.AreaBuffer[i + this.ObjectChunkMargin + y, j + this.ObjectChunkMargin + x];
+                    int altitude = this.SecondAreaBuffer[i + secondObjectChunkMargin + y, j + secondObjectChunkMargin + x];
 
                     maxValue = Math.Max(maxValue, altitude);
 
@@ -169,6 +190,8 @@ namespace WorldGeneration.ObjectChunks
             int caseSideExtended = nbCaseSide + (this.ObjectChunkMargin - 1) * 2;
 
             this.SecondAreaBuffer = new int[caseSideExtended, caseSideExtended];
+
+            caseSideExtended = nbCaseSide + (this.ObjectChunkMargin - 2) * 2;
             this.TransitionAreaBuffer = new List<LandTransition>[caseSideExtended, caseSideExtended];
 
             for(int i = 0; i < caseSideExtended; i++)
@@ -182,7 +205,7 @@ namespace WorldGeneration.ObjectChunks
 
         public List<LandTransition> GetLandTransitionAtLocal(int x, int y)
         {
-            return this.TransitionAreaBuffer[y + this.ObjectChunkMargin - 1, x + this.ObjectChunkMargin - 1];
+            return this.TransitionAreaBuffer[y + this.ObjectChunkMargin - 2, x + this.ObjectChunkMargin - 2];
         }
 
         public int GetSecondAreaBufferValueAtLocal(int x, int y)

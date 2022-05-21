@@ -18,14 +18,6 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
     {
         private BiomeDataAgreggator biomeDataAgreggator;
 
-        public override int ObjectChunkMargin
-        {
-            get
-            {
-                return 2;
-            }
-        }
-
         public override bool GenerateAllLevels
         {
             get
@@ -55,7 +47,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         {
             IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
 
-            int newBiomeValue = LandCreationHelper.NeedToFillAt(this.AreaBuffer, localPosition.Y, localPosition.X, this.ObjectChunkMargin);
+            int newBiomeValue = this.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
 
             zObjectCase.ObjectBiome = (BiomeType)newBiomeValue;//this.areaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin];
         }
