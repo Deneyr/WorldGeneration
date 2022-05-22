@@ -24,6 +24,12 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
+        public int[,] MaxValueAreaBuffer
+        {
+            get;
+            private set;
+        }
+
         public override int ObjectChunkMargin
         {
             get
@@ -44,6 +50,7 @@ namespace WorldGeneration.ObjectChunks
             : base(id)
         {
             this.TransitionAreaBuffer = null;
+            this.MaxValueAreaBuffer = null;
         }
 
         public override void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk)
@@ -111,6 +118,8 @@ namespace WorldGeneration.ObjectChunks
             int i = localPosition.Y + this.ObjectChunkMargin - 2;
             int j = localPosition.X + this.ObjectChunkMargin - 2;
             //this.SecondAreaBuffer[i, j] = maxLocalAltitude;
+
+            this.MaxValueAreaBuffer[i, j] = maxLocalAltitude;
 
             this.TransitionAreaBuffer[i, j].Clear();
 
@@ -201,11 +210,18 @@ namespace WorldGeneration.ObjectChunks
                     this.TransitionAreaBuffer[i, j] = new List<LandTransition>();
                 }
             }
+
+            this.MaxValueAreaBuffer = new int[caseSideExtended, caseSideExtended];
         }
 
         public List<LandTransition> GetLandTransitionAtLocal(int x, int y)
         {
             return this.TransitionAreaBuffer[y + this.ObjectChunkMargin - 2, x + this.ObjectChunkMargin - 2];
+        }
+
+        public int GetMaxAreaBufferValueAtLocal(int x, int y)
+        {
+            return this.MaxValueAreaBuffer[y + this.ObjectChunkMargin - 2, x + this.ObjectChunkMargin - 2];
         }
 
         public int GetSecondAreaBufferValueAtLocal(int x, int y)

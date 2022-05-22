@@ -21,8 +21,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.MountainObject
             private set;
         }
 
-        public MountainElementLandObject(MountainType mountainType, int elementIndex) :
-            base()
+        public MountainElementLandObject(int landObjectId, MountainType mountainType, int elementIndex) :
+            base(landObjectId)
         {
             this.LandMountainType = mountainType;
             this.ElementIndex = elementIndex;
@@ -32,7 +32,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.MountainObject
         {
             if (wallLandTransition != LandTransition.NONE)
             {
-                MountainElementLandObject mountainLandObject = new MountainElementLandObject(this.LandMountainType, this.ElementIndex);
+                MountainElementLandObject mountainLandObject = new MountainElementLandObject(this.LandObjectId, this.LandMountainType, this.ElementIndex);
 
                 return mountainLandObject;
             }
@@ -41,7 +41,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.MountainObject
 
         public override ILandObject Clone()
         {
-            MountainElementLandObject mountainLandObject = new MountainElementLandObject(this.LandMountainType, this.ElementIndex);
+            MountainElementLandObject mountainLandObject = new MountainElementLandObject(this.LandObjectId, this.LandMountainType, this.ElementIndex);
 
             return mountainLandObject;
         }

@@ -15,8 +15,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GrassObject
             private set;
         }
 
-        public GrassLandObject(GrassType grassType) :
-            base(LandType.GRASS)
+        public GrassLandObject(int landObjectId, GrassType grassType) :
+            base(landObjectId, LandType.GRASS)
         {
             this.LandGrassType = grassType;
         }
@@ -27,7 +27,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GrassObject
 
             if (landTransitionOverWall != LandTransition.NONE)
             {
-                GrassLandObject grassLandObject = new GrassLandObject(this.LandGrassType);
+                GrassLandObject grassLandObject = new GrassLandObject(this.LandObjectId, this.LandGrassType);
                 grassLandObject.LandTransition = landTransitionOverWall;
 
                 return grassLandObject;
@@ -37,7 +37,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GrassObject
 
         public override ILandObject Clone()
         {
-            GrassLandObject grassLandObject = new GrassLandObject(this.LandGrassType);
+            GrassLandObject grassLandObject = new GrassLandObject(this.LandObjectId, this.LandGrassType);
             grassLandObject.LandTransition = this.LandTransition;
 
             return grassLandObject;

@@ -9,14 +9,22 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
 {
     public abstract class ALandObject : ILandObject
     {
+        public int LandObjectId
+        {
+            get;
+            private set;
+        }
+
         public LandTransition LandTransition
         {
             get;
             set;
         }
 
-        public ALandObject()
+        public ALandObject(int landObjectId)
         {
+            this.LandObjectId = landObjectId;
+
             this.LandTransition = LandTransition.NONE;
         }
 

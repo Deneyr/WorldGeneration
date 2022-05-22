@@ -42,7 +42,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
                 LandCase landCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
                 if(zObjectCase.GroundAltitude == this.altitudeDataAgreggator.SeaLevel)
                 {
-                    landCase.LandWater = new WaterLandObject();
+                    landCase.LandWater = new WaterLandObject(random.Next());
                     landCase.LandWater.LandTransition = landTransitions.First();
                 }
             }

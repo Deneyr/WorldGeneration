@@ -172,6 +172,11 @@ namespace WorldGeneration.WorldGenerating
             }
         }
 
+        public void InitWorldMonitor()
+        {
+            this.WorldGenerator.ConstructWorldGenerator2();
+        }
+
         public void Dispose()
         {
             this.WorldGenerator.ChunkGenerated -= OnChunkGenerated;

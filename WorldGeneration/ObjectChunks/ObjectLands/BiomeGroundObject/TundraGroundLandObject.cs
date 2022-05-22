@@ -10,8 +10,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject
 {
     public class TundraGroundLandObject : GroundLandObject, ILandWall
     {
-        public TundraGroundLandObject(LandType landType)
-            : base(landType)
+        public TundraGroundLandObject(int landObjectId, LandType landType)
+            : base(landObjectId, landType)
         {
         }
 
@@ -21,7 +21,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject
 
             if (landTransitionOverWall != LandTransition.NONE)
             {
-                TundraGroundLandObject grassLandObject = new TundraGroundLandObject(this.Type);
+                TundraGroundLandObject grassLandObject = new TundraGroundLandObject(this.LandObjectId, this.Type);
                 grassLandObject.LandTransition = landTransitionOverWall;
 
                 return grassLandObject;
@@ -29,9 +29,23 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject
             return null;
         }
 
+        public override ILandObject Clone(LandType landType, LandTransition wallLandTransition)
+        {
+            LandTransition landTransitionOverWall = this.GetLandTransitionOverWall(wallLandTransition);
+
+            if (landTransitionOverWall != LandTransition.NONE)
+            {
+                GroundLandObject groundLandObject = new TundraGroundLandObject(this.LandObjectId, landType);
+                groundLandObject.LandTransition = landTransitionOverWall;
+
+                return groundLandObject;
+            }
+            return null;
+        }
+
         public override ILandObject Clone()
         {
-            TundraGroundLandObject grassLandObject = new TundraGroundLandObject(this.Type);
+            TundraGroundLandObject grassLandObject = new TundraGroundLandObject(this.LandObjectId, this.Type);
             grassLandObject.LandTransition = this.LandTransition;
 
             return grassLandObject;

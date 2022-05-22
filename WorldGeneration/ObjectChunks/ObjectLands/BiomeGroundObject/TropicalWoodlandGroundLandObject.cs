@@ -10,8 +10,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject
 {
     public class TropicalWoodlandGroundLandObject : GroundLandObject, ILandWall
     {
-        public TropicalWoodlandGroundLandObject(LandType landType)
-            : base(landType)
+        public TropicalWoodlandGroundLandObject(int landObjectId, LandType landType)
+            : base(landObjectId, landType)
         {
         }
 
@@ -21,7 +21,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject
 
             if (landTransitionOverWall != LandTransition.NONE)
             {
-                TropicalWoodlandGroundLandObject grassLandObject = new TropicalWoodlandGroundLandObject(this.Type);
+                TropicalWoodlandGroundLandObject grassLandObject = new TropicalWoodlandGroundLandObject(this.LandObjectId, this.Type);
                 grassLandObject.LandTransition = landTransitionOverWall;
 
                 return grassLandObject;
@@ -29,9 +29,23 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject
             return null;
         }
 
+        public override ILandObject Clone(LandType landType, LandTransition wallLandTransition)
+        {
+            LandTransition landTransitionOverWall = this.GetLandTransitionOverWall(wallLandTransition);
+
+            if (landTransitionOverWall != LandTransition.NONE)
+            {
+                GroundLandObject groundLandObject = new TropicalWoodlandGroundLandObject(this.LandObjectId, landType);
+                groundLandObject.LandTransition = landTransitionOverWall;
+
+                return groundLandObject;
+            }
+            return null;
+        }
+
         public override ILandObject Clone()
         {
-            TropicalWoodlandGroundLandObject grassLandObject = new TropicalWoodlandGroundLandObject(this.Type);
+            TropicalWoodlandGroundLandObject grassLandObject = new TropicalWoodlandGroundLandObject(this.LandObjectId, this.Type);
             grassLandObject.LandTransition = this.LandTransition;
 
             return grassLandObject;

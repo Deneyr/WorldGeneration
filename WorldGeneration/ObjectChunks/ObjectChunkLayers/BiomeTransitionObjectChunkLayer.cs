@@ -35,11 +35,11 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
                 IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
 
                 LandCase landCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
-                BiomeType secondBiomeType = (BiomeType)this.biomeObjectChunkLayer.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+                BiomeType secondBiomeType = (BiomeType)this.biomeObjectChunkLayer.GetMaxAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
 
                 GroundLandObject groundLandObject = landCase.LandGroundList.First() as GroundLandObject;
 
-                GroundLandObject newLandObject = BiomeObjectChunkLayer.CreateGroundLandObject(secondBiomeType, groundLandObject.Type);
+                GroundLandObject newLandObject = BiomeObjectChunkLayer.CreateGroundLandObject(random, secondBiomeType, groundLandObject.Type);
                 newLandObject.LandTransition = landTransitions.First();
 
                 landCase.LandGroundList.Add(newLandObject);

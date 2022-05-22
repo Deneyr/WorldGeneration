@@ -16,8 +16,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
             protected set;
         }
 
-        public GroundLandObject(LandType landType): 
-            base()
+        public GroundLandObject(int landObjectId, LandType landType): 
+            base(landObjectId)
         {
             this.Type = landType;
         }
@@ -28,7 +28,21 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
 
             if (landTransitionOverWall != LandTransition.NONE)
             {
-                GroundLandObject groundLandObject = new GroundLandObject(this.Type);
+                GroundLandObject groundLandObject = new GroundLandObject(this.LandObjectId, this.Type);
+                groundLandObject.LandTransition = landTransitionOverWall;
+
+                return groundLandObject;
+            }
+            return null;
+        }
+
+        public virtual ILandObject Clone(LandType landType, LandTransition wallLandTransition)
+        {
+            LandTransition landTransitionOverWall = this.GetLandTransitionOverWall(wallLandTransition);
+
+            if (landTransitionOverWall != LandTransition.NONE)
+            {
+                GroundLandObject groundLandObject = new GroundLandObject(this.LandObjectId, landType);
                 groundLandObject.LandTransition = landTransitionOverWall;
 
                 return groundLandObject;
@@ -38,7 +52,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
 
         public override ILandObject Clone()
         {
-            GroundLandObject groundLandObject = new GroundLandObject(this.Type);
+            GroundLandObject groundLandObject = new GroundLandObject(this.LandObjectId, this.Type);
             groundLandObject.LandTransition = this.LandTransition;
 
             return groundLandObject;

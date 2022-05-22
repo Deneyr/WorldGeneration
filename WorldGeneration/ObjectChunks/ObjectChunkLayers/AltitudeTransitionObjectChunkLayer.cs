@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.System;
 using WorldGeneration.ObjectChunks.ObjectLands;
+using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 using WorldGeneration.ObjectChunks.ObjectLands.LandInterface;
 
 namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
@@ -48,7 +49,11 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
                 foreach(ILandGround landGround in firstLandCase.LandGroundList)
                 {
-                    ILandGround newLandGroundOverWall = landGround.Clone(landTransition) as ILandGround;
+                    GroundLandObject groundLandObject = landGround as GroundLandObject;
+
+                    LandType landType = this.altitudeObjectChunkLayer.GetAltitudeLandType(zObjectCase.ObjectBiome, currentAltitude);
+
+                    ILandGround newLandGroundOverWall = groundLandObject.Clone(landType, landTransition) as ILandGround;
 
                     if (newLandGroundOverWall != null)
                     {

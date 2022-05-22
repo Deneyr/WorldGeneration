@@ -15,8 +15,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.MountainObject
             private set;
         }
 
-        public MountainLandObject(MountainType grassType) :
-            base(LandType.MONTAIN)
+        public MountainLandObject(int landObjectId, MountainType grassType) :
+            base(landObjectId, LandType.MONTAIN)
         {
             this.LandMountainType = grassType;
         }
@@ -27,7 +27,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.MountainObject
 
             if (landTransitionOverWall != LandTransition.NONE)
             {
-                MountainLandObject grassLandObject = new MountainLandObject(this.LandMountainType);
+                MountainLandObject grassLandObject = new MountainLandObject(this.LandObjectId, this.LandMountainType);
                 grassLandObject.LandTransition = landTransitionOverWall;
 
                 return grassLandObject;
@@ -37,7 +37,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.MountainObject
 
         public override ILandObject Clone()
         {
-            MountainLandObject grassLandObject = new MountainLandObject(this.LandMountainType);
+            MountainLandObject grassLandObject = new MountainLandObject(this.LandObjectId, this.LandMountainType);
             grassLandObject.LandTransition = this.LandTransition;
 
             return grassLandObject;

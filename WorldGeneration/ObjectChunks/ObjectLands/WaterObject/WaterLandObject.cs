@@ -9,8 +9,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.WaterObject
 {
     public class WaterLandObject : ALandObject, ILandWater
     {
-        public WaterLandObject() 
-            : base()
+        public WaterLandObject(int landObjectId) 
+            : base(landObjectId)
         {
         }
 
@@ -26,7 +26,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.WaterObject
 
         public override ILandObject Clone()
         {
-            WaterLandObject waterLandObject = new WaterLandObject();
+            WaterLandObject waterLandObject = new WaterLandObject(this.LandObjectId);
             waterLandObject.SetLandTransition(this.LandTransition);
 
             return waterLandObject;

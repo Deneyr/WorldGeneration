@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\CSFML.2.5.1\build\netframework\CSFML.props" Condition="Exists('..\packages\CSFML.2.5.1\build\netframework\CSFML.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5A3F93B6-47C3-4269-99AF-87F2C845940B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>PokeU</RootNamespace>
+    <AssemblyName>PokeU</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SFML.Audio, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.Audio.2.5.0\lib\netstandard2.0\SFML.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.Graphics, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.Graphics.2.5.0\lib\netstandard2.0\SFML.Graphics.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.System, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.System.2.5.0\lib\netstandard2.0\SFML.System.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.Window, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.Window.2.5.0\lib\netstandard2.0\SFML.Window.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\ALandObject2D.cs" />
+    <Compile Include="View\Animations\Animation.cs" />
+    <Compile Include="View\Animations\AnimationManager.cs" />
+    <Compile Include="View\Animations\IAnimation.cs" />
+    <Compile Include="View\Animations\ZoomAnimation.cs" />
+    <Compile Include="View\Animations\ZoomAnimationManager.cs" />
+    <Compile Include="View\AObject2D.cs" />
+    <Compile Include="View\AObject2DFactory.cs" />
+    <Compile Include="View\BiomeGroundObject\SnowGroundObject2D.cs" />
+    <Compile Include="View\BiomeGroundObject\DesertGroundObject2D.cs" />
+    <Compile Include="View\BiomeGroundObject\SnowGroundObject2DFactory.cs" />
+    <Compile Include="View\BiomeGroundObject\RainGroundObject2D.cs" />
+    <Compile Include="View\BiomeGroundObject\DesertGroundObject2DFactory.cs" />
+    <Compile Include="View\BiomeGroundObject\TemperateGroundObject2D.cs" />
+    <Compile Include="View\BiomeGroundObject\SeasonalGroundObject2D.cs" />
+    <Compile Include="View\BiomeGroundObject\SeasonalGroundObject2DFactory.cs" />
+    <Compile Include="View\BiomeGroundObject\RainGroundObject2DFactory.cs" />
+    <Compile Include="View\BiomeGroundObject\TemperateGroundObject2DFactory.cs" />
+    <Compile Include="View\GrassObject\GrassElementObject2D.cs" />
+    <Compile Include="View\GrassObject\GrassElementObject2DFactory.cs" />
+    <Compile Include="View\GrassObject\GrassObject2D.cs" />
+    <Compile Include="View\GrassObject\GrassObject2DFactory.cs" />
+    <Compile Include="View\GroundObject\AltitudeObject2D.cs" />
+    <Compile Include="View\GroundObject\AltitudeObject2DFactory.cs" />
+    <Compile Include="View\GroundObject\GroundElementObject2D.cs" />
+    <Compile Include="View\GroundObject\GroundElementObject2DFactory.cs" />
+    <Compile Include="View\GroundObject\AGroundObject2D.cs" />
+    <Compile Include="View\GroundObject\AGroundObject2DFactory.cs" />
+    <Compile Include="View\Helpers\HSLColor.cs" />
+    <Compile Include="View\IObject2DFactory.cs" />
+    <Compile Include="View\ILandObject2D.cs" />
+    <Compile Include="View\IObject2D.cs" />
+    <Compile Include="View\LandCase2D.cs" />
+    <Compile Include="View\LandCase2DFactory.cs" />
+    <Compile Include="View\LandChunk2D.cs" />
+    <Compile Include="View\LandChunk2DFactory.cs" />
+    <Compile Include="View\LandWorld2D.cs" />
+    <Compile Include="View\MountainObject\MountainElementObject2D.cs" />
+    <Compile Include="View\MountainObject\MountainElementObject2DFactory.cs" />
+    <Compile Include="View\MountainObject\MountainObject2D.cs" />
+    <Compile Include="View\MountainObject\MountainObject2DFactory.cs" />
+    <Compile Include="View\ResourcesManager\ChunkResourcesLoader.cs" />
+    <Compile Include="View\ResourcesManager\TextureManager.cs" />
+    <Compile Include="View\WaterObject\WaterObject2D.cs" />
+    <Compile Include="View\WaterObject\WaterObject2DFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WorldGeneration\WorldGeneration.csproj">
+      <Project>{c1344c40-c4f7-4fbf-a42e-0c248e1ffe48}</Project>
+      <Name>WorldGeneration</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\CSFML.2.5.1\build\netframework\CSFML.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CSFML.2.5.1\build\netframework\CSFML.props'))" />
+    <Error Condition="!Exists('..\packages\CSFML.2.5.1\build\netframework\CSFML.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CSFML.2.5.1\build\netframework\CSFML.targets'))" />
+  </Target>
+  <Import Project="..\packages\CSFML.2.5.1\build\netframework\CSFML.targets" Condition="Exists('..\packages\CSFML.2.5.1\build\netframework\CSFML.targets')" />
+</Project>

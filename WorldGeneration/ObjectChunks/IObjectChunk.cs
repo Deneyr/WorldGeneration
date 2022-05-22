@@ -13,5 +13,10 @@ namespace WorldGeneration.ObjectChunks
         {
             get;
         }
+
+        HashSet<Type> TypesInChunk
+        {
+            get;
+        }
     }
 }

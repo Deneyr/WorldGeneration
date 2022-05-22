@@ -93,7 +93,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
                         zObjectCase.SetCaseAt(objectCase);
                     }
 
-                    objectCase.Land.LandWater = new WaterLandObject();
+                    objectCase.Land.LandWater = new WaterLandObject(random.Next());
                     if (objectCase.Land.LandWall != null)
                     {
                         objectCase.Land.LandWater.LandTransition = LandTransitionHelper.ReverseLandTransition(objectCase.Land.LandWall.LandTransition);

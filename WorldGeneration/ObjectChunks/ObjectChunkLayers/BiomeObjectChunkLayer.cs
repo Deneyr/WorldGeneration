@@ -52,28 +52,29 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             zObjectCase.ObjectBiome = (BiomeType)newBiomeValue;//this.areaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin];
         }
 
-        public static GroundLandObject CreateGroundLandObject(BiomeType biomeType, LandType landType)
+        public static GroundLandObject CreateGroundLandObject(Random random, BiomeType biomeType, LandType landType)
         {
+            int landObjectId = random.Next();
             switch (biomeType)
             {
                 case BiomeType.TUNDRA:
-                    return new TundraGroundLandObject(landType);
+                    return new TundraGroundLandObject(landObjectId, landType);
                 case BiomeType.BOREAL_FOREST:
-                    return new BorealForestGroundLandObject(landType);
+                    return new BorealForestGroundLandObject(landObjectId, landType);
                 case BiomeType.SAVANNA:
-                    return new SavannaGroundLandObject(landType);
+                    return new SavannaGroundLandObject(landObjectId, landType);
                 case BiomeType.TEMPERATE_FOREST:
-                    return new TemperateForestGroundLandObject(landType);
+                    return new TemperateForestGroundLandObject(landObjectId, landType);
                 case BiomeType.TEMPERATE_RAINFOREST:
-                    return new TemperateRainForestGroundLandObject(landType);
+                    return new TemperateRainForestGroundLandObject(landObjectId, landType);
                 case BiomeType.DESERT:
-                    return new DesertGroundLandObject(landType);
+                    return new DesertGroundLandObject(landObjectId, landType);
                 case BiomeType.TROPICAL_WOODLAND:
-                    return new TropicalWoodlandGroundLandObject(landType);
+                    return new TropicalWoodlandGroundLandObject(landObjectId, landType);
                 case BiomeType.SEASONAL_FOREST:
-                    return new SeasonalForestGroundLandObject(landType);
+                    return new SeasonalForestGroundLandObject(landObjectId, landType);
                 case BiomeType.RAINFOREST:
-                    return new RainForestGroundLandObject(landType);
+                    return new RainForestGroundLandObject(landObjectId, landType);
             }
             return null;
         }

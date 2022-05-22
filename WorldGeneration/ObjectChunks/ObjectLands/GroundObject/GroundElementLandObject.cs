@@ -21,8 +21,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
             private set;
         }
 
-        public GroundElementLandObject(LandType landType, int elementIndex) :
-            base()
+        public GroundElementLandObject(int landObjectId, LandType landType, int elementIndex) :
+            base(landObjectId)
         {
             this.LandType = landType;
             this.ElementIndex = elementIndex;
@@ -32,7 +32,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
         {
             if (wallLandTransition != LandTransition.NONE)
             {
-                GroundElementLandObject groundLandObject = new GroundElementLandObject(this.LandType, this.ElementIndex);
+                GroundElementLandObject groundLandObject = new GroundElementLandObject(this.LandObjectId, this.LandType, this.ElementIndex);
 
                 return groundLandObject;
             }
@@ -41,7 +41,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
 
         public override ILandObject Clone()
         {
-            GroundElementLandObject groundLandObject = new GroundElementLandObject(this.LandType, this.ElementIndex);
+            GroundElementLandObject groundLandObject = new GroundElementLandObject(this.LandObjectId, this.LandType, this.ElementIndex);
 
             return groundLandObject;
         }

@@ -187,7 +187,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             ObjectCase objectCase = new ObjectCase(zObjectCase.Position, computedAltitude);
 
             LandType landType = this.GetAltitudeLandType(zObjectCase.ObjectBiome, objectCase.Altitude);
-            GroundLandObject groundLandObject = BiomeObjectChunkLayer.CreateGroundLandObject(zObjectCase.ObjectBiome, landType);
+            GroundLandObject groundLandObject = BiomeObjectChunkLayer.CreateGroundLandObject(random, zObjectCase.ObjectBiome, landType);
             objectCase.Land.AddLandGround(groundLandObject);
 
             zObjectCase.SetCaseAt(objectCase);
@@ -212,9 +212,9 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             return this.WaterLevelAreaBuffer[y + this.ObjectChunkMargin, x + this.ObjectChunkMargin];
         }
 
-        private LandType GetAltitudeLandType(BiomeType biomeType, int altitude)
+        public LandType GetAltitudeLandType(BiomeType biomeType, int altitude)
         {
-            altitude -= 16;
+            altitude -= this.altitudeDataAgreggator.SeaLevel;
             if (altitude < -2)
             {
                 return LandType.SEA_DEPTH;

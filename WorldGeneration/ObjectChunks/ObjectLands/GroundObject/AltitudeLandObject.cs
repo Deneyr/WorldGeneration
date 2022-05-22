@@ -20,8 +20,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
             }
         }
 
-        public AltitudeLandObject(LandType landType) :
-            base()
+        public AltitudeLandObject(int landObjectId, LandType landType) :
+            base(landObjectId)
         {
             this.landType = landType;
 
@@ -38,7 +38,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
 
             if (landTransitionOverWall != LandTransition.NONE)
             {
-                AltitudeLandObject altitudeLandObject = new AltitudeLandObject(this.landType);
+                AltitudeLandObject altitudeLandObject = new AltitudeLandObject(this.LandObjectId, landType);
                 altitudeLandObject.SetLandTransition(landTransitionOverWall);
 
                 return altitudeLandObject;
@@ -48,7 +48,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
 
         public override ILandObject Clone()
         {
-            AltitudeLandObject altitudeLandObject = new AltitudeLandObject(this.landType);
+            AltitudeLandObject altitudeLandObject = new AltitudeLandObject(this.LandObjectId, this.landType);
             altitudeLandObject.SetLandTransition(this.LandTransition);
 
             return altitudeLandObject;
