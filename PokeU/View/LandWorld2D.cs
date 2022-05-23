@@ -21,7 +21,7 @@ namespace PokeU.View
 {
     public class LandWorld2D
     {
-        public static readonly int LOADED_ALTITUDE_RANGE = 5;
+        public static readonly int LOADED_ALTITUDE_RANGE = 10;
 
         public static readonly Dictionary<Type, IObject2DFactory> MappingObjectModelView;
 
@@ -40,7 +40,11 @@ namespace PokeU.View
 
         private Vector2f currentViewSize;
 
-        private int currentZoom;
+        public int CurrentZoom
+        {
+            get;
+            set;
+        }
 
         public Vector2f CurrentViewSize
         {
@@ -102,7 +106,7 @@ namespace PokeU.View
             MappingObjectModelView.Add(typeof(BorealForestGroundLandObject), new SnowGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(DesertGroundLandObject), new DesertGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(RainForestGroundLandObject), new RainGroundObject2DFactory());
-            MappingObjectModelView.Add(typeof(SavannaGroundLandObject), new TemperateGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(SavannaGroundLandObject), new DryGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(SeasonalForestGroundLandObject), new SeasonalGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(TemperateForestGroundLandObject), new TemperateGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(TemperateRainForestGroundLandObject), new RainGroundObject2DFactory());
@@ -148,7 +152,7 @@ namespace PokeU.View
 
             this.currentViewSize = new Vector2f(1920, 1080);
             this.Position = new Vector2f(-150000, 20000);
-            this.currentZoom = 1;
+            this.CurrentZoom = 1;
 
             landWorld.MainChunksMonitor.ChunksToAdd += OnChunkAdded;
             landWorld.MainChunksMonitor.ChunksRemoved += OnChunkRemoved;
@@ -200,7 +204,7 @@ namespace PokeU.View
 
             this.CurrentViewSize = new Vector2f(1920, 1080);
             SFML.Graphics.View newView = new SFML.Graphics.View(new Vector2f((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2), this.CurrentViewSize);
-            newView.Zoom(this.currentZoom);
+            newView.Zoom(this.CurrentZoom);
 
             FloatRect viewBound = new FloatRect(newView.Center.X - newView.Size.X / 2, newView.Center.Y - newView.Size.Y / 2, newView.Size.X, newView.Size.Y);
             IntRect worldViewArea = ViewAreaToWorldArea(viewBound);

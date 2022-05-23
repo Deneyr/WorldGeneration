@@ -10,7 +10,7 @@ using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 
 namespace PokeU.View.BiomeGroundObject
 {
-    public class SnowGroundObject2DFactory : AGroundObject2DFactory
+    public class DryGroundObject2DFactory : AGroundObject2DFactory
     {
         protected override void InitializeFactory()
         {
@@ -21,9 +21,10 @@ namespace PokeU.View.BiomeGroundObject
             // MONTAIN = 4,
             // SNOW = 5,
             this.texturesPath.Add(@"Autotiles\Red cave floor2.png");
-            this.texturesPath.Add(@"Autotiles\Snow cave highlight2.png");
+            this.texturesPath.Add(@"Autotiles\sandBeach.png");
+            this.texturesPath.Add(@"Autotiles\grassDry.png");
+            this.texturesPath.Add(@"Autotiles\mountain.png");
             this.texturesPath.Add(@"Autotiles\snow.png");
-            this.texturesPath.Add(@"Autotiles\mountainGround2.png");
 
             this.texturesPath.Add(@"Autotiles\cliff.png");
 
@@ -41,18 +42,18 @@ namespace PokeU.View.BiomeGroundObject
                 case LandType.SAND:
                     return this.Resources[this.texturesPath.ElementAt(1)];
                 case LandType.GRASS:
-                    return this.Resources[this.texturesPath.ElementAt(1)];
+                    return this.Resources[this.texturesPath.ElementAt(2)];
                 case LandType.MONTAIN:
                     return this.Resources[this.texturesPath.ElementAt(3)];
                 case LandType.SNOW:
-                    return this.Resources[this.texturesPath.ElementAt(2)];
+                    return this.Resources[this.texturesPath.ElementAt(4)];
             }
             return null;
         }
 
         public override Texture GetWallTexture()
         {
-            return this.Resources[this.texturesPath.ElementAt(4)];
+            return this.Resources[this.texturesPath.ElementAt(5)];
         }
 
 
@@ -62,7 +63,7 @@ namespace PokeU.View.BiomeGroundObject
 
             if (groundLandObject != null)
             {
-                return new SnowGroundObject2D(this, groundLandObject, position, this.IsWall);
+                return new DryGroundObject2D(this, groundLandObject, position, this.IsWall);
             }
             return null;
         }

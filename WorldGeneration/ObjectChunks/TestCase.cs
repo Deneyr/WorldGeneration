@@ -9,7 +9,7 @@ using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.ObjectChunks
 {
-    public class TestCase : ICase
+    internal class TestCase : ICase
     {
         public Vector2i Position
         {

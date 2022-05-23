@@ -23,7 +23,7 @@ namespace PokeU.View.BiomeGroundObject
             this.texturesPath.Add(@"Autotiles\Red cave floor2.png");
             this.texturesPath.Add(@"Autotiles\sandBeach.png");
             this.texturesPath.Add(@"Autotiles\grass3.png");
-            this.texturesPath.Add(@"Autotiles\mountainGround2.png");
+            this.texturesPath.Add(@"Autotiles\mountain.png");
             this.texturesPath.Add(@"Autotiles\snow.png");
 
             this.texturesPath.Add(@"Autotiles\cliff.png");

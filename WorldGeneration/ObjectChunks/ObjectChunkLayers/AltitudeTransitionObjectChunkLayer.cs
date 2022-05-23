@@ -32,18 +32,18 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
             List<LandTransition> landTransitions = this.altitudeObjectChunkLayer.GetLandTransitionAtLocal(localPosition.X, localPosition.Y);
             LandCase firstLandCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
-            int currentAltitude = zObjectCase.GroundAltitude + 1;
+            int currentAltitude = zObjectCase.GroundAltitude;
 
             foreach(LandTransition landTransition in landTransitions)
             {
-                //if(zObjectCase[currentAltitude] == null)
-                //{
-                ObjectCase objectCase = new ObjectCase(zObjectCase.Position, currentAltitude);
+                ObjectCase objectCase = zObjectCase[currentAltitude] as ObjectCase;
+                if (objectCase == null)
+                {
+                    objectCase = new ObjectCase(zObjectCase.Position, currentAltitude);
+                    zObjectCase.SetCaseAt(objectCase);
+                }
 
-                zObjectCase.SetCaseAt(objectCase);
-                //}
-
-                LandCase landCase = (zObjectCase[currentAltitude] as ObjectCase).Land;
+                LandCase landCase = objectCase.Land;
                 landCase.LandWall = firstLandCase.LandGroundList.First().Clone() as ILandWall;
                 landCase.LandWall.LandTransition = landTransition;
 
@@ -51,7 +51,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
                 {
                     GroundLandObject groundLandObject = landGround as GroundLandObject;
 
-                    LandType landType = this.altitudeObjectChunkLayer.GetAltitudeLandType(zObjectCase.ObjectBiome, currentAltitude);
+                    LandType landType = this.altitudeObjectChunkLayer.GetAltitudeLandType(zObjectCase.ObjectBiome, currentAltitude + 1);
 
                     ILandGround newLandGroundOverWall = groundLandObject.Clone(landType, landTransition) as ILandGround;
 

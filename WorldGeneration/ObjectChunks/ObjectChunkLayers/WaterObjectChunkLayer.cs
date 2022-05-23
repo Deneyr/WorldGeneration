@@ -101,6 +101,11 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
                     currentAltitude++;
                 }
+
+                if(zObjectCase.GroundAltitude < 15)
+                {
+                    Console.WriteLine();
+                }
             }
             //}
 

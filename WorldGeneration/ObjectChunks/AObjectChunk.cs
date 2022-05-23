@@ -7,6 +7,7 @@ using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject;
+using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 
 namespace WorldGeneration.ObjectChunks
 {
@@ -14,6 +15,8 @@ namespace WorldGeneration.ObjectChunks
     {
         private static readonly HashSet<Type> ALL_TYPES_IN_CHUNK = new HashSet<Type>()
         {
+            typeof(WaterLandObject),
+
             typeof(BorealForestGroundLandObject),
             typeof(DesertGroundLandObject),
             typeof(RainForestGroundLandObject),

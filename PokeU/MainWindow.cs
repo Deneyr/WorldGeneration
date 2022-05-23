@@ -33,7 +33,7 @@ namespace PokeU
             var mode = new VideoMode(1920, 1080);
             //var window = new SFML.Graphics.RenderWindow(SFML.Window.VideoMode.FullscreenModes[0], "Pokemon Union", SFML.Window.Styles.Fullscreen);
             var window = new RenderWindow(mode, "Pokemon Union");
-            window.SetVerticalSyncEnabled(true);
+            window.SetVerticalSyncEnabled(false);
 
             window.KeyPressed += Window_KeyPressed;
 
@@ -51,8 +51,6 @@ namespace PokeU
             //this.resolutionScreen = new Vector2f(view.Size.X, view.Size.Y);
             //view.Center = new Vector2f(9492, -12595);
             //this.SetView(window, view);
-
-            window.SetVerticalSyncEnabled(false);
 
             Clock clock = new Clock();
 
@@ -142,13 +140,21 @@ namespace PokeU
             {
                 window.Close();
             }
-            else if(e.Code == SFML.Window.Keyboard.Key.Up)
+            else if(e.Code == SFML.Window.Keyboard.Key.Right)
             {
                 this.landWorld2D.CurrentAltitude++;
             }
-            else if(e.Code == SFML.Window.Keyboard.Key.Down)
+            else if(e.Code == SFML.Window.Keyboard.Key.Left)
             {
                 this.landWorld2D.CurrentAltitude--;
+            }
+            if (e.Code == Keyboard.Key.Up)
+            {
+                this.landWorld2D.CurrentZoom += 1;
+            }
+            else if (e.Code == Keyboard.Key.Down)
+            {
+                this.landWorld2D.CurrentZoom -= 1;
             }
         }
     }

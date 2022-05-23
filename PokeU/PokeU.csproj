@@ -69,6 +69,8 @@
     <Compile Include="View\Animations\ZoomAnimationManager.cs" />
     <Compile Include="View\AObject2D.cs" />
     <Compile Include="View\AObject2DFactory.cs" />
+    <Compile Include="View\BiomeGroundObject\DryGroundObject2D.cs" />
+    <Compile Include="View\BiomeGroundObject\DryGroundObject2DFactory.cs" />
     <Compile Include="View\BiomeGroundObject\SnowGroundObject2D.cs" />
     <Compile Include="View\BiomeGroundObject\DesertGroundObject2D.cs" />
     <Compile Include="View\BiomeGroundObject\SnowGroundObject2DFactory.cs" />

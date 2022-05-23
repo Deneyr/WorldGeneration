@@ -50,7 +50,7 @@ namespace PokeU.View.WaterObject
             this.ObjectSprite.Color = new Color(255, 255, 255, 127);
             this.ObjectSprite.Scale = new Vector2f(0.5f, 0.5f);
 
-            this.Position = new Vector2f(position.X * MainWindow.MODEL_TO_VIEW, position.Y * MainWindow.MODEL_TO_VIEW);
+            this.Position = new Vector2f(position.X, position.Y);
         }
 
         public override void DrawIn(RenderWindow window, ref FloatRect boundsView)

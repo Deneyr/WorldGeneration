@@ -221,7 +221,7 @@ namespace PokeU.View
                     {
                         if (landCases[i, j] != null)
                         {
-                            landCases[i, j].SetLandCaseRatio(z - this.CurrentAltitude, this.landObjects2DLayers.Count / 2 + 1);
+                            landCases[i, j].SetLandCaseRatio(z - this.CurrentAltitude, LandWorld2D.LOADED_ALTITUDE_RANGE);
                         }
                     }
                 }

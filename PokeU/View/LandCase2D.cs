@@ -122,7 +122,8 @@ namespace PokeU.View
 
         public void SetLandCaseRatio(int level, int maxLevel)
         {
-            this.RatioAltitude = ((float) level) / maxLevel;
+            this.RatioAltitude = Math.Min(1, Math.Max(-1, ((float) level) / maxLevel));
+            float ratioUp = Math.Min(1, Math.Max(-1, ((float)level + 1) / maxLevel));
 
             foreach (ILandObject2D landGroundObject in this.landGroundList)
             {
@@ -136,7 +137,7 @@ namespace PokeU.View
 
             foreach (ILandObject2D landGroundOverWallObject in this.landGroundOverWallList)
             {
-                landGroundOverWallObject.RatioAltitude = ((float)level + 1) / maxLevel;
+                landGroundOverWallObject.RatioAltitude = ratioUp;
             }
 
             if (this.landWater != null)
@@ -182,7 +183,7 @@ namespace PokeU.View
                 {
                     foreach (ILandObject2D landGroundObject in this.landGroundList)
                     {
-                        landGroundObject.RatioAltitude = this.RatioAltitude;
+                        //landGroundObject.RatioAltitude = this.RatioAltitude;
 
                         landGroundObject.DrawIn(window, ref boundsView);
                     }

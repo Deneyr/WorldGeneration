@@ -215,7 +215,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         public LandType GetAltitudeLandType(BiomeType biomeType, int altitude)
         {
             altitude -= this.altitudeDataAgreggator.SeaLevel;
-            if (altitude < -2)
+            if (altitude < -1)
             {
                 return LandType.SEA_DEPTH;
             }
@@ -223,11 +223,11 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             {
                 return LandType.SAND;
             }
-            else if (altitude < 3)
+            else if (altitude < 4)
             {
                 return LandType.GRASS;
             }
-            else if (altitude < 9)
+            else if (altitude < 10)
             {
                 return LandType.MONTAIN;
             }
