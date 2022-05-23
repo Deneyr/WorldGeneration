@@ -58,7 +58,14 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {2, 0, 1}
         };
 
-        ///
+        ///----------------------------------///
+
+        private static int[,] FULL_MATRIX = new int[,]
+        {
+            {1, 1, 1},
+            {1, 0, 1},
+            {1, 1, 1}
+        };
 
         private static int[,] RIGHT_MATRIX = new int[,]
         {
@@ -144,6 +151,64 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {2, 0, 0},
             {1, 0, 0},
             {2, 1, 2}
+        };
+
+        //
+        private static int[,] BOT_INT_RIGHT_MATRIX2 = new int[,]
+{
+            {2, 2, 1},
+            {1, 0, 0},
+            {2, 0, 0}
+};
+
+        private static int[,] BOT_INT_LEFT_MATRIX2 = new int[,]
+        {
+            {2, 1, 2},
+            {0, 0, 2},
+            {0, 0, 1}
+        };
+
+        private static int[,] TOP_INT_LEFT_MATRIX2 = new int[,]
+        {
+            {0, 0, 2},
+            {0, 0, 1},
+            {1, 2, 2}
+        };
+
+        private static int[,] TOP_INT_RIGHT_MATRIX2 = new int[,]
+        {
+            {1, 0, 0},
+            {2, 0, 0},
+            {2, 1, 2}
+        };
+
+        //
+        private static int[,] BOT_INT_RIGHT_MATRIX3 = new int[,]
+        {
+            {2, 1, 2},
+            {2, 0, 0},
+            {1, 0, 0}
+        };
+
+        private static int[,] BOT_INT_LEFT_MATRIX3 = new int[,]
+        {
+            {1, 2, 2},
+            {0, 0, 1},
+            {0, 0, 2}
+        };
+
+        private static int[,] TOP_INT_LEFT_MATRIX3 = new int[,]
+        {
+            {0, 0, 1},
+            {0, 0, 2},
+            {2, 1, 2}
+        };
+
+        private static int[,] TOP_INT_RIGHT_MATRIX3 = new int[,]
+        {
+            {2, 0, 0},
+            {1, 0, 0},
+            {2, 2, 1}
         };
 
         public static int NeedToFillAt(
@@ -265,6 +330,10 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
                             result &= array[i, j];
                             break;
                     }
+                    if(result == false)
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -289,57 +358,84 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
 
         public static LandTransition GetLandTransitionFrom(ref bool[,] array)
         {
+            if (MatchMatrix(ref array, ref FULL_MATRIX))
+            {
+                return LandTransition.NONE;
+            }
+
+            //
+            if (MatchMatrix(ref array, ref RIGHT_MATRIX))
+            {
+                return LandTransition.RIGHT;
+            }
+            if (MatchMatrix(ref array, ref BOT_MATRIX))
+            {
+                return LandTransition.BOT;
+            }
+            if (MatchMatrix(ref array, ref LEFT_MATRIX))
+            {
+                return LandTransition.LEFT;
+            }
+            if (MatchMatrix(ref array, ref TOP_MATRIX))
+            {
+                return LandTransition.TOP;
+            }
 
             if (MatchMatrix(ref array, ref BOT_RIGHT_MATRIX))
             {
                 return LandTransition.BOT_RIGHT;
             }
-            else if (MatchMatrix(ref array, ref BOT_LEFT_MATRIX))
+            if (MatchMatrix(ref array, ref BOT_LEFT_MATRIX))
             {
                 return LandTransition.BOT_LEFT;
             }
-            else if (MatchMatrix(ref array, ref TOP_LEFT_MATRIX))
+            if (MatchMatrix(ref array, ref TOP_LEFT_MATRIX))
             {
                 return LandTransition.TOP_LEFT;
             }
-            else if (MatchMatrix(ref array, ref TOP_RIGHT_MATRIX))
+            if (MatchMatrix(ref array, ref TOP_RIGHT_MATRIX))
             {
                 return LandTransition.TOP_RIGHT;
             }
 
-            else if (MatchMatrix(ref array, ref BOT_INT_RIGHT_MATRIX))
+            if (MatchMatrix(ref array, ref BOT_INT_RIGHT_MATRIX))
             {
                 return LandTransition.BOT_INT_RIGHT;
             }
-            else if (MatchMatrix(ref array, ref BOT_INT_LEFT_MATRIX))
+            if (MatchMatrix(ref array, ref BOT_INT_LEFT_MATRIX))
             {
                 return LandTransition.BOT_INT_LEFT;
             }
-            else if (MatchMatrix(ref array, ref TOP_INT_LEFT_MATRIX))
+            if (MatchMatrix(ref array, ref TOP_INT_LEFT_MATRIX))
             {
                 return LandTransition.TOP_INT_LEFT;
             }
-            else if (MatchMatrix(ref array, ref TOP_INT_RIGHT_MATRIX))
+            if (MatchMatrix(ref array, ref TOP_INT_RIGHT_MATRIX))
             {
                 return LandTransition.TOP_INT_RIGHT;
             }
 
-            else if (MatchMatrix(ref array, ref RIGHT_MATRIX))
+            if (MatchMatrix(ref array, ref BOT_INT_RIGHT_MATRIX2)
+                || MatchMatrix(ref array, ref BOT_INT_RIGHT_MATRIX3))
             {
-                return LandTransition.RIGHT;
+                return LandTransition.BOT_INT_RIGHT;
             }
-            else if (MatchMatrix(ref array, ref BOT_MATRIX))
+            if (MatchMatrix(ref array, ref BOT_INT_LEFT_MATRIX2)
+                || MatchMatrix(ref array, ref BOT_INT_LEFT_MATRIX3))
             {
-                return LandTransition.BOT;
+                return LandTransition.BOT_INT_LEFT;
             }
-            else if (MatchMatrix(ref array, ref LEFT_MATRIX))
+            if (MatchMatrix(ref array, ref TOP_INT_LEFT_MATRIX2)
+                || MatchMatrix(ref array, ref TOP_INT_LEFT_MATRIX3))
             {
-                return LandTransition.LEFT;
+                return LandTransition.TOP_INT_LEFT;
             }
-            else if (MatchMatrix(ref array, ref TOP_MATRIX))
+            if (MatchMatrix(ref array, ref TOP_INT_RIGHT_MATRIX2)
+                || MatchMatrix(ref array, ref TOP_INT_RIGHT_MATRIX3))
             {
-                return LandTransition.TOP;
+                return LandTransition.TOP_INT_RIGHT;
             }
+
 
             return LandTransition.NONE;
         }

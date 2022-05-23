@@ -139,7 +139,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
             if(riverDepth > 0)
             {
-                waterAltitude = altitude;
+                waterAltitude = altitude - 1;
             }
 
             //int seaDepth = 0;
