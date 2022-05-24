@@ -89,22 +89,27 @@ namespace PokeU.View
         public virtual void DrawIn(RenderWindow window, ref FloatRect boundsView)
         {
 
-            if (this.RatioAltitude < 0)
-            {
-                byte colorAltitude = (byte)(127 + 128 + this.ratioAltitude * 128);
+            float ratioAltitude = 1 - Math.Abs(this.ratioAltitude);
+            byte colorAltitude = (byte)(ratioAltitude * ratioAltitude * 255f);
 
-                this.ObjectSprite.Color = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
-            }
-            else if(this.RatioAltitude > 0)
-            {
-                byte colorAltitude = (byte)(127 + 128 - this.ratioAltitude * 128);
+            //if (this.RatioAltitude < 0)
+            //{
+            //    byte colorAltitude = (byte)(-this.ratioAltitude * 255);
 
-                this.ObjectSprite.Color = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
-            }
-            else
-            {
-                this.ObjectSprite.Color = new Color(255, 255, 255, this.ObjectSprite.Color.A);
-            }
+            //    this.ObjectSprite.Color = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
+            //}
+            //else if(this.RatioAltitude > 0)
+            //{
+            //    byte colorAltitude = (byte)(this.ratioAltitude * 255);
+
+            //    this.ObjectSprite.Color = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
+            //}
+            //else
+            //{
+            //    this.ObjectSprite.Color = new Color(255, 255, 255, this.ObjectSprite.Color.A);
+            //}
+
+            this.ObjectSprite.Color = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
 
             window.Draw(this.ObjectSprite);
 

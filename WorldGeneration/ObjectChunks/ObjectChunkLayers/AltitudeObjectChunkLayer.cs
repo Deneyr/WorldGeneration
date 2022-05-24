@@ -62,65 +62,57 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             this.altitudeDataAgreggator = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator);
             this.riverDataAgreggator = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["river"] as RiverDataAgreggator);
 
-            base.ComputeObjectChunk(objectChunksMonitor, objectChunk);
+            int chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
+            Random random = new Random(chunkSeed);
 
-            //int seaAltitude = altitudeDataAgreggator.SeaLevel;
+            for (int i = -this.ObjectChunkMargin; i < objectChunk.NbCaseSide + this.ObjectChunkMargin; i++)
+            {
+                for (int j = -this.ObjectChunkMargin; j < objectChunk.NbCaseSide + this.ObjectChunkMargin; j++)
+                {
+                    Vector2i worldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, j, i));
 
-            //for (int i = 0; i < objectChunk.NbCaseSide; i++)
+                    this.ComputeBufferArea(objectChunksMonitor, random, objectChunk, new Vector2i(j, i), worldPosition);
+                }
+            }
+
+            int secondObjectChunkMargin = this.ObjectChunkMargin - 1;
+            for (int i = -secondObjectChunkMargin; i < objectChunk.NbCaseSide + secondObjectChunkMargin; i++)
+            {
+                for (int j = -secondObjectChunkMargin; j < objectChunk.NbCaseSide + secondObjectChunkMargin; j++)
+                {
+                    Vector2i worldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, j, i));
+
+                    this.ComputeSecondBufferArea(objectChunksMonitor, random, objectChunk, new Vector2i(j, i), worldPosition);
+                }
+            }
+            //for (int i = -secondObjectChunkMargin; i < objectChunk.NbCaseSide + secondObjectChunkMargin; i++)
             //{
-            //    for (int j = 0; j < objectChunk.NbCaseSide; j++)
+            //    for (int j = -secondObjectChunkMargin; j < objectChunk.NbCaseSide + secondObjectChunkMargin; j++)
             //    {
-            //        IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(j, i) as IZObjectCase;
+            //        Vector2i worldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, j, i));
 
-            //        int altitude = altitudeDataAgreggator.GetAltitudeAtWorldCoordinates(zObjectCase.Position.X, zObjectCase.Position.Y, out bool isUnderSea);
-
-            //        int riverDepth = 0;
-            //        if (altitude < 22)
-            //        {
-            //            float riverRatio = riverDataAgreggator.GetRiverValueAtWorldCoordinates(zObjectCase.Position.X, zObjectCase.Position.Y);
-            //            riverDepth = (int)Math.Ceiling(riverRatio * 4);
-            //            riverDepth = Math.Min(Math.Max(altitude - seaAltitude + 1, 0), riverDepth);
-            //        }
-
-            //        altitude = altitude - riverDepth;
-
-            //        ObjectCase objectCase = new ObjectCase(zObjectCase.Position, altitude);
-            //        zObjectCase.SetCaseAt(objectCase, altitude);
-
-            //        if (isUnderSea)
-            //        {
-            //            for (int a = altitude; a <= seaAltitude; a++)
-            //            {
-            //                if (zObjectCase[a] == null)
-            //                {
-            //                    objectCase = new ObjectCase(zObjectCase.Position, a);
-            //                    zObjectCase.SetCaseAt(objectCase, a);
-            //                }
-
-            //                (zObjectCase[a] as ObjectCase).IsUnderSea = true;
-            //            }
-            //        }
-            //        else if (riverDepth > 0)
-            //        {
-            //            if (altitude == seaAltitude)
-            //            {
-            //                riverDepth = 1;
-            //            }
-
-            //            for (int a = 0; a <= riverDepth; a++)
-            //            {
-            //                int newAltitude = altitude + a;
-            //                if (zObjectCase[newAltitude] == null)
-            //                {
-            //                    objectCase = new ObjectCase(zObjectCase.Position, newAltitude);
-            //                    zObjectCase.SetCaseAt(objectCase, newAltitude);
-            //                }
-
-            //                (zObjectCase[newAltitude] as ObjectCase).IsUnderSea = true;
-            //            }
-            //        }
+            //        this.ComputeSecondBufferArea(objectChunksMonitor, random, objectChunk, new Vector2i(j, i), worldPosition);
             //    }
             //}
+
+            int transitionObjectChunkMargin = this.ObjectChunkMargin - 2;
+            for (int i = -transitionObjectChunkMargin; i < objectChunk.NbCaseSide + transitionObjectChunkMargin; i++)
+            {
+                for (int j = -transitionObjectChunkMargin; j < objectChunk.NbCaseSide + transitionObjectChunkMargin; j++)
+                {
+                    Vector2i worldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, j, i));
+
+                    this.ComputeTransitionAreaBuffer(objectChunksMonitor, random, objectChunk, new Vector2i(j, i), worldPosition);
+                }
+            }
+
+            for (int i = 0; i < objectChunk.NbCaseSide; i++)
+            {
+                for (int j = 0; j < objectChunk.NbCaseSide; j++)
+                {
+                    this.ComputeChunkArea(objectChunksMonitor, random, objectChunk, new Vector2i(j, i), this.GetWorldPosition(objectChunk, j, i));
+                }
+            }
         }
 
         protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
@@ -136,16 +128,15 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             }
 
             int waterAltitude = -1;
-
             if(riverDepth > 0)
             {
                 waterAltitude = altitude - 1;
             }
 
-            //int seaDepth = 0;
-            if (isUnderSea)
+            int seaDepth = -1;
+            if (isUnderSea || riverDepth > 0)
             {
-                waterAltitude = Math.Max(this.altitudeDataAgreggator.SeaLevel, altitude);
+                seaDepth = this.altitudeDataAgreggator.SeaLevel;//waterAltitude = Math.Max(this.altitudeDataAgreggator.SeaLevel, altitude);
             }
 
             //int realRiverDepth = 0;
@@ -155,7 +146,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             //}
 
             //this.InitialAltitudeAreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = altitude;
-            this.WaterLevelAreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = waterAltitude;
+            this.WaterLevelAreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = Math.Max(waterAltitude, seaDepth);
 
             altitude = altitude - riverDepth;
 
@@ -164,19 +155,53 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
         protected override void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
-            base.ComputeSecondBufferArea(objectChunksMonitor, random, objectChunk, localPosition, worldPosition);
+            int i = localPosition.Y + this.ObjectChunkMargin - 1;
+            int j = localPosition.X + this.ObjectChunkMargin - 1;
 
-            int waterLevel = this.GetWaterLevelAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
-            if (waterLevel >= 0)
-            {
-                int initialAltitude = this.GetAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
-                int newAltitude = this.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
-                if (newAltitude >= waterLevel && newAltitude > this.altitudeDataAgreggator.SeaLevel)
-                {
-                    this.WaterLevelAreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = -1;
-                }
-            }
+            this.SecondAreaBuffer[i, j] = LandCreationHelper.NeedToFillAt(this.AreaBuffer, localPosition.Y, localPosition.X, this.ObjectChunkMargin);
         }
+
+        //protected override void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        //{
+        //    //base.ComputeSecondBufferArea(objectChunksMonitor, random, objectChunk, localPosition, worldPosition);
+
+        //    //int waterLevel = this.GetWaterLevelAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+        //    //if (waterLevel >= 0)
+        //    //{
+        //    //    int initialAltitude = this.GetAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+        //    //    int newAltitude = this.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+
+        //    //    if (waterLevel > this.altitudeDataAgreggator.SeaLevel)
+        //    //    {
+        //    //        waterLevel = Math.Max(this.altitudeDataAgreggator.SeaLevel, waterLevel - (newAltitude - initialAltitude));
+
+        //    //        this.WaterLevelAreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = waterLevel;
+        //    //    }
+        //    //}
+        //    int i = localPosition.Y + this.ObjectChunkMargin - 1;
+        //    int j = localPosition.X + this.ObjectChunkMargin - 1;
+
+        //    this.SecondAreaBuffer[i, j] = this.GetAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+        //}
+
+        //protected override void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        //{
+        //    base.ComputeSecondBufferArea(objectChunksMonitor, random, objectChunk, localPosition, worldPosition);
+
+        //    int waterLevel = this.GetWaterLevelAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+        //    if (waterLevel >= 0)
+        //    {
+        //        int initialAltitude = this.GetAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+        //        int newAltitude = this.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+
+        //        if (waterLevel > this.altitudeDataAgreggator.SeaLevel)
+        //        {
+        //            waterLevel = Math.Max(this.altitudeDataAgreggator.SeaLevel, waterLevel - (newAltitude - initialAltitude));
+
+        //            this.WaterLevelAreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = waterLevel;
+        //        }
+        //    }
+        //}
 
         protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {

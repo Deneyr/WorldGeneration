@@ -104,7 +104,7 @@ namespace WorldGeneration.ObjectChunks
             int i = localPosition.Y + this.ObjectChunkMargin - 1;
             int j = localPosition.X + this.ObjectChunkMargin - 1;
 
-            this.SecondAreaBuffer[i, j] = LandCreationHelper.NeedToFillAt(this.AreaBuffer, localPosition.Y, localPosition.X, this.ObjectChunkMargin);
+            this.SecondAreaBuffer[i, j] = LandCreationHelper.NeedToFillMaxAt(this.AreaBuffer, localPosition.Y, localPosition.X, this.ObjectChunkMargin);
         }
 
         protected virtual void ComputeTransitionAreaBuffer(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)

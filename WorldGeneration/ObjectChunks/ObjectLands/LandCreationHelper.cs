@@ -235,6 +235,59 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
                 }
             }
 
+            bool needToFill = true;
+            while (subAreaInt[1, 1] < maxValue && needToFill)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    for (int x = 0; x < 3; x++)
+                    {
+                        if (subAreaInt[y, x] <= subAreaInt[1, 1])
+                        {
+                            subAreaBool[y, x] = false;
+                        }
+                        else
+                        {
+                            subAreaBool[y, x] = true;
+                        }
+                    }
+                }
+
+                needToFill = NeedToFill(ref subAreaBool);
+
+                if (needToFill)
+                {
+                    subAreaInt[1, 1]++;
+                }
+            }
+
+            return subAreaInt[1, 1];
+        }
+
+        public static int NeedToFillMaxAt(
+            int[,] biomeArea,
+            int i, int j,
+            int margin)
+        {
+            bool[,] subAreaBool = new bool[3, 3];
+            int[,] subAreaInt = new int[3, 3];
+
+            int maxValue = int.MinValue;
+            int minValue = int.MaxValue;
+            for (int y = -1; y < 2; y++)
+            {
+                for (int x = -1; x < 2; x++)
+                {
+                    int altitude = biomeArea[i + y + margin, j + x + margin];
+
+                    maxValue = Math.Max(maxValue, altitude);
+
+                    minValue = Math.Min(minValue, altitude);
+
+                    subAreaInt[y + 1, x + 1] = altitude;
+                }
+            }
+
             bool needToFill = false;
             if (subAreaInt[1, 1] != maxValue)
             {

@@ -41,10 +41,10 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
         protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
-            //int waterAltitude = this.altitudeObjectChunkLayer.GetWaterLevelAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+            int waterAltitude = this.altitudeObjectChunkLayer.GetWaterLevelAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
             //int groundAltitude = this.altitudeObjectChunkLayer.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
 
-            //this.AreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = waterAltitude >= groundAltitude ? 1 : 0;
+            this.AreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = waterAltitude;
 
             //bool isThereWater = this.altitudeObjectChunkLayer.GetWaterAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
             //int initialAltitudeLevel = this.altitudeObjectChunkLayer.GetInitialAltitudeAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
@@ -73,11 +73,12 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
             //if (isThereWater)
             //{
-            int groundAltitude = this.altitudeObjectChunkLayer.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
-            int waterAltitude = this.altitudeObjectChunkLayer.GetWaterLevelAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+            int waterAltitude = this.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
 
             if (waterAltitude >= 0)
             {
+                int groundAltitude = this.altitudeObjectChunkLayer.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+
                 IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
 
                 int currentAltitude = groundAltitude;
@@ -100,11 +101,6 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
                     }
 
                     currentAltitude++;
-                }
-
-                if(zObjectCase.GroundAltitude < 15)
-                {
-                    Console.WriteLine();
                 }
             }
             //}

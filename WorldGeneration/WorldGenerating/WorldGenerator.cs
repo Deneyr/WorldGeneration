@@ -264,8 +264,8 @@ namespace WorldGeneration.WorldGenerating
             WaterObjectChunkLayer waterObjectChunkLayer = new WaterObjectChunkLayer("waterLayer");
             this.objectChunkMonitor.AddObjectLayerToGenerator(waterObjectChunkLayer);
 
-            //WaterTransitionObjectChunkLayer waterTransitionObjectChunkLayer = new WaterTransitionObjectChunkLayer("waterTransitionLayer");
-            //this.objectChunkMonitor.AddObjectLayerToGenerator(waterTransitionObjectChunkLayer);
+            WaterTransitionObjectChunkLayer waterTransitionObjectChunkLayer = new WaterTransitionObjectChunkLayer("waterTransitionLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(waterTransitionObjectChunkLayer);
 
 
             FloraCObjectChunkLayer floraCObjectChunkLayer = new FloraCObjectChunkLayer("floraCLayer");

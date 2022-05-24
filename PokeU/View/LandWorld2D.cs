@@ -21,7 +21,7 @@ namespace PokeU.View
 {
     public class LandWorld2D
     {
-        public static readonly int LOADED_ALTITUDE_RANGE = 10;
+        public static readonly int LOADED_ALTITUDE_RANGE = 32;
 
         public static readonly Dictionary<Type, IObject2DFactory> MappingObjectModelView;
 
