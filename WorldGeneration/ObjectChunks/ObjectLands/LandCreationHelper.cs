@@ -58,6 +58,14 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {2, 0, 1}
         };
 
+        //
+        private static int[,] BEND_WATER_MATRIX = new int[,]
+        {
+            {2, 0, 2},
+            {0, 1, 0},
+            {2, 0, 2}
+        };
+
         ///----------------------------------///
 
         private static int[,] FULL_MATRIX = new int[,]
@@ -212,7 +220,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
         };
 
         public static int NeedToFillAt(
-            int[,] biomeArea,
+            int[,] area,
             int i, int j,
             int margin)
         {
@@ -225,7 +233,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {
                 for (int x = -1; x < 2; x++)
                 {
-                    int altitude = biomeArea[i + y + margin, j + x + margin];
+                    int altitude = area[i + y + margin, j + x + margin];
 
                     maxValue = Math.Max(maxValue, altitude);
 
@@ -265,7 +273,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
         }
 
         public static int NeedToFillMaxAt(
-            int[,] biomeArea,
+            int[,] area,
             int i, int j,
             int margin)
         {
@@ -278,7 +286,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {
                 for (int x = -1; x < 2; x++)
                 {
-                    int altitude = biomeArea[i + y + margin, j + x + margin];
+                    int altitude = area[i + y + margin, j + x + margin];
 
                     maxValue = Math.Max(maxValue, altitude);
 
@@ -314,6 +322,103 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
                 return maxValue;
             }
             return subAreaInt[1, 1];
+        }
+
+        public static int NeedToUnfillWaterAt(
+            int[,] area,
+            int i, int j,
+            int margin)
+        {
+            bool[,] subAreaBool = new bool[3, 3];
+            int[,] subAreaInt = new int[3, 3];
+
+            int maxValue = int.MinValue;
+            int minValue = int.MaxValue;
+            for (int y = -1; y < 2; y++)
+            {
+                for (int x = -1; x < 2; x++)
+                {
+                    int altitude = area[i + y + margin, j + x + margin];
+
+                    maxValue = Math.Max(maxValue, altitude);
+
+                    minValue = Math.Min(minValue, altitude);
+
+                    subAreaInt[y + 1, x + 1] = altitude;
+                }
+            }
+
+            return minValue;
+        }
+
+        public static int NeedToFillWaterAt(
+            int[,] area,
+            int i, int j,
+            int margin)
+        {
+            bool[,] subAreaBool = new bool[3, 3];
+            int[,] subAreaInt = new int[3, 3];
+
+            int maxValue = int.MinValue;
+            int minValue = -1;
+            for (int y = -1; y < 2; y++)
+            {
+                for (int x = -1; x < 2; x++)
+                {
+                    int altitude = area[i + y + margin, j + x + margin];
+
+                    maxValue = Math.Max(maxValue, altitude);
+
+                    if (altitude != -1)
+                    {
+                        if(minValue == -1)
+                        {
+                            minValue = altitude;
+                        }
+                        else
+                        {
+                            minValue = Math.Min(minValue, altitude);
+                        }
+                    }
+
+                    subAreaInt[y + 1, x + 1] = altitude;
+                }
+            }
+
+            //bool needToFill = false;
+            if (maxValue >= 0 && subAreaInt[1, 1] != maxValue)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    for (int x = 0; x < 3; x++)
+                    {
+                        if (subAreaInt[y, x] == -1)
+                        {
+                            subAreaBool[y, x] = false;
+                        }
+                        else
+                        {
+                            subAreaBool[y, x] = true;
+                        }
+                    }
+                }
+
+                if(NeedToFill(ref subAreaBool))
+                {
+                    return minValue;
+                }
+            }
+
+            if (subAreaInt[1, 1] != -1)
+            {
+                return minValue;
+            }
+            return subAreaInt[1, 1];
+            //if (needToFill)
+            //{
+            //    return minValue;
+            //}
+            //return subAreaInt[1, 1];
         }
 
         //public static int NeedToFillAltitudeLandAt(
@@ -402,6 +507,16 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
                 || MatchMatrix(ref array, ref BEND_BOT_RIGHT_MATRIX)
                 || MatchMatrix(ref array, ref BEND_TOP_LEFT_MATRIX)
                 || MatchMatrix(ref array, ref BEND_TOP_RIGHT_MATRIX))
+            //|| MatchMatrix(ref array, ref CENTER_LEFT_MATRIX))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool NeedToFillWater(ref bool[,] array)
+        {
+            if (MatchMatrix(ref array, ref BEND_WATER_MATRIX))
             //|| MatchMatrix(ref array, ref CENTER_LEFT_MATRIX))
             {
                 return true;

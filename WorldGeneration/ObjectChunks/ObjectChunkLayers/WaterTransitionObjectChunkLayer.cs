@@ -37,63 +37,97 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         {
             List<LandTransition> landTransitions = this.waterObjectChunkLayer.GetLandTransitionAtLocal(localPosition.X, localPosition.Y);
 
+            //int startWaterAltitude = this.waterObjectChunkLayer.GetMaxAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+
             if (landTransitions.Any())
             {
-                int waterAltitude = this.waterObjectChunkLayer.GetMaxAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
+                LandTransition landTransition = landTransitions.First();
+
+                int waterAltitude = this.waterObjectChunkLayer.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
                 int groundAltitude = this.altitudeObjectChunkLayer.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
 
-                if (groundAltitude <= waterAltitude)
+                IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
+                ObjectCase objectCase = zObjectCase[groundAltitude] as ObjectCase;
+
+
+                if (objectCase.Land.LandWall == null)
                 {
-                    IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
-
-                    //LandCase landCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
-                    //if (zObjectCase.GroundAltitude == this.altitudeDataAgreggator.SeaLevel)
-                    //{
-                    //    landCase.LandWater = new WaterLandObject(random.Next());
-                    //    landCase.LandWater.LandTransition = landTransitions.First();
-                    //}
-
-                    ObjectCase objectCase = zObjectCase[groundAltitude] as ObjectCase;
-
-                    if (objectCase.Land.LandWater == null && objectCase.Land.IsValid)
+                    if (objectCase.Land.LandWater == null)
                     {
                         objectCase.Land.LandWater = new WaterLandObject(random.Next());
-                        objectCase.Land.LandWater.LandTransition = landTransitions.First();
                     }
-
-                    if (objectCase.Land.LandWater == null && objectCase.Land.IsValid)
+                    objectCase.Land.LandWater.LandTransition = landTransition;
+                }
+                else
+                {
+                    LandTransition newLandTransition = LandTransitionHelper.IntersectionLandTransition(LandTransitionHelper.ReverseLandTransition(objectCase.Land.LandWall.LandTransition), landTransition);
+                    if (newLandTransition != LandTransition.NONE)
                     {
-
-                        //int currentAltitude = groundAltitude;
-                        //int diffWaterAltitude = waterAltitude - groundAltitude + 1;
-
-                        //for (int i = 0; i < diffWaterAltitude; i++)
-                        //{
-                        //    ObjectCase objectCase = zObjectCase[currentAltitude] as ObjectCase;
-
-                        //    if (objectCase == null)
-                        //    {
-                        //        objectCase = new ObjectCase(zObjectCase.Position, currentAltitude);
-                        //        zObjectCase.SetCaseAt(objectCase);
-                        //    }
-
-                        //    if (objectCase.Land.LandWater == null && objectCase.Land.IsValid)
-                        //    {
-                        //        objectCase.Land.LandWater = new WaterLandObject(random.Next());
-                        //        if (objectCase.Land.LandWall != null)
-                        //        {
-                        //            objectCase.Land.LandWater.LandTransition = LandTransitionHelper.ReverseLandTransition(objectCase.Land.LandWall.LandTransition);
-                        //        }
-                        //        else
-                        //        {
-                        //            objectCase.Land.LandWater.LandTransition = landTransitions.First();
-                        //        }
-                        //    }
-
-                        //    currentAltitude++;
-                        //}
+                        if (objectCase.Land.LandWater == null)
+                        {
+                            objectCase.Land.LandWater = new WaterLandObject(random.Next());
+                        }
+                        objectCase.Land.LandWater.LandTransition = newLandTransition;
                     }
                 }
+
+                //if (waterAltitude == -1 && groundAltitude <= startWaterAltitude)
+                //{
+                //    int currentAltitude = startWaterAltitude;
+
+                //    IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
+
+                //    foreach (LandTransition landTransition in landTransitions)
+                //    {
+                //        ObjectCase objectCase = zObjectCase[currentAltitude] as ObjectCase;
+                //        if (objectCase == null)
+                //        {
+                //            objectCase = new ObjectCase(zObjectCase.Position, currentAltitude);
+                //            zObjectCase.SetCaseAt(objectCase);
+                //        }
+
+                //        if (objectCase.Land.LandWater == null)
+                //        {
+                //            objectCase.Land.LandWater = new WaterLandObject(random.Next());
+                //        }
+
+                //        if (objectCase.Land.LandWall != null)
+                //        {
+                //            LandTransition newLandTransition = LandTransitionHelper.IntersectionLandTransition(LandTransitionHelper.ReverseLandTransition(objectCase.Land.LandWall.LandTransition), landTransition);
+
+                //            if (newLandTransition != LandTransition.NONE)
+                //            {
+                //                objectCase.Land.LandWater.LandTransition = newLandTransition;
+                //            }
+                //        }
+                //        else
+                //        {
+                //            objectCase.Land.LandWater.LandTransition = landTransition;
+                //        }
+
+                //        currentAltitude++;
+                //    }
+                //}
+
+                //if (groundAltitude > waterAltitude)
+                //{
+                //    IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
+
+                //    //LandCase landCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
+                //    //if (zObjectCase.GroundAltitude == this.altitudeDataAgreggator.SeaLevel)
+                //    //{
+                //    //    landCase.LandWater = new WaterLandObject(random.Next());
+                //    //    landCase.LandWater.LandTransition = landTransitions.First();
+                //    //}
+
+                //    ObjectCase objectCase = zObjectCase[groundAltitude] as ObjectCase;
+
+                //    if (objectCase.Land.LandWater == null && objectCase.Land.IsValid)
+                //    {
+                //        objectCase.Land.LandWater = new WaterLandObject(random.Next());
+                //        objectCase.Land.LandWater.LandTransition = landTransitions.First();
+                //    }
+                //}
             }
         }
     }

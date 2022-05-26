@@ -209,7 +209,7 @@ namespace WorldGeneration.WorldGenerating
 
             perlinDataChunkLayer = new PerlinDataChunkLayer("landscapeWaterLevel", 20, 1);
             this.dataChunksMonitor.AddDataLayerToGenerator(perlinDataChunkLayer);
-            altitudeDataAgreggator.AddSeaLayer(0.03f, perlinDataChunkLayer);
+            altitudeDataAgreggator.AddSeaLayer(0.08f, perlinDataChunkLayer);
             altitudeDataAgreggator.BiomeDataAgreggator = biomeDataAgreggator;
 
             // Part flora & rocks

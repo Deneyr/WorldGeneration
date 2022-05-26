@@ -108,7 +108,7 @@ namespace PokeU.View
         {
             if (underLandCase != null)
             {
-                this.underLandCaseData = new LandCaseData(underLandCase.LandWall != null, underLandCase.LandWater != null);
+                this.underLandCaseData = new LandCaseData(underLandCase.LandWall != null, underLandCase.LandWater != null); // && underLandCase.LandWater.LandTransition == LandTransition.NONE);
             }
         }
 
@@ -116,7 +116,7 @@ namespace PokeU.View
         {
             if (overLandeCase != null)
             {
-                this.overLandCaseData = new LandCaseData(overLandeCase.LandWall != null, overLandeCase.LandWater != null);
+                this.overLandCaseData = new LandCaseData(overLandeCase.LandWall != null, overLandeCase.LandWater != null); // && overLandeCase.LandWater.LandTransition == LandTransition.NONE);
             }
         }
 
@@ -194,14 +194,6 @@ namespace PokeU.View
                     this.landOverGround.DrawIn(window, ref boundsView);
                 }
 
-                if (this.overLandCaseData.IsThereWater == false)
-                {
-                    if (this.landWater != null)
-                    {
-                        this.landWater.DrawIn(window, ref boundsView);
-                    }
-                }
-
                 if (this.landWall != null)
                 {
                     foreach (ILandObject2D landGroundOverWallObject in this.landGroundOverWallList)
@@ -221,6 +213,14 @@ namespace PokeU.View
                 if (this.landWall != null)
                 {
                     this.landWall.DrawIn(window, ref boundsView);
+                }
+
+                if (this.overLandCaseData.IsThereWater == false)
+                {
+                    if (this.landWater != null)
+                    {
+                        this.landWater.DrawIn(window, ref boundsView);
+                    }
                 }
 
                 if (this.landOverWall != null)
