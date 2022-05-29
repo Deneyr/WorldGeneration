@@ -9,6 +9,11 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
 {
     public interface ILandObject
     {
+        int LandObjectId
+        {
+            get;
+        }
+
         LandTransition LandTransition
         {
             get;

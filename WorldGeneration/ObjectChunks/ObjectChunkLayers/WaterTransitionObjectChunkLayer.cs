@@ -52,11 +52,15 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
                 if (objectCase.Land.LandWall == null)
                 {
-                    if (objectCase.Land.LandWater == null)
+                    if (groundAltitude == this.altitudeDataAgreggator.SeaLevel
+                        || (landTransition != LandTransition.TOP_LEFT && landTransition != LandTransition.TOP_RIGHT && landTransition != LandTransition.BOT_LEFT && landTransition != LandTransition.BOT_RIGHT))
                     {
-                        objectCase.Land.LandWater = new WaterLandObject(random.Next());
+                        if (objectCase.Land.LandWater == null)
+                        {
+                            objectCase.Land.LandWater = new WaterLandObject(random.Next());
+                        }
+                        objectCase.Land.LandWater.LandTransition = landTransition;
                     }
-                    objectCase.Land.LandWater.LandTransition = landTransition;
                 }
                 else
                 {
