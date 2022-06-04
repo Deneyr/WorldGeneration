@@ -11,7 +11,7 @@ using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
-    internal class TallGrassStructureDataChunk : AStructureDataChunk
+    internal class TallGrassStructureDataChunk : APointStructureDataChunk
     {
         private WeatherDataAgreggator weatherDataAgreggator;
 
@@ -28,22 +28,24 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
         }
 
 
-        protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, Vector2i structureCenter)
+        protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, Vector2i structureWorldPosition)
         {
-            float temperature = weatherDataAgreggator.GetTemperatureAtWorldCoordinates(structureCenter.X, structureCenter.Y);
-            float humidity = weatherDataAgreggator.GetHumidityAtWorldCoordinates(structureCenter.X, structureCenter.Y);
+            return new TallGrassStructure(structureWorldPosition, boundingBox);
+        }
+
+        protected override bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
+        {
+            Vector2i structureWorldCenter = dataStructure.StructureWorldPosition;
+
+            float temperature = weatherDataAgreggator.GetTemperatureAtWorldCoordinates(structureWorldCenter.X, structureWorldCenter.Y);
+            float humidity = weatherDataAgreggator.GetHumidityAtWorldCoordinates(structureWorldCenter.X, structureWorldCenter.Y);
 
             BiomeType biomeValue = dataChunksMonitor.WeatherMonitor.GetBiomeAt(temperature, humidity);
+            (dataStructure as ADataStructure).StructureBiome = biomeValue;
 
             float ratio = dataChunksMonitor.TallGrassBiomeManager.GetTallGrassRatioFromBiomeAltitude(biomeValue, 0);
 
-            TallGrassStructure tallGrassStructure = null;
-            if (random.NextDouble() < ratio)
-            {
-                tallGrassStructure = new TallGrassStructure(structureCenter, biomeValue, boundingBox);
-            }
-
-            return tallGrassStructure;
+            return random.NextDouble() < ratio;
         }
     }
 }

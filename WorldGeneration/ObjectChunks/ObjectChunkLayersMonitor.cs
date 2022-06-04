@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks;
 using WorldGeneration.DataChunks.DataAgreggator;
+using WorldGeneration.ObjectChunks.ObjectStructures;
 
 namespace WorldGeneration.ObjectChunks
 {
@@ -25,6 +26,12 @@ namespace WorldGeneration.ObjectChunks
         }
 
         internal Dictionary<string, IObjectChunkLayer> ObjectChunksLayers
+        {
+            get;
+            private set;
+        }
+
+        internal Dictionary<string, IStructureTemplate> ObjectStructureTemplates
         {
             get;
             private set;
@@ -58,6 +65,8 @@ namespace WorldGeneration.ObjectChunks
             this.WorldObjectLayers = new List<IObjectChunkLayer>();
             this.ObjectChunksLayers = new Dictionary<string, IObjectChunkLayer>();
 
+            this.ObjectStructureTemplates = new Dictionary<string, IStructureTemplate>();
+
             this.DataChunkMonitor = dataChunkLayersMonitor;
         }
 
@@ -69,6 +78,11 @@ namespace WorldGeneration.ObjectChunks
             objectChunkLayerToAdd.InitObjectChunkLayer(this.NbCaseSide);
 
             this.MaxObjectChunkLayerMargin = Math.Max(this.MaxObjectChunkLayerMargin, objectChunkLayerToAdd.ObjectChunkMargin);
+        }
+
+        internal void AddObjectStructureTemplatesToGenerator(IStructureTemplate structureTemplateToAdd)
+        {
+            this.ObjectStructureTemplates.Add(structureTemplateToAdd.TemplateUID, structureTemplateToAdd);
         }
 
         //private float timeMean = 0;

@@ -6,12 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.ObjectChunks.BiomeManager;
+using WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures;
 
 namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 {
-    internal class FloraCObjectChunkLayer: AObjectChunkLayer
+    internal class FloraCObjectChunkLayer: A1PassObjectChunkLayer
     {
         private FloraDataAgreggator floraDataAgreggator;
+
+        private TreeStructureTemplate treeStructureTemplate;
+
+        public override int ObjectChunkMargin
+        {
+            get
+            {
+                return 2;
+            }
+        }
 
         public FloraCObjectChunkLayer(string id)
             : base(id)
@@ -22,7 +33,14 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         {
             this.floraDataAgreggator = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator);
 
+            this.treeStructureTemplate = objectChunksMonitor.ObjectStructureTemplates["TreeStructure"] as TreeStructureTemplate;
+
             base.ComputeObjectChunk(objectChunksMonitor, objectChunk);
+        }
+
+        protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        {
+            
         }
 
         protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
@@ -36,8 +54,13 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
                 if (objectCase.IsUnderSea == false)
                 {
-                    objectCase.IsThereTree = this.floraDataAgreggator.IsThereTreeAtWorldCoordinate(zObjectCase.Position.X, zObjectCase.Position.Y, floraRatioManager.GetTreeRatioFromBiomeAltitude(zObjectCase.ObjectBiome, objectCase.Altitude));
-                    objectCase.IsThereRock = this.floraDataAgreggator.IsThereRockAtWorldCoordinate(zObjectCase.Position.X, zObjectCase.Position.Y, floraRatioManager.GetRockRatioFromBiomeAltitude(zObjectCase.ObjectBiome, objectCase.Altitude));
+                    bool isThereTree = this.floraDataAgreggator.IsThereTreeAtWorldCoordinate(zObjectCase.Position.X, zObjectCase.Position.Y, floraRatioManager.GetTreeRatioFromBiomeAltitude(zObjectCase.ObjectBiome, objectCase.Altitude));
+
+                    if (isThereTree)
+                    {
+
+                    }
+                    //objectCase.IsThereRock = this.floraDataAgreggator.IsThereRockAtWorldCoordinate(zObjectCase.Position.X, zObjectCase.Position.Y, floraRatioManager.GetRockRatioFromBiomeAltitude(zObjectCase.ObjectBiome, objectCase.Altitude));
                 }
             }
         }

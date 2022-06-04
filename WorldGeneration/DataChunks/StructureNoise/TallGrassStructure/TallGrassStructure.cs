@@ -12,8 +12,8 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
     internal class TallGrassStructure : ADataStructure
     {
-        public TallGrassStructure(Vector2i structureWorldCenter, BiomeType structureBiome, IntRect structureBoundingBox) 
-            : base(structureWorldCenter, structureBiome, structureBoundingBox)
+        public TallGrassStructure(Vector2i structureWorldPosition, IntRect structureBoundingBox) 
+            : base(structureWorldPosition, structureBoundingBox)
         {
         }
 

@@ -118,9 +118,9 @@ namespace WorldGeneration.DataChunks.StructureNoise
             int y = random.Next(cellChunkCoordinate.Y, cellChunkCoordinate.Y + this.nbCaseStructureCell - height);
 
             IntRect structureDim = new IntRect(x, y, width, height);
-            Vector2i structureCenter = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position.X, this.Position.Y, x + width / 2, y + height / 2));
+            Vector2i structureWorldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position.X, this.Position.Y, x, y));
 
-            IDataStructure dataStructure = this.CreateDataStructure(random, dataChunksMonitor, new IntRect(x, y, width, height), structureCenter);
+            IDataStructure dataStructure = this.CreateDataStructure(random, dataChunksMonitor, new IntRect(x, y, width, height), structureWorldPosition);
 
             if (dataStructure != null)
             {
@@ -130,7 +130,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             return dataStructure;
         }
 
-        protected abstract IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, Vector2i structureCenter);
+        protected abstract IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, Vector2i structureWorldPosition);
 
         public virtual void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {

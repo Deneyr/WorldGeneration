@@ -7,7 +7,7 @@ using WorldGeneration.ChunksMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
-    internal class TallGrassStructureDataChunkLayer : AStructureDataChunkLayer
+    internal class TallGrassStructureDataChunkLayer : APointStructureDataChunkLayer
     {
         public TallGrassStructureDataChunkLayer(string id, int nbCaseSide) 
             : base(id, nbCaseSide)

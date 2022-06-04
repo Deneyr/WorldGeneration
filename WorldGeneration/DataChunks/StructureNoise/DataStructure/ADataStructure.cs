@@ -14,14 +14,24 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
     {
         protected IDataStructureCase[,] dataStructureCases;
 
-        public Vector2i StructureWorldCenter
+        public Vector2i StructureWorldPosition
         {
             get;
+            private set;
+        }
+
+        public Vector2i StructureWorldCenter
+        {
+            get
+            {
+                return new Vector2i(this.StructureWorldPosition.X + this.StructureBoundingBox.Width / 2, this.StructureWorldPosition.Y + this.StructureBoundingBox.Height / 2);
+            }
         }
 
         public BiomeType StructureBiome
         {
             get;
+            internal set;
         }
 
         public IntRect StructureBoundingBox
@@ -30,10 +40,22 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             private set;
         }
 
-        public ADataStructure(Vector2i structureWorldCenter, BiomeType structureBiome, IntRect structureBoundingBox)
+        public IntRect StructureWorldBoundingBox
         {
-            this.StructureWorldCenter = structureWorldCenter;
-            this.StructureBiome = structureBiome;
+            get
+            {
+                return new IntRect(
+                    this.StructureWorldPosition.X,
+                    this.StructureWorldPosition.Y,
+                    this.StructureBoundingBox.Width,
+                    this.StructureBoundingBox.Height);
+            }
+        }
+
+        public ADataStructure(Vector2i structureWorldPosition, IntRect structureBoundingBox)
+        {
+            this.StructureWorldPosition = structureWorldPosition;
+            this.StructureBiome = BiomeType.BOREAL_FOREST;
 
             this.StructureBoundingBox = structureBoundingBox;
             this.dataStructureCases = new IDataStructureCase[structureBoundingBox.Height, structureBoundingBox.Width];

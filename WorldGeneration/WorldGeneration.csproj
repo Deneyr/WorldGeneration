@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C1344C40-C4F7-4FBF-A42E-0C248E1FFE48}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>WorldGeneration</RootNamespace>
     <AssemblyName>WorldGeneration</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -123,6 +123,8 @@
     <Compile Include="DataChunks\PureNoise\PureNoiseDataCase.cs" />
     <Compile Include="DataChunks\PureNoise\PureNoiseDataChunk.cs" />
     <Compile Include="DataChunks\PureNoise\PureNoiseDataChunkLayer.cs" />
+    <Compile Include="DataChunks\StructureNoise\APointStructureDataChunk.cs" />
+    <Compile Include="DataChunks\StructureNoise\APointStructureDataChunkLayer.cs" />
     <Compile Include="DataChunks\StructureNoise\AStructureDataChunkLayer.cs" />
     <Compile Include="DataChunks\StructureNoise\AStructureDataChunk.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructure.cs" />

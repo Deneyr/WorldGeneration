@@ -18,6 +18,7 @@ using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 using WorldGeneration.ObjectChunks;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
+using WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures;
 
 namespace WorldGeneration.WorldGenerating
 {
@@ -220,15 +221,17 @@ namespace WorldGeneration.WorldGenerating
 
             // Part Tall Grass
             TallGrassStructureDataChunkLayer tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("tallGrass", 256);
-            tallGrassStructureDataChunkLayer.NbMinDataStructure = 4;
-            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 20;
+            tallGrassStructureDataChunkLayer.NbMinDataStructure = 10;
+            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 25;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(20, 20, 40, 40);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
             tallGrassDataAgreggator.TallGrassBiome = tallGrassStructureDataChunkLayer;
 
             tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("secondTallGrass", 128);
-            tallGrassStructureDataChunkLayer.NbMinDataStructure = 4;
-            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 20;
+            //tallGrassStructureDataChunkLayer.NbMinDataStructure = 4;
+            //tallGrassStructureDataChunkLayer.nbMaxDataStructure = 20;
+            tallGrassStructureDataChunkLayer.NbMinDataStructure = 15;
+            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 30;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
             tallGrassDataAgreggator.SecondTallGrassBiome = tallGrassStructureDataChunkLayer;
@@ -247,6 +250,10 @@ namespace WorldGeneration.WorldGenerating
 
             // PART OBJECTS
 
+            // Part Structure Templates
+            this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TreeStructureTemplate());
+
+            // Part chunk layers
             BiomeObjectChunkLayer biomeObjectChunkLayer = new BiomeObjectChunkLayer("biomeLayer");
             this.objectChunkMonitor.AddObjectLayerToGenerator(biomeObjectChunkLayer);
 

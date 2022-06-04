@@ -11,6 +11,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 {
     internal interface IDataStructure
     {
+        Vector2i StructureWorldPosition
+        {
+            get;
+        }
+
         Vector2i StructureWorldCenter
         {
             get;
@@ -22,6 +27,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
         }
 
         IntRect StructureBoundingBox
+        {
+            get;
+        }
+
+        IntRect StructureWorldBoundingBox
         {
             get;
         }

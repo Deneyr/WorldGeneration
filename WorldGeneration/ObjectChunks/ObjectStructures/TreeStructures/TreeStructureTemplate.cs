@@ -47,6 +47,38 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             }
         }
 
+        protected override bool ValidateZObjectCase(IZObjectCase zObjectCase, int worldAltitude, int baseLocalI, int baseLocalJ)
+        {
+            if(base.ValidateZObjectCase(zObjectCase, worldAltitude, baseLocalI, baseLocalJ) == false)
+            {
+                return false;
+            }
+
+            ObjectCase objectCase = zObjectCase[worldAltitude] as ObjectCase;
+
+            if(objectCase == null)
+            {
+                return false;
+            }
+
+            if(objectCase.Land.LandWater != null)
+            {
+                return false;
+            }
+
+            if (baseLocalJ == 0
+                || baseLocalJ == 2)
+            {
+                return objectCase.Land.LandOverGround != null;
+            }
+            else if(baseLocalJ == 1)
+            {
+                return objectCase.Land.LandWall != null;
+            }
+
+            return true;
+        }
+
         protected override IObjectStructure CreateObjectStructureFrom(Random random, Vector2i worldPosition, int worldAltitude)
         {
             return new TreeStructure(this.TemplateUID, random.Next(), worldPosition, worldAltitude);
