@@ -156,6 +156,7 @@
     <Compile Include="ObjectChunks\A2PassObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\AObjectChunk.cs" />
     <Compile Include="ObjectChunks\AObjectChunkLayer.cs" />
+    <Compile Include="ObjectChunks\AObjectStructureChunkLayer.cs" />
     <Compile Include="ObjectChunks\BiomeManager\TallGrassBiomeManager.cs" />
     <Compile Include="ObjectChunks\BiomeManager\FloraRatioBiomeManager.cs" />
     <Compile Include="ObjectChunks\IObjectCase.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="ObjectChunks\ObjectLands\ElementObject\IElementLandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\ElementObject\MainTreeElementLandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\ElementObject\SideTreeElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\TallGrassElementLandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\GroundObject\GroundLandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\ILandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\LandCase.cs" />
@@ -200,11 +202,14 @@
     <Compile Include="ObjectChunks\ObjectLands\LandInterface\ILandWater.cs" />
     <Compile Include="ObjectChunks\ObjectLands\LandTransitionHelper.cs" />
     <Compile Include="ObjectChunks\ObjectLands\WaterObject\WaterLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectStructures\ADataObjectStructureTemplate.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\CaseObjectStructure.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\ACaseObjectStructureTemplate.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\IObjectStructure.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\IObjectStructureElement.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\IStructureTemplate.cs" />
+    <Compile Include="ObjectChunks\ObjectStructures\TallGrassStructures\TallGrassStructure.cs" />
+    <Compile Include="ObjectChunks\ObjectStructures\TallGrassStructures\TallGrassStructureTemplate.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\TreeStructures\TreeStructure.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\TreeStructures\TreeStructureTemplate.cs" />
     <Compile Include="ObjectChunks\TestCase.cs" />

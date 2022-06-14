@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
+using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeStructure;
 

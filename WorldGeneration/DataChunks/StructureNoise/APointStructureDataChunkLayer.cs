@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 
 namespace WorldGeneration.DataChunks.StructureNoise
 {
@@ -16,6 +17,26 @@ namespace WorldGeneration.DataChunks.StructureNoise
             get
             {
                 return 1;
+            }
+        }
+
+        public virtual int StructureCellMargin
+        {
+            get
+            {
+                return Math.Max(this.StructDimension.Width, this.StructDimension.Height);
+            }
+        }
+
+        public override int Margin
+        {
+            get
+            {
+                return this.StructureCellMargin;
+            }
+            set
+            {
+                // Nothing to do.
             }
         }
 
@@ -63,6 +84,32 @@ namespace WorldGeneration.DataChunks.StructureNoise
                 }
             }
             return null;
+        }
+
+        public List<IDataStructure> GetDataStructuresInWorldArea(IntRect worldArea)
+        {
+            // Only the left top corner is extended
+            worldArea = new IntRect(
+                worldArea.Left - this.StructureCellMargin,
+                worldArea.Top - this.StructureCellMargin,
+                worldArea.Width + this.StructureCellMargin,
+                worldArea.Height + this.StructureCellMargin);
+
+            IntRect chunkArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, worldArea);
+
+            List<IDataStructure> resultDataStructures = new List<IDataStructure>();
+
+            for (int i = 0; i < chunkArea.Height; i++)
+            {
+                for (int j = 0; j < chunkArea.Width; j++)
+                {
+                    APointStructureDataChunk pointStructureChunk = this.ChunksMonitor.GetChunkContainerAt(chunkArea.Left + j, chunkArea.Top + i).ContainedChunk as APointStructureDataChunk;
+
+                    pointStructureChunk.AddDataStructuresFromWorldArea(worldArea, resultDataStructures);
+                }
+            }
+
+            return resultDataStructures;
         }
     }
 }

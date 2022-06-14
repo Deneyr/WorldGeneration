@@ -40,7 +40,7 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
-        public int Margin
+        public virtual int Margin
         {
             get;
             set;

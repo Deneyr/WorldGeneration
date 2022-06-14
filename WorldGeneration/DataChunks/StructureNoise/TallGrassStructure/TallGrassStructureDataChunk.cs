@@ -28,9 +28,9 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
         }
 
 
-        protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, Vector2i structureWorldPosition)
+        protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
         {
-            return new TallGrassStructure(structureWorldPosition, boundingBox);
+            return new TallGrassStructure(structureWorldPosition, boundingBox, baseBoundingBox);
         }
 
         protected override bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)

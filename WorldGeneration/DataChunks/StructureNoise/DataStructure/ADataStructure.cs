@@ -12,7 +12,17 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 {
     internal abstract class ADataStructure : IDataStructure
     {
-        protected IDataStructureCase[,] dataStructureCases;
+        public string ObjectStructureTemplateId
+        {
+            get;
+            protected set;
+        }
+
+        public IDataStructureCase[,] DataStructureCases
+        {
+            get;
+            private set;
+        }
 
         public Vector2i StructureWorldPosition
         {
@@ -52,13 +62,33 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             }
         }
 
-        public ADataStructure(Vector2i structureWorldPosition, IntRect structureBoundingBox)
+        public IntRect StructureBaseBoundingBox
+        {
+            get;
+            private set;
+        }
+
+        public IntRect StructureWorldBaseBoundingBox
+        {
+            get
+            {
+                return new IntRect(
+                    this.StructureWorldPosition.X + this.StructureBaseBoundingBox.Left,
+                    this.StructureWorldPosition.Y + this.StructureBaseBoundingBox.Top,
+                    this.StructureBaseBoundingBox.Width,
+                    this.StructureBaseBoundingBox.Height);
+            }
+        }
+
+        public ADataStructure(Vector2i structureWorldPosition, IntRect structureBoundingBox, IntRect structureBaseBoundingBox)
         {
             this.StructureWorldPosition = structureWorldPosition;
             this.StructureBiome = BiomeType.BOREAL_FOREST;
 
             this.StructureBoundingBox = structureBoundingBox;
-            this.dataStructureCases = new IDataStructureCase[structureBoundingBox.Height, structureBoundingBox.Width];
+            this.DataStructureCases = new IDataStructureCase[structureBoundingBox.Height, structureBoundingBox.Width];
+
+            this.StructureBaseBoundingBox = structureBaseBoundingBox;
         }
 
         public abstract void GenerateStructure(Random random, IDataStructureTemplate structureTemplate);
@@ -70,15 +100,15 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                 int localX = (x - this.StructureBoundingBox.Left);
                 int localY = (y - this.StructureBoundingBox.Top);
 
-                return this.dataStructureCases[localY, localX];
+                return this.DataStructureCases[localY, localX];
             }
             return null;
         }
 
         protected virtual void GenerateStructureBoundaries(Random random, float ratioMargin)
         {
-            int height = this.dataStructureCases.GetLength(0);
-            int width = this.dataStructureCases.GetLength(1);
+            int height = this.DataStructureCases.GetLength(0);
+            int width = this.DataStructureCases.GetLength(1);
             int heightMargin = (int)(height * ratioMargin);
             int widthMargin = (int)(width * ratioMargin);
 
@@ -105,7 +135,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                         if (ratioMarginJ < 0)
                         {
-                            this.dataStructureCases[i, j] = null;
+                            this.DataStructureCases[i, j] = null;
                         }
                     }
                 }
@@ -127,7 +157,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                         if (ratioMarginJ < 0)
                         {
-                            this.dataStructureCases[i, width - j - 1] = null;
+                            this.DataStructureCases[i, width - j - 1] = null;
                         }
                     }
                 }
@@ -150,7 +180,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                         if (ratioMarginI < 0)
                         {
-                            this.dataStructureCases[i, j] = null;
+                            this.DataStructureCases[i, j] = null;
                         }
                     }
                 }
@@ -172,7 +202,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                         if (ratioMarginI < 0)
                         {
-                            this.dataStructureCases[height - i - 1, j] = null;
+                            this.DataStructureCases[height - i - 1, j] = null;
                         }
                     }
                 }
@@ -182,8 +212,8 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
         protected virtual void GenerateStructureBoundaries2(Random random, int margin, int space)
         {
-            int height = this.dataStructureCases.GetLength(0);
-            int width = this.dataStructureCases.GetLength(1);
+            int height = this.DataStructureCases.GetLength(0);
+            int width = this.DataStructureCases.GetLength(1);
             //int heightMargin = (int)(height * ratioMargin);
             //int widthMargin = (int)(width * ratioMargin);
 
@@ -226,11 +256,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int j = 0; j < topIndex; j++)
                 {
-                    this.dataStructureCases[i, j] = null;
+                    this.DataStructureCases[i, j] = null;
                 }
                 for (int j = 0; j < botIndex; j++)
                 {
-                    this.dataStructureCases[height - i - 1, j] = null;
+                    this.DataStructureCases[height - i - 1, j] = null;
                 }
             }
             if(height % 2 == 1)
@@ -241,7 +271,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int j = 0; j < topIndex; j++)
                 {
-                    this.dataStructureCases[midHeight, j] = null;
+                    this.DataStructureCases[midHeight, j] = null;
                 }
             }
 
@@ -275,11 +305,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int j = 0; j < topIndex; j++)
                 {
-                    this.dataStructureCases[i, width - j - 1] = null;
+                    this.DataStructureCases[i, width - j - 1] = null;
                 }
                 for (int j = 0; j < botIndex; j++)
                 {
-                    this.dataStructureCases[height - i - 1, width - j - 1] = null;
+                    this.DataStructureCases[height - i - 1, width - j - 1] = null;
                 }
             }
             if (height % 2 == 1)
@@ -290,7 +320,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int j = 0; j < topIndex; j++)
                 {
-                    this.dataStructureCases[midHeight, width - j - 1] = null;
+                    this.DataStructureCases[midHeight, width - j - 1] = null;
                 }
             }
 
@@ -326,11 +356,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int i = 0; i < leftIndex; i++)
                 {
-                    this.dataStructureCases[i, j] = null;
+                    this.DataStructureCases[i, j] = null;
                 }
                 for (int i = 0; i < rightIndex; i++)
                 {
-                    this.dataStructureCases[i, width - j - 1] = null;
+                    this.DataStructureCases[i, width - j - 1] = null;
                 }
             }
             if (width % 2 == 1)
@@ -341,7 +371,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int i = 0; i < leftIndex; i++)
                 {
-                    this.dataStructureCases[i, midWidth] = null;
+                    this.DataStructureCases[i, midWidth] = null;
                 }
             }
 
@@ -375,11 +405,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int i = 0; i < leftIndex; i++)
                 {
-                    this.dataStructureCases[height - i - 1, j] = null;
+                    this.DataStructureCases[height - i - 1, j] = null;
                 }
                 for (int i = 0; i < rightIndex; i++)
                 {
-                    this.dataStructureCases[height - i - 1, width - j - 1] = null;
+                    this.DataStructureCases[height - i - 1, width - j - 1] = null;
                 }
             }
             if (width % 2 == 1)
@@ -390,7 +420,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
                 for (int i = 0; i < leftIndex; i++)
                 {
-                    this.dataStructureCases[height - i - 1, midWidth] = null;
+                    this.DataStructureCases[height - i - 1, midWidth] = null;
                 }
             }
 

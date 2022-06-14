@@ -18,6 +18,7 @@ using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 using WorldGeneration.ObjectChunks;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
+using WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures;
 using WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures;
 
 namespace WorldGeneration.WorldGenerating
@@ -252,6 +253,7 @@ namespace WorldGeneration.WorldGenerating
 
             // Part Structure Templates
             this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TreeStructureTemplate());
+            this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TallGrassStructureTemplate());
 
             // Part chunk layers
             BiomeObjectChunkLayer biomeObjectChunkLayer = new BiomeObjectChunkLayer("biomeLayer");
