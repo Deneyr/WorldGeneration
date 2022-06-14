@@ -23,6 +23,12 @@ namespace WorldGeneration.DataChunks.StructureNoise
         private int nbCaseCell;
         private int nbCellSide;
 
+        internal List<IDataStructure>[,] PreviousDataStructures
+        {
+            get;
+            private set;
+        }
+
         internal List<IDataStructure>[,] DataStructures
         {
             get;
@@ -68,13 +74,35 @@ namespace WorldGeneration.DataChunks.StructureNoise
             this.nbCellSide = this.NbCaseSide / Math.Max(this.structDimension.Width, this.structDimension.Height);
             this.nbCaseCell = this.NbCaseSide / nbCellSide;
 
+            this.PreviousDataStructures = new List<IDataStructure>[this.nbCellSide, this.nbCellSide];
             this.DataStructures = new List<IDataStructure>[this.nbCellSide, this.nbCellSide];
-            for(int i = 0; i < this.nbCellSide; i++)
+            for (int i = 0; i < this.nbCellSide; i++)
             {
                 for (int j = 0; j < this.nbCellSide; j++)
                 {
+                    this.PreviousDataStructures[i, j] = null;
                     this.DataStructures[i, j] = null;
                 }
+            }
+        }
+
+        private static Dictionary<string, int> testDico = new Dictionary<string, int>();
+
+        [Obsolete]
+        private static void SetTestDicoValue(APointStructureDataChunk chunk, int value)
+        {
+            string key = chunk.Position.X + ":" + chunk.Position.Y;
+
+            if(testDico.TryGetValue(key, out int ancientValue))
+            {
+                if(ancientValue != value)
+                {
+                    Console.WriteLine("Casse !!");
+                }
+            }
+            else
+            {
+                testDico[key] = value;
             }
         }
 
@@ -95,11 +123,11 @@ namespace WorldGeneration.DataChunks.StructureNoise
 
                 IDataStructure newDataStructure = this.GenerateDataStructure(random, dataChunksMonitor, parentLayer, new Vector2i(x, y));
 
-                List<IDataStructure> listDataStructures = this.DataStructures[yCase, xCase];
+                List<IDataStructure> listDataStructures = this.PreviousDataStructures[yCase, xCase];
                 if (listDataStructures == null && newDataStructure != null)
                 {
                     listDataStructures = new List<IDataStructure>();
-                    this.DataStructures[yCase, xCase] = listDataStructures;
+                    this.PreviousDataStructures[yCase, xCase] = listDataStructures;
                 }
 
                 if(listDataStructures != null)
@@ -135,12 +163,12 @@ namespace WorldGeneration.DataChunks.StructureNoise
             IntRect structureDim = new IntRect(structureCoordinates.X, structureCoordinates.Y, width, height);
             Vector2i structureWorldPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(this.Position.X, this.Position.Y, structureCoordinates.X, structureCoordinates.Y));
 
-            IDataStructure dataStructure = this.CreateDataStructure(random, dataChunksMonitor, structureDim, structureWorldPosition);
+            IDataStructure dataStructure = this.CreateDataStructure(random, dataChunksMonitor, structureDim, new IntRect(0, 0, width, height), structureWorldPosition);
 
             return dataStructure;
         }
 
-        protected abstract IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, Vector2i structureWorldPosition);
+        protected abstract IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition);
 
         public virtual void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
@@ -152,7 +180,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             {
                 for (int j = 0; j < this.nbCellSide; j++)
                 {
-                    List<IDataStructure> dataStructuresHere = this.DataStructures[i, j];
+                    List<IDataStructure> dataStructuresHere = this.PreviousDataStructures[i, j];
 
                     if (dataStructuresHere != null)
                     {
@@ -167,12 +195,12 @@ namespace WorldGeneration.DataChunks.StructureNoise
                         while (dataStructuresHereEnum.MoveNext())
                         {
                             IDataStructure currentDataStructure = dataStructuresHereEnum.Current;
-                            IntRect currentWorldBoundingBox = currentDataStructure.StructureWorldBoundingBox;
+                            IntRect currentWorldBoundingBox = currentDataStructure.StructureWorldBaseBoundingBox;
 
                             bool isColliding = false;
                             foreach (IDataStructure nearbyDataStructure in nearbyDataStructures)
                             {
-                                if (currentWorldBoundingBox.Intersects(nearbyDataStructure.StructureWorldBoundingBox))
+                                if (currentWorldBoundingBox.Intersects(nearbyDataStructure.StructureWorldBaseBoundingBox))
                                 {
                                     isColliding = true;
                                     break;
@@ -186,7 +214,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
                                 {
                                     IDataStructure nextDataStructure = nextDataStructureEnum.Current;
 
-                                    isColliding = currentWorldBoundingBox.Intersects(nextDataStructure.StructureWorldBoundingBox);
+                                    isColliding = currentWorldBoundingBox.Intersects(nextDataStructure.StructureWorldBaseBoundingBox);
                                 }
                             }
 
@@ -207,6 +235,11 @@ namespace WorldGeneration.DataChunks.StructureNoise
                     }
                 }
             }
+
+            if (parentLayer.Id.Contains("second") == false)
+            {
+                SetTestDicoValue(this, random.Next());
+            }
         }
 
         protected virtual bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
@@ -219,16 +252,19 @@ namespace WorldGeneration.DataChunks.StructureNoise
             int xChunk = this.Position.X;
             int yChunk = this.Position.Y;
 
+            bool isOtherChunk = false;
             if(x < 0)
             {
                 xChunk--;
                 x = this.nbCellSide - 1;
+                isOtherChunk = true;
             }
 
             if (y < 0)
             {
                 yChunk--;
                 y = this.nbCellSide - 1;
+                isOtherChunk = true;
             }
 
             ChunkContainer nearbyChunkContainer = (parentLayer as AExtendedDataChunkLayer).ExtendedChunksMonitor.GetChunkContainerAt(xChunk, yChunk);
@@ -237,7 +273,17 @@ namespace WorldGeneration.DataChunks.StructureNoise
             {
                 APointStructureDataChunk pointStructureDataChunk = nearbyChunkContainer.ContainedChunk as APointStructureDataChunk;
 
-                List<IDataStructure> currentDataStructures = pointStructureDataChunk.DataStructures[y, x];
+                List<IDataStructure> currentDataStructures;
+                if (isOtherChunk)
+                {
+                    currentDataStructures = pointStructureDataChunk.PreviousDataStructures[y, x];
+                }
+                else
+                {
+                    currentDataStructures = pointStructureDataChunk.DataStructures[y, x];
+                }
+
+                //currentDataStructures = pointStructureDataChunk.PreviousDataStructures[y, x];
 
                 if (currentDataStructures != null && currentDataStructures.Any())
                 {
@@ -261,25 +307,59 @@ namespace WorldGeneration.DataChunks.StructureNoise
             return null;
         }
 
-        private ICase GetCaseFromDataStructuresList(List<IDataStructure> dataStructures, int x, int y)
+        public void AddDataStructuresFromWorldArea(IntRect worldArea, List<IDataStructure> dataStructures)
         {
-            if(dataStructures == null || dataStructures.Any() == false)
-            {
-                return null;
-            }
+            IntRect chunkWorldArea = ChunkHelper.GetWorldAreaFromChunkArea(this.NbCaseSide, new IntRect(this.Position.X, this.Position.Y, 1, 1));
 
-            ICase resultCase = null;
-            foreach (IDataStructure dataStructure in dataStructures)
+            if (worldArea.Intersects(chunkWorldArea, out IntRect overlapingArea))
             {
-                resultCase = dataStructure.GetStructureCaseAtChunkCoordinate(x, y);
-                if(resultCase != null)
+                IntRect startChunkPosition = ChunkHelper.GetChunkPositionFromWorldPosition(this.NbCaseSide, new Vector2i(overlapingArea.Left, overlapingArea.Top));
+                IntRect endChunkPosition = ChunkHelper.GetChunkPositionFromWorldPosition(this.NbCaseSide, new Vector2i(overlapingArea.Left + overlapingArea.Width - 1, overlapingArea.Top + overlapingArea.Height - 1));
+
+                Vector2i startCellCoordinate = new Vector2i(Math.Min(startChunkPosition.Width / this.nbCaseCell, this.nbCellSide - 1), Math.Min(startChunkPosition.Height / this.nbCaseCell, this.nbCellSide - 1));
+                Vector2i endCellCoordinate = new Vector2i(Math.Min(endChunkPosition.Width / this.nbCaseCell, this.nbCellSide - 1), Math.Min(endChunkPosition.Height / this.nbCaseCell, this.nbCellSide - 1));
+
+                //if(startChunkPosition.Left != this.Position.X
+                //    || startChunkPosition.Top != this.Position.Y)
+                //{
+                //    Console.WriteLine();
+                //}
+                //if (endChunkPosition.Left != this.Position.X
+                //    || endChunkPosition.Top != this.Position.Y)
+                //{
+                //    Console.WriteLine();
+                //}
+
+                for (int i = startCellCoordinate.Y; i <= endCellCoordinate.Y; i++)
                 {
-                    return resultCase;
+                    for (int j = startCellCoordinate.X; j <= endCellCoordinate.X; j++)
+                    {
+                        List<IDataStructure> currentDataStructures = this.DataStructures[i, j];
+                        if (currentDataStructures != null && currentDataStructures.Any())
+                        {
+                            dataStructures.AddRange(currentDataStructures);
+                        }
+                    }
                 }
             }
-            return resultCase;
         }
 
+        //private static bool GetIntersectionBetween(IntRect intRect1, IntRect intRect2, out IntRect overlapingArea)
+        //{
+        //    intRect1.Width = intRect1.Left + intRect1.Width;
+        //    intRect1.Height = intRect1.Top + intRect1.Height;
+
+        //    intRect2.Width = intRect2.Left + intRect2.Width;
+        //    intRect2.Height = intRect2.Top + intRect2.Height;
+
+        //    overlapingArea = new IntRect();
+        //    if (intRect1.Intersects(intRect2))
+        //    {
+        //        overlapingArea.Left
+        //    }
+        //}
+
+        [Obsolete]
         public ICase GetCaseAtLocal(IDataChunkLayer parentLayer, int x, int y)
         {
             int cellCoordinateX = Math.Min(this.nbCellSide - 1, x / this.nbCaseCell);
@@ -309,7 +389,26 @@ namespace WorldGeneration.DataChunks.StructureNoise
             return null;
         }
 
-        public ICase GetCaseAtLocalNearbyCell(IDataChunkLayer parentLayer, int cellCoordinateX, int cellCoordinateY, int x, int y)
+        private ICase GetCaseFromDataStructuresList(List<IDataStructure> dataStructures, int x, int y)
+        {
+            if (dataStructures == null || dataStructures.Any() == false)
+            {
+                return null;
+            }
+
+            ICase resultCase = null;
+            foreach (IDataStructure dataStructure in dataStructures)
+            {
+                resultCase = dataStructure.GetStructureCaseAtChunkCoordinate(x, y);
+                if (resultCase != null)
+                {
+                    return resultCase;
+                }
+            }
+            return resultCase;
+        }
+
+        private ICase GetCaseAtLocalNearbyCell(IDataChunkLayer parentLayer, int cellCoordinateX, int cellCoordinateY, int x, int y)
         {
             int xChunk = this.Position.X;
             int yChunk = this.Position.Y;
