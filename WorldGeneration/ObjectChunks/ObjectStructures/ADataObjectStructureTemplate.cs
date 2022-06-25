@@ -35,7 +35,9 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
 
             if (chunkWorldArea.Intersects(structureWorldArea, out IntRect overlapingArea))
             {
-                IObjectStructure objectStructure = this.CreateObjectStructureFrom(random, dataStructure.StructureWorldPosition, worldAltitude);
+                string structureUid = this.ConstructeObjectStructureUID(dataStructure.StructureWorldPosition, worldAltitude);
+                IObjectStructure objectStructure = this.CreateObjectStructureFrom(random, structureUid, dataStructure, worldAltitude);
+                objectChunk.RegisterObjectStructure(objectStructure);
 
                 int marginHeight = overlapingArea.Top - structureWorldArea.Top;
                 int marginWidth = overlapingArea.Left - structureWorldArea.Left;
@@ -50,7 +52,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
                         IZObjectCase zObjectCase = ChunkHelper.GetCaseAtWorldCoordinates(objectChunk, x, y) as IZObjectCase;
                         if (zObjectCase != null)
                         {
-                            this.UpdateObjectCase(random, zObjectCase, worldAltitude, objectStructure, (dataStructure as ADataStructure).DataStructureCases[marginHeight + i, marginWidth + j]);
+                            this.UpdateZObjectCase(random, zObjectCase, dataStructure, worldAltitude, objectStructure, marginHeight + i, marginWidth + j); //(dataStructure as ADataStructure).DataStructureCases[marginHeight + i, marginWidth + j]);
                         }
                     }
                 }
@@ -93,11 +95,16 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             return true;
         }
 
-        protected virtual IObjectStructure CreateObjectStructureFrom(Random random, Vector2i worldPosition, int worldAltitude)
+        protected virtual IObjectStructure CreateObjectStructureFrom(Random random, string uid, IDataStructure dataStructure, int worldAltitude)
         {
-            return new CaseObjectStructure(this.TemplateUID, random.Next(), worldPosition, worldAltitude);
+            return new CaseObjectStructure(this.TemplateUID, uid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
         }
 
-        protected abstract void UpdateObjectCase(Random random, IZObjectCase zObjectCase, int worldAltitude, IObjectStructure parentObjectStructure, IDataStructureCase dataStructureCase);
+        protected string ConstructeObjectStructureUID(Vector2i worldPosition, int worldAltitude)
+        {
+            return String.Concat(this.TemplateUID, "_", worldPosition.X, "-", worldPosition.Y, "-", worldAltitude);
+        }
+
+        protected abstract void UpdateZObjectCase(Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j);
     }
 }

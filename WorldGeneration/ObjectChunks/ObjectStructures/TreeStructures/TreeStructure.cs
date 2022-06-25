@@ -16,8 +16,8 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             internal set;
         }
 
-        public TreeStructure(string templateUID, int objectStructureId, Vector2i worldPosition, int worldAltitude) 
-            : base(templateUID, objectStructureId, worldPosition, worldAltitude)
+        public TreeStructure(string templateUID, string structureUid, int objectStructureId, Vector2i worldPosition, int worldAltitude) 
+            : base(templateUID, structureUid, objectStructureId, worldPosition, worldAltitude)
         {
         }
 

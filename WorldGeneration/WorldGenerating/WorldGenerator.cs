@@ -229,8 +229,6 @@ namespace WorldGeneration.WorldGenerating
             tallGrassDataAgreggator.TallGrassBiome = tallGrassStructureDataChunkLayer;
 
             tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("secondTallGrass", 128);
-            //tallGrassStructureDataChunkLayer.NbMinDataStructure = 4;
-            //tallGrassStructureDataChunkLayer.nbMaxDataStructure = 20;
             tallGrassStructureDataChunkLayer.NbMinDataStructure = 15;
             tallGrassStructureDataChunkLayer.nbMaxDataStructure = 30;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);

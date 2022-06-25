@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.ObjectChunks.ObjectStructures;
 
 namespace WorldGeneration.ObjectChunks
 {
@@ -18,5 +19,9 @@ namespace WorldGeneration.ObjectChunks
         {
             get;
         }
+
+        void RegisterObjectStructure(IObjectStructure objectStructureToRegister);
+
+        IObjectStructure GetObjectStructure(string uid);
     }
 }

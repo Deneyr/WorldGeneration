@@ -202,6 +202,7 @@
     <Compile Include="ObjectChunks\ObjectLands\LandInterface\ILandWater.cs" />
     <Compile Include="ObjectChunks\ObjectLands\LandTransitionHelper.cs" />
     <Compile Include="ObjectChunks\ObjectLands\WaterObject\WaterLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectStructureManager.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\ADataObjectStructureTemplate.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\CaseObjectStructure.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\ACaseObjectStructureTemplate.cs" />

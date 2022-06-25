@@ -16,8 +16,8 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
             internal set;
         }
 
-        public TallGrassStructure(string templateUID, int objectStructureId, Vector2i worldPosition, int worldAltitude)
-            : base(templateUID, objectStructureId, worldPosition, worldAltitude)
+        public TallGrassStructure(string templateUID, string structureUid, int objectStructureId, Vector2i worldPosition, int worldAltitude)
+            : base(templateUID, structureUid, objectStructureId, worldPosition, worldAltitude)
         {
         }
     }

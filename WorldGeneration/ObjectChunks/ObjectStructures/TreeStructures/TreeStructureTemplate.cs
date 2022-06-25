@@ -40,11 +40,19 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             if (treePart == TreePart.BOT_LEFT
                 || treePart == TreePart.BOT_RIGHT)
             {
-                currentObjectCase.Land.LandOverGround = new SideTreeElementLandObject(random.Next(), treePart);
+                SideTreeElementLandObject sideTreeElement = new SideTreeElementLandObject(random.Next(), treePart);
+
+                sideTreeElement.ParentStructureUID = parentObjectStructure.UID;
+
+                currentObjectCase.Land.LandOverGround = sideTreeElement;
             }
             else
             {
-                currentObjectCase.Land.LandWall = new MainTreeElementLandObject(random.Next(), treePart);
+                MainTreeElementLandObject mainTreeElement = new MainTreeElementLandObject(random.Next(), treePart);
+
+                mainTreeElement.ParentStructureUID = parentObjectStructure.UID;
+
+                currentObjectCase.Land.LandWall = mainTreeElement;
             }
         }
 
@@ -80,9 +88,9 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             return true;
         }
 
-        protected override IObjectStructure CreateObjectStructureFrom(Random random, Vector2i worldPosition, int worldAltitude)
+        protected override IObjectStructure CreateObjectStructureFrom(Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
-            return new TreeStructure(this.TemplateUID, random.Next(), worldPosition, worldAltitude);
+            return new TreeStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
         }
     }
 }

@@ -40,10 +40,10 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             private set;
         }
 
-        public CaseObjectStructure(string templateUID, int objectStructureId, Vector2i worldPosition, int worldAltitude)
+        public CaseObjectStructure(string templateUID, string structureUid, int objectStructureId, Vector2i worldPosition, int worldAltitude)
         {
             this.TemplateUID = templateUID;
-            this.UID = String.Concat(templateUID, "_", worldPosition.X, "-", worldPosition.Y, "-", worldAltitude);
+            this.UID = structureUid;
 
             this.ObjectStructureId = objectStructureId;
 

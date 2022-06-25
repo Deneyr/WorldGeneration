@@ -18,22 +18,32 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
         {
         }
 
-        protected override void UpdateObjectCase(Random random, IZObjectCase zObjectCase, int worldAltitude, IObjectStructure parentObjectStructure, IDataStructureCase dataStructureCase)
+        protected override void UpdateZObjectCase(Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j)
         {
             if (zObjectCase.GroundAltitude >= 0)
             {
+                IDataStructureCase dataStructureCase = (dataStructure as ADataStructure).DataStructureCases[i, j];
+
                 ObjectCase currentObjectCase = zObjectCase[zObjectCase.GroundAltitude] as ObjectCase;
 
                 if (dataStructureCase != null && currentObjectCase.Land.LandWater == null)
                 {
-                    currentObjectCase.Land.LandOverGround = new TallGrassElementLandObject(random.Next());
+                    TallGrassElementLandObject tallGrassElement = new TallGrassElementLandObject(random.Next());
+
+                    tallGrassElement.ParentStructureUID = parentObjectStructure.UID;
+
+                    currentObjectCase.Land.LandOverGround = tallGrassElement;
                 }
             }
         }
 
-        protected override IObjectStructure CreateObjectStructureFrom(Random random, Vector2i worldPosition, int worldAltitude)
+        protected override IObjectStructure CreateObjectStructureFrom(Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
-            return new TallGrassStructure(this.TemplateUID, random.Next(), worldPosition, worldAltitude);
+            TallGrassStructure newTallGrassStructure = new TallGrassStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
+
+            newTallGrassStructure.BiomeType = dataStructure.StructureBiome;
+
+            return newTallGrassStructure;
         }
     }
 }

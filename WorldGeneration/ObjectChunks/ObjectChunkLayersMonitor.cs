@@ -25,6 +25,12 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
+        //internal ObjectStructureManager ObjectStructureManager
+        //{
+        //    get;
+        //    private set;
+        //}
+
         internal Dictionary<string, IObjectChunkLayer> ObjectChunksLayers
         {
             get;
@@ -68,6 +74,8 @@ namespace WorldGeneration.ObjectChunks
             this.ObjectStructureTemplates = new Dictionary<string, IStructureTemplate>();
 
             this.DataChunkMonitor = dataChunkLayersMonitor;
+
+            //this.ObjectStructureManager = new ObjectStructureManager();
         }
 
         internal void AddObjectLayerToGenerator(IObjectChunkLayer objectChunkLayerToAdd)
@@ -126,7 +134,10 @@ namespace WorldGeneration.ObjectChunks
         {
             int nbAltitudeLevel = (this.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator).NbAltitudeLevel;
 
-            return new ObjectChunk(position, this.NbCaseSide, nbAltitudeLevel);
+            ObjectChunk objectChunk = new ObjectChunk(position, this.NbCaseSide, nbAltitudeLevel);
+            objectChunk.ParentMonitor = this;
+
+            return objectChunk;
         }
     }
 }

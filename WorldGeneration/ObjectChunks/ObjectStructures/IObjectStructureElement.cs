@@ -9,21 +9,19 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
 {
     public interface IObjectStructureElement
     {
-
-
         string ParentStructureUID
         {
             get;
         }
 
-        Vector2i LocalStructurePosition
-        {
-            get;
-        }
+        //Vector2i LocalStructurePosition
+        //{
+        //    get;
+        //}
 
-        int LocalStructureAltitude
-        {
-            get;
-        }
+        //int LocalStructureAltitude
+        //{
+        //    get;
+        //}
     }
 }
