@@ -7,6 +7,7 @@ using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 using WorldGeneration.ObjectChunks.ObjectStructures;
 
@@ -29,6 +30,8 @@ namespace WorldGeneration.ObjectChunks
             typeof(TemperateRainForestGroundLandObject),
             typeof(TropicalWoodlandGroundLandObject),
             typeof(TundraGroundLandObject),
+
+            typeof(TallGrassElementLandObject)
         };
 
         internal ObjectChunkLayersMonitor ParentMonitor

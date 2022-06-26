@@ -16,6 +16,8 @@ using WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using PokeU.View.BiomeGroundObject;
+using PokeU.View.ElementLandObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 
 namespace PokeU.View
 {
@@ -101,7 +103,7 @@ namespace PokeU.View
 
             MappingObjectModelView = new Dictionary<Type, IObject2DFactory>();
 
-            // Land objects
+            // Land Objects
 
             MappingObjectModelView.Add(typeof(BorealForestGroundLandObject), new SnowGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(DesertGroundLandObject), new DesertGroundObject2DFactory());
@@ -113,14 +115,11 @@ namespace PokeU.View
             MappingObjectModelView.Add(typeof(TropicalWoodlandGroundLandObject), new SeasonalGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(TundraGroundLandObject), new SnowGroundObject2DFactory());
 
-            //MappingObjectModelView.Add(typeof(GroundLandObject), new GroundObject2DFactory());
-            //MappingObjectModelView.Add(typeof(GroundElementLandObject), new GroundElementObject2DFactory());
-            //MappingObjectModelView.Add(typeof(AltitudeLandObject), new AltitudeObject2DFactory());
+            // Water Objects
             MappingObjectModelView.Add(typeof(WaterLandObject), new WaterObject2DFactory());
-            //MappingObjectModelView.Add(typeof(MountainLandObject), new MountainObject2DFactory());
-            //MappingObjectModelView.Add(typeof(MountainElementLandObject), new MountainElementObject2DFactory());
-            //MappingObjectModelView.Add(typeof(GrassLandObject), new GrassObject2DFactory());
-            //MappingObjectModelView.Add(typeof(GrassElementLandObject), new GrassElementObject2DFactory());
+
+            // Element Land Objects
+            MappingObjectModelView.Add(typeof(TallGrassElementLandObject), new TallGrassObject2DFactory());
 
             // Entity objects
 
