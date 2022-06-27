@@ -11,9 +11,9 @@ using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
 {
-    internal class TallGrassStructureTemplate : ADataObjectStructureTemplate
+    internal class TallGrassObjectStructureTemplate : ADataObjectStructureTemplate
     {
-        public TallGrassStructureTemplate() 
+        public TallGrassObjectStructureTemplate() 
             : base("TallGrassStructure")
         {
         }
@@ -39,7 +39,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
 
         protected override IObjectStructure CreateObjectStructureFrom(Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
-            TallGrassStructure newTallGrassStructure = new TallGrassStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
+            TallGrassObjectStructure newTallGrassStructure = new TallGrassObjectStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
 
             newTallGrassStructure.BiomeType = dataStructure.StructureBiome;
 

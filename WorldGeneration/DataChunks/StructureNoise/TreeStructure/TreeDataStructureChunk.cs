@@ -1,21 +1,21 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
 
-namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
+namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
 {
-    internal class TallGrassStructureDataChunk : APointStructureDataChunk
+    internal class TreeDataStructureChunk : APointDataStructureChunk
     {
         private WeatherDataAgreggator weatherDataAgreggator;
 
-        public TallGrassStructureDataChunk(Vector2i position, int nbCaseSide, int nbMinDataStructure, int nbMaxDataStructure, IntRect structDimension) 
+        public TreeDataStructureChunk(Vector2i position, int nbCaseSide, int nbMinDataStructure, int nbMaxDataStructure, IntRect structDimension)
             : base(position, nbCaseSide, nbMinDataStructure, nbMaxDataStructure, structDimension)
         {
         }
@@ -30,7 +30,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 
         protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
         {
-            return new TallGrassStructure(structureWorldPosition, boundingBox, baseBoundingBox);
+            return new TreeDataStructure(structureWorldPosition, boundingBox, new IntRect(0, boundingBox.Height - 1, boundingBox.Width, 1));
         }
 
         protected override bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
@@ -43,7 +43,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             BiomeType biomeValue = dataChunksMonitor.WeatherMonitor.GetBiomeAt(temperature, humidity);
             (dataStructure as ADataStructure).StructureBiome = biomeValue;
 
-            float ratio = dataChunksMonitor.TallGrassBiomeManager.GetTallGrassRatioFromBiomeAltitude(biomeValue, 0);
+            float ratio = dataChunksMonitor.FloraRatioManager.GetTreeRatioFromBiomeAltitude(biomeValue, 0);
 
             return random.NextDouble() < ratio;
         }

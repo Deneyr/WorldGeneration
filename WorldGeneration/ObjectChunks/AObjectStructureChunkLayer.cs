@@ -49,11 +49,7 @@ namespace WorldGeneration.ObjectChunks
 
             foreach(IDataStructure dataStructure in dataStructuresInWorldArea)
             {
-                IObjectStructure newObjectStructure = this.ConstructObjectStructureFrom(objectChunksMonitor, objectChunk, random, dataStructure);
-                if (newObjectStructure != null)
-                {
-                    // TODO register newObjectStructure
-                }
+                this.ConstructObjectStructureFrom(objectChunksMonitor, objectChunk, random, dataStructure);
             }
         }
 

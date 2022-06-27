@@ -8,7 +8,7 @@ using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures
 {
-    internal interface IStructureTemplate
+    internal interface IObjectStructureTemplate
     {
         string TemplateUID
         {

@@ -7,26 +7,26 @@ using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
-using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeStructure;
+using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeObjectStructure;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
 {
-    internal class TreeStructureTemplate : ACaseObjectStructureTemplate
+    internal class TreeObjectStructureTemplate : ACaseObjectStructureTemplate
     {
-        public TreeStructureTemplate() 
+        public TreeObjectStructureTemplate() 
             : base("TreeStructure", new Vector2i(3, 3), 3, new IntRect(0, 2, 3, 1))
         {
             this.enumValueStructure = new int[3, 3, 3]
             {
                 { {-1, -1, -1 },
                 {-1, -1, -1 },
-                {(int)TreeStructure.TreePart.BOT_LEFT, (int)TreeStructure.TreePart.BOT_MID, (int)TreeStructure.TreePart.BOT_RIGHT } },
+                {(int)TreeObjectStructure.TreePart.BOT_LEFT, (int)TreeObjectStructure.TreePart.BOT_MID, (int)TreeObjectStructure.TreePart.BOT_RIGHT } },
 
                 { {-1, -1, -1 },
-                {(int)TreeStructure.TreePart.MID_LEFT, (int)TreeStructure.TreePart.MID_MID, (int)TreeStructure.TreePart.MID_RIGHT },
+                {(int)TreeObjectStructure.TreePart.MID_LEFT, (int)TreeObjectStructure.TreePart.MID_MID, (int)TreeObjectStructure.TreePart.MID_RIGHT },
                 {-1, -1, -1 } },
 
-                { {(int)TreeStructure.TreePart.TOP_LEFT, (int)TreeStructure.TreePart.TOP_MID, (int)TreeStructure.TreePart.TOP_RIGHT },
+                { {(int)TreeObjectStructure.TreePart.TOP_LEFT, (int)TreeObjectStructure.TreePart.TOP_MID, (int)TreeObjectStructure.TreePart.TOP_RIGHT },
                 {-1, -1, -1 },
                 {-1, -1, -1 } }
             };
@@ -90,7 +90,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
 
         protected override IObjectStructure CreateObjectStructureFrom(Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
-            return new TreeStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
+            return new TreeObjectStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
         }
     }
 }

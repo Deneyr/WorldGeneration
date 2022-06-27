@@ -12,7 +12,7 @@ using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise
 {
-    internal abstract class AStructureDataChunk : IDataChunk
+    internal abstract class ADataStructureChunk : IDataChunk
     {
         private IntRect structDimension;
 
@@ -49,7 +49,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             private set;
         }
 
-        public AStructureDataChunk(Vector2i position, int nbCaseSide, int nbMinDataStructure, int nbMaxDataStructure, IntRect structDimension)
+        public ADataStructureChunk(Vector2i position, int nbCaseSide, int nbMinDataStructure, int nbMaxDataStructure, IntRect structDimension)
         {
             this.Position = position;
             this.NbCaseSide = nbCaseSide;

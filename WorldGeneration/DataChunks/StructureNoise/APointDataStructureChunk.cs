@@ -12,7 +12,7 @@ using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise
 {
-    internal abstract class APointStructureDataChunk : IDataChunk
+    internal abstract class APointDataStructureChunk : IDataChunk
     {
         private IntRect structDimension;
 
@@ -47,7 +47,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             private set;
         }
 
-        public APointStructureDataChunk(Vector2i position, int nbCaseSide, int nbMinDataStructure, int nbMaxDataStructure, IntRect structDimension)
+        public APointDataStructureChunk(Vector2i position, int nbCaseSide, int nbMinDataStructure, int nbMaxDataStructure, IntRect structDimension)
         {
             this.Position = position;
             this.NbCaseSide = nbCaseSide;
@@ -89,7 +89,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
         private static Dictionary<string, int> testDico = new Dictionary<string, int>();
 
         [Obsolete]
-        private static void SetTestDicoValue(APointStructureDataChunk chunk, int value)
+        private static void SetTestDicoValue(APointDataStructureChunk chunk, int value)
         {
             string key = chunk.Position.X + ":" + chunk.Position.Y;
 
@@ -271,7 +271,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
 
             if (nearbyChunkContainer != null && nearbyChunkContainer.ContainedChunk != null)
             {
-                APointStructureDataChunk pointStructureDataChunk = nearbyChunkContainer.ContainedChunk as APointStructureDataChunk;
+                APointDataStructureChunk pointStructureDataChunk = nearbyChunkContainer.ContainedChunk as APointDataStructureChunk;
 
                 List<IDataStructure> currentDataStructures;
                 if (isOtherChunk)
@@ -431,7 +431,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
 
             if (nearbyChunkContainer != null && nearbyChunkContainer.ContainedChunk != null)
             {
-                APointStructureDataChunk pointStructureDataChunk = nearbyChunkContainer.ContainedChunk as APointStructureDataChunk;
+                APointDataStructureChunk pointStructureDataChunk = nearbyChunkContainer.ContainedChunk as APointDataStructureChunk;
 
                 List<IDataStructure> currentDataStructures = pointStructureDataChunk.DataStructures[cellCoordinateY, cellCoordinateX];
                 return this.GetCaseFromDataStructuresList(currentDataStructures, x, y);

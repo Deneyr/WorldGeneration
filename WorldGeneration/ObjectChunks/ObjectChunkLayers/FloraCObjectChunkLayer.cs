@@ -14,7 +14,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
     {
         private FloraDataAgreggator floraDataAgreggator;
 
-        private TreeStructureTemplate treeStructureTemplate;
+        private TreeObjectStructureTemplate treeStructureTemplate;
 
         public override int ObjectChunkMargin
         {
@@ -33,7 +33,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         {
             this.floraDataAgreggator = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["flora"] as FloraDataAgreggator);
 
-            this.treeStructureTemplate = objectChunksMonitor.ObjectStructureTemplates["TreeStructure"] as TreeStructureTemplate;
+            this.treeStructureTemplate = objectChunksMonitor.ObjectStructureTemplates["TreeStructure"] as TreeObjectStructureTemplate;
 
             base.ComputeObjectChunk(objectChunksMonitor, objectChunk);
         }

@@ -10,7 +10,7 @@ using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures
 {
-    internal abstract class ADataObjectStructureTemplate : IStructureTemplate
+    internal abstract class ADataObjectStructureTemplate : IObjectStructureTemplate
     {
         public string TemplateUID
         {

@@ -10,7 +10,7 @@ using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 
 namespace WorldGeneration.DataChunks.StructureNoise
 {
-    internal abstract class APointStructureDataChunkLayer : AExtendedDataChunkLayer
+    internal abstract class APointDataStructureChunkLayer : AExtendedDataChunkLayer
     {
         public override int NbCaseBorder
         {
@@ -58,7 +58,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             set;
         }
 
-        public APointStructureDataChunkLayer(string id, int nbCaseSide)
+        public APointDataStructureChunkLayer(string id, int nbCaseSide)
             : base(id, nbCaseSide)
         {
             this.StructDimension = new IntRect();
@@ -80,7 +80,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
                     && casePosition.Height >= 0
                     && casePosition.Height < chunk.NbCaseSide)
                 {
-                    return (chunk as APointStructureDataChunk).GetCaseAtLocal(this, casePosition.Width, casePosition.Height);
+                    return (chunk as APointDataStructureChunk).GetCaseAtLocal(this, casePosition.Width, casePosition.Height);
                 }
             }
             return null;
@@ -103,7 +103,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             {
                 for (int j = 0; j < chunkArea.Width; j++)
                 {
-                    APointStructureDataChunk pointStructureChunk = this.ChunksMonitor.GetChunkContainerAt(chunkArea.Left + j, chunkArea.Top + i).ContainedChunk as APointStructureDataChunk;
+                    APointDataStructureChunk pointStructureChunk = this.ChunksMonitor.GetChunkContainerAt(chunkArea.Left + j, chunkArea.Top + i).ContainedChunk as APointDataStructureChunk;
 
                     pointStructureChunk.AddDataStructuresFromWorldArea(worldArea, resultDataStructures);
                 }

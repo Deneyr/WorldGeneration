@@ -22,7 +22,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
         protected override IObjectStructure ConstructObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk, Random random, IDataStructure dataStructure)
         {
-            IStructureTemplate tallGrassStructureTemplate = objectChunksMonitor.ObjectStructureTemplates[dataStructure.ObjectStructureTemplateId];
+            IObjectStructureTemplate tallGrassStructureTemplate = objectChunksMonitor.ObjectStructureTemplates[dataStructure.ObjectStructureTemplateId];
 
             return tallGrassStructureTemplate.GenerateStructureAtWorldPosition(random, dataStructure, 0, objectChunk);
         }

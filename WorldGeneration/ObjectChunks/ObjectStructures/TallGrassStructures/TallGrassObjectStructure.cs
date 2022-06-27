@@ -8,7 +8,7 @@ using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
 {
-    public class TallGrassStructure: CaseObjectStructure
+    public class TallGrassObjectStructure: CaseObjectStructure
     {
         public BiomeType BiomeType
         {
@@ -16,7 +16,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
             internal set;
         }
 
-        public TallGrassStructure(string templateUID, string structureUid, int objectStructureId, Vector2i worldPosition, int worldAltitude)
+        public TallGrassObjectStructure(string templateUID, string structureUid, int objectStructureId, Vector2i worldPosition, int worldAltitude)
             : base(templateUID, structureUid, objectStructureId, worldPosition, worldAltitude)
         {
         }

@@ -7,9 +7,9 @@ using WorldGeneration.ChunksMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
-    internal class TallGrassStructureDataChunkLayer : APointStructureDataChunkLayer
+    internal class TallGrassDataStructureChunkLayer : APointDataStructureChunkLayer
     {
-        public TallGrassStructureDataChunkLayer(string id, int nbCaseSide) 
+        public TallGrassDataStructureChunkLayer(string id, int nbCaseSide) 
             : base(id, nbCaseSide)
         {
         }
@@ -18,7 +18,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
         {
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
-                TallGrassStructureDataChunk structureDataChunk = new TallGrassStructureDataChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbMinDataStructure, this.nbMaxDataStructure, this.StructDimension);
+                TallGrassDataStructureChunk structureDataChunk = new TallGrassDataStructureChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbMinDataStructure, this.nbMaxDataStructure, this.StructDimension);
 
                 dataChunksMonitor.AddChunkToMonitor(structureDataChunk);
             }

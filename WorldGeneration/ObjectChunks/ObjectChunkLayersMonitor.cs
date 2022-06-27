@@ -37,7 +37,7 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
-        internal Dictionary<string, IStructureTemplate> ObjectStructureTemplates
+        internal Dictionary<string, IObjectStructureTemplate> ObjectStructureTemplates
         {
             get;
             private set;
@@ -71,7 +71,7 @@ namespace WorldGeneration.ObjectChunks
             this.WorldObjectLayers = new List<IObjectChunkLayer>();
             this.ObjectChunksLayers = new Dictionary<string, IObjectChunkLayer>();
 
-            this.ObjectStructureTemplates = new Dictionary<string, IStructureTemplate>();
+            this.ObjectStructureTemplates = new Dictionary<string, IObjectStructureTemplate>();
 
             this.DataChunkMonitor = dataChunkLayersMonitor;
 
@@ -88,7 +88,7 @@ namespace WorldGeneration.ObjectChunks
             this.MaxObjectChunkLayerMargin = Math.Max(this.MaxObjectChunkLayerMargin, objectChunkLayerToAdd.ObjectChunkMargin);
         }
 
-        internal void AddObjectStructureTemplatesToGenerator(IStructureTemplate structureTemplateToAdd)
+        internal void AddObjectStructureTemplatesToGenerator(IObjectStructureTemplate structureTemplateToAdd)
         {
             this.ObjectStructureTemplates.Add(structureTemplateToAdd.TemplateUID, structureTemplateToAdd);
         }

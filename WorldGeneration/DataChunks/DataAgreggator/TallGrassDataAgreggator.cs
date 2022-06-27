@@ -11,13 +11,13 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 {
     internal class TallGrassDataAgreggator : IDataAgreggator
     {
-        public TallGrassStructureDataChunkLayer TallGrassBiome
+        public TallGrassDataStructureChunkLayer TallGrassBiome
         {
             get;
             set;
         }
 
-        public TallGrassStructureDataChunkLayer SecondTallGrassBiome
+        public TallGrassDataStructureChunkLayer SecondTallGrassBiome
         {
             get;
             set;
@@ -39,11 +39,11 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
         public bool IsThereTallGrassAtWorldCoordinates(int x, int y)
         {
-            TallGrassStructureCase tallGrassStructureCase = this.TallGrassBiome.GetCaseAtWorldCoordinates(x, y) as TallGrassStructureCase;
+            TallGrassDataStructureCase tallGrassStructureCase = this.TallGrassBiome.GetCaseAtWorldCoordinates(x, y) as TallGrassDataStructureCase;
 
             if (tallGrassStructureCase == null)
             {
-                tallGrassStructureCase = this.SecondTallGrassBiome.GetCaseAtWorldCoordinates(x, y) as TallGrassStructureCase;
+                tallGrassStructureCase = this.SecondTallGrassBiome.GetCaseAtWorldCoordinates(x, y) as TallGrassDataStructureCase;
             }
 
             return tallGrassStructureCase != null;

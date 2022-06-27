@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 
-namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
+namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
 {
-    internal class TallGrassStructureCase : ADataStructureCase
+    internal class TreeDataStructureCase : ADataStructureCase
     {
-        public TallGrassStructureCase(IDataStructure parentDataStructure, int x, int y) 
+        public TreeDataStructureCase(IDataStructure parentDataStructure, int x, int y)
             : base(parentDataStructure, x, y)
         {
-            
+
         }
     }
 }

@@ -10,9 +10,9 @@ using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
-    internal class TallGrassStructure : ADataStructure
+    internal class TallGrassDataStructure : ADataStructure
     {
-        public TallGrassStructure(Vector2i structureWorldPosition, IntRect structureBoundingBox, IntRect structureBaseBoundingBox) 
+        public TallGrassDataStructure(Vector2i structureWorldPosition, IntRect structureBoundingBox, IntRect structureBaseBoundingBox) 
             : base(structureWorldPosition, structureBoundingBox, structureBaseBoundingBox)
         {
             this.ObjectStructureTemplateId = "TallGrassStructure";
@@ -27,7 +27,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             {
                 for (int j = 0; j < heightMax; j++)
                 {
-                    this.DataStructureCases[j, i] = new TallGrassStructureCase(this, this.StructureBoundingBox.Left + i, this.StructureBoundingBox.Height + j);
+                    this.DataStructureCases[j, i] = new TallGrassDataStructureCase(this, this.StructureBoundingBox.Left + i, this.StructureBoundingBox.Height + j);
                 }
             }
 

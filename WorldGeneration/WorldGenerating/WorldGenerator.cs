@@ -14,6 +14,7 @@ using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise;
 using WorldGeneration.DataChunks.PureNoise;
 using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
+using WorldGeneration.DataChunks.StructureNoise.TreeStructure;
 using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 using WorldGeneration.ObjectChunks;
@@ -220,15 +221,22 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataLayerToGenerator(hPerlinDataChunkLayer);
             floraDataAgreggator.FloraLayer = hPerlinDataChunkLayer;
 
+            // Part Trees
+            TreeDataStructureChunkLayer treeStructureDataChunkLayer = new TreeDataStructureChunkLayer("tree", 256);
+            treeStructureDataChunkLayer.NbMinDataStructure = 50;
+            treeStructureDataChunkLayer.nbMaxDataStructure = 70;
+            treeStructureDataChunkLayer.StructDimension = new IntRect(3, 3, 3, 3);
+            this.dataChunksMonitor.AddDataLayerToGenerator(treeStructureDataChunkLayer);
+
             // Part Tall Grass
-            TallGrassStructureDataChunkLayer tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("tallGrass", 256);
+            TallGrassDataStructureChunkLayer tallGrassStructureDataChunkLayer = new TallGrassDataStructureChunkLayer("tallGrass", 256);
             tallGrassStructureDataChunkLayer.NbMinDataStructure = 10;
             tallGrassStructureDataChunkLayer.nbMaxDataStructure = 25;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(20, 20, 40, 40);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
             tallGrassDataAgreggator.TallGrassBiome = tallGrassStructureDataChunkLayer;
 
-            tallGrassStructureDataChunkLayer = new TallGrassStructureDataChunkLayer("secondTallGrass", 128);
+            tallGrassStructureDataChunkLayer = new TallGrassDataStructureChunkLayer("secondTallGrass", 128);
             tallGrassStructureDataChunkLayer.NbMinDataStructure = 15;
             tallGrassStructureDataChunkLayer.nbMaxDataStructure = 30;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);
@@ -250,8 +258,8 @@ namespace WorldGeneration.WorldGenerating
             // PART OBJECTS
 
             // Part Structure Templates
-            this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TreeStructureTemplate());
-            this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TallGrassStructureTemplate());
+            this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TreeObjectStructureTemplate());
+            this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TallGrassObjectStructureTemplate());
 
             // Part chunk layers
             BiomeObjectChunkLayer biomeObjectChunkLayer = new BiomeObjectChunkLayer("biomeLayer");

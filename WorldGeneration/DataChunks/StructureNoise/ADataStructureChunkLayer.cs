@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WorldGeneration.DataChunks.StructureNoise
 {
-    internal abstract class AStructureDataChunkLayer : ADataChunkLayer
+    internal abstract class ADataStructureChunkLayer : ADataChunkLayer
     {
         public IntRect StructDimension
         {
@@ -27,7 +27,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             set;
         }
 
-        public AStructureDataChunkLayer(string id, int nbCaseSide) 
+        public ADataStructureChunkLayer(string id, int nbCaseSide) 
             : base(id, nbCaseSide)
         {
             this.StructDimension = new IntRect();
