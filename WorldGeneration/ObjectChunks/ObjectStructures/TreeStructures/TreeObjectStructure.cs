@@ -29,11 +29,11 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
 
             MID_LEFT = 3,
             MID_MID = 4,
-            MID_RIGHT = 4,
+            MID_RIGHT = 5,
 
-            BOT_LEFT = 5,
-            BOT_MID = 6,
-            BOT_RIGHT = 7
+            BOT_LEFT = 6,
+            BOT_MID = 7,
+            BOT_RIGHT = 8
         }
     }
 }

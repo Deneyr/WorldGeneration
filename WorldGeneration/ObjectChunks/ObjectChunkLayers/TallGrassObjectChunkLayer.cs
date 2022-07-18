@@ -11,11 +11,11 @@ using WorldGeneration.ObjectChunks.ObjectStructures;
 
 namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 {
-    internal class StructureTallGrassObjectChunkLayer : AObjectStructureChunkLayer
+    internal class TallGrassObjectChunkLayer : AObjectStructureChunkLayer
     {
         private TallGrassDataAgreggator tallGrassDataAgreggator;
 
-        public StructureTallGrassObjectChunkLayer(string id)
+        public TallGrassObjectChunkLayer(string id)
             : base(id)
         {
         }

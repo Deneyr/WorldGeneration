@@ -9,10 +9,22 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
 {
     internal class TreeDataStructureCase : ADataStructureCase
     {
-        public TreeDataStructureCase(IDataStructure parentDataStructure, int x, int y)
+        public TreePart Part
+        {
+            get;
+            private set;
+        }
+
+        public TreeDataStructureCase(IDataStructure parentDataStructure, int x, int y, TreePart treePart)
             : base(parentDataStructure, x, y)
         {
+            this.Part = treePart;
+        }
 
+        internal enum TreePart
+        {
+            SIDE,
+            MAIN
         }
     }
 }

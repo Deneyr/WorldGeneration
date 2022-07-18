@@ -63,30 +63,30 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             return noiseValue;
         }
 
-        public bool IsThereBlockAtWorldCoordinate(int x, int y, float blockRatio)
-        {
-            int additionaInteger = "IsThereBlockAtWorldCoordinate".GetHashCode();
+        //public bool IsThereBlockAtWorldCoordinate(int x, int y, float blockRatio)
+        //{
+        //    int additionaInteger = "IsThereBlockAtWorldCoordinate".GetHashCode();
 
-            float perlinValue = (this.FloraLayer.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
+        //    float perlinValue = (this.FloraLayer.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
 
-            int seed = (int) (((perlinValue * 1000) % 1000) * ((perlinValue * 1000000) % 1000) + perlinValue % 1000);
-            seed = seed * seed * seed * seed;
+        //    int seed = (int) (((perlinValue * 1000) % 1000) * ((perlinValue * 1000000) % 1000) + perlinValue % 1000);
+        //    seed = seed * seed * seed * seed;
 
-            int generatedInteger = (x - y + additionaInteger + seed) % (y - additionaInteger) - x + y * additionaInteger * y + y - seed + additionaInteger;
+        //    int generatedInteger = (x - y + additionaInteger + seed) % (y - additionaInteger) - x + y * additionaInteger * y + y - seed + additionaInteger;
 
-            float result = 0;
-            float multiplier = 0.1f;
-            for (int i = 0; i < 4; i++)
-            {
-                result += (generatedInteger % 10) * multiplier;
+        //    float result = 0;
+        //    float multiplier = 0.1f;
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        result += (generatedInteger % 10) * multiplier;
 
-                multiplier = multiplier / 10;
-                generatedInteger = generatedInteger / 10;
-            }
+        //        multiplier = multiplier / 10;
+        //        generatedInteger = generatedInteger / 10;
+        //    }
 
-            result = (float)Math.Abs(Math.Sin(generatedInteger * Math.PI / 180));
+        //    result = (float)Math.Abs(Math.Sin(generatedInteger * Math.PI / 180));
 
-            return result < blockRatio;
-        }
+        //    return result < blockRatio;
+        //}
     }
 }

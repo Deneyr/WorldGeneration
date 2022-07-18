@@ -24,7 +24,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
         {
             get
             {
-                return Math.Max(this.StructDimension.Width, this.StructDimension.Height);
+                return Math.Max(0, Math.Max(this.StructDimension.Width, this.StructDimension.Height) - 1);
             }
         }
 
@@ -89,13 +89,13 @@ namespace WorldGeneration.DataChunks.StructureNoise
         public List<IDataStructure> GetDataStructuresInWorldArea(IntRect worldArea)
         {
             // Only the left top corner is extended
-            worldArea = new IntRect(
+            IntRect newWorldArea = new IntRect(
                 worldArea.Left - this.StructureCellMargin,
                 worldArea.Top - this.StructureCellMargin,
                 worldArea.Width + this.StructureCellMargin,
                 worldArea.Height + this.StructureCellMargin);
 
-            IntRect chunkArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, worldArea);
+            IntRect chunkArea = ChunkHelper.GetChunkAreaFromWorldArea(this.NbCaseSide, newWorldArea);
 
             List<IDataStructure> resultDataStructures = new List<IDataStructure>();
 
@@ -105,9 +105,36 @@ namespace WorldGeneration.DataChunks.StructureNoise
                 {
                     APointDataStructureChunk pointStructureChunk = this.ChunksMonitor.GetChunkContainerAt(chunkArea.Left + j, chunkArea.Top + i).ContainedChunk as APointDataStructureChunk;
 
-                    pointStructureChunk.AddDataStructuresFromWorldArea(worldArea, resultDataStructures);
+                    pointStructureChunk.AddDataStructuresFromWorldArea(worldArea, newWorldArea, resultDataStructures);
                 }
             }
+
+            // TEST
+            List<IDataStructure> resultDataStructures2 = new List<IDataStructure>();
+            foreach (ChunkContainer container in this.ChunksMonitor.CurrentChunksLoaded.Values)
+            {
+                APointDataStructureChunk pointStructureChunk = container.ContainedChunk as APointDataStructureChunk;
+
+                pointStructureChunk.DirtyAddDataStructuresFromWorldArea(worldArea, resultDataStructures2);
+            }
+
+            var set1 = new HashSet<IDataStructure>(resultDataStructures);
+            var set2 = new HashSet<IDataStructure>(resultDataStructures2);
+            if (set1.SetEquals(set2) == false)
+            {
+                Console.WriteLine();
+            }
+            //foreach (IDataStructure testDataStruct in resultDataStructures)
+            //{
+            //    IntRect testBB = testDataStruct.StructureWorldBoundingBox;
+
+            //    IntRect chunkBB = worldArea;
+
+            //    if (chunkBB.Intersects(testBB, out IntRect overlap) == false)
+            //    {
+            //        Console.WriteLine(overlap);
+            //    }
+            //}
 
             return resultDataStructures;
         }

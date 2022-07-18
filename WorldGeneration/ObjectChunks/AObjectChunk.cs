@@ -31,7 +31,9 @@ namespace WorldGeneration.ObjectChunks
             typeof(TropicalWoodlandGroundLandObject),
             typeof(TundraGroundLandObject),
 
-            typeof(TallGrassElementLandObject)
+            typeof(TallGrassElementLandObject),
+            typeof(MainTreeElementLandObject),
+            typeof(SideTreeElementLandObject)
         };
 
         internal ObjectChunkLayersMonitor ParentMonitor

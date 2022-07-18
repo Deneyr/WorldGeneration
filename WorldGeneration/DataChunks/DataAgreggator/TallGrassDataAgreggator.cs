@@ -9,44 +9,32 @@ using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
 {
-    internal class TallGrassDataAgreggator : IDataAgreggator
+    internal class TallGrassDataAgreggator : AStructureDataAgreggator
     {
-        public TallGrassDataStructureChunkLayer TallGrassBiome
-        {
-            get;
-            set;
-        }
+        //public TallGrassDataAgreggator()
+        //{
 
-        public TallGrassDataStructureChunkLayer SecondTallGrassBiome
-        {
-            get;
-            set;
-        }
+        //}
 
-        public TallGrassDataAgreggator()
-        {
+        //public List<IDataStructure> GetDataStructuresInWorldArea(IntRect worldArea)
+        //{
+        //    List<IDataStructure> resultDataStructures = this.TallGrassBiome.GetDataStructuresInWorldArea(worldArea);
 
-        }
+        //    resultDataStructures.AddRange(this.SecondTallGrassBiome.GetDataStructuresInWorldArea(worldArea));
 
-        public List<IDataStructure> GetDataStructuresInWorldArea(IntRect worldArea)
-        {
-            List<IDataStructure> resultDataStructures = this.TallGrassBiome.GetDataStructuresInWorldArea(worldArea);
+        //    return resultDataStructures;
+        //}
 
-            resultDataStructures.AddRange(this.SecondTallGrassBiome.GetDataStructuresInWorldArea(worldArea));
+        //public bool IsThereTallGrassAtWorldCoordinates(int x, int y)
+        //{
+        //    TallGrassDataStructureCase tallGrassStructureCase = this.TallGrassBiome.GetCaseAtWorldCoordinates(x, y) as TallGrassDataStructureCase;
 
-            return resultDataStructures;
-        }
+        //    if (tallGrassStructureCase == null)
+        //    {
+        //        tallGrassStructureCase = this.SecondTallGrassBiome.GetCaseAtWorldCoordinates(x, y) as TallGrassDataStructureCase;
+        //    }
 
-        public bool IsThereTallGrassAtWorldCoordinates(int x, int y)
-        {
-            TallGrassDataStructureCase tallGrassStructureCase = this.TallGrassBiome.GetCaseAtWorldCoordinates(x, y) as TallGrassDataStructureCase;
-
-            if (tallGrassStructureCase == null)
-            {
-                tallGrassStructureCase = this.SecondTallGrassBiome.GetCaseAtWorldCoordinates(x, y) as TallGrassDataStructureCase;
-            }
-
-            return tallGrassStructureCase != null;
-        }
+        //    return tallGrassStructureCase != null;
+        //}
     }
 }

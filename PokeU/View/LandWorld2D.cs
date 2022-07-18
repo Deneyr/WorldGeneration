@@ -120,6 +120,8 @@ namespace PokeU.View
 
             // Element Land Objects
             MappingObjectModelView.Add(typeof(TallGrassElementLandObject), new TallGrassObject2DFactory());
+            MappingObjectModelView.Add(typeof(SideTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(MainTreeElementLandObject), new TreeObject2DFactory());
 
             // Entity objects
 

@@ -88,6 +88,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
 
         private static Dictionary<string, int> testDico = new Dictionary<string, int>();
 
+        // Test purpose, to remove !
         [Obsolete]
         private static void SetTestDicoValue(APointDataStructureChunk chunk, int value)
         {
@@ -236,10 +237,10 @@ namespace WorldGeneration.DataChunks.StructureNoise
                 }
             }
 
-            if (parentLayer.Id.Contains("second") == false)
-            {
-                SetTestDicoValue(this, random.Next());
-            }
+            //if (parentLayer.Id.Contains("second") == false)
+            //{
+            //    SetTestDicoValue(this, random.Next());
+            //}
         }
 
         protected virtual bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
@@ -307,7 +308,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             return null;
         }
 
-        public void AddDataStructuresFromWorldArea(IntRect worldArea, List<IDataStructure> dataStructures)
+        public void AddDataStructuresFromWorldArea(IntRect originalWorldArea, IntRect worldArea, List<IDataStructure> dataStructures)
         {
             IntRect chunkWorldArea = ChunkHelper.GetWorldAreaFromChunkArea(this.NbCaseSide, new IntRect(this.Position.X, this.Position.Y, 1, 1));
 
@@ -337,7 +338,36 @@ namespace WorldGeneration.DataChunks.StructureNoise
                         List<IDataStructure> currentDataStructures = this.DataStructures[i, j];
                         if (currentDataStructures != null && currentDataStructures.Any())
                         {
-                            dataStructures.AddRange(currentDataStructures);
+                            foreach(IDataStructure currentDataStructure in currentDataStructures)
+                            {
+                                if (currentDataStructure.StructureWorldBoundingBox.Intersects(originalWorldArea))
+                                {
+                                    dataStructures.Add(currentDataStructure);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Dirty method, used only for test purpose
+        [Obsolete]
+        public void DirtyAddDataStructuresFromWorldArea(IntRect originalWorldArea, List<IDataStructure> dataStructures)
+        {
+            for (int i = 0; i < this.nbCellSide; i++)
+            {
+                for (int j = 0; j < this.nbCellSide; j++)
+                {
+                    List<IDataStructure> currentDataStructures = this.DataStructures[i, j];
+                    if (currentDataStructures != null && currentDataStructures.Any())
+                    {
+                        foreach (IDataStructure currentDataStructure in currentDataStructures)
+                        {
+                            if (currentDataStructure.StructureWorldBoundingBox.Intersects(originalWorldArea))
+                            {
+                                dataStructures.Add(currentDataStructure);
+                            }
                         }
                     }
                 }

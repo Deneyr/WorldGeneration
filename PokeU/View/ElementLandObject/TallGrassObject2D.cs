@@ -23,7 +23,7 @@ namespace PokeU.View.ElementLandObject
             this.ObjectSprite = new Sprite(texture);
 
             this.ObjectSprite.Position = this.ObjectSprite.Position;
-            this.ObjectSprite.Color = new Color(255, 255, 255, 127);
+            //this.ObjectSprite.Color = new Color(255, 255, 255, 127);
 
             this.Position = new Vector2f(position.X, position.Y);
         }

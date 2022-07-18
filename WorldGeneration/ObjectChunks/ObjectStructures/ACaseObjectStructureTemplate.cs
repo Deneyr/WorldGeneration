@@ -128,10 +128,23 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
                     {
                         IObjectCase objectCase = zObjectCase[z];
 
+                        if(objectCase == null)
+                        {
+                            objectCase = this.CreateObjectCase(random, zObjectCase, z);
+                        }
+
                         this.UpdateObjectCase(random, objectCase, parentObjectStructure, enumValue);
                     }
                 }
             }
+        }
+
+        protected virtual IObjectCase CreateObjectCase(Random random, IZObjectCase zObjectCase, int worldAltitude)
+        {
+            ObjectCase objectCase = new ObjectCase(zObjectCase.Position, worldAltitude);
+            zObjectCase.SetCaseAt(objectCase);
+
+            return objectCase;
         }
 
         protected abstract void UpdateObjectCase(Random random, IObjectCase objectCase, IObjectStructure parentObjectStructure, int enumValue);

@@ -23,11 +23,14 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             int heightMax = this.DataStructureCases.GetLength(0);
             int widthMax = this.DataStructureCases.GetLength(1);
 
-            for (int i = 0; i < widthMax; i++)
+            for (int i = 0; i < heightMax; i++)
             {
-                for (int j = 0; j < heightMax; j++)
+                for (int j = 0; j < widthMax; j++)
                 {
-                    this.DataStructureCases[j, i] = new TallGrassDataStructureCase(this, this.StructureBoundingBox.Left + i, this.StructureBoundingBox.Height + j);
+                    if (random.NextDouble() < 0.95)
+                    {
+                        this.DataStructureCases[i, j] = new TallGrassDataStructureCase(this, this.StructureBoundingBox.Left + j, this.StructureBoundingBox.Height + i);
+                    }
                 }
             }
 

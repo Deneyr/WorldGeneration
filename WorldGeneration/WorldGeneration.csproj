@@ -98,6 +98,7 @@
     <Compile Include="DataChunks\ADataChunkLayer.cs" />
     <Compile Include="DataChunks\AExtendedDataChunkLayer.cs" />
     <Compile Include="DataChunks\DataAgreggator\AltitudeDataAgreggator.cs" />
+    <Compile Include="DataChunks\DataAgreggator\AStructureDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\BiomeDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\FloraDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\IDataAgreggator.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="DataChunks\DataAgreggator\RiverDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\TallGrassDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\TestNoiseDataAgreggator.cs" />
+    <Compile Include="DataChunks\DataAgreggator\TreeDataAgreggator.cs" />
     <Compile Include="DataChunks\DataAgreggator\WeatherDataAgreggator.cs" />
     <Compile Include="DataChunks\DataChunkLayersMonitor.cs" />
     <Compile Include="DataChunks\DSNoise\BiomeDSNoise\BiomeDSDataCase.cs" />
@@ -176,7 +178,8 @@
     <Compile Include="ObjectChunks\ObjectChunkLayers\BiomeTransitionObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayers\FloraNCObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayers\FloraCObjectChunkLayer.cs" />
-    <Compile Include="ObjectChunks\ObjectChunkLayers\StructureTallGrassObjectChunkLayer.cs" />
+    <Compile Include="ObjectChunks\ObjectChunkLayers\TallGrassObjectChunkLayer.cs" />
+    <Compile Include="ObjectChunks\ObjectChunkLayers\TreeObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayers\WaterObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectChunkLayers\WaterTransitionObjectChunkLayer.cs" />
     <Compile Include="ObjectChunks\ObjectLands\ALandObject.cs" />

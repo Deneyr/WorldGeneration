@@ -25,7 +25,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         {
             get
             {
-                return 3;
+                return 4;
             }
         }
 
@@ -215,7 +215,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             GroundLandObject groundLandObject = BiomeObjectChunkLayer.CreateGroundLandObject(random, zObjectCase.ObjectBiome, landType);
             objectCase.Land.AddLandGround(groundLandObject);
 
-            zObjectCase.SetCaseAt(objectCase);
+            zObjectCase.SetGroundCaseAt(objectCase);
         }
 
         public override void InitObjectChunkLayer(int nbCaseSide)

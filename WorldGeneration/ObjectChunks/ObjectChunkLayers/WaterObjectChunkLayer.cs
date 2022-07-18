@@ -216,7 +216,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
                     if (objectCase == null)
                     {
                         objectCase = new ObjectCase(zObjectCase.Position, currentAltitude);
-                        zObjectCase.SetCaseAt(objectCase);
+                        zObjectCase.SetGroundCaseAt(objectCase);
                     }
 
                     objectCase.Land.LandWater = new WaterLandObject(random.Next());

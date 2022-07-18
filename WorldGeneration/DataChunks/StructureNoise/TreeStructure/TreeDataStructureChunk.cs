@@ -43,9 +43,10 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
             BiomeType biomeValue = dataChunksMonitor.WeatherMonitor.GetBiomeAt(temperature, humidity);
             (dataStructure as ADataStructure).StructureBiome = biomeValue;
 
-            float ratio = dataChunksMonitor.FloraRatioManager.GetTreeRatioFromBiomeAltitude(biomeValue, 0);
+            //float ratio = dataChunksMonitor.FloraRatioManager.GetTreeRatioFromBiomeAltitude(biomeValue, 0);
 
-            return random.NextDouble() < ratio;
+            //return random.NextDouble() < ratio;
+            return true;
         }
     }
 }

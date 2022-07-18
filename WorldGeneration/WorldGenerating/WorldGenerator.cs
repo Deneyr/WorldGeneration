@@ -134,6 +134,7 @@ namespace WorldGeneration.WorldGenerating
             RiverDataAgreggator riverDataAgreggator = new RiverDataAgreggator();
             FloraDataAgreggator floraDataAgreggator = new FloraDataAgreggator();
             TallGrassDataAgreggator tallGrassDataAgreggator = new TallGrassDataAgreggator();
+            TreeDataAgreggator treeDataAgreggator = new TreeDataAgreggator();
 
             PureNoiseDataChunkLayer pureNoiseDataChunkLayer = new PureNoiseDataChunkLayer("pureNoise", 32);
             this.dataChunksMonitor.AddDataLayerToGenerator(pureNoiseDataChunkLayer);
@@ -223,10 +224,11 @@ namespace WorldGeneration.WorldGenerating
 
             // Part Trees
             TreeDataStructureChunkLayer treeStructureDataChunkLayer = new TreeDataStructureChunkLayer("tree", 256);
-            treeStructureDataChunkLayer.NbMinDataStructure = 50;
-            treeStructureDataChunkLayer.nbMaxDataStructure = 70;
+            treeStructureDataChunkLayer.NbMinDataStructure = 2000;
+            treeStructureDataChunkLayer.nbMaxDataStructure = 2500;
             treeStructureDataChunkLayer.StructDimension = new IntRect(3, 3, 3, 3);
             this.dataChunksMonitor.AddDataLayerToGenerator(treeStructureDataChunkLayer);
+            treeDataAgreggator.AddDataStructureChunkLayer(treeStructureDataChunkLayer);
 
             // Part Tall Grass
             TallGrassDataStructureChunkLayer tallGrassStructureDataChunkLayer = new TallGrassDataStructureChunkLayer("tallGrass", 256);
@@ -234,14 +236,14 @@ namespace WorldGeneration.WorldGenerating
             tallGrassStructureDataChunkLayer.nbMaxDataStructure = 25;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(20, 20, 40, 40);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
-            tallGrassDataAgreggator.TallGrassBiome = tallGrassStructureDataChunkLayer;
+            tallGrassDataAgreggator.AddDataStructureChunkLayer(tallGrassStructureDataChunkLayer);
 
             tallGrassStructureDataChunkLayer = new TallGrassDataStructureChunkLayer("secondTallGrass", 128);
             tallGrassStructureDataChunkLayer.NbMinDataStructure = 15;
             tallGrassStructureDataChunkLayer.nbMaxDataStructure = 30;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
-            tallGrassDataAgreggator.SecondTallGrassBiome = tallGrassStructureDataChunkLayer;
+            tallGrassDataAgreggator.AddDataStructureChunkLayer(tallGrassStructureDataChunkLayer);
 
             // Register data aggregators
 
@@ -252,6 +254,7 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("river", riverDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("flora", floraDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("tallGrass", tallGrassDataAgreggator);
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("tree", treeDataAgreggator);
 
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("test", testNoiseDataAgreggator);
 
@@ -286,7 +289,10 @@ namespace WorldGeneration.WorldGenerating
             FloraCObjectChunkLayer floraCObjectChunkLayer = new FloraCObjectChunkLayer("floraCLayer");
             this.objectChunkMonitor.AddObjectLayerToGenerator(floraCObjectChunkLayer);
 
-            StructureTallGrassObjectChunkLayer structureTallGrassObjectChunkLayer = new StructureTallGrassObjectChunkLayer("structureTallGrassLayer");
+            TreeObjectChunkLayer structureTreeObjectChunkLayer = new TreeObjectChunkLayer("structureTreeLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(structureTreeObjectChunkLayer);
+
+            TallGrassObjectChunkLayer structureTallGrassObjectChunkLayer = new TallGrassObjectChunkLayer("structureTallGrassLayer");
             this.objectChunkMonitor.AddObjectLayerToGenerator(structureTallGrassObjectChunkLayer);
 
             FloraNCObjectChunkLayer floraNCObjectChunkLayer = new FloraNCObjectChunkLayer("floraNCLayer");

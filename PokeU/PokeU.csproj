@@ -84,6 +84,8 @@
     <Compile Include="View\ElementLandObject\AElementLandObject2D.cs" />
     <Compile Include="View\ElementLandObject\TallGrassObject2D.cs" />
     <Compile Include="View\ElementLandObject\TallGrassObject2DFactory.cs" />
+    <Compile Include="View\ElementLandObject\TreeObject2D.cs" />
+    <Compile Include="View\ElementLandObject\TreeObject2DFactory.cs" />
     <Compile Include="View\GroundObject\AGroundObject2D.cs" />
     <Compile Include="View\GroundObject\AGroundObject2DFactory.cs" />
     <Compile Include="View\Helpers\HSLColor.cs" />

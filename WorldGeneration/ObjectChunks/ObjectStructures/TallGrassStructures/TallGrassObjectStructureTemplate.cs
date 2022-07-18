@@ -26,7 +26,10 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
 
                 ObjectCase currentObjectCase = zObjectCase[zObjectCase.GroundAltitude] as ObjectCase;
 
-                if (dataStructureCase != null && currentObjectCase.Land.LandWater == null)
+                if (dataStructureCase != null 
+                    && currentObjectCase.Land.LandWater == null
+                    && currentObjectCase.Land.LandWall == null
+                    && (currentObjectCase.Land.LandOverGround == null || currentObjectCase.Land.LandOverGround is TallGrassElementLandObject))
                 {
                     TallGrassElementLandObject tallGrassElement = new TallGrassElementLandObject(random.Next());
 
@@ -36,6 +39,28 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
                 }
             }
         }
+
+        //protected override bool ValidateZObjectCase(IZObjectCase zObjectCase, int worldAltitude, int baseLocalI, int baseLocalJ)
+        //{
+        //    if(zObjectCase.GroundAltitude < 0)
+        //    {
+        //        return false;
+        //    }
+
+        //    ObjectCase currentObjectCase = zObjectCase[zObjectCase.GroundAltitude] as ObjectCase;
+
+        //    if (currentObjectCase.Land.LandWater != null)
+        //    {
+        //        return false;
+        //    }
+
+        //    if(currentObjectCase.Land.LandWall != null)
+        //    {
+        //        return false;
+        //    }
+
+        //    return true;
+        //}
 
         protected override IObjectStructure CreateObjectStructureFrom(Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
