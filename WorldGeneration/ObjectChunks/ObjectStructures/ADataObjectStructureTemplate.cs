@@ -64,26 +64,27 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
 
         public virtual bool IsGenerationValidAtWorldPosition(IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk)
         {
-            Vector2i worldPosition = dataStructure.StructureWorldPosition;
+            IntRect structureWorldArea = dataStructure.StructureWorldBoundingBox;
+            IntRect chunkWorldArea = ChunkHelper.GetWorldAreaFromChunkArea(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, 1, 1));
 
-            int structureHeight = dataStructure.StructureBoundingBox.Height;
-            int structureWidth = dataStructure.StructureBoundingBox.Width;
-
-            int StartWorldX = worldPosition.X + structureWidth;
-            int StartWorldY = worldPosition.Y + structureHeight;
-
-            for (int i = 0; i < structureHeight; i++)
+            if (chunkWorldArea.Intersects(structureWorldArea, out IntRect overlapingArea))
             {
-                int y = StartWorldY + i;
-                for (int j = 0; j < structureWidth; j++)
+                int marginHeight = overlapingArea.Top - structureWorldArea.Top;
+                int marginWidth = overlapingArea.Left - structureWorldArea.Left;
+
+                for (int i = 0; i < overlapingArea.Height; i++)
                 {
-                    int x = StartWorldX + j;
-
-                    IZObjectCase zObjectCase = ChunkHelper.GetCaseAtWorldCoordinates(objectChunk, x, y) as IZObjectCase;
-
-                    if (this.ValidateZObjectCase(zObjectCase, worldAltitude, i, j) == false)
+                    int y = overlapingArea.Top + i;
+                    for (int j = 0; j < overlapingArea.Width; j++)
                     {
-                        return false;
+                        int x = overlapingArea.Left + j;
+
+                        IZObjectCase zObjectCase = ChunkHelper.GetCaseAtWorldCoordinates(objectChunk, x, y) as IZObjectCase;
+
+                        if (this.ValidateZObjectCase(zObjectCase, worldAltitude, marginHeight + i, marginWidth + j) == false)
+                        {
+                            return false;
+                        }
                     }
                 }
             }

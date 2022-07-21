@@ -35,7 +35,10 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             {
                 IObjectStructureTemplate treeStructureTemplate = objectChunksMonitor.ObjectStructureTemplates[dataStructure.ObjectStructureTemplateId];
 
-                return treeStructureTemplate.GenerateStructureAtWorldPosition(random, dataStructure, structureAltitude, objectChunk);
+                if (treeStructureTemplate.IsGenerationValidAtWorldPosition(dataStructure, structureAltitude, objectChunk))
+                {
+                    return treeStructureTemplate.GenerateStructureAtWorldPosition(random, dataStructure, structureAltitude, objectChunk);
+                }
             }
             return null;
         }
