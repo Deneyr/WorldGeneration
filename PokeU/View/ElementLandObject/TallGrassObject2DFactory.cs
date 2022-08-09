@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 
 namespace PokeU.View.ElementLandObject
@@ -20,7 +21,7 @@ namespace PokeU.View.ElementLandObject
 
         public override IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Vector2i position)
         {
-            TallGrassElementLandObject tallGrassElementLandObject = obj as TallGrassElementLandObject;
+            ATallGrassElementLandObject tallGrassElementLandObject = obj as ATallGrassElementLandObject;
 
             if (tallGrassElementLandObject != null)
             {

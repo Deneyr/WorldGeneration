@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeObjectStructure;
 

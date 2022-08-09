@@ -72,23 +72,32 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
                 int marginHeight = overlapingArea.Top - structureWorldArea.Top;
                 int marginWidth = overlapingArea.Left - structureWorldArea.Left;
 
-                for (int i = 0; i < overlapingArea.Height; i++)
+                //for (int i = 0; i < overlapingArea.Height; i++)
+                //{
+                //    int y = overlapingArea.Top + i;
+                //    for (int j = 0; j < overlapingArea.Width; j++)
+                //    {
+                //        int x = overlapingArea.Left + j;
+
+                //        IZObjectCase zObjectCase = ChunkHelper.GetCaseAtWorldCoordinates(objectChunk, x, y) as IZObjectCase;
+
+                //        if (this.ValidateZObjectCase(zObjectCase, worldAltitude, marginHeight + i, marginWidth + j) == false)
+                //        {
+                //            return false;
+                //        }
+                //    }
+                //}
+
+                IZObjectCase zObjectCase = ChunkHelper.GetCaseAtWorldCoordinates(objectChunk, overlapingArea.Left, overlapingArea.Top) as IZObjectCase;
+
+                if (this.ValidateZObjectCase(zObjectCase, worldAltitude, marginHeight, marginWidth) == false)
                 {
-                    int y = overlapingArea.Top + i;
-                    for (int j = 0; j < overlapingArea.Width; j++)
-                    {
-                        int x = overlapingArea.Left + j;
-
-                        IZObjectCase zObjectCase = ChunkHelper.GetCaseAtWorldCoordinates(objectChunk, x, y) as IZObjectCase;
-
-                        if (this.ValidateZObjectCase(zObjectCase, worldAltitude, marginHeight + i, marginWidth + j) == false)
-                        {
-                            return false;
-                        }
-                    }
+                    return false;
                 }
+
+                return true;
             }
-            return true;
+            return false;
         }
 
         protected virtual bool ValidateZObjectCase(IZObjectCase zObjectCase, int worldAltitude, int baseLocalI, int baseLocalJ)

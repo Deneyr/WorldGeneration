@@ -7,7 +7,9 @@ using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
 {
@@ -29,9 +31,9 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
                 if (dataStructureCase != null 
                     && currentObjectCase.Land.LandWater == null
                     && currentObjectCase.Land.LandWall == null
-                    && (currentObjectCase.Land.LandOverGround == null || currentObjectCase.Land.LandOverGround is TallGrassElementLandObject))
+                    && (currentObjectCase.Land.LandOverGround == null || currentObjectCase.Land.LandOverGround is ATallGrassElementLandObject))
                 {
-                    TallGrassElementLandObject tallGrassElement = new TallGrassElementLandObject(random.Next());
+                    ATallGrassElementLandObject tallGrassElement = this.CreateTallGrassElementLandObjectFrom(dataStructure.StructureBiome, random.Next());
 
                     tallGrassElement.ParentStructureUID = parentObjectStructure.UID;
 
@@ -69,6 +71,32 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
             newTallGrassStructure.BiomeType = dataStructure.StructureBiome;
 
             return newTallGrassStructure;
+        }
+
+        private ATallGrassElementLandObject CreateTallGrassElementLandObjectFrom(BiomeType biomeType, int landElementObjectId)
+        {
+            switch (biomeType)
+            {
+                case BiomeType.BOREAL_FOREST:
+                    return new BorealForestTallGrassElementLandObject(landElementObjectId);
+                case BiomeType.DESERT:
+                    return new DesertTallGrassElementLandObject(landElementObjectId);
+                case BiomeType.RAINFOREST:
+                    return new RainForestTallGrassElementLandObject(landElementObjectId);
+                case BiomeType.SAVANNA:
+                    return new SavannaTallGrassElementLandObject(landElementObjectId);
+                case BiomeType.SEASONAL_FOREST:
+                    return new SeasonalForestTallGrassElementLandObject(landElementObjectId);
+                case BiomeType.TEMPERATE_FOREST:
+                    return new TemperateForestTallGrassElementLandObject(landElementObjectId);
+                case BiomeType.TEMPERATE_RAINFOREST:
+                    return new TemperateRainForestTallGrassElementLandObject(landElementObjectId);
+                case BiomeType.TROPICAL_WOODLAND:
+                    return new TropicalWoodlandTallGrassElementLandObject(landElementObjectId);
+                case BiomeType.TUNDRA:
+                    return new TundraTallGrassElementLandObject(landElementObjectId);
+            }
+            return new TundraTallGrassElementLandObject(landElementObjectId);
         }
     }
 }

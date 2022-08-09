@@ -8,6 +8,8 @@ using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 using WorldGeneration.ObjectChunks.ObjectStructures;
 
@@ -31,9 +33,36 @@ namespace WorldGeneration.ObjectChunks
             typeof(TropicalWoodlandGroundLandObject),
             typeof(TundraGroundLandObject),
 
-            typeof(TallGrassElementLandObject),
-            typeof(MainTreeElementLandObject),
-            typeof(SideTreeElementLandObject)
+            // Tall Grass
+            typeof(BorealForestTallGrassElementLandObject),
+            typeof(DesertTallGrassElementLandObject),
+            typeof(RainForestTallGrassElementLandObject),
+            typeof(SavannaTallGrassElementLandObject),
+            typeof(SeasonalForestTallGrassElementLandObject),
+            typeof(TemperateForestTallGrassElementLandObject),
+            typeof(TemperateRainForestTallGrassElementLandObject),
+            typeof(TropicalWoodlandTallGrassElementLandObject),
+            typeof(TundraTallGrassElementLandObject),
+
+            // Tree
+            typeof(BorealForestMainTreeElementLandObject),
+            typeof(BorealForestSideTreeElementLandObject),
+            typeof(DesertMainTreeElementLandObject),
+            typeof(DesertSideTreeElementLandObject),
+            typeof(RainForestMainTreeElementLandObject),
+            typeof(RainForestSideTreeElementLandObject),
+            typeof(SavannaMainTreeElementLandObject),
+            typeof(SavannaSideTreeElementLandObject),
+            typeof(SeasonalMainTreeElementLandObject),
+            typeof(SeasonalSideTreeElementLandObject),
+            typeof(TemperateForestMainTreeElementObject),
+            typeof(TemperateForestSideTreeElementObject),
+            typeof(TemperateRainForestMainTreeElementObject),
+            typeof(TemperateRainForestSideTreeElementObject),
+            typeof(TropicalWoodlandMainTreeElementObject),
+            typeof(TropicalWoodlandSideTreeElementObject),
+            typeof(TundraMainTreeElementObject),
+            typeof(TundraSideTreeElementObject),
         };
 
         internal ObjectChunkLayersMonitor ParentMonitor

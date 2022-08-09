@@ -7,18 +7,18 @@ using WorldGeneration.ObjectChunks.ObjectLands.LandInterface;
 using WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures;
 using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeObjectStructure;
 
-namespace WorldGeneration.ObjectChunks.ObjectLands.ElementObject
+namespace WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree
 {
-    public class MainTreeElementLandObject : ATreeElementLandObject, ILandWall
+    public abstract class AMainTreeElementLandObject : ATreeElementLandObject, ILandWall
     {
-        public MainTreeElementLandObject(int landElementObjectId, TreePart part) 
+        public AMainTreeElementLandObject(int landElementObjectId, TreePart part) 
             : base(landElementObjectId, part)
         {
         }
 
-        public override ILandObject Clone()
-        {
-            return new MainTreeElementLandObject(this.LandObjectId, this.Part);
-        }
+        //public override ILandObject Clone()
+        //{
+        //    return new AMainTreeElementLandObject(this.LandObjectId, this.Part);
+        //}
     }
 }

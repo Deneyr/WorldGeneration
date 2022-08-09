@@ -18,6 +18,8 @@ using WorldGeneration.ObjectChunks.ObjectLands;
 using PokeU.View.BiomeGroundObject;
 using PokeU.View.ElementLandObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 
 namespace PokeU.View
 {
@@ -119,9 +121,36 @@ namespace PokeU.View
             MappingObjectModelView.Add(typeof(WaterLandObject), new WaterObject2DFactory());
 
             // Element Land Objects
-            MappingObjectModelView.Add(typeof(TallGrassElementLandObject), new TallGrassObject2DFactory());
-            MappingObjectModelView.Add(typeof(SideTreeElementLandObject), new TreeObject2DFactory());
-            MappingObjectModelView.Add(typeof(MainTreeElementLandObject), new TreeObject2DFactory());
+            // Tall Grass
+            MappingObjectModelView.Add(typeof(BorealForestTallGrassElementLandObject), new TallGrassObject2DFactory());
+            MappingObjectModelView.Add(typeof(DesertTallGrassElementLandObject), new TallGrassObject2DFactory());
+            MappingObjectModelView.Add(typeof(RainForestTallGrassElementLandObject), new TallGrassObject2DFactory());
+            MappingObjectModelView.Add(typeof(SavannaTallGrassElementLandObject), new TallGrassObject2DFactory());
+            MappingObjectModelView.Add(typeof(SeasonalForestTallGrassElementLandObject), new TallGrassObject2DFactory());
+            MappingObjectModelView.Add(typeof(TemperateForestTallGrassElementLandObject), new TallGrassObject2DFactory());
+            MappingObjectModelView.Add(typeof(TemperateRainForestTallGrassElementLandObject), new TallGrassObject2DFactory());
+            MappingObjectModelView.Add(typeof(TropicalWoodlandTallGrassElementLandObject), new TallGrassObject2DFactory());
+            MappingObjectModelView.Add(typeof(TundraTallGrassElementLandObject), new TallGrassObject2DFactory());
+
+            // Tree
+            MappingObjectModelView.Add(typeof(BorealForestMainTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(BorealForestSideTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(DesertMainTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(DesertSideTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(RainForestMainTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(RainForestSideTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(SavannaMainTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(SavannaSideTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(SeasonalMainTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(SeasonalSideTreeElementLandObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(TemperateForestMainTreeElementObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(TemperateForestSideTreeElementObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(TemperateRainForestMainTreeElementObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(TemperateRainForestSideTreeElementObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(TropicalWoodlandMainTreeElementObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(TropicalWoodlandSideTreeElementObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(TundraMainTreeElementObject), new TreeObject2DFactory());
+            MappingObjectModelView.Add(typeof(TundraSideTreeElementObject), new TreeObject2DFactory());
 
             // Entity objects
 

@@ -133,7 +133,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
                             objectCase = this.CreateObjectCase(random, zObjectCase, z);
                         }
 
-                        this.UpdateObjectCase(random, objectCase, parentObjectStructure, enumValue);
+                        this.UpdateObjectCase(random, objectCase, dataStructure, parentObjectStructure, enumValue);
                     }
                 }
             }
@@ -147,6 +147,6 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             return objectCase;
         }
 
-        protected abstract void UpdateObjectCase(Random random, IObjectCase objectCase, IObjectStructure parentObjectStructure, int enumValue);
+        protected abstract void UpdateObjectCase(Random random, IObjectCase objectCase, IDataStructure dataStructure, IObjectStructure parentObjectStructure, int enumValue);
     }
 }

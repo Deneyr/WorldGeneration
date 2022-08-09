@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectStructures;
 using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeObjectStructure;
 
-namespace WorldGeneration.ObjectChunks.ObjectLands.ElementObject
+namespace WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree
 {
     public abstract class ATreeElementLandObject : AElementLandObject, IObjectStructureElement
     {

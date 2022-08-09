@@ -10,6 +10,7 @@ using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 
 namespace WorldGeneration.ViewTest
 {
@@ -103,7 +104,7 @@ namespace WorldGeneration.ViewTest
                     {
                         color = new Color(150, 150, 150);
                     }
-                    else if (testCase.Land.LandOverGround != null && testCase.Land.LandOverGround is TallGrassElementLandObject)/* || testCase.IsThereTallGrass) /*&& testCase.AltitudeValue < 18)*/
+                    else if (testCase.Land.LandOverGround != null && testCase.Land.LandOverGround is ATallGrassElementLandObject)/* || testCase.IsThereTallGrass) /*&& testCase.AltitudeValue < 18)*/
                     {
                         color = Color.Yellow;
                     }

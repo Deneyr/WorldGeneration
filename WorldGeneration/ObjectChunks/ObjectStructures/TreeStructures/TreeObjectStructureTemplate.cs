@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeObjectStructure;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
@@ -32,7 +34,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             };
         }
 
-        protected override void UpdateObjectCase(Random random, IObjectCase objectCase, IObjectStructure parentObjectStructure, int enumValue)
+        protected override void UpdateObjectCase(Random random, IObjectCase objectCase, IDataStructure dataStructure, IObjectStructure parentObjectStructure, int enumValue)
         {
             TreePart treePart = (TreePart)enumValue;
             ObjectCase currentObjectCase = objectCase as ObjectCase;
@@ -40,7 +42,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             if (treePart == TreePart.BOT_LEFT
                 || treePart == TreePart.BOT_RIGHT)
             {
-                SideTreeElementLandObject sideTreeElement = new SideTreeElementLandObject(random.Next(), treePart);
+                ASideTreeElementLandObject sideTreeElement = this.CreateSideTreeElementLandObjectFrom(dataStructure.StructureBiome, random.Next(), treePart);
 
                 sideTreeElement.ParentStructureUID = parentObjectStructure.UID;
 
@@ -48,7 +50,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             }
             else
             {
-                MainTreeElementLandObject mainTreeElement = new MainTreeElementLandObject(random.Next(), treePart);
+                AMainTreeElementLandObject mainTreeElement = this.CreateMainTreeElementLandObjectFrom(dataStructure.StructureBiome, random.Next(), treePart);
 
                 mainTreeElement.ParentStructureUID = parentObjectStructure.UID;
 
@@ -56,37 +58,57 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             }
         }
 
-        //protected override bool ValidateZObjectCase(IZObjectCase zObjectCase, int worldAltitude, int baseLocalI, int baseLocalJ)
-        //{
-        //    if(base.ValidateZObjectCase(zObjectCase, worldAltitude, baseLocalI, baseLocalJ) == false)
-        //    {
-        //        return false;
-        //    }
+        private AMainTreeElementLandObject CreateMainTreeElementLandObjectFrom(BiomeType biomeType, int landElementObjectId, TreePart treePart)
+        {
+            switch (biomeType)
+            {
+                case BiomeType.BOREAL_FOREST:
+                    return new BorealForestMainTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.DESERT:
+                    return new DesertMainTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.RAINFOREST:
+                    return new RainForestMainTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.SAVANNA:
+                    return new SavannaMainTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.SEASONAL_FOREST:
+                    return new SeasonalMainTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.TEMPERATE_FOREST:
+                    return new TemperateForestMainTreeElementObject(landElementObjectId, treePart);
+                case BiomeType.TEMPERATE_RAINFOREST:
+                    return new TemperateRainForestMainTreeElementObject(landElementObjectId, treePart);
+                case BiomeType.TROPICAL_WOODLAND:
+                    return new TropicalWoodlandMainTreeElementObject(landElementObjectId, treePart);
+                case BiomeType.TUNDRA:
+                    return new TundraMainTreeElementObject(landElementObjectId, treePart);
+            }
+            return new TundraMainTreeElementObject(landElementObjectId, treePart);
+        }
 
-        //    ObjectCase objectCase = zObjectCase[worldAltitude] as ObjectCase;
-
-        //    if(objectCase == null)
-        //    {
-        //        return false;
-        //    }
-
-        //    if(objectCase.Land.LandWater != null)
-        //    {
-        //        return false;
-        //    }
-
-        //    if (baseLocalJ == 0
-        //        || baseLocalJ == 2)
-        //    {
-        //        return objectCase.Land.LandOverGround != null;
-        //    }
-        //    else if(baseLocalJ == 1)
-        //    {
-        //        return objectCase.Land.LandWall != null;
-        //    }
-
-        //    return true;
-        //}
+        private ASideTreeElementLandObject CreateSideTreeElementLandObjectFrom(BiomeType biomeType, int landElementObjectId, TreePart treePart)
+        {
+            switch (biomeType)
+            {
+                case BiomeType.BOREAL_FOREST:
+                    return new BorealForestSideTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.DESERT:
+                    return new DesertSideTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.RAINFOREST:
+                    return new RainForestSideTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.SAVANNA:
+                    return new SavannaSideTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.SEASONAL_FOREST:
+                    return new SeasonalSideTreeElementLandObject(landElementObjectId, treePart);
+                case BiomeType.TEMPERATE_FOREST:
+                    return new TemperateForestSideTreeElementObject(landElementObjectId, treePart);
+                case BiomeType.TEMPERATE_RAINFOREST:
+                    return new TemperateRainForestSideTreeElementObject(landElementObjectId, treePart);
+                case BiomeType.TROPICAL_WOODLAND:
+                    return new TropicalWoodlandSideTreeElementObject(landElementObjectId, treePart);
+                case BiomeType.TUNDRA:
+                    return new TundraSideTreeElementObject(landElementObjectId, treePart);
+            }
+            return new TundraSideTreeElementObject(landElementObjectId, treePart);
+        }
 
         protected override IObjectStructure CreateObjectStructureFrom(Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {

@@ -224,8 +224,8 @@ namespace WorldGeneration.WorldGenerating
 
             // Part Trees
             TreeDataStructureChunkLayer treeStructureDataChunkLayer = new TreeDataStructureChunkLayer("tree", 256);
-            treeStructureDataChunkLayer.NbMinDataStructure = 2000;
-            treeStructureDataChunkLayer.nbMaxDataStructure = 2500;
+            treeStructureDataChunkLayer.NbMinDataStructure = 10000;
+            treeStructureDataChunkLayer.nbMaxDataStructure = 12000;
             treeStructureDataChunkLayer.StructDimension = new IntRect(3, 3, 3, 3);
             this.dataChunksMonitor.AddDataLayerToGenerator(treeStructureDataChunkLayer);
             treeDataAgreggator.AddDataStructureChunkLayer(treeStructureDataChunkLayer);

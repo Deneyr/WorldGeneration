@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 
 namespace PokeU.View.ElementLandObject
 {
@@ -16,7 +17,7 @@ namespace PokeU.View.ElementLandObject
         {
         }
 
-        public TallGrassObject2D(IObject2DFactory factory, TallGrassElementLandObject landObject, Vector2i position)
+        public TallGrassObject2D(IObject2DFactory factory, ATallGrassElementLandObject landObject, Vector2i position)
         {
             Texture texture = factory.GetTextureByIndex(0);
 
