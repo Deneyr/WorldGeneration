@@ -23,7 +23,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             this.TemplateUID = templateUID;
         }
 
-        public virtual IObjectStructure GenerateStructureAtWorldPosition(Random random, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk)
+        public virtual IObjectStructure GenerateStructureAtWorldPosition(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk)
         {
             //Vector2i worldPosition = dataStructure.StructureWorldPosition;
 
@@ -36,7 +36,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             if (chunkWorldArea.Intersects(structureWorldArea, out IntRect overlapingArea))
             {
                 string structureUid = this.ConstructeObjectStructureUID(dataStructure.StructureWorldPosition, worldAltitude);
-                IObjectStructure objectStructure = this.CreateObjectStructureFrom(random, structureUid, dataStructure, worldAltitude);
+                IObjectStructure objectStructure = this.CreateObjectStructureFrom(objectChunksMonitor, random, structureUid, dataStructure, worldAltitude);
                 objectChunk.RegisterObjectStructure(objectStructure);
 
                 int marginHeight = overlapingArea.Top - structureWorldArea.Top;
@@ -52,7 +52,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
                         IZObjectCase zObjectCase = ChunkHelper.GetCaseAtWorldCoordinates(objectChunk, x, y) as IZObjectCase;
                         if (zObjectCase != null)
                         {
-                            this.UpdateZObjectCase(random, zObjectCase, dataStructure, worldAltitude, objectStructure, marginHeight + i, marginWidth + j); //(dataStructure as ADataStructure).DataStructureCases[marginHeight + i, marginWidth + j]);
+                            this.UpdateZObjectCase(objectChunksMonitor, random, zObjectCase, dataStructure, worldAltitude, objectStructure, marginHeight + i, marginWidth + j); //(dataStructure as ADataStructure).DataStructureCases[marginHeight + i, marginWidth + j]);
                         }
                     }
                 }
@@ -62,7 +62,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             return null;
         }
 
-        public virtual bool IsGenerationValidAtWorldPosition(IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk)
+        public virtual bool IsGenerationValidAtWorldPosition(ObjectChunkLayersMonitor objectChunksMonitor, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk)
         {
             IntRect structureWorldArea = dataStructure.StructureWorldBoundingBox;
             IntRect chunkWorldArea = ChunkHelper.GetWorldAreaFromChunkArea(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, 1, 1));
@@ -90,7 +90,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
 
                 IZObjectCase zObjectCase = ChunkHelper.GetCaseAtWorldCoordinates(objectChunk, overlapingArea.Left, overlapingArea.Top) as IZObjectCase;
 
-                if (this.ValidateZObjectCase(zObjectCase, worldAltitude, marginHeight, marginWidth) == false)
+                if (this.ValidateZObjectCase(objectChunksMonitor, zObjectCase, worldAltitude, marginHeight, marginWidth) == false)
                 {
                     return false;
                 }
@@ -100,12 +100,12 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             return false;
         }
 
-        protected virtual bool ValidateZObjectCase(IZObjectCase zObjectCase, int worldAltitude, int baseLocalI, int baseLocalJ)
+        protected virtual bool ValidateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, IZObjectCase zObjectCase, int worldAltitude, int baseLocalI, int baseLocalJ)
         {
             return true;
         }
 
-        protected virtual IObjectStructure CreateObjectStructureFrom(Random random, string uid, IDataStructure dataStructure, int worldAltitude)
+        protected virtual IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, Random random, string uid, IDataStructure dataStructure, int worldAltitude)
         {
             return new CaseObjectStructure(this.TemplateUID, uid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
         }
@@ -115,6 +115,6 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             return String.Concat(this.TemplateUID, "_", worldPosition.X, "-", worldPosition.Y, "-", worldAltitude);
         }
 
-        protected abstract void UpdateZObjectCase(Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j);
+        protected abstract void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j);
     }
 }

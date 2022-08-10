@@ -15,8 +15,8 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             get;
         }
 
-        IObjectStructure GenerateStructureAtWorldPosition(Random random, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk);
+        IObjectStructure GenerateStructureAtWorldPosition(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk);
 
-        bool IsGenerationValidAtWorldPosition(IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk);
+        bool IsGenerationValidAtWorldPosition(ObjectChunkLayersMonitor objectChunksMonitor, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk);
     }
 }

@@ -17,9 +17,9 @@ namespace PokeU.View.ElementLandObject
         {
         }
 
-        public TallGrassObject2D(IObject2DFactory factory, ATallGrassElementLandObject landObject, Vector2i position)
+        public TallGrassObject2D(TallGrassObject2DFactory factory, ATallGrassElementLandObject landObject, Vector2i position)
         {
-            Texture texture = factory.GetTextureByIndex(0);
+            Texture texture = factory.GetTextureFromBiomeLandType(landObject.LandType);
 
             this.ObjectSprite = new Sprite(texture);
 

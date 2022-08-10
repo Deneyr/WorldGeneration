@@ -8,19 +8,21 @@ using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
-using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectChunkLayers;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
 {
     internal class TallGrassObjectStructureTemplate : ADataObjectStructureTemplate
     {
+        private AltitudeObjectChunkLayer altitudeObjectChunkLayer;
+
         public TallGrassObjectStructureTemplate() 
             : base("TallGrassStructure")
         {
         }
 
-        protected override void UpdateZObjectCase(Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j)
+        protected override void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j)
         {
             if (zObjectCase.GroundAltitude >= 0)
             {
@@ -35,6 +37,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
                 {
                     ATallGrassElementLandObject tallGrassElement = this.CreateTallGrassElementLandObjectFrom(dataStructure.StructureBiome, random.Next());
 
+                    tallGrassElement.LandType = this.altitudeObjectChunkLayer.GetAltitudeLandType(dataStructure.StructureBiome, zObjectCase.GroundAltitude);
                     tallGrassElement.ParentStructureUID = parentObjectStructure.UID;
 
                     currentObjectCase.Land.LandOverGround = tallGrassElement;
@@ -42,30 +45,10 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
             }
         }
 
-        //protected override bool ValidateZObjectCase(IZObjectCase zObjectCase, int worldAltitude, int baseLocalI, int baseLocalJ)
-        //{
-        //    if(zObjectCase.GroundAltitude < 0)
-        //    {
-        //        return false;
-        //    }
-
-        //    ObjectCase currentObjectCase = zObjectCase[zObjectCase.GroundAltitude] as ObjectCase;
-
-        //    if (currentObjectCase.Land.LandWater != null)
-        //    {
-        //        return false;
-        //    }
-
-        //    if(currentObjectCase.Land.LandWall != null)
-        //    {
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-
-        protected override IObjectStructure CreateObjectStructureFrom(Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
+        protected override IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
+            this.altitudeObjectChunkLayer = (objectChunksMonitor.ObjectChunksLayers["altitudeLayer"] as AltitudeObjectChunkLayer);
+
             TallGrassObjectStructure newTallGrassStructure = new TallGrassObjectStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
 
             newTallGrassStructure.BiomeType = dataStructure.StructureBiome;

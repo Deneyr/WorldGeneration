@@ -110,20 +110,20 @@ namespace WorldGeneration.DataChunks.StructureNoise
             }
 
             // TEST
-            List<IDataStructure> resultDataStructures2 = new List<IDataStructure>();
-            foreach (ChunkContainer container in this.ChunksMonitor.CurrentChunksLoaded.Values)
-            {
-                APointDataStructureChunk pointStructureChunk = container.ContainedChunk as APointDataStructureChunk;
+            //List<IDataStructure> resultDataStructures2 = new List<IDataStructure>();
+            //foreach (ChunkContainer container in this.ChunksMonitor.CurrentChunksLoaded.Values)
+            //{
+            //    APointDataStructureChunk pointStructureChunk = container.ContainedChunk as APointDataStructureChunk;
 
-                pointStructureChunk.DirtyAddDataStructuresFromWorldArea(worldArea, resultDataStructures2);
-            }
+            //    pointStructureChunk.DirtyAddDataStructuresFromWorldArea(worldArea, resultDataStructures2);
+            //}
 
-            var set1 = new HashSet<IDataStructure>(resultDataStructures);
-            var set2 = new HashSet<IDataStructure>(resultDataStructures2);
-            if (set1.SetEquals(set2) == false)
-            {
-                Console.WriteLine();
-            }
+            //var set1 = new HashSet<IDataStructure>(resultDataStructures);
+            //var set2 = new HashSet<IDataStructure>(resultDataStructures2);
+            //if (set1.SetEquals(set2) == false)
+            //{
+            //    Console.WriteLine();
+            //}
             //foreach (IDataStructure testDataStruct in resultDataStructures)
             //{
             //    IntRect testBB = testDataStruct.StructureWorldBoundingBox;

@@ -15,6 +15,8 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
     {
         private TallGrassDataAgreggator tallGrassDataAgreggator;
 
+        private AltitudeObjectChunkLayer altitudeObjectChunkLayer;
+
         public TallGrassObjectChunkLayer(string id)
             : base(id)
         {
@@ -24,7 +26,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         {
             IObjectStructureTemplate tallGrassStructureTemplate = objectChunksMonitor.ObjectStructureTemplates[dataStructure.ObjectStructureTemplateId];
 
-            return tallGrassStructureTemplate.GenerateStructureAtWorldPosition(random, dataStructure, 0, objectChunk);
+            return tallGrassStructureTemplate.GenerateStructureAtWorldPosition(objectChunksMonitor, random, dataStructure, 0, objectChunk);
         }
 
         protected override List<IDataStructure> GetDataStructuresInWorldArea(IntRect worldArea)
@@ -38,6 +40,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             //Random random = new Random(chunkSeed);
 
             this.tallGrassDataAgreggator = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["tallGrass"] as TallGrassDataAgreggator);
+            this.altitudeObjectChunkLayer = (objectChunksMonitor.ObjectChunksLayers["altitudeLayer"] as AltitudeObjectChunkLayer);
 
             base.ComputeObjectChunk(objectChunksMonitor, objectChunk);
 

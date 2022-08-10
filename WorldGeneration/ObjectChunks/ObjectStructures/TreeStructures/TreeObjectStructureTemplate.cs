@@ -34,7 +34,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             };
         }
 
-        protected override void UpdateObjectCase(Random random, IObjectCase objectCase, IDataStructure dataStructure, IObjectStructure parentObjectStructure, int enumValue)
+        protected override void UpdateObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectCase objectCase, IDataStructure dataStructure, IObjectStructure parentObjectStructure, int enumValue)
         {
             TreePart treePart = (TreePart)enumValue;
             ObjectCase currentObjectCase = objectCase as ObjectCase;
@@ -56,6 +56,15 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
 
                 currentObjectCase.Land.LandWall = mainTreeElement;
             }
+        }
+
+        protected override IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
+        {
+            TreeObjectStructure newTreeObjectStructure = new TreeObjectStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
+
+            newTreeObjectStructure.BiomeType = dataStructure.StructureBiome;
+
+            return newTreeObjectStructure;
         }
 
         private AMainTreeElementLandObject CreateMainTreeElementLandObjectFrom(BiomeType biomeType, int landElementObjectId, TreePart treePart)
@@ -108,11 +117,6 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
                     return new TundraSideTreeElementObject(landElementObjectId, treePart);
             }
             return new TundraSideTreeElementObject(landElementObjectId, treePart);
-        }
-
-        protected override IObjectStructure CreateObjectStructureFrom(Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
-        {
-            return new TreeObjectStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
         }
     }
 }

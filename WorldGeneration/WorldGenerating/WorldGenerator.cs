@@ -19,6 +19,7 @@ using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
 using WorldGeneration.ObjectChunks;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
+using WorldGeneration.ObjectChunks.ObjectStructures;
 using WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures;
 using WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures;
 
