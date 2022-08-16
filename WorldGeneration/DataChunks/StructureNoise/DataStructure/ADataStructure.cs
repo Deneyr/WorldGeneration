@@ -12,10 +12,16 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 {
     internal abstract class ADataStructure : IDataStructure
     {
+        public int StructureTypeIndex
+        {
+            get;
+            internal set;
+        }
+
         public string ObjectStructureTemplateId
         {
             get;
-            protected set;
+            internal set;
         }
 
         public IDataStructureCase[,] DataStructureCases

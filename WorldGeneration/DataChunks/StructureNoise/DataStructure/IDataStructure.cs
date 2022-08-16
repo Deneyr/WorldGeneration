@@ -16,6 +16,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             get;
         }
 
+        int StructureTypeIndex
+        {
+            get;
+        }
+
         Vector2i StructureWorldPosition
         {
             get;

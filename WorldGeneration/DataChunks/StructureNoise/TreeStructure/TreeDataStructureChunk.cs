@@ -30,23 +30,39 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
 
         protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
         {
-            return new TreeDataStructure(structureWorldPosition, boundingBox, new IntRect(0, boundingBox.Height - 1, boundingBox.Width, 1));
+            TreeDataStructure newTreeDataStructure = new TreeDataStructure(structureWorldPosition, boundingBox, new IntRect(0, boundingBox.Height - 1, boundingBox.Width, 1));
+
+            newTreeDataStructure.StructureTypeIndex = random.Next();
+
+            return newTreeDataStructure;
         }
 
         protected override bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
         {
-            Vector2i structureWorldCenter = dataStructure.StructureWorldPosition;
+            Vector2i structureWorldPosition = dataStructure.StructureWorldPosition;
 
-            float temperature = weatherDataAgreggator.GetTemperatureAtWorldCoordinates(structureWorldCenter.X, structureWorldCenter.Y);
-            float humidity = weatherDataAgreggator.GetHumidityAtWorldCoordinates(structureWorldCenter.X, structureWorldCenter.Y);
+            float temperature = weatherDataAgreggator.GetTemperatureAtWorldCoordinates(structureWorldPosition.X, structureWorldPosition.Y);
+            float humidity = weatherDataAgreggator.GetHumidityAtWorldCoordinates(structureWorldPosition.X, structureWorldPosition.Y);
 
             BiomeType biomeValue = dataChunksMonitor.WeatherMonitor.GetBiomeAt(temperature, humidity);
-            (dataStructure as ADataStructure).StructureBiome = biomeValue;
 
-            //float ratio = dataChunksMonitor.FloraRatioManager.GetTreeRatioFromBiomeAltitude(biomeValue, 0);
+            TreeDataStructure treeDataStructure = dataStructure as TreeDataStructure;
+            treeDataStructure.StructureBiome = biomeValue;
 
-            //return random.NextDouble() < ratio;
-            return true;
+            if(biomeValue == BiomeType.DESERT)
+            {
+                treeDataStructure.ObjectStructureTemplateId = "NarrowTreeStructure";
+                IntRect baseStructureWorldBoundingBox = treeDataStructure.StructureWorldBoundingBox;
+                IntRect newStructureWorldBoundingBox = new IntRect(baseStructureWorldBoundingBox.Left, baseStructureWorldBoundingBox.Top, 2, baseStructureWorldBoundingBox.Height);
+
+                treeDataStructure.StructureBoundingBox = newStructureWorldBoundingBox;
+                treeDataStructure.StructureBaseBoundingBox = new IntRect(0, newStructureWorldBoundingBox.Height - 1, newStructureWorldBoundingBox.Width, 1);
+            }
+
+            float ratio = dataChunksMonitor.FloraRatioManager.GetTreeRatioFromBiomeAltitude(biomeValue, 0);
+
+            return random.NextDouble() < ratio;
+            //return true;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorldGeneration.ObjectChunks;
 using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace PokeU.View
@@ -27,7 +28,7 @@ namespace PokeU.View
         private LandCaseData underLandCaseData;
         private LandCaseData overLandCaseData;
 
-        public LandCase2D(LandWorld2D landWorld2D, LandCase landCase, Vector2i position)
+        public LandCase2D(LandWorld2D landWorld2D, IObjectChunk parentObjectChunk, LandCase landCase, Vector2i position)
         {
             this.landGroundOverWallList = new List<ILandObject2D>();
 
@@ -51,6 +52,8 @@ namespace PokeU.View
                 groundObject2DFactory = LandWorld2D.MappingObjectModelView[landGroundObject.GetType()] as AGroundObject2DFactory;
                 groundObject2DFactory.IsWall = false;
 
+                groundObject2DFactory.CurrentObjectChunk = parentObjectChunk;
+
                 ILandObject2D landObject2D = groundObject2DFactory.CreateObject2D(landWorld2D, landGroundObject, position) as ILandObject2D;
 
                 this.landGroundList.Add(landObject2D);
@@ -58,7 +61,11 @@ namespace PokeU.View
 
             if (landCase.LandOverGround != null)
             {
-                ILandObject2D landObject2D = LandWorld2D.MappingObjectModelView[landCase.LandOverGround.GetType()].CreateObject2D(landWorld2D, landCase.LandOverGround, position) as ILandObject2D;
+                IObject2DFactory object2DFactory = LandWorld2D.MappingObjectModelView[landCase.LandOverGround.GetType()];
+
+                object2DFactory.CurrentObjectChunk = parentObjectChunk;
+
+                ILandObject2D landObject2D = object2DFactory.CreateObject2D(landWorld2D, landCase.LandOverGround, position) as ILandObject2D;
 
                 this.landOverGround = landObject2D;
             }
@@ -70,6 +77,8 @@ namespace PokeU.View
                     groundObject2DFactory = LandWorld2D.MappingObjectModelView[landGroundOverWallObject.GetType()] as AGroundObject2DFactory;
                     groundObject2DFactory.IsWall = false;
 
+                    groundObject2DFactory.CurrentObjectChunk = parentObjectChunk;
+
                     ILandObject2D landObject2D = groundObject2DFactory.CreateObject2D(landWorld2D, landGroundOverWallObject, position) as ILandObject2D;
 
                     this.landGroundOverWallList.Add(landObject2D);
@@ -78,7 +87,11 @@ namespace PokeU.View
 
             if (landCase.LandWater != null)
             {
-                ILandObject2D landObject2D = LandWorld2D.MappingObjectModelView[landCase.LandWater.GetType()].CreateObject2D(landWorld2D, landCase.LandWater, position) as ILandObject2D;
+                IObject2DFactory object2DFactory = LandWorld2D.MappingObjectModelView[landCase.LandWater.GetType()];
+
+                object2DFactory.CurrentObjectChunk = parentObjectChunk;
+
+                ILandObject2D landObject2D = object2DFactory.CreateObject2D(landWorld2D, landCase.LandWater, position) as ILandObject2D;
 
                 this.landWater = landObject2D;
             }
@@ -87,6 +100,8 @@ namespace PokeU.View
             {
                 groundObject2DFactory = LandWorld2D.MappingObjectModelView[landCase.LandWall.GetType()] as AGroundObject2DFactory;
                 groundObject2DFactory.IsWall = true;
+
+                groundObject2DFactory.CurrentObjectChunk = parentObjectChunk;
 
                 ILandObject2D landObject2D = groundObject2DFactory.CreateObject2D(landWorld2D, landCase.LandWall, position) as ILandObject2D;
 
@@ -97,7 +112,11 @@ namespace PokeU.View
             {
                 if (landCase.LandOverWall != null)
                 {
-                    ILandObject2D landObject2D = LandWorld2D.MappingObjectModelView[landCase.LandOverWall.GetType()].CreateObject2D(landWorld2D, landCase.LandOverWall, position) as ILandObject2D;
+                    IObject2DFactory object2DFactory = LandWorld2D.MappingObjectModelView[landCase.LandWater.GetType()];
+
+                    object2DFactory.CurrentObjectChunk = parentObjectChunk;
+
+                    ILandObject2D landObject2D = object2DFactory.CreateObject2D(landWorld2D, landCase.LandOverWall, position) as ILandObject2D;
 
                     this.landOverWall = landObject2D;
                 }

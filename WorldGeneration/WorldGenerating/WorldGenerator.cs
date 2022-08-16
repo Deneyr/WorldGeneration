@@ -140,6 +140,7 @@ namespace WorldGeneration.WorldGenerating
             PureNoiseDataChunkLayer pureNoiseDataChunkLayer = new PureNoiseDataChunkLayer("pureNoise", 32);
             this.dataChunksMonitor.AddDataLayerToGenerator(pureNoiseDataChunkLayer);
             floraDataAgreggator.PureNoiseLayer = pureNoiseDataChunkLayer;
+            treeDataAgreggator.PureNoiseLayer = pureNoiseDataChunkLayer;
 
             // Part Biomes
 
@@ -219,9 +220,11 @@ namespace WorldGeneration.WorldGenerating
 
             // Part flora & rocks
             hPerlinDataChunkLayer = new HPerlinDataChunkLayer("flora", 256, 1);
+            hPerlinDataChunkLayer.Margin = 32;
             hPerlinDataChunkLayer.SampleLevel = 4;
             this.dataChunksMonitor.AddDataLayerToGenerator(hPerlinDataChunkLayer);
             floraDataAgreggator.FloraLayer = hPerlinDataChunkLayer;
+            treeDataAgreggator.ForestLayer = hPerlinDataChunkLayer;
 
             // Part Trees
             TreeDataStructureChunkLayer treeStructureDataChunkLayer = new TreeDataStructureChunkLayer("tree", 256);
@@ -263,6 +266,7 @@ namespace WorldGeneration.WorldGenerating
 
             // Part Structure Templates
             this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TreeObjectStructureTemplate());
+            this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new NarrowTreeObjectStructureTemplate());
             this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TallGrassObjectStructureTemplate());
 
             // Part chunk layers

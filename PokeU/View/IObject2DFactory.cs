@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorldGeneration.ObjectChunks;
 
 namespace PokeU.View
 {
@@ -15,6 +16,12 @@ namespace PokeU.View
         Dictionary<string, Texture> Resources
         {
             get;
+        }
+
+        IObjectChunk CurrentObjectChunk
+        {
+            get;
+            set;
         }
 
         Texture GetTextureByIndex(int index);

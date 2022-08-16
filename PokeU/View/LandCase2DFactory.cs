@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorldGeneration.ObjectChunks;
 using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace PokeU.View
@@ -14,7 +15,7 @@ namespace PokeU.View
         {
             LandCase landCase = obj as LandCase;
 
-            return new LandCase2D(landWorld2D, landCase, position);
+            return new LandCase2D(landWorld2D, this.CurrentObjectChunk, landCase, position);
         }
     }
 }

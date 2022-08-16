@@ -5,12 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.System;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
 {
     public class TreeObjectStructure : CaseObjectStructure
     {
         public BiomeType BiomeType
+        {
+            get;
+            internal set;
+        }
+
+        public LandType LandType
         {
             get;
             internal set;

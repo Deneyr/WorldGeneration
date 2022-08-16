@@ -99,6 +99,8 @@ namespace PokeU.View
                 //LandCase[,] landCases = landChunk.GetLandObjectsAtAltitude(this.altitudeMin + z);
                 LandCase2D[,] landObject2Ds = new LandCase2D[landChunk.NbCaseSide, landChunk.NbCaseSide];
 
+                LandCase2DFactory caseObject2DFactory = LandWorld2D.MappingObjectModelView[typeof(LandCase)] as LandCase2DFactory;
+                caseObject2DFactory.CurrentObjectChunk = landChunk;
 
                 for (int i = 0; i < landChunk.NbCaseSide; i++)
                 {
@@ -113,7 +115,7 @@ namespace PokeU.View
 
                             if (landCase != null)
                             {
-                                landObject2Ds[i, j] = LandWorld2D.MappingObjectModelView[typeof(LandCase)].CreateObject2D(landWorld2D, landCase, zObjectCase.Position) as LandCase2D;
+                                landObject2Ds[i, j] = caseObject2DFactory.CreateObject2D(landWorld2D, landCase, zObjectCase.Position) as LandCase2D;
 
                                 if (z < altitudeMax - 1 && zObjectCase[z + 1] != null)
                                 {

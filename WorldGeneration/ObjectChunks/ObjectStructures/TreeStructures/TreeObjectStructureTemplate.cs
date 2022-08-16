@@ -7,6 +7,7 @@ using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.ObjectChunks.ObjectChunkLayers;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeObjectStructure;
@@ -42,7 +43,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             if (treePart == TreePart.BOT_LEFT
                 || treePart == TreePart.BOT_RIGHT)
             {
-                ASideTreeElementLandObject sideTreeElement = this.CreateSideTreeElementLandObjectFrom(dataStructure.StructureBiome, random.Next(), treePart);
+                ASideTreeElementLandObject sideTreeElement = CreateSideTreeElementLandObjectFrom(dataStructure.StructureBiome, dataStructure.StructureTypeIndex, treePart);
 
                 sideTreeElement.ParentStructureUID = parentObjectStructure.UID;
 
@@ -50,7 +51,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             }
             else
             {
-                AMainTreeElementLandObject mainTreeElement = this.CreateMainTreeElementLandObjectFrom(dataStructure.StructureBiome, random.Next(), treePart);
+                AMainTreeElementLandObject mainTreeElement = CreateMainTreeElementLandObjectFrom(dataStructure.StructureBiome, dataStructure.StructureTypeIndex, treePart);
 
                 mainTreeElement.ParentStructureUID = parentObjectStructure.UID;
 
@@ -60,14 +61,18 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
 
         protected override IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
+            AltitudeObjectChunkLayer altitudeObjectChunkLayer = (objectChunksMonitor.ObjectChunksLayers["altitudeLayer"] as AltitudeObjectChunkLayer);
+
             TreeObjectStructure newTreeObjectStructure = new TreeObjectStructure(this.TemplateUID, structureUid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
 
+            newTreeObjectStructure.StructureTypeIndex = dataStructure.StructureTypeIndex;
             newTreeObjectStructure.BiomeType = dataStructure.StructureBiome;
+            newTreeObjectStructure.LandType = altitudeObjectChunkLayer.GetAltitudeLandType(dataStructure.StructureBiome, worldAltitude);
 
             return newTreeObjectStructure;
         }
 
-        private AMainTreeElementLandObject CreateMainTreeElementLandObjectFrom(BiomeType biomeType, int landElementObjectId, TreePart treePart)
+        internal static AMainTreeElementLandObject CreateMainTreeElementLandObjectFrom(BiomeType biomeType, int landElementObjectId, TreePart treePart)
         {
             switch (biomeType)
             {
@@ -93,7 +98,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             return new TundraMainTreeElementObject(landElementObjectId, treePart);
         }
 
-        private ASideTreeElementLandObject CreateSideTreeElementLandObjectFrom(BiomeType biomeType, int landElementObjectId, TreePart treePart)
+        internal static ASideTreeElementLandObject CreateSideTreeElementLandObjectFrom(BiomeType biomeType, int landElementObjectId, TreePart treePart)
         {
             switch (biomeType)
             {

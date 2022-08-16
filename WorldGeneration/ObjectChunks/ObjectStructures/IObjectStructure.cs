@@ -15,6 +15,11 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             get;
         }
 
+        int StructureTypeIndex
+        {
+            get;
+        }
+
         string TemplateUID
         {
             get;

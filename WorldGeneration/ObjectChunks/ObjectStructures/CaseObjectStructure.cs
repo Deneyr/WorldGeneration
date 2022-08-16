@@ -16,6 +16,12 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             private set;
         }
 
+        public int StructureTypeIndex
+        {
+            get;
+            internal set;
+        }
+
         public string TemplateUID
         {
             get;

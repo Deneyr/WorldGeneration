@@ -129,6 +129,7 @@
     <Compile Include="DataChunks\StructureNoise\APointDataStructureChunkLayer.cs" />
     <Compile Include="DataChunks\StructureNoise\ADataStructureChunkLayer.cs" />
     <Compile Include="DataChunks\StructureNoise\ADataStructureChunk.cs" />
+    <Compile Include="DataChunks\StructureNoise\DataStructure\AAreaDataStructure.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructure.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructureCase.cs" />
     <Compile Include="DataChunks\StructureNoise\DataStructure\ADataStructureContainer.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="ObjectChunks\ObjectStructures\IObjectStructureTemplate.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\TallGrassStructures\TallGrassObjectStructure.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\TallGrassStructures\TallGrassObjectStructureTemplate.cs" />
+    <Compile Include="ObjectChunks\ObjectStructures\TreeStructures\NarrowTreeObjectStructureTemplate.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\TreeStructures\TreeObjectStructure.cs" />
     <Compile Include="ObjectChunks\ObjectStructures\TreeStructures\TreeObjectStructureTemplate.cs" />
     <Compile Include="ObjectChunks\TestCase.cs" />
