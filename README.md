@@ -1,7 +1,7 @@
 # WorldGeneration
 procedural world generation (model layer)
 ![WorldGenerator](https://user-images.githubusercontent.com/9294021/170227323-5916e6b1-b4f2-44ab-a1cd-0cc26ad4311a.PNG)
-![screenshot3](https://user-images.githubusercontent.com/9294021/180068485-5373b400-2adf-4a09-9db2-b651cf0c8332.PNG)
+![Generation](https://user-images.githubusercontent.com/9294021/185152179-3be6d4cc-8e20-484f-80dd-c63a52e6d6de.PNG)
 
 An external library manipulating by a pokemon game core to generate chunks of a procedural world, don't manage game logic or rendering, its only purpose is to generate world chunks asynchronously in a given area.
 
