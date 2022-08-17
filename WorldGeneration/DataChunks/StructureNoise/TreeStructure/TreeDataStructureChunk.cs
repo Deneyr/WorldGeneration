@@ -30,11 +30,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
 
         protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
         {
-            TreeDataStructure newTreeDataStructure = new TreeDataStructure(structureWorldPosition, boundingBox, new IntRect(0, boundingBox.Height - 1, boundingBox.Width, 1));
+            //TreeDataStructure newTreeDataStructure = new TreeDataStructure(structureWorldPosition, boundingBox, new IntRect(0, boundingBox.Height - 1, boundingBox.Width, 1));
 
-            newTreeDataStructure.StructureTypeIndex = random.Next();
+            //newTreeDataStructure.StructureTypeIndex = random.Next();
 
-            return newTreeDataStructure;
+            return new TreeDataStructure(structureWorldPosition, boundingBox, new IntRect(0, boundingBox.Height - 1, boundingBox.Width, 1));
         }
 
         protected override bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
@@ -47,17 +47,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
             BiomeType biomeValue = dataChunksMonitor.WeatherMonitor.GetBiomeAt(temperature, humidity);
 
             TreeDataStructure treeDataStructure = dataStructure as TreeDataStructure;
-            treeDataStructure.StructureBiome = biomeValue;
-
-            if(biomeValue == BiomeType.DESERT)
-            {
-                treeDataStructure.ObjectStructureTemplateId = "NarrowTreeStructure";
-                IntRect baseStructureWorldBoundingBox = treeDataStructure.StructureWorldBoundingBox;
-                IntRect newStructureWorldBoundingBox = new IntRect(baseStructureWorldBoundingBox.Left, baseStructureWorldBoundingBox.Top, 2, baseStructureWorldBoundingBox.Height);
-
-                treeDataStructure.StructureBoundingBox = newStructureWorldBoundingBox;
-                treeDataStructure.StructureBaseBoundingBox = new IntRect(0, newStructureWorldBoundingBox.Height - 1, newStructureWorldBoundingBox.Width, 1);
-            }
+            treeDataStructure.UpdateStructureTypeIndexFrom(random, biomeValue);
 
             float ratio = dataChunksMonitor.FloraRatioManager.GetTreeRatioFromBiomeAltitude(biomeValue, 0);
 

@@ -66,7 +66,7 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
             //{
             //    return 0.0006f;
             //}
-            return 0.15f;
+            return 0.1f;
         }
 
         private float GetTreeRatioFromRainForest(int altitude)
@@ -163,7 +163,7 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
             //        return 0.05f;
             //    }
             //}
-            return 0.2f;
+            return 0.15f;
         }
 
         // Part vegetation

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
 {
@@ -37,6 +38,25 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
             //        }
             //    }
             //}
+        }
+
+        public void UpdateStructureTypeIndexFrom(Random random, BiomeType biomeType)
+        {
+            this.StructureBiome = biomeType;
+
+            switch (biomeType)
+            {
+                case BiomeType.DESERT:
+                    this.ObjectStructureTemplateId = "NarrowTreeStructure";
+                    IntRect baseStructureWorldBoundingBox = this.StructureWorldBoundingBox;
+                    IntRect newStructureWorldBoundingBox = new IntRect(baseStructureWorldBoundingBox.Left, baseStructureWorldBoundingBox.Top, 2, baseStructureWorldBoundingBox.Height);
+
+                    this.StructureBoundingBox = newStructureWorldBoundingBox;
+                    this.StructureBaseBoundingBox = new IntRect(0, newStructureWorldBoundingBox.Height - 1, newStructureWorldBoundingBox.Width, 1);
+                    break;
+            }
+
+            this.StructureTypeIndex = random.Next();
         }
     }
 }

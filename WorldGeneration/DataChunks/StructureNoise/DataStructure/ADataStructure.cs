@@ -56,6 +56,12 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             private set;
         }
 
+        public IntRect StructureBaseBoundingBox
+        {
+            get;
+            private set;
+        }
+
         public IntRect StructureWorldBoundingBox
         {
             get
@@ -66,12 +72,6 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                     this.StructureBoundingBox.Width,
                     this.StructureBoundingBox.Height);
             }
-        }
-
-        public IntRect StructureBaseBoundingBox
-        {
-            get;
-            private set;
         }
 
         public IntRect StructureWorldBaseBoundingBox

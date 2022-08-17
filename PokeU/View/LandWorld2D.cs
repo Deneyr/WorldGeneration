@@ -108,7 +108,7 @@ namespace PokeU.View
 
             // Land Objects
 
-            MappingObjectModelView.Add(typeof(BorealForestGroundLandObject), new SnowGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(BorealForestGroundLandObject), new BorealForestGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(DesertGroundLandObject), new DesertGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(RainForestGroundLandObject), new RainGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(SavannaGroundLandObject), new DryGroundObject2DFactory());

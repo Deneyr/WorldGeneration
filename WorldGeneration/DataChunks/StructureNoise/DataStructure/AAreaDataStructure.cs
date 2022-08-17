@@ -20,7 +20,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
         public string ObjectStructureTemplateId
         {
             get;
-            internal set;
+            protected set;
         }
 
         public IDataStructureCase[,] DataStructureCases
@@ -46,13 +46,19 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
         public BiomeType StructureBiome
         {
             get;
-            internal set;
+            protected set;
         }
 
         public IntRect StructureBoundingBox
         {
             get;
-            internal set;
+            protected set;
+        }
+
+        public IntRect StructureBaseBoundingBox
+        {
+            get;
+            protected set;
         }
 
         public IntRect StructureWorldBoundingBox
@@ -65,12 +71,6 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                     this.StructureBoundingBox.Width,
                     this.StructureBoundingBox.Height);
             }
-        }
-
-        public IntRect StructureBaseBoundingBox
-        {
-            get;
-            internal set;
         }
 
         public IntRect StructureWorldBaseBoundingBox

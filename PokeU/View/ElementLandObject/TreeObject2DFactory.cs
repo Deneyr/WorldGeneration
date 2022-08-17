@@ -45,6 +45,8 @@ namespace PokeU.View.ElementLandObject
 
             this.texturesPath.Add(@"Autotiles\cactus.png");
 
+            this.texturesPath.Add(@"Autotiles\treeBoreal.png");
+
             base.InitializeFactory();
         }
 
@@ -101,8 +103,9 @@ namespace PokeU.View.ElementLandObject
                 case BiomeType.TROPICAL_WOODLAND:
                     return 4;
                 case BiomeType.BOREAL_FOREST:
-                case BiomeType.TUNDRA:
                     return 7 + treeId % 2;
+                case BiomeType.TUNDRA:
+                    return 11;
             }
             return treeId % 3;
         }
