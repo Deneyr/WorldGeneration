@@ -21,6 +21,7 @@ using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Flora;
 
 namespace PokeU.View
 {
@@ -152,6 +153,17 @@ namespace PokeU.View
             MappingObjectModelView.Add(typeof(TropicalWoodlandSideTreeElementObject), new TreeObject2DFactory(BiomeType.TROPICAL_WOODLAND));
             MappingObjectModelView.Add(typeof(TundraMainTreeElementObject), new TreeObject2DFactory(BiomeType.TUNDRA));
             MappingObjectModelView.Add(typeof(TundraSideTreeElementObject), new TreeObject2DFactory(BiomeType.TUNDRA));
+
+            // Flora
+            MappingObjectModelView.Add(typeof(BorealForestFloraElementLandObject), new FloraObject2DFactory(BiomeType.BOREAL_FOREST));
+            MappingObjectModelView.Add(typeof(DesertFloraElementLandObject), new FloraObject2DFactory(BiomeType.DESERT));
+            MappingObjectModelView.Add(typeof(RainForestFloraElementLandObject), new FloraObject2DFactory(BiomeType.RAINFOREST));
+            MappingObjectModelView.Add(typeof(SavannaFloraElementLandObject), new FloraObject2DFactory(BiomeType.SAVANNA));
+            MappingObjectModelView.Add(typeof(SeasonalForestFloraElementLandObject), new FloraObject2DFactory(BiomeType.SEASONAL_FOREST));
+            MappingObjectModelView.Add(typeof(TemperateForestFloraElementLandObject), new FloraObject2DFactory(BiomeType.TEMPERATE_FOREST));
+            MappingObjectModelView.Add(typeof(TemperateRainForestFloraElementLandObject), new FloraObject2DFactory(BiomeType.TEMPERATE_RAINFOREST));
+            MappingObjectModelView.Add(typeof(TropicalWoodlandFloraElementLandObject), new FloraObject2DFactory(BiomeType.TROPICAL_WOODLAND));
+            MappingObjectModelView.Add(typeof(TundraFloraElementLandObject), new FloraObject2DFactory(BiomeType.TUNDRA));
 
             // Entity objects
 

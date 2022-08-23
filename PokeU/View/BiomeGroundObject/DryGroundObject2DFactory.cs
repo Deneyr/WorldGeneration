@@ -43,7 +43,7 @@ namespace PokeU.View.BiomeGroundObject
                     return this.Resources[this.texturesPath.ElementAt(1)];
                 case LandType.GRASS:
                     return this.Resources[this.texturesPath.ElementAt(2)];
-                case LandType.MONTAIN:
+                case LandType.MOUNTAIN:
                     return this.Resources[this.texturesPath.ElementAt(3)];
                 case LandType.SNOW:
                     return this.Resources[this.texturesPath.ElementAt(4)];

@@ -65,7 +65,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.GroundObject
         SEA_DEPTH = 1,
         SAND = 2,
         GRASS = 3,
-        MONTAIN = 4,
+        MOUNTAIN = 4,
         SNOW = 5,
     }
 }

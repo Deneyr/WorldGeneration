@@ -30,41 +30,41 @@ namespace WorldGeneration.ObjectChunks
 
         // Test properties
 
-        public bool IsUnderSea
-        {
-            get;
-            set;
-        }
+        //public bool IsUnderSea
+        //{
+        //    get;
+        //    set;
+        //}
 
-        public float RiverValue
-        {
-            get;
-            set;
-        }
+        //public float RiverValue
+        //{
+        //    get;
+        //    set;
+        //}
 
-        public bool IsThereTree
-        {
-            get;
-            set;
-        }
+        //public bool IsThereTree
+        //{
+        //    get;
+        //    set;
+        //}
 
-        public bool IsThereRock
-        {
-            get;
-            set;
-        }
+        //public bool IsThereRock
+        //{
+        //    get;
+        //    set;
+        //}
 
-        public bool IsThereFlower
-        {
-            get;
-            set;
-        }
+        //public bool IsThereFlower
+        //{
+        //    get;
+        //    set;
+        //}
 
-        public bool IsThereTallGrass
-        {
-            get;
-            set;
-        }
+        //public bool IsThereTallGrass
+        //{
+        //    get;
+        //    set;
+        //}
 
         // End test properties
 

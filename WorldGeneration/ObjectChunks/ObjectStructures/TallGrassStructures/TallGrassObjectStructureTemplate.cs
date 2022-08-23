@@ -35,7 +35,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
                     && currentObjectCase.Land.LandWall == null
                     && (currentObjectCase.Land.LandOverGround == null || currentObjectCase.Land.LandOverGround is ATallGrassElementLandObject))
                 {
-                    ATallGrassElementLandObject tallGrassElement = this.CreateTallGrassElementLandObjectFrom(dataStructure.StructureBiome, dataStructure.StructureTypeIndex);
+                    ATallGrassElementLandObject tallGrassElement = CreateTallGrassElementLandObjectFrom(dataStructure.StructureBiome, dataStructure.StructureTypeIndex);
 
                     tallGrassElement.LandType = this.altitudeObjectChunkLayer.GetAltitudeLandType(dataStructure.StructureBiome, zObjectCase.GroundAltitude);
                     tallGrassElement.ParentStructureUID = parentObjectStructure.UID;
@@ -57,7 +57,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
             return newTallGrassStructure;
         }
 
-        private ATallGrassElementLandObject CreateTallGrassElementLandObjectFrom(BiomeType biomeType, int landElementObjectId)
+        internal static ATallGrassElementLandObject CreateTallGrassElementLandObjectFrom(BiomeType biomeType, int landElementObjectId)
         {
             switch (biomeType)
             {

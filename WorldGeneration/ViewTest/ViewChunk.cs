@@ -92,26 +92,26 @@ namespace WorldGeneration.ViewTest
                     {
                         color = Color.Black;
                     }
-                    else if (testCase.RiverValue > 0)
-                    {
+                    //else if (testCase.RiverValue > 0)
+                    //{
 
-                    }
-                    else if (testCase.IsThereTree) /*&& testCase.AltitudeValue < 20)*/
-                    {
-                        color = Color.Green;
-                    }
-                    else if (testCase.IsThereRock) /*&& testCase.AltitudeValue < 18)*/
-                    {
-                        color = new Color(150, 150, 150);
-                    }
+                    //}
+                    //else if (testCase.IsThereTree) /*&& testCase.AltitudeValue < 20)*/
+                    //{
+                    //    color = Color.Green;
+                    //}
+                    //else if (testCase.IsThereRock) /*&& testCase.AltitudeValue < 18)*/
+                    //{
+                    //    color = new Color(150, 150, 150);
+                    //}
                     else if (testCase.Land.LandOverGround != null && testCase.Land.LandOverGround is ATallGrassElementLandObject)/* || testCase.IsThereTallGrass) /*&& testCase.AltitudeValue < 18)*/
                     {
                         color = Color.Yellow;
                     }
-                    else if (testCase.IsThereFlower) /*&& testCase.AltitudeValue < 18)*/
-                    {
-                        color = Color.Red;
-                    }
+                    //else if (testCase.IsThereFlower) /*&& testCase.AltitudeValue < 18)*/
+                    //{
+                    //    color = Color.Red;
+                    //}
                     rectangle.FillColor = color;
 
                     Vector2i modelPosition = ChunkHelper.GetWorldPositionFromChunkPosition(this.NbCaseSide, new IntRect(chunk.Position.X, chunk.Position.Y, j, i));

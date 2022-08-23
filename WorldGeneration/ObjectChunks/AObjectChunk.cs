@@ -8,6 +8,7 @@ using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Flora;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
@@ -63,6 +64,17 @@ namespace WorldGeneration.ObjectChunks
             typeof(TropicalWoodlandSideTreeElementObject),
             typeof(TundraMainTreeElementObject),
             typeof(TundraSideTreeElementObject),
+
+            // Flora
+            typeof(BorealForestFloraElementLandObject),
+            typeof(DesertFloraElementLandObject),
+            typeof(RainForestFloraElementLandObject),
+            typeof(SavannaFloraElementLandObject),
+            typeof(SeasonalForestFloraElementLandObject),
+            typeof(TemperateForestFloraElementLandObject),
+            typeof(TemperateRainForestFloraElementLandObject),
+            typeof(TropicalWoodlandFloraElementLandObject),
+            typeof(TundraFloraElementLandObject),
         };
 
         internal ObjectChunkLayersMonitor ParentMonitor

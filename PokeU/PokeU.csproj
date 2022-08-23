@@ -84,6 +84,8 @@
     <Compile Include="View\BiomeGroundObject\RainGroundObject2DFactory.cs" />
     <Compile Include="View\BiomeGroundObject\TemperateGroundObject2DFactory.cs" />
     <Compile Include="View\ElementLandObject\AElementLandObject2D.cs" />
+    <Compile Include="View\ElementLandObject\FloraObject2D.cs" />
+    <Compile Include="View\ElementLandObject\FloraObject2DFactory.cs" />
     <Compile Include="View\ElementLandObject\TallGrassObject2D.cs" />
     <Compile Include="View\ElementLandObject\TallGrassObject2DFactory.cs" />
     <Compile Include="View\ElementLandObject\TreeObject2D.cs" />

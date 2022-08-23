@@ -64,7 +64,7 @@ namespace PokeU.View.ElementLandObject
         public Texture GetTextureFromBiomeLandType(LandType landType, int treeId)
         {
             if (landType == LandType.GRASS
-                || landType == LandType.MONTAIN)
+                || landType == LandType.MOUNTAIN)
             {
                 return this.GetTextureByIndex(this.GetIndexFromId(treeId));
             }

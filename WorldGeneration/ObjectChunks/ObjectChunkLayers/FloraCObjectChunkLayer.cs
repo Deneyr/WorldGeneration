@@ -52,7 +52,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             {
                 ObjectCase objectCase = zObjectCase[zObjectCase.GroundAltitude] as ObjectCase;
 
-                if (objectCase.IsUnderSea == false)
+                if (objectCase.Land.IsOnlyWater == false)
                 {
                     bool isThereTree = this.floraDataAgreggator.IsThereTreeAtWorldCoordinate(zObjectCase.Position.X, zObjectCase.Position.Y, floraRatioManager.GetTreeRatioFromBiomeAltitude(zObjectCase.ObjectBiome, objectCase.Altitude));
 

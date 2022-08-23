@@ -194,6 +194,16 @@
     <Compile Include="ObjectChunks\ObjectLands\BiomeGroundObject\TropicalWoodlandGroundLandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\BiomeGroundObject\TundraGroundLandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\ElementObject\AElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\AFloraElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\BorealForestFloraElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\DesertFloraElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\RainForestFloraElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\SavannaFloraElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\SeasonalForestFloraElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\TemperateForestFloraElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\TemperateRainForestFloraElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\TropicalWoodlandFloraElementLandObject.cs" />
+    <Compile Include="ObjectChunks\ObjectLands\ElementObject\Flora\TundraFloraElementLandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\ElementObject\Tree\ATreeElementLandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\ElementObject\IElementLandObject.cs" />
     <Compile Include="ObjectChunks\ObjectLands\ElementObject\Tree\AMainTreeElementLandObject.cs" />

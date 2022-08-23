@@ -254,7 +254,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             }
             else if (altitude < 10)
             {
-                return LandType.MONTAIN;
+                return LandType.MOUNTAIN;
             }
             else
             {
