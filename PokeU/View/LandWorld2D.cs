@@ -194,7 +194,8 @@ namespace PokeU.View
             this.landWorld = landWorld;
 
             this.currentViewSize = new Vector2f(1920, 1080);
-            this.Position = new Vector2f(-150000, 20000);
+            //this.Position = new Vector2f(-150000, 20000);
+            this.Position = new Vector2f(-121359, 37204);
             this.CurrentZoom = 1;
 
             landWorld.MainChunksMonitor.ChunksToAdd += OnChunkAdded;
@@ -252,6 +253,9 @@ namespace PokeU.View
             FloatRect viewBound = new FloatRect(newView.Center.X - newView.Size.X / 2, newView.Center.Y - newView.Size.Y / 2, newView.Size.X, newView.Size.Y);
             IntRect worldViewArea = ViewAreaToWorldArea(viewBound);
             this.landWorld.WorldArea = worldViewArea;
+
+            //viewBound = new FloatRect(newView.Center.X - newView.Size.X / 4, newView.Center.Y - newView.Size.Y / 4, newView.Size.X / 2, newView.Size.Y / 2);
+            //newView = new SFML.Graphics.View(new Vector2f((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2), new Vector2f(viewBound.Width, viewBound.Height));
 
             window.SetView(newView);
 

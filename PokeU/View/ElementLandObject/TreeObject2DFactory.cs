@@ -79,6 +79,8 @@ namespace PokeU.View.ElementLandObject
                     case BiomeType.BOREAL_FOREST:
                     case BiomeType.TUNDRA:
                         return this.GetTextureByIndex(9);
+                    case BiomeType.DESERT:
+                        return this.GetTextureByIndex(10);
                     default:
                         return this.GetTextureByIndex(3);
                 }

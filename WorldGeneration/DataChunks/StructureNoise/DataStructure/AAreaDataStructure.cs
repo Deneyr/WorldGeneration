@@ -58,7 +58,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
         public IntRect StructureBaseBoundingBox
         {
             get;
-            protected set;
+            private set;
         }
 
         public IntRect StructureWorldBoundingBox

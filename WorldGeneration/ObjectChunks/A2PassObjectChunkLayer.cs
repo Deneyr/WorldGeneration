@@ -123,18 +123,28 @@ namespace WorldGeneration.ObjectChunks
 
             this.TransitionAreaBuffer[i, j].Clear();
 
-            if (this.GenerateAllLevels == false)
+            if (diffAltitude > 0)
             {
-                diffAltitude = Math.Min(diffAltitude, 1);
-            }
+                if (this.GenerateAllLevels == false)
+                {
+                    //diffAltitude = Math.Min(diffAltitude, 1);
 
-            for (int offset = 0; offset < diffAltitude; offset++)
-            {
-                this.GetComputedLandType(ref subAreaInt, maxLocalAltitude, out LandTransition landTransition);
+                    subAreaInt[1, 1] = maxLocalAltitude - 1;
+                    this.GetComputedLandType(ref subAreaInt, maxLocalAltitude, out LandTransition landTransition);
 
-                this.TransitionAreaBuffer[i, j].Add(landTransition);
+                    this.TransitionAreaBuffer[i, j].Add(landTransition);
+                }
+                else
+                {
+                    for (int offset = 0; offset < diffAltitude; offset++)
+                    {
+                        this.GetComputedLandType(ref subAreaInt, maxLocalAltitude, out LandTransition landTransition);
 
-                subAreaInt[1, 1]++;
+                        this.TransitionAreaBuffer[i, j].Add(landTransition);
+
+                        subAreaInt[1, 1]++;
+                    }
+                }
             }
         }
 

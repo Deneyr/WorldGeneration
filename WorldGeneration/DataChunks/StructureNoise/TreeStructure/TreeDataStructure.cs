@@ -52,7 +52,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
                     IntRect newStructureWorldBoundingBox = new IntRect(baseStructureWorldBoundingBox.Left, baseStructureWorldBoundingBox.Top, 2, baseStructureWorldBoundingBox.Height);
 
                     this.StructureBoundingBox = newStructureWorldBoundingBox;
-                    this.StructureBaseBoundingBox = new IntRect(0, newStructureWorldBoundingBox.Height - 1, newStructureWorldBoundingBox.Width, 1);
+                    //this.StructureBaseBoundingBox = new IntRect(0, newStructureWorldBoundingBox.Height - 1, newStructureWorldBoundingBox.Width, 1);
                     break;
             }
 
