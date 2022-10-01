@@ -14,7 +14,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands.ElementObject
             private set;
         }
 
-        public LandTransition LandTransition
+        public virtual LandTransition LandTransition
         {
             get
             {

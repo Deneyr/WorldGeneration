@@ -10,7 +10,7 @@ namespace PokeU.View
 {
     public abstract class ALandObject2D: AObject2D, ILandObject2D
     {
-        protected IntRect GetTransitionTextureCoord(LandTransition landTransition)
+        protected virtual IntRect GetTransitionTextureCoord(LandTransition landTransition)
         {
             IntRect result = new IntRect(0, 0, 1, 1);
 
@@ -74,5 +74,20 @@ namespace PokeU.View
             return result;
         }
 
+        protected virtual IntRect GetFillTextureCoord(int landObjectId)
+        {
+            switch (Math.Abs(landObjectId % 4))
+            {
+                case 0:
+                    return new IntRect(2 * MainWindow.MODEL_TO_VIEW, 4 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+                case 1:
+                    return new IntRect(0 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+                case 2:
+                    return new IntRect(2 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+                case 3:
+                    return new IntRect(4 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+            }
+            return new IntRect(0 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+        }
     }
 }

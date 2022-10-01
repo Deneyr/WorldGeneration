@@ -7,17 +7,13 @@ using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 {
     internal abstract class ADataStructure : IDataStructure
     {
         protected DataStructureCaseType[,] dataStructureCasesType;
-
-        protected int[] leftBorderIndexes;
-        protected int[] rightBorderIndexes;
-        protected int[] topBorderIndexes;
-        protected int[] botBorderIndexes;
 
         public int StructureTypeIndex
         {
@@ -102,10 +98,6 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
             this.DataStructureCases = new IDataStructureCase[structureBoundingBox.Height, structureBoundingBox.Width];
             this.dataStructureCasesType = new DataStructureCaseType[structureBoundingBox.Height, structureBoundingBox.Width];
-            this.leftBorderIndexes = new int[structureBoundingBox.Height];
-            this.rightBorderIndexes = new int[structureBoundingBox.Height];
-            this.topBorderIndexes = new int[structureBoundingBox.Width];
-            this.botBorderIndexes = new int[structureBoundingBox.Width];
 
             this.StructureBaseBoundingBox = structureBaseBoundingBox;
         }
@@ -242,7 +234,18 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
         }
 
-        protected virtual void GenerateStructureBoundaries(Random random, int margin, int space)
+        public virtual void InitializeBorderArrays(out int[] leftBorderIndexes, out int[] rightBorderIndexes, out int[] topBorderIndexes, out int[] botBorderIndexes)
+        {
+            IntRect structureBoundingBox = this.StructureBoundingBox;
+
+            leftBorderIndexes = new int[structureBoundingBox.Height];
+            rightBorderIndexes = new int[structureBoundingBox.Height];
+            topBorderIndexes = new int[structureBoundingBox.Width];
+            botBorderIndexes = new int[structureBoundingBox.Width];
+        }
+
+        protected virtual void GenerateStructureBoundaries(Random random, int margin, int space, 
+            int[] leftBorderIndexes = null, int[] rightBorderIndexes = null, int[] topBorderIndexes = null, int[] botBorderIndexes = null)
         {
             int height = this.DataStructureCases.GetLength(0);
             int width = this.DataStructureCases.GetLength(1);
@@ -296,21 +299,24 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                 }
 
                 // Boundaries
-                if(i >= topLeftValue)
+                if (leftBorderIndexes != null)
                 {
-                    this.leftBorderIndexes[i] = Math.Max(0, topIndex - 1);
-                }
-                else
-                {
-                    this.leftBorderIndexes[i] = -1;
-                }
-                if (i >= botLeftValue)
-                {
-                    this.leftBorderIndexes[height - i - 1] = Math.Max(0, botIndex - 1);
-                }
-                else
-                {
-                    this.leftBorderIndexes[height - i - 1] = -1;
+                    if (i >= topLeftValue)
+                    {
+                        leftBorderIndexes[i] = Math.Max(0, topIndex - 1);
+                    }
+                    else
+                    {
+                        leftBorderIndexes[i] = -1;
+                    }
+                    if (i >= botLeftValue)
+                    {
+                        leftBorderIndexes[height - i - 1] = Math.Max(0, botIndex - 1);
+                    }
+                    else
+                    {
+                        leftBorderIndexes[height - i - 1] = -1;
+                    }
                 }
             }
             if(height % 2 == 1)
@@ -325,7 +331,10 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                 }
 
                 // Boundaries
-                this.leftBorderIndexes[midHeight] = Math.Max(0, middleIndex - 1);
+                if (leftBorderIndexes != null)
+                {
+                    leftBorderIndexes[midHeight] = Math.Max(0, middleIndex - 1);
+                }
             }
 
             topIndex = 0;
@@ -366,21 +375,24 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                 }
 
                 // Boundaries
-                if (i >= topRightValue)
+                if (rightBorderIndexes != null)
                 {
-                    this.rightBorderIndexes[i] = Math.Max(0, topIndex - 1);
-                }
-                else
-                {
-                    this.rightBorderIndexes[i] = -1;
-                }
-                if (i >= botRightValue)
-                {
-                    this.rightBorderIndexes[height - i - 1] = Math.Max(0, botIndex - 1);
-                }
-                else
-                {
-                    this.rightBorderIndexes[height - i - 1] = -1;
+                    if (i >= topRightValue)
+                    {
+                        rightBorderIndexes[i] = Math.Max(0, topIndex - 1);
+                    }
+                    else
+                    {
+                        rightBorderIndexes[i] = -1;
+                    }
+                    if (i >= botRightValue)
+                    {
+                        rightBorderIndexes[height - i - 1] = Math.Max(0, botIndex - 1);
+                    }
+                    else
+                    {
+                        rightBorderIndexes[height - i - 1] = -1;
+                    }
                 }
             }
             if (height % 2 == 1)
@@ -395,7 +407,10 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                 }
 
                 // Boundaries
-                this.rightBorderIndexes[midHeight] = Math.Max(0, middleIndex - 1);
+                if (rightBorderIndexes != null)
+                {
+                    rightBorderIndexes[midHeight] = Math.Max(0, middleIndex - 1);
+                }
             }
 
             // Side Top-Bot
@@ -438,21 +453,24 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                 }
 
                 // Boundaries
-                if (j >= topLeftValue)
+                if (topBorderIndexes != null)
                 {
-                    this.topBorderIndexes[j] = Math.Max(0, leftIndex - 1);
-                }
-                else
-                {
-                    this.topBorderIndexes[j] = -1;
-                }
-                if (j >= topRightValue)
-                {
-                    this.topBorderIndexes[width - j - 1] = Math.Max(0, rightIndex - 1);
-                }
-                else
-                {
-                    this.topBorderIndexes[width - j - 1] = -1;
+                    if (j >= topLeftValue)
+                    {
+                        topBorderIndexes[j] = Math.Max(0, leftIndex - 1);
+                    }
+                    else
+                    {
+                        topBorderIndexes[j] = -1;
+                    }
+                    if (j >= topRightValue)
+                    {
+                        topBorderIndexes[width - j - 1] = Math.Max(0, rightIndex - 1);
+                    }
+                    else
+                    {
+                        topBorderIndexes[width - j - 1] = -1;
+                    }
                 }
             }
             if (width % 2 == 1)
@@ -467,7 +485,10 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                 }
 
                 // Boundaries
-                this.topBorderIndexes[midWidth] = Math.Max(0, middleIndex - 1);
+                if (topBorderIndexes != null)
+                {
+                    topBorderIndexes[midWidth] = Math.Max(0, middleIndex - 1);
+                }
             }
 
             leftIndex = 0;
@@ -508,21 +529,24 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                 }
 
                 // Boundaries
-                if (j >= botLeftValue)
+                if (botBorderIndexes != null)
                 {
-                    this.botBorderIndexes[j] = Math.Max(0, leftIndex - 1);
-                }
-                else
-                {
-                    this.botBorderIndexes[j] = -1;
-                }
-                if (j >= botRightValue)
-                {
-                    this.botBorderIndexes[width - j - 1] = Math.Max(0, rightIndex - 1);
-                }
-                else
-                {
-                    this.botBorderIndexes[width - j - 1] = -1;
+                    if (j >= botLeftValue)
+                    {
+                        botBorderIndexes[j] = Math.Max(0, leftIndex - 1);
+                    }
+                    else
+                    {
+                        botBorderIndexes[j] = -1;
+                    }
+                    if (j >= botRightValue)
+                    {
+                        botBorderIndexes[width - j - 1] = Math.Max(0, rightIndex - 1);
+                    }
+                    else
+                    {
+                        botBorderIndexes[width - j - 1] = -1;
+                    }
                 }
             }
             if (width % 2 == 1)
@@ -537,21 +561,25 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                 }
 
                 // Boundaries
-                this.botBorderIndexes[midWidth] = Math.Max(0, middleIndex - 1);
+                if (botBorderIndexes != null)
+                {
+                    botBorderIndexes[midWidth] = Math.Max(0, middleIndex - 1);
+                }
             }
 
-            this.leftBorderIndexes[topLeftValue - 1] = topLeftValue - 1;
-            this.topBorderIndexes[topLeftValue - 1] = topLeftValue - 1;
-            this.leftBorderIndexes[height - botLeftValue] = botLeftValue - 1;
-            this.botBorderIndexes[botLeftValue - 1] = botLeftValue - 1;
+            leftBorderIndexes[topLeftValue - 1] = topLeftValue - 1;
+            topBorderIndexes[topLeftValue - 1] = topLeftValue - 1;
+            leftBorderIndexes[height - botLeftValue] = botLeftValue - 1;
+            botBorderIndexes[botLeftValue - 1] = botLeftValue - 1;
 
-            this.rightBorderIndexes[topRightValue - 1] = topRightValue - 1;
-            this.topBorderIndexes[width - topRightValue] = topRightValue - 1;
-            this.rightBorderIndexes[height - botRightValue] = botRightValue - 1;
-            this.botBorderIndexes[width - botRightValue] = botRightValue - 1;
+            rightBorderIndexes[topRightValue - 1] = topRightValue - 1;
+            topBorderIndexes[width - topRightValue] = topRightValue - 1;
+            rightBorderIndexes[height - botRightValue] = botRightValue - 1;
+            botBorderIndexes[width - botRightValue] = botRightValue - 1;
         }
 
-        protected virtual void GenerateStructureBoundariesLimit(Random random)
+        protected virtual void GenerateStructureBoundariesLimit(Random random,
+            int[] leftBorderIndexes, int[] rightBorderIndexes, int[] topBorderIndexes, int[] botBorderIndexes)
         {
             int height = this.DataStructureCases.GetLength(0);
             int width = this.DataStructureCases.GetLength(1);
@@ -563,11 +591,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
             for (int i = 0; i < height; i++)
             {
-                if (this.leftBorderIndexes[i] >= 0)
+                if (leftBorderIndexes[i] >= 0)
                 {
-                    this.GetFillBorderIndexes(this.leftBorderIndexes, i, out fillIndex, out borderIndex);
+                    this.GetFillBorderIndexes(leftBorderIndexes, i, out fillIndex, out borderIndex);
 
-                    int currentIndex = this.leftBorderIndexes[i];
+                    int currentIndex = leftBorderIndexes[i];
                     counter = currentIndex - fillIndex;
                     for (int z = 0; z < counter; z++)
                     {
@@ -581,11 +609,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                         currentIndex--;
                     }
                 }
-                if (this.rightBorderIndexes[i] >= 0)
+                if (rightBorderIndexes[i] >= 0)
                 {
-                    this.GetFillBorderIndexes(this.rightBorderIndexes, i, out fillIndex, out borderIndex);
+                    this.GetFillBorderIndexes(rightBorderIndexes, i, out fillIndex, out borderIndex);
 
-                    int currentIndex = this.rightBorderIndexes[i];
+                    int currentIndex = rightBorderIndexes[i];
                     counter = currentIndex - fillIndex;
                     for (int z = 0; z < counter; z++)
                     {
@@ -603,11 +631,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 
             for (int j = 0; j < width; j++)
             {
-                if (this.topBorderIndexes[j] >= 0)
+                if (topBorderIndexes[j] >= 0)
                 {
-                    this.GetFillBorderIndexes(this.topBorderIndexes, j, out fillIndex, out borderIndex);
+                    this.GetFillBorderIndexes(topBorderIndexes, j, out fillIndex, out borderIndex);
 
-                    int currentIndex = this.topBorderIndexes[j];
+                    int currentIndex = topBorderIndexes[j];
                     counter = currentIndex - fillIndex;
                     for (int z = 0; z < counter; z++)
                     {
@@ -621,11 +649,11 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
                         currentIndex--;
                     }
                 }
-                if (this.botBorderIndexes[j] >= 0)
+                if (botBorderIndexes[j] >= 0)
                 {
-                    this.GetFillBorderIndexes(this.botBorderIndexes, j, out fillIndex, out borderIndex);
+                    this.GetFillBorderIndexes(botBorderIndexes, j, out fillIndex, out borderIndex);
 
-                    int currentIndex = this.botBorderIndexes[j];
+                    int currentIndex = botBorderIndexes[j];
                     counter = currentIndex - fillIndex;
                     for (int z = 0; z < counter; z++)
                     {
@@ -642,6 +670,75 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             }
 
             //this.ExportDataStructureInFile();
+        }
+
+        protected virtual void GenerateStructureCases(Random random)
+        {
+            bool[,] caseArea = new bool[3, 3];
+
+            int height = this.DataStructureCases.GetLength(0);
+            int width = this.DataStructureCases.GetLength(1);
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    switch(this.dataStructureCasesType[i, j])
+                    {
+                        case DataStructureCaseType.FILLED_CASE:
+                            this.GenerateStructureFillCase(random, i, j);
+                            break;
+                        case DataStructureCaseType.BORDER_CASE:
+                            this.InitCaseArea(i, j, caseArea);
+
+                            this.GenerateStructureBorderCase(random, i, j, LandCreationHelper.GetLandTransitionFrom(ref caseArea));
+                            break;
+                        case DataStructureCaseType.EMPTY_CASE:
+                            this.GenerateStructureEmptyCase(random, i, j);
+                            break;
+                    }
+                }
+            }
+        }
+
+        protected virtual void GenerateStructureFillCase(Random random, int i, int j)
+        {
+            // to override
+        }
+
+        protected virtual void GenerateStructureBorderCase(Random random, int i, int j, LandTransition landTransition)
+        {
+            // to override
+        }
+
+        protected virtual void GenerateStructureEmptyCase(Random random, int i, int j)
+        {
+            this.DataStructureCases[i, j] = null;
+        }
+
+        private void InitCaseArea(int i, int j, bool[,] caseArea)
+        {
+            int height = this.DataStructureCases.GetLength(0);
+            int width = this.DataStructureCases.GetLength(1);
+
+            int xIndex = 0;
+            int yIndex = 0;
+            for (int y = -1; y <= 1; y++)
+            {
+                yIndex = i + y;
+                for (int x = -1; x <= 1; x++)
+                {
+                    xIndex = j + x;
+                    if (xIndex >= 0 && xIndex < width
+                        && yIndex >= 0 && yIndex < height)
+                    {
+                        caseArea[y + 1, x + 1] = this.dataStructureCasesType[yIndex, xIndex] == DataStructureCaseType.FILLED_CASE;
+                    }
+                    else
+                    {
+                        caseArea[y + 1, x + 1] = false;
+                    }
+                }
+            }
         }
 
         private void GetFillBorderIndexes(int[] borderIndexes, int index, out int fillIndex, out int borderIndex)

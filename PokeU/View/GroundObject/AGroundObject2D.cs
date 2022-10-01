@@ -30,21 +30,7 @@ namespace PokeU.View.GroundObject
 
             if (landObject.LandTransition == LandTransition.NONE)
             {
-                switch (Math.Abs(landObject.LandObjectId % 4))
-                {
-                    case 0:
-                        this.ObjectSprite = new Sprite(texture, new IntRect(2 * MainWindow.MODEL_TO_VIEW, 4 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW));
-                        break;
-                    case 1:
-                        this.ObjectSprite = new Sprite(texture, new IntRect(0 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW));
-                        break;
-                    case 2:
-                        this.ObjectSprite = new Sprite(texture, new IntRect(2 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW));
-                        break;
-                    case 3:
-                        this.ObjectSprite = new Sprite(texture, new IntRect(4 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW));
-                        break;
-                }
+                this.ObjectSprite = new Sprite(texture, this.GetFillTextureCoord(landObject.LandObjectId));
             }
             else
             {

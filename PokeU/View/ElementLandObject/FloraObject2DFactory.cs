@@ -31,6 +31,10 @@ namespace PokeU.View.ElementLandObject
 
             this.texturesPath.Add(@"Autotiles\elementsMountain.png");
 
+            this.texturesPath.Add(@"Autotiles\elementsTropical.png");
+
+            this.texturesPath.Add(@"Autotiles\elementsSavanna.png");
+
             base.InitializeFactory();
         }
 
@@ -58,7 +62,7 @@ namespace PokeU.View.ElementLandObject
                     case BiomeType.RAINFOREST:
                         return this.GetTextureByIndex(0);
                     case BiomeType.SAVANNA:
-                        return this.GetTextureByIndex(0);
+                        return this.GetTextureByIndex(4);
                     case BiomeType.SEASONAL_FOREST:
                         return this.GetTextureByIndex(0);
                     case BiomeType.TEMPERATE_FOREST:
@@ -66,7 +70,7 @@ namespace PokeU.View.ElementLandObject
                     case BiomeType.TEMPERATE_RAINFOREST:
                         return this.GetTextureByIndex(1);
                     case BiomeType.TROPICAL_WOODLAND:
-                        return this.GetTextureByIndex(0);
+                        return this.GetTextureByIndex(3);
                     case BiomeType.TUNDRA:
                         return this.GetTextureByIndex(0);
                 }

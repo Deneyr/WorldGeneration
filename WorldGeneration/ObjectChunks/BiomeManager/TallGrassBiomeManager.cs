@@ -61,7 +61,7 @@ namespace WorldGeneration.ObjectChunks.BiomeManager
 
         private float GetTreeRatioFromSavanna(int altitude)
         {
-            return 0.5f;
+            return 1f;
         }
 
         private float GetTreeRatioFromSeasonalForest(int altitude)

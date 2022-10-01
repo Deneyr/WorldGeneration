@@ -7,8 +7,10 @@ using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
+using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
@@ -40,6 +42,17 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
                     tallGrassElement.LandType = this.altitudeObjectChunkLayer.GetAltitudeLandType(dataStructure.StructureBiome, zObjectCase.GroundAltitude);
                     tallGrassElement.ParentStructureUID = parentObjectStructure.UID;
 
+                    LandTransition dataCaseLandTransition = (dataStructureCase as TallGrassDataStructureCase).LandTransition;
+
+                    if (currentObjectCase.Land.LandOverGround is ATallGrassElementLandObject)
+                    {
+                        tallGrassElement.LandTransition = this.GetTallGrassLandTransitionMix(currentObjectCase.Land.LandOverGround.LandTransition, dataCaseLandTransition);
+                    }
+                    else
+                    {
+                        tallGrassElement.LandTransition = dataCaseLandTransition;
+                    }
+
                     currentObjectCase.Land.LandOverGround = tallGrassElement;
                 }
             }
@@ -55,6 +68,17 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
             newTallGrassStructure.BiomeType = dataStructure.StructureBiome;
 
             return newTallGrassStructure;
+        }
+
+        private LandTransition GetTallGrassLandTransitionMix(LandTransition backLandTransition, LandTransition frontLandTransition)
+        {
+            if(frontLandTransition == LandTransition.NONE
+                || backLandTransition == LandTransition.NONE)
+            {
+                return LandTransition.NONE;
+            }
+
+            return LandTransitionHelper.UnionLandTransition(backLandTransition, frontLandTransition);
         }
 
         internal static ATallGrassElementLandObject CreateTallGrassElementLandObjectFrom(BiomeType biomeType, int landElementObjectId)

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
@@ -23,22 +24,38 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             int heightMax = this.DataStructureCases.GetLength(0);
             int widthMax = this.DataStructureCases.GetLength(1);
 
-            //for (int i = 0; i < heightMax; i++)
-            //{
-            //    for (int j = 0; j < widthMax; j++)
-            //    {
-            //        if (random.NextDouble() < 0.95)
-            //        {
-            //            this.DataStructureCases[i, j] = new TallGrassDataStructureCase(this, this.StructureBoundingBox.Left + j, this.StructureBoundingBox.Height + i);
-            //        }
-            //    }
-            //}
+            this.InitializeBorderArrays(out int[] leftBorderIndexes, out int[] rightBorderIndexes, out int[] topBorderIndexes, out int[] botBorderIndexes);
 
             this.InitializeDataStructureCases();
 
-            this.GenerateStructureBoundaries(random, Math.Min(heightMax, widthMax) / 3, 1);
+            this.GenerateStructureBoundaries(random, Math.Min(heightMax, widthMax) / 3, 1,
+                leftBorderIndexes, rightBorderIndexes, topBorderIndexes, botBorderIndexes);
 
-            this.GenerateStructureBoundariesLimit(random);
+            if (this.StructureBiome == BiomeType.SAVANNA)
+            {
+                this.GenerateStructureBoundariesLimit(random,
+                    leftBorderIndexes, rightBorderIndexes, topBorderIndexes, botBorderIndexes);
+            }
+
+            this.GenerateStructureCases(random);
+        }
+
+        protected override void GenerateStructureFillCase(Random random, int i, int j)
+        {
+            if (this.StructureBiome == BiomeType.SAVANNA
+                || random.NextDouble() < 0.95)
+            {
+                this.DataStructureCases[i, j] = new TallGrassDataStructureCase(this, this.StructureBoundingBox.Left + j, this.StructureBoundingBox.Top + i);
+            }
+        }
+
+        protected override void GenerateStructureBorderCase(Random random, int i, int j, LandTransition landTransition)
+        {
+            TallGrassDataStructureCase newTallGrassStructureCase = new TallGrassDataStructureCase(this, this.StructureBoundingBox.Left + j, this.StructureBoundingBox.Top + i);
+
+            newTallGrassStructureCase.LandTransition = landTransition;
+
+            this.DataStructureCases[i, j] = newTallGrassStructureCase;
         }
     }
 }

@@ -18,10 +18,10 @@ namespace PokeU.View.ElementLandObject
         public FloraObject2D(FloraObject2DFactory factory, AFloraElementLandObject landObject, Vector2i position)
         {
             Texture texture = factory.GetTextureFromBiomeLandType(landObject.LandType);
-            int nbFrames = (int) texture.Size.X / 32;
+            int nbFrames = (int) texture.Size.X / 16;
 
-            this.ObjectSprite = new Sprite(texture, new IntRect(landObject.LandObjectId % nbFrames * 32, 0, 32, 32));
-            this.ObjectSprite.Scale = new Vector2f(0.5f, 0.5f);
+            this.ObjectSprite = new Sprite(texture, new IntRect(landObject.LandObjectId % nbFrames * 16, 0, 16, 16));
+            //this.ObjectSprite.Scale = new Vector2f(0.5f, 0.5f);
 
             this.ObjectSprite.Position = this.ObjectSprite.Position;
             //this.ObjectSprite.Color = new Color(255, 255, 255, 127);

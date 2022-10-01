@@ -34,6 +34,8 @@ namespace PokeU.View.ElementLandObject
             this.texturesPath.Add(@"Autotiles\tallGrassForest.png");
             this.texturesPath.Add(@"Autotiles\tallGrassSnow.png");
 
+            this.texturesPath.Add(@"Autotiles\tallGrassSavanna.png");
+
             base.InitializeFactory();
         }
 
@@ -61,7 +63,7 @@ namespace PokeU.View.ElementLandObject
                     case BiomeType.RAINFOREST:
                         return this.GetTextureByIndex(3);
                     case BiomeType.SAVANNA:
-                        return this.GetTextureByIndex(2);
+                        return this.GetTextureByIndex(5);
                     case BiomeType.SEASONAL_FOREST:
                         return this.GetTextureByIndex(0);
                     case BiomeType.TEMPERATE_FOREST:
