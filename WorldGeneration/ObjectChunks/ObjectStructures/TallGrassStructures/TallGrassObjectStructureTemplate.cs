@@ -12,6 +12,8 @@ using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
+using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
+using WorldGeneration.ObjectChunks.ObjectLands.LandInterface;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
 {
@@ -32,10 +34,9 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
 
                 ObjectCase currentObjectCase = zObjectCase[zObjectCase.GroundAltitude] as ObjectCase;
 
-                if (dataStructureCase != null 
-                    && currentObjectCase.Land.LandWater == null
-                    && currentObjectCase.Land.LandWall == null
-                    && (currentObjectCase.Land.LandOverGround == null || currentObjectCase.Land.LandOverGround is ATallGrassElementLandObject))
+                TallGrassDataStructure tallGrassDataStructure = dataStructure as TallGrassDataStructure;
+
+                if (this.IsCaseValid(tallGrassDataStructure, dataStructureCase, currentObjectCase))
                 {
                     ATallGrassElementLandObject tallGrassElement = CreateTallGrassElementLandObjectFrom(dataStructure.StructureBiome, dataStructure.StructureTypeIndex);
 
@@ -48,12 +49,37 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
                     {
                         tallGrassElement.LandTransition = this.GetTallGrassLandTransitionMix(currentObjectCase.Land.LandOverGround.LandTransition, dataCaseLandTransition);
                     }
+                    else if (currentObjectCase.Land.LandOverWall is ATallGrassElementLandObject)
+                    {
+                        tallGrassElement.LandTransition = this.GetTallGrassLandTransitionMix(currentObjectCase.Land.LandOverWall.LandTransition, dataCaseLandTransition);
+                    }
                     else
                     {
                         tallGrassElement.LandTransition = dataCaseLandTransition;
                     }
 
-                    currentObjectCase.Land.LandOverGround = tallGrassElement;
+                    bool isLandOverWallValid = true;
+                    if ((currentObjectCase.Land.LandWall != null && currentObjectCase.Land.LandWall is GroundLandObject)
+                        || currentObjectCase.Land.LandWater != null)
+                    {
+                        LandTransition wallWaterTransition = this.CreateWallWaterTransition(currentObjectCase.Land.LandWall, currentObjectCase.Land.LandWater);
+
+                        tallGrassElement.LandTransition = LandTransitionHelper.IntersectionLandTransition(tallGrassElement.LandTransition, wallWaterTransition);
+
+                        isLandOverWallValid = tallGrassElement.LandTransition != LandTransition.NONE;
+                    }
+
+                    if (isLandOverWallValid)
+                    {
+                        if (currentObjectCase.Land.LandWall == null)
+                        {
+                            currentObjectCase.Land.LandOverGround = tallGrassElement;
+                        }
+                        else
+                        {
+                            currentObjectCase.Land.LandOverWall = tallGrassElement;
+                        }
+                    }
                 }
             }
         }
@@ -67,7 +93,63 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
             newTallGrassStructure.StructureTypeIndex = dataStructure.StructureTypeIndex;
             newTallGrassStructure.BiomeType = dataStructure.StructureBiome;
 
+            newTallGrassStructure.IsFullPatch = (dataStructure as TallGrassDataStructure).IsFullPatch;
+
             return newTallGrassStructure;
+        }
+
+        private bool IsCaseValid(TallGrassDataStructure parentTallGrassDataStructure, IDataStructureCase dataStructureCase, ObjectCase currentObjectCase)
+        {
+            if(dataStructureCase == null)
+            {
+                return false;
+            }
+
+            if (parentTallGrassDataStructure.IsFullPatch)
+            {
+                if (currentObjectCase.Land.LandWater != null
+                    && (currentObjectCase.Land.LandWall == null && currentObjectCase.Land.LandWater.LandTransition == LandTransition.NONE))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (currentObjectCase.Land.LandWater != null)
+                {
+                    return false;
+                }
+
+                if (currentObjectCase.Land.LandWall != null)
+                {
+                    return false;
+                }
+
+                if(currentObjectCase.Land.LandOverGround != null 
+                    && currentObjectCase.Land.LandOverGround is ATallGrassElementLandObject == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private LandTransition CreateWallWaterTransition(ILandWall landWall, ILandWater landWater)
+        {
+            if(landWall != null
+                && landWater == null)
+            {
+                return landWall.LandTransition;
+            }
+
+            if(landWater != null
+                && landWall == null)
+            {
+                return LandTransitionHelper.ReverseLandTransition(landWater.LandTransition);
+            }
+
+            return LandTransitionHelper.IntersectionLandTransition(landWall.LandTransition, LandTransitionHelper.ReverseLandTransition(landWater.LandTransition));
         }
 
         private LandTransition GetTallGrassLandTransitionMix(LandTransition backLandTransition, LandTransition frontLandTransition)

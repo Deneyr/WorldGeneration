@@ -195,7 +195,7 @@ namespace PokeU.View
 
             this.currentViewSize = new Vector2f(1920, 1080);
             //this.Position = new Vector2f(-150000, 20000);
-            this.Position = new Vector2f(-121359, 37204);
+            this.Position = new Vector2f(-119123, 44055);
             this.CurrentZoom = 1;
 
             landWorld.MainChunksMonitor.ChunksToAdd += OnChunkAdded;

@@ -272,8 +272,8 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
 
             int[,] intersectionMatrix = new int[,]
             {
-                { (matrix1[0, 0] == 1 && matrix1[0, 0] == matrix2[0, 0]) ? 1 : 0, (matrix1[0, 1] == 1 && matrix1[0, 1] == matrix2[0, 1]) ? 1 : 0 },
-                { (matrix1[1, 0] == 1 && matrix1[1, 0] == matrix2[1, 0]) ? 1 : 0, (matrix1[1, 1] == 1 && matrix1[1, 1] == matrix2[1, 1]) ? 1 : 0 }
+                { (matrix1[0, 0] == 1 && matrix2[0, 0] == 1) ? 1 : 0, (matrix1[0, 1] == 1 && matrix2[0, 1] == 1) ? 1 : 0 },
+                { (matrix1[1, 0] == 1 && matrix2[1, 0] == 1) ? 1 : 0, (matrix1[1, 1] == 1 && matrix2[1, 1] == 1) ? 1 : 0 }
             };
 
             return LandTransitionHelper.GetLandTransitionFromMatrix(intersectionMatrix);
@@ -284,22 +284,14 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             int[,] matrix1 = LandTransitionHelper.GetMatrixFromLandTransition(mainLandTransition);
 
             int[,] matrix2 = LandTransitionHelper.GetMatrixFromLandTransition(secondLandTransition);
-            //if (secondLandTransition != LandTransition.NONE)
-            //{
-            //    matrix2 = LandTransitionHelper.GetMatrixFromLandTransition(secondLandTransition);
-            //}
-            //else
-            //{
-            //    matrix2 = FULL_MATRIX;
-            //}
 
-            int[,] intersectionMatrix = new int[,]
+            int[,] unionMatrix = new int[,]
             {
-                { (matrix1[0, 0] == 1 || matrix1[0, 0] == matrix2[0, 0]) ? 1 : 0, (matrix1[0, 1] == 1 || matrix1[0, 1] == matrix2[0, 1]) ? 1 : 0 },
-                { (matrix1[1, 0] == 1 || matrix1[1, 0] == matrix2[1, 0]) ? 1 : 0, (matrix1[1, 1] == 1 || matrix1[1, 1] == matrix2[1, 1]) ? 1 : 0 }
+                { (matrix1[0, 0] == 1 || matrix2[0, 0] == 1) ? 1 : 0, (matrix1[0, 1] == 1 || matrix2[0, 1] == 1) ? 1 : 0 },
+                { (matrix1[1, 0] == 1 || matrix2[1, 0] == 1) ? 1 : 0, (matrix1[1, 1] == 1 || matrix2[1, 1] == 1) ? 1 : 0 }
             };
 
-            return LandTransitionHelper.GetLandTransitionFromMatrix(intersectionMatrix);
+            return LandTransitionHelper.GetLandTransitionFromMatrix(unionMatrix);
         }
     }
 }

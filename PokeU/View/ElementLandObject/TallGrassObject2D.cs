@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
+using WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures;
 
 namespace PokeU.View.ElementLandObject
 {
@@ -20,12 +21,13 @@ namespace PokeU.View.ElementLandObject
 
         public TallGrassObject2D(TallGrassObject2DFactory factory, ATallGrassElementLandObject landObject, Vector2i position)
         {
-            Texture texture = factory.GetTextureFromBiomeLandType(landObject.LandType);
+            TallGrassObjectStructure tallGrassObjectStructure = factory.CurrentObjectChunk.GetObjectStructure(landObject.ParentStructureUID) as TallGrassObjectStructure;
+
+            Texture texture = factory.GetTextureFromBiomeLandType(landObject.LandType, tallGrassObjectStructure.IsFullPatch);
 
             this.ObjectSprite = new Sprite(texture);
 
-            if(texture.Size.X >= MainWindow.MODEL_TO_VIEW * 4
-                && texture.Size.Y >= MainWindow.MODEL_TO_VIEW * 4)
+            if(tallGrassObjectStructure.IsFullPatch)
             {
                 if (landObject.LandTransition == LandTransition.NONE)
                 {

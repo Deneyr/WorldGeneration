@@ -108,18 +108,15 @@ namespace PokeU.View
                 this.landWall = landObject2D;
             }
 
-            if (landCase.LandWall != null)
+            if (landCase.LandOverWall != null)
             {
-                if (landCase.LandOverWall != null)
-                {
-                    IObject2DFactory object2DFactory = LandWorld2D.MappingObjectModelView[landCase.LandWater.GetType()];
+                IObject2DFactory object2DFactory = LandWorld2D.MappingObjectModelView[landCase.LandOverWall.GetType()];
 
-                    object2DFactory.CurrentObjectChunk = parentObjectChunk;
+                object2DFactory.CurrentObjectChunk = parentObjectChunk;
 
-                    ILandObject2D landObject2D = object2DFactory.CreateObject2D(landWorld2D, landCase.LandOverWall, position) as ILandObject2D;
+                ILandObject2D landObject2D = object2DFactory.CreateObject2D(landWorld2D, landCase.LandOverWall, position) as ILandObject2D;
 
-                    this.landOverWall = landObject2D;
-                }
+                this.landOverWall = landObject2D;
             }
         }
 
@@ -171,7 +168,7 @@ namespace PokeU.View
 
             if (this.landOverWall != null)
             {
-                this.landOverWall.RatioAltitude = this.RatioAltitude;
+                this.landOverWall.RatioAltitude = ratioUp;
             }
         }
 

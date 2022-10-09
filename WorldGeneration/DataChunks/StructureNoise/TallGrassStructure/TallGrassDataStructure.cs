@@ -13,10 +13,17 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
     internal class TallGrassDataStructure : ADataStructure
     {
+        public bool IsFullPatch
+        {
+            get;
+            private set;
+        }
+
         public TallGrassDataStructure(Vector2i structureWorldPosition, IntRect structureBoundingBox, IntRect structureBaseBoundingBox) 
             : base(structureWorldPosition, structureBoundingBox, structureBaseBoundingBox)
         {
             this.ObjectStructureTemplateId = "TallGrassStructure";
+            this.IsFullPatch = false;
         }
 
         public override void GenerateStructure(Random random, IDataStructureTemplate structureTemplate)
@@ -35,6 +42,8 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             {
                 this.GenerateStructureBoundariesLimit(random,
                     leftBorderIndexes, rightBorderIndexes, topBorderIndexes, botBorderIndexes);
+
+                this.IsFullPatch = true;
             }
 
             this.GenerateStructureCases(random);

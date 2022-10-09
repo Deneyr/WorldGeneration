@@ -13,7 +13,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
 
         private ILandWater landWater;
 
-        private ILandOverWall landOverWall;
+        private ILandOverGround landOverWall;
 
         private ILandWall landWall;
 
@@ -76,7 +76,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             }
         }
 
-        public ILandOverWall LandOverWall
+        public ILandOverGround LandOverWall
         {
             get
             {
