@@ -103,6 +103,7 @@
     <Compile Include="View\LandWorld2D.cs" />
     <Compile Include="View\ResourcesManager\ChunkResourcesLoader.cs" />
     <Compile Include="View\ResourcesManager\TextureManager.cs" />
+    <Compile Include="View\TestAutoDriver.cs" />
     <Compile Include="View\WaterObject\WaterObject2D.cs" />
     <Compile Include="View\WaterObject\WaterObject2DFactory.cs" />
   </ItemGroup>

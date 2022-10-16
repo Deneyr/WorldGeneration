@@ -59,9 +59,13 @@ namespace WorldGeneration.Maths
 
         public float ImageAt(float x)
         {
-            if(x == 0)
+            if(x <= 0)
             {
                 return 0;
+            }
+            else if(x >= 1)
+            {
+                return this.Point3.Y;
             }
 
             // 3*p1 - p0 - 3*p2 + p3

@@ -40,7 +40,9 @@ namespace PokeU.View
         private int currentAltitude;
 
 
-        /// TEST
+        // TEST
+        private TestAutoDriver testAutoDriver;
+        // 
 
         private WorldMonitor landWorld;
 
@@ -196,6 +198,11 @@ namespace PokeU.View
             this.currentViewSize = new Vector2f(1920, 1080);
             //this.Position = new Vector2f(-150000, 20000);
             this.Position = new Vector2f(-119123, 44055);
+
+            // TEST
+            this.testAutoDriver = new TestAutoDriver(this.Position, 200);
+            //
+
             this.CurrentZoom = 1;
 
             landWorld.MainChunksMonitor.ChunksToAdd += OnChunkAdded;
@@ -207,6 +214,10 @@ namespace PokeU.View
             //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
             //sw.Start();
+
+            // TEST
+            this.Position = this.testAutoDriver.GetNextPosition(this.Position, deltaTime.AsSeconds());
+            //
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.T))
             {
