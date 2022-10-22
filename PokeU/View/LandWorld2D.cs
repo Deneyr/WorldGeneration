@@ -198,6 +198,7 @@ namespace PokeU.View
             this.currentViewSize = new Vector2f(1920, 1080);
             //this.Position = new Vector2f(-150000, 20000);
             this.Position = new Vector2f(-119123, 44055);
+            //this.Position = new Vector2f(-74 * 16 * 32, 337 * 16 * 32);
 
             // TEST
             this.testAutoDriver = new TestAutoDriver(this.Position, 200);

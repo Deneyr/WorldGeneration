@@ -139,6 +139,8 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
             altitudeLevel = (int)(altitudeValue * this.NbAltitudeLevel);
 
+            altitudeLevel = Math.Min(this.NbAltitudeLevel - 1, altitudeLevel);
+
             return altitudeLevel;
 
             //// TEST
