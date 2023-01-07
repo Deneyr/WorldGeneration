@@ -18,7 +18,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
         {
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
-                TallGrassDataStructureChunk structureDataChunk = new TallGrassDataStructureChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbMinDataStructure, this.nbMaxDataStructure, this.StructDimension);
+                TallGrassDataStructureChunk structureDataChunk = new TallGrassDataStructureChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbMinDataStructure, this.NbMaxDataStructure, this.StructDimension);
 
                 dataChunksMonitor.AddChunkToMonitor(structureDataChunk);
             }

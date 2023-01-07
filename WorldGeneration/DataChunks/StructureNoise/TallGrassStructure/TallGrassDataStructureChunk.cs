@@ -34,7 +34,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 
             //newTallGrassDataStructure.StructureTypeIndex = random.Next();
 
-            return new TallGrassDataStructure(structureWorldPosition, boundingBox, baseBoundingBox); ;
+            return new TallGrassDataStructure(structureWorldPosition, boundingBox, baseBoundingBox);
         }
 
         protected override bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)

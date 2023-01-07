@@ -52,7 +52,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             set;
         }
 
-        public int nbMaxDataStructure
+        public int NbMaxDataStructure
         {
             get;
             set;
@@ -63,7 +63,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
         {
             this.StructDimension = new IntRect();
             this.NbMinDataStructure = 0;
-            this.nbMaxDataStructure = 0;
+            this.NbMaxDataStructure = 0;
         }
 
         public override ICase GetCaseAtWorldCoordinates(int x, int y)

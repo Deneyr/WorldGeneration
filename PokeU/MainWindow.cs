@@ -22,7 +22,7 @@ namespace PokeU
 
         public MainWindow()
         {
-            this.landWorld = new WorldMonitor(32, 16, 123456789);
+            this.landWorld = new WorldMonitor(32, 16, 180660);
             this.landWorld.InitWorldMonitor();
 
             this.landWorld2D = new LandWorld2D(this.landWorld);

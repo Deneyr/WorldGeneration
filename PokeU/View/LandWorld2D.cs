@@ -22,6 +22,8 @@ using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Flora;
+using WorldGeneration.ObjectChunks.ObjectLands.TownGroundObject;
+using PokeU.View.BiomeGroundObject.TownGroundObject;
 
 namespace PokeU.View
 {
@@ -109,7 +111,7 @@ namespace PokeU.View
 
             MappingObjectModelView = new Dictionary<Type, IObject2DFactory>();
 
-            // Land Objects
+            // Land Objects (ground objects and town ground objects)
 
             MappingObjectModelView.Add(typeof(BorealForestGroundLandObject), new BorealForestGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(DesertGroundLandObject), new DesertGroundObject2DFactory());
@@ -120,6 +122,16 @@ namespace PokeU.View
             MappingObjectModelView.Add(typeof(TemperateRainForestGroundLandObject), new RainGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(TropicalWoodlandGroundLandObject), new SeasonalGroundObject2DFactory());
             MappingObjectModelView.Add(typeof(TundraGroundLandObject), new SnowGroundObject2DFactory());
+
+            MappingObjectModelView.Add(typeof(BorealForestTownGroundLandObject), new TownGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(DesertTownGroundLandObject), new TownGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(RainForestTownGroundLandObject), new TownGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(SavannaTownGroundLandObject), new TownGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(SeasonalForestTownGroundLandObject), new TownGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(TemperateForestTownGroundLandObject), new TownGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(TemperateRainForestTownGroundLandObject), new TownGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(TropicalWoodlandTownGroundLandObject), new TownGroundObject2DFactory());
+            MappingObjectModelView.Add(typeof(TundraTownGroundLandObject), new TownGroundObject2DFactory());
 
             // Water Objects
             MappingObjectModelView.Add(typeof(WaterLandObject), new WaterObject2DFactory());
@@ -197,7 +209,7 @@ namespace PokeU.View
 
             this.currentViewSize = new Vector2f(1920, 1080);
             //this.Position = new Vector2f(-150000, 20000);
-            this.Position = new Vector2f(-119123, 44055);
+            this.Position = new Vector2f(-122259, 55112);
             //this.Position = new Vector2f(-74 * 16 * 32, 337 * 16 * 32);
 
             // TEST
@@ -217,7 +229,7 @@ namespace PokeU.View
             //sw.Start();
 
             // TEST
-            this.Position = this.testAutoDriver.GetNextPosition(this.Position, deltaTime.AsSeconds());
+            //this.Position = this.testAutoDriver.GetNextPosition(this.Position, deltaTime.AsSeconds());
             //
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.T))

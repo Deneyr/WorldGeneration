@@ -11,6 +11,7 @@ using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Flora;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
+using WorldGeneration.ObjectChunks.ObjectLands.TownGroundObject;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 using WorldGeneration.ObjectChunks.ObjectStructures;
 
@@ -24,6 +25,7 @@ namespace WorldGeneration.ObjectChunks
         {
             typeof(WaterLandObject),
 
+            // Land grounds and town land grounds
             typeof(BorealForestGroundLandObject),
             typeof(DesertGroundLandObject),
             typeof(RainForestGroundLandObject),
@@ -34,7 +36,17 @@ namespace WorldGeneration.ObjectChunks
             typeof(TropicalWoodlandGroundLandObject),
             typeof(TundraGroundLandObject),
 
-            // Tall Grass
+            typeof(BorealForestTownGroundLandObject),
+            typeof(DesertTownGroundLandObject),
+            typeof(RainForestTownGroundLandObject),
+            typeof(SavannaTownGroundLandObject),
+            typeof(SeasonalForestTownGroundLandObject),
+            typeof(TemperateForestTownGroundLandObject),
+            typeof(TemperateRainForestTownGroundLandObject),
+            typeof(TropicalWoodlandTownGroundLandObject),
+            typeof(TundraTownGroundLandObject),
+
+            // Tall Grasses
             typeof(BorealForestTallGrassElementLandObject),
             typeof(DesertTallGrassElementLandObject),
             typeof(RainForestTallGrassElementLandObject),
@@ -45,7 +57,7 @@ namespace WorldGeneration.ObjectChunks
             typeof(TropicalWoodlandTallGrassElementLandObject),
             typeof(TundraTallGrassElementLandObject),
 
-            // Tree
+            // Trees
             typeof(BorealForestMainTreeElementLandObject),
             typeof(BorealForestSideTreeElementLandObject),
             typeof(DesertMainTreeElementLandObject),
@@ -65,7 +77,7 @@ namespace WorldGeneration.ObjectChunks
             typeof(TundraMainTreeElementObject),
             typeof(TundraSideTreeElementObject),
 
-            // Flora
+            // Floras
             typeof(BorealForestFloraElementLandObject),
             typeof(DesertFloraElementLandObject),
             typeof(RainForestFloraElementLandObject),

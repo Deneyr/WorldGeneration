@@ -62,7 +62,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
                     if ((currentObjectCase.Land.LandWall != null && currentObjectCase.Land.LandWall is GroundLandObject)
                         || currentObjectCase.Land.LandWater != null)
                     {
-                        LandTransition wallWaterTransition = this.CreateWallWaterTransition(currentObjectCase.Land.LandWall, currentObjectCase.Land.LandWater);
+                        LandTransition wallWaterTransition = LandTransitionHelper.CreateWallWaterTransition(currentObjectCase.Land.LandWall, currentObjectCase.Land.LandWater);
 
                         tallGrassElement.LandTransition = LandTransitionHelper.IntersectionLandTransition(tallGrassElement.LandTransition, wallWaterTransition);
 
@@ -133,23 +133,6 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
             }
 
             return true;
-        }
-
-        private LandTransition CreateWallWaterTransition(ILandWall landWall, ILandWater landWater)
-        {
-            if(landWall != null
-                && landWater == null)
-            {
-                return landWall.LandTransition;
-            }
-
-            if(landWater != null
-                && landWall == null)
-            {
-                return LandTransitionHelper.ReverseLandTransition(landWater.LandTransition);
-            }
-
-            return LandTransitionHelper.IntersectionLandTransition(landWall.LandTransition, LandTransitionHelper.ReverseLandTransition(landWater.LandTransition));
         }
 
         private LandTransition GetTallGrassLandTransitionMix(LandTransition backLandTransition, LandTransition frontLandTransition)

@@ -14,6 +14,7 @@ using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise;
 using WorldGeneration.DataChunks.PureNoise;
 using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
+using WorldGeneration.DataChunks.StructureNoise.TownStructure;
 using WorldGeneration.DataChunks.StructureNoise.TreeStructure;
 using WorldGeneration.DataChunks.VoronoiNoise;
 using WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise;
@@ -21,6 +22,7 @@ using WorldGeneration.ObjectChunks;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
 using WorldGeneration.ObjectChunks.ObjectStructures;
 using WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures;
+using WorldGeneration.ObjectChunks.ObjectStructures.TownStructures;
 using WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures;
 
 namespace WorldGeneration.WorldGenerating
@@ -133,6 +135,7 @@ namespace WorldGeneration.WorldGenerating
             BiomeDataAgreggator biomeDataAgreggator = new BiomeDataAgreggator();
             Offset2DDataAgreggator offset2DDataAgreggator = new Offset2DDataAgreggator();
             RiverDataAgreggator riverDataAgreggator = new RiverDataAgreggator();
+            TownDataAgreggator townDataAgreggator = new TownDataAgreggator();
             FloraDataAgreggator floraDataAgreggator = new FloraDataAgreggator();
             TallGrassDataAgreggator tallGrassDataAgreggator = new TallGrassDataAgreggator();
             TreeDataAgreggator treeDataAgreggator = new TreeDataAgreggator();
@@ -218,6 +221,14 @@ namespace WorldGeneration.WorldGenerating
             altitudeDataAgreggator.AddSeaLayer(0.08f, perlinDataChunkLayer);
             altitudeDataAgreggator.BiomeDataAgreggator = biomeDataAgreggator;
 
+            // Part Towns
+            TownDataStructureChunkLayer townStructureDataChunkLayer = new TownDataStructureChunkLayer("town", 1024);
+            townStructureDataChunkLayer.NbMinDataStructure = 25;
+            townStructureDataChunkLayer.NbMaxDataStructure = 50;
+            townStructureDataChunkLayer.StructDimension = new IntRect(32, 32, 48, 48);
+            this.dataChunksMonitor.AddDataLayerToGenerator(townStructureDataChunkLayer);
+            townDataAgreggator.AddDataStructureChunkLayer(townStructureDataChunkLayer);
+
             // Part flora & rocks
             hPerlinDataChunkLayer = new HPerlinDataChunkLayer("flora", 256, 1);
             hPerlinDataChunkLayer.Margin = 32;
@@ -229,7 +240,7 @@ namespace WorldGeneration.WorldGenerating
             // Part Trees
             TreeDataStructureChunkLayer treeStructureDataChunkLayer = new TreeDataStructureChunkLayer("tree", 256);
             treeStructureDataChunkLayer.NbMinDataStructure = 10000;
-            treeStructureDataChunkLayer.nbMaxDataStructure = 12000;
+            treeStructureDataChunkLayer.NbMaxDataStructure = 12000;
             treeStructureDataChunkLayer.StructDimension = new IntRect(3, 3, 3, 3);
             this.dataChunksMonitor.AddDataLayerToGenerator(treeStructureDataChunkLayer);
             treeDataAgreggator.AddDataStructureChunkLayer(treeStructureDataChunkLayer);
@@ -237,17 +248,18 @@ namespace WorldGeneration.WorldGenerating
             // Part Tall Grass
             TallGrassDataStructureChunkLayer tallGrassStructureDataChunkLayer = new TallGrassDataStructureChunkLayer("tallGrass", 256);
             tallGrassStructureDataChunkLayer.NbMinDataStructure = 10;
-            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 25;
+            tallGrassStructureDataChunkLayer.NbMaxDataStructure = 25;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(20, 20, 40, 40);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
             tallGrassDataAgreggator.AddDataStructureChunkLayer(tallGrassStructureDataChunkLayer);
 
             tallGrassStructureDataChunkLayer = new TallGrassDataStructureChunkLayer("secondTallGrass", 128);
             tallGrassStructureDataChunkLayer.NbMinDataStructure = 15;
-            tallGrassStructureDataChunkLayer.nbMaxDataStructure = 30;
+            tallGrassStructureDataChunkLayer.NbMaxDataStructure = 30;
             tallGrassStructureDataChunkLayer.StructDimension = new IntRect(10, 10, 20, 20);
             this.dataChunksMonitor.AddDataLayerToGenerator(tallGrassStructureDataChunkLayer);
             tallGrassDataAgreggator.AddDataStructureChunkLayer(tallGrassStructureDataChunkLayer);
+
 
             // Register data aggregators
 
@@ -256,6 +268,7 @@ namespace WorldGeneration.WorldGenerating
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("weather", weatherDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("2DOffset", offset2DDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("river", riverDataAgreggator);
+            this.dataChunksMonitor.AddDataAgreggatorToGenerator("town", townDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("flora", floraDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("tallGrass", tallGrassDataAgreggator);
             this.dataChunksMonitor.AddDataAgreggatorToGenerator("tree", treeDataAgreggator);
@@ -265,6 +278,7 @@ namespace WorldGeneration.WorldGenerating
             // PART OBJECTS
 
             // Part Structure Templates
+            this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TownObjectStructureTemplate());
             this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TreeObjectStructureTemplate());
             this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new NarrowTreeObjectStructureTemplate());
             this.objectChunkMonitor.AddObjectStructureTemplatesToGenerator(new TallGrassObjectStructureTemplate());
@@ -290,7 +304,10 @@ namespace WorldGeneration.WorldGenerating
             WaterTransitionObjectChunkLayer waterTransitionObjectChunkLayer = new WaterTransitionObjectChunkLayer("waterTransitionLayer");
             this.objectChunkMonitor.AddObjectLayerToGenerator(waterTransitionObjectChunkLayer);
 
+            TownObjectChunkLayer townObjectChunkLayer = new TownObjectChunkLayer("townLayer");
+            this.objectChunkMonitor.AddObjectLayerToGenerator(townObjectChunkLayer);
 
+            // TODO : replace to rock chunk layer
             FloraCObjectChunkLayer floraCObjectChunkLayer = new FloraCObjectChunkLayer("floraCLayer");
             this.objectChunkMonitor.AddObjectLayerToGenerator(floraCObjectChunkLayer);
 

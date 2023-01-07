@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 
-namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
+namespace WorldGeneration.DataChunks.StructureNoise.TownStructure
 {
-    internal class TreeDataStructureChunkLayer : APointDataStructureChunkLayer
+    internal class TownDataStructureChunkLayer : APointDataStructureChunkLayer
     {
-        public TreeDataStructureChunkLayer(string id, int nbCaseSide)
+        public TownDataStructureChunkLayer(string id, int nbCaseSide)
             : base(id, nbCaseSide)
         {
         }
@@ -18,7 +18,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
         {
             foreach (ChunkContainer chunkContainerToGenerate in obj)
             {
-                TreeDataStructureChunk structureDataChunk = new TreeDataStructureChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbMinDataStructure, this.NbMaxDataStructure, this.StructDimension);
+                TownDataStructureChunk structureDataChunk = new TownDataStructureChunk(chunkContainerToGenerate.Position, this.NbCaseSide, this.NbMinDataStructure, this.NbMaxDataStructure, this.StructDimension);
 
                 dataChunksMonitor.AddChunkToMonitor(structureDataChunk);
             }

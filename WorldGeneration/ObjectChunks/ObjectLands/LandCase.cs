@@ -61,6 +61,10 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {
                 return this.landGroundOverWallList;
             }
+            internal set
+            {
+                this.landGroundOverWallList = value;
+            }
         }
 
         public ILandWater LandWater
@@ -69,7 +73,6 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {
                 return this.landWater;
             }
-
             set
             {
                 this.landWater = value;
@@ -82,7 +85,6 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {
                 return this.landOverWall;
             }
-
             set
             {
                 this.landOverWall = value;
@@ -121,6 +123,10 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             get
             {
                 return this.landGroundList;
+            }
+            internal set
+            {
+                this.landGroundList = value;
             }
         }
 

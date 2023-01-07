@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorldGeneration.ObjectChunks.ObjectLands.LandInterface;
 
 namespace WorldGeneration.ObjectChunks.ObjectLands
 {
@@ -292,6 +293,84 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             };
 
             return LandTransitionHelper.GetLandTransitionFromMatrix(unionMatrix);
+        }
+
+        public static LandTransition CreateWallWaterTransition(ILandWall landWall, ILandWater landWater)
+        {
+            if (landWall != null
+                && landWater == null)
+            {
+                return landWall.LandTransition;
+            }
+
+            if (landWater != null
+                && landWall == null)
+            {
+                return ReverseLandTransition(landWater.LandTransition);
+            }
+
+            return IntersectionLandTransition(landWall.LandTransition, LandTransitionHelper.ReverseLandTransition(landWater.LandTransition));
+        }
+
+        public static List<ILandGround> AddFirstGroundLandObjectTo(List<ILandGround> landGrounds, ILandGround newGroundLandObject, LandTransition newGroundLandObjectTransition)
+        {
+            LandTransition landTransition = ReverseLandTransition(newGroundLandObjectTransition);
+
+            List<ILandGround> resultLandGrounds = new List<ILandGround>();
+            resultLandGrounds.Add(newGroundLandObject);
+
+            if (newGroundLandObjectTransition != LandTransition.NONE)
+            {
+                foreach (ILandGround landGround in landGrounds)
+                {
+                    landGround.LandTransition = IntersectionLandTransition(landGround.LandTransition, landTransition);
+                    if (landGround.LandTransition != LandTransition.NONE)
+                    {
+                        resultLandGrounds.Add(landGround);
+                    }
+                }
+
+                resultLandGrounds = ClearHiddenGroundLandObjectsTo(resultLandGrounds);
+            }
+
+            return resultLandGrounds;
+        }
+
+        public static List<ILandGround> ClearHiddenGroundLandObjectsTo(List<ILandGround> landGrounds)
+        {
+            int[,] throughMatrix = new int[,]
+            {
+                {0, 0},
+                {0, 0}
+            };
+
+            List<ILandGround> resultLandGrounds = new List<ILandGround>();
+
+            int i = landGrounds.Count - 1;
+
+            while(i >= 0 && IsFullMatrix(throughMatrix) == false)
+            {
+                ILandGround landGround = landGrounds[i];
+
+                int[,] landGroundTransitionMatrix = GetMatrixFromLandTransition(landGround.LandTransition);
+
+                resultLandGrounds.Insert(0, landGround);
+
+                throughMatrix[0, 0] |= landGroundTransitionMatrix[0, 0];
+                throughMatrix[0, 1] |= landGroundTransitionMatrix[0, 1];
+                throughMatrix[1, 0] |= landGroundTransitionMatrix[1, 0];
+                throughMatrix[1, 1] |= landGroundTransitionMatrix[1, 1];
+
+                i--;
+            }
+
+            return resultLandGrounds;
+        }
+
+        public static bool IsFullMatrix(int[,] matrix)
+        {
+            return matrix[0, 0] == 1 && matrix[0, 1] == 1
+                && matrix[1, 0] == 1 && matrix[1, 1] == 1;
         }
     }
 }
