@@ -27,97 +27,58 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TownStructures
         {
             if (zObjectCase.GroundAltitude >= 0)
             {
+                TownDataStructure townDataStructure = dataStructure as TownDataStructure;
+
                 IDataStructureCase dataStructureCase = (dataStructure as ADataStructure).DataStructureCases[i, j];
 
-
-                int index = zObjectCase.GroundAltitude;
-                IObjectCase currentIObjectCase = null;
-                while (index >= 0 && (currentIObjectCase = zObjectCase[index]) != null)
+                ObjectCase currentObjectCase = zObjectCase[zObjectCase.GroundAltitude] as ObjectCase;
+                if (this.IsCaseValid(townDataStructure, dataStructureCase, currentObjectCase))
                 {
-                    ObjectCase currentObjectCase = currentIObjectCase as ObjectCase;
+                    LandTransition dataCaseLandTransition = LandTransitionHelper.ReverseLandTransition((dataStructureCase as TownDataStructureCase).LandTransition);
 
-                    TownDataStructure townDataStructure = dataStructure as TownDataStructure;
-
-                    if (this.IsCaseValid(townDataStructure, dataStructureCase, currentObjectCase))
+                    int index = zObjectCase.GroundAltitude;
+                    IObjectCase currentIObjectCase = null;
+                    while (index >= 0 && (currentIObjectCase = zObjectCase[index]) != null)
                     {
-                        LandCase landCase = currentObjectCase.Land;
-                        LandTransition dataCaseLandTransition = (dataStructureCase as TownDataStructureCase).LandTransition;
+                        currentObjectCase = currentIObjectCase as ObjectCase;
 
-                        if (landCase.LandGroundList.Count > 0)
+                        if (this.IsCaseValid(townDataStructure, dataStructureCase, currentObjectCase))
                         {
-                            LandTransition newDataCaseLandTransition = dataCaseLandTransition;
-                            if (landCase.LandWater != null)
-                            {
-                                newDataCaseLandTransition = LandTransitionHelper.IntersectionLandTransition(dataCaseLandTransition, LandTransitionHelper.ReverseLandTransition(landCase.LandWater.LandTransition));
-                            }
+                            LandCase landCase = currentObjectCase.Land;
 
-                            if (dataCaseLandTransition == LandTransition.NONE
-                                || newDataCaseLandTransition != LandTransition.NONE)
+                            if (landCase.LandGroundList.Count > 0)
                             {
+                                LandTransition newDataCaseLandTransition = dataCaseLandTransition;
+                                if (dataCaseLandTransition != LandTransition.NONE && landCase.LandWater != null)
+                                {
+                                    newDataCaseLandTransition = LandTransitionHelper.IntersectionLandTransition(dataCaseLandTransition, LandTransitionHelper.ReverseLandTransition(landCase.LandWater.LandTransition));
+                                }
+
                                 landCase.LandGroundList = this.CreateTownLandGroundFrom(random, parentObjectStructure, townDataStructure, LandTransition.NONE, newDataCaseLandTransition, landCase.LandGroundList);
                             }
-                        }
 
-                        if (landCase.LandGroundOverWallList.Count > 0)
-                        {
-                            LandTransition landWallTransition = LandTransition.NONE;
-                            LandTransition newDataCaseLandTransition = dataCaseLandTransition;
-
-                            if (landCase.LandWall != null)
+                            if (landCase.LandWall != null && landCase.LandGroundOverWallList.Count > 0)
                             {
-                                newDataCaseLandTransition = LandTransitionHelper.IntersectionLandTransition(newDataCaseLandTransition, landCase.LandWall.LandTransition);
+                                LandTransition landWallTransition = LandTransition.NONE;
+                                LandTransition newDataCaseLandTransition = dataCaseLandTransition;
+
+                                if (dataCaseLandTransition != LandTransition.NONE && landCase.LandWall != null)
+                                {
+                                    newDataCaseLandTransition = LandTransitionHelper.IntersectionLandTransition(dataCaseLandTransition, landCase.LandWall.LandTransition);
+                                }
 
                                 landWallTransition = landCase.LandWall.LandTransition;
-                            }
 
-                            if (dataCaseLandTransition == LandTransition.NONE
-                                || newDataCaseLandTransition != LandTransition.NONE)
-                            {
-                                landCase.LandGroundOverWallList = this.CreateTownLandGroundFrom(random, parentObjectStructure, townDataStructure, landWallTransition, dataCaseLandTransition, landCase.LandGroundOverWallList);
+                                if (newDataCaseLandTransition != landCase.LandWall.LandTransition)
+                                {
+                                    landCase.LandGroundOverWallList = this.CreateTownLandGroundFrom(random, parentObjectStructure, townDataStructure, landWallTransition, newDataCaseLandTransition, landCase.LandGroundOverWallList);
+                                }
                             }
                         }
-
-                        //bool isLandOverWallValid = true;
-                        //if ((landCase.LandWall != null && landCase.LandWall is GroundLandObject)
-                        //    || landCase.LandWater != null)
-                        //{
-                        //    LandTransition wallWaterTransition = LandTransitionHelper.CreateWallWaterTransition(landCase.LandWall, landCase.LandWater);
-
-                        //    dataCaseLandTransition = LandTransitionHelper.IntersectionLandTransition(dataCaseLandTransition, wallWaterTransition);
-
-                        //    isLandOverWallValid = dataCaseLandTransition != LandTransition.NONE;
-                        //}
-
-                        //if (isLandOverWallValid)
-                        //{
-                        //    if (landCase.LandGroundOverWallList.Count > 0)
-                        //    {
-                        //        LandTransition landWallTransition = LandTransition.NONE;
-                        //        if (landCase.LandWall != null)
-                        //        {
-                        //            landWallTransition = landCase.LandWall.LandTransition;
-                        //        }
-
-                        //        landCase.LandGroundOverWallList = this.CreateTownLandGroundFrom(random, parentObjectStructure, townDataStructure, landWallTransition, dataCaseLandTransition, landCase.LandGroundOverWallList);
-                        //    }
-                        //}
+                        index--;
                     }
-                    index--;
                 }
             }
-
-            //if (zObjectCase.GroundAltitude >= 0)
-            //{
-            //    IDataStructureCase dataStructureCase = (dataStructure as ADataStructure).DataStructureCases[i, j];
-
-            //    ObjectCase currentObjectCase = zObjectCase[zObjectCase.GroundAltitude] as ObjectCase;
-            //    LandCase landCase = (zObjectCase[zObjectCase.GroundAltitude] as ObjectCase).Land;
-            //    GroundLandObject groundLandObject = landCase.LandGroundList.First() as GroundLandObject;
-
-            //    TownDataStructure townDataStructure = dataStructure as TownDataStructure;
-
-            //    ATownGroundLandObject newTownGroundLandObject = CreateTownGroundLandObject(random, townDataStructure.StructureBiome, groundLandObject.Type);
-            //}
         }
 
         private List<ILandGround> CreateTownLandGroundFrom(Random random, IObjectStructure parentObjectStructure, TownDataStructure townDataStructure, LandTransition landWallTransition, LandTransition townLandTransition, List<ILandGround> initialLandGround)

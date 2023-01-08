@@ -314,8 +314,6 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
 
         public static List<ILandGround> AddFirstGroundLandObjectTo(List<ILandGround> landGrounds, ILandGround newGroundLandObject, LandTransition newGroundLandObjectTransition)
         {
-            LandTransition landTransition = ReverseLandTransition(newGroundLandObjectTransition);
-
             List<ILandGround> resultLandGrounds = new List<ILandGround>();
             resultLandGrounds.Add(newGroundLandObject);
 
@@ -323,7 +321,7 @@ namespace WorldGeneration.ObjectChunks.ObjectLands
             {
                 foreach (ILandGround landGround in landGrounds)
                 {
-                    landGround.LandTransition = IntersectionLandTransition(landGround.LandTransition, landTransition);
+                    landGround.LandTransition = IntersectionLandTransition(landGround.LandTransition, newGroundLandObjectTransition);
                     if (landGround.LandTransition != LandTransition.NONE)
                     {
                         resultLandGrounds.Add(landGround);
