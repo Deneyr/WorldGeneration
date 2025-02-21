@@ -30,9 +30,9 @@ namespace PokeU
 
         public void Run()
         {
-            var mode = new VideoMode(1920, 1080);
-            var window = new SFML.Graphics.RenderWindow(SFML.Window.VideoMode.FullscreenModes[1], "Pokemon Union", SFML.Window.Styles.Fullscreen);
+            //var window = new SFML.Graphics.RenderWindow(SFML.Window.VideoMode.FullscreenModes[1], "Pokemon Union", SFML.Window.Styles.Fullscreen);
             //var window = new RenderWindow(mode, "Pokemon Union");
+            var window = new SFML.Graphics.RenderWindow(VideoMode.DesktopMode, "Pokemon Union", SFML.Window.Styles.Fullscreen);
             window.SetVerticalSyncEnabled(true);
 
             window.KeyPressed += Window_KeyPressed;
