@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.DSNoise.BiomeDSNoise;
 using WorldGeneration.DataChunks.PerlinNoise;
+using WorldGeneration.Maths;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
 {
@@ -48,11 +49,14 @@ namespace WorldGeneration.DataChunks.DataAgreggator
             float offsetVector1 = (this.SmoothOffsetLayerX.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
             float offsetVector2 = (this.SmoothOffsetLayerY.GetCaseAtWorldCoordinates(x, y) as PerlinDataCase).Value;
 
-            offsetVector1 = offsetVector1 * 2 - 1;
-            offsetVector2 = offsetVector2 * 2 - 1;
+            //offsetVector1 = offsetVector1 * 2 - 1;
+            //offsetVector2 = offsetVector2 * 2 - 1;
             //return (int) ((this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as DSDataCase).Value * 255);
             //return (this.BiomeLayer.GetCaseAtWorldCoordinates(x, y) as BiomeDSDataCase).CurrentBiome;
-            return new Vector2f(offsetVector1, offsetVector2);
+            //return new Vector2f(offsetVector1, offsetVector2);
+
+            return (new Vector2f(1, 0)).Rotate(Math.PI * 1.5 * (offsetVector1 + offsetVector2));
+
             // TEST
             //return 0;
         }
