@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\CSFML.2.5.1\build\netframework\CSFML.props" Condition="Exists('..\packages\CSFML.2.5.1\build\netframework\CSFML.props')" />
+  <Import Project="..\packages\CSFML.2.6.1\build\netframework\CSFML.props" Condition="Exists('..\packages\CSFML.2.6.1\build\netframework\CSFML.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -58,26 +58,21 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SFML.Audio, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFML.Audio.2.5.0\lib\netstandard2.0\SFML.Audio.dll</HintPath>
+    <Reference Include="SFML.Audio, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.Audio.2.6.1\lib\netstandard2.0\SFML.Audio.dll</HintPath>
     </Reference>
-    <Reference Include="SFML.Graphics, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFML.Graphics.2.5.0\lib\netstandard2.0\SFML.Graphics.dll</HintPath>
+    <Reference Include="SFML.Graphics, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.Graphics.2.6.1\lib\netstandard2.0\SFML.Graphics.dll</HintPath>
     </Reference>
-    <Reference Include="SFML.System, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFML.System.2.5.0\lib\netstandard2.0\SFML.System.dll</HintPath>
+    <Reference Include="SFML.System, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.System.2.6.1\lib\netstandard2.0\SFML.System.dll</HintPath>
     </Reference>
-    <Reference Include="SFML.Window, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFML.Window.2.5.0\lib\netstandard2.0\SFML.Window.dll</HintPath>
+    <Reference Include="SFML.Window, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.Window.2.6.1\lib\netstandard2.0\SFML.Window.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -293,8 +288,8 @@
     <PropertyGroup>
       <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\CSFML.2.5.1\build\netframework\CSFML.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CSFML.2.5.1\build\netframework\CSFML.props'))" />
-    <Error Condition="!Exists('..\packages\CSFML.2.5.1\build\netframework\CSFML.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CSFML.2.5.1\build\netframework\CSFML.targets'))" />
+    <Error Condition="!Exists('..\packages\CSFML.2.6.1\build\netframework\CSFML.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CSFML.2.6.1\build\netframework\CSFML.props'))" />
+    <Error Condition="!Exists('..\packages\CSFML.2.6.1\build\netframework\CSFML.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CSFML.2.6.1\build\netframework\CSFML.targets'))" />
   </Target>
-  <Import Project="..\packages\CSFML.2.5.1\build\netframework\CSFML.targets" Condition="Exists('..\packages\CSFML.2.5.1\build\netframework\CSFML.targets')" />
+  <Import Project="..\packages\CSFML.2.6.1\build\netframework\CSFML.targets" Condition="Exists('..\packages\CSFML.2.6.1\build\netframework\CSFML.targets')" />
 </Project>
