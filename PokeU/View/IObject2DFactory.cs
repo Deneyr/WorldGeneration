@@ -1,10 +1,6 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using SFML.System;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks;
 
 namespace PokeU.View
@@ -13,7 +9,7 @@ namespace PokeU.View
     {
         IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Vector2i position);
 
-        Dictionary<string, Texture> Resources
+        Dictionary<string, Texture2D> Resources
         {
             get;
         }
@@ -24,9 +20,9 @@ namespace PokeU.View
             set;
         }
 
-        Texture GetTextureByIndex(int index);
+        Texture2D GetTextureByIndex(int index);
 
-        void OnTextureLoaded(string path, Texture texture);
+        void OnTextureLoaded(string path, Texture2D texture);
 
         void OnTextureUnloaded(string path);
     }

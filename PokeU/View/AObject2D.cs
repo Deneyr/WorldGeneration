@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using PokeU.View.Animations;
-using PokeU.View.Helpers;
 using SFML.Graphics;
 using SFML.System;
+using System;
+using System.Collections.Generic;
+using Color = Microsoft.Xna.Framework.Color;
+using Texture = SFML.Graphics.Texture;
 
 namespace PokeU.View
 {
     public abstract class AObject2D : IObject2D
     {
+        protected static Texture DEFAULT_TEXTURE = new Texture(16, 16);
+
         protected static AnimationManager animationManager;
 
         protected static ZoomAnimationManager zoomAnimationManager;
@@ -23,6 +25,12 @@ namespace PokeU.View
         protected List<IAnimation> animationsList;
 
         private float ratioAltitude;
+
+        public Texture2D Texture
+        {
+            get;
+            protected set;
+        }
 
         public Sprite ObjectSprite
         {
@@ -46,7 +54,7 @@ namespace PokeU.View
 
             protected set
             {
-                this.ObjectSprite.Position = value * MainWindow.MODEL_TO_VIEW;
+                this.ObjectSprite.Position = value * MainGame.MODEL_TO_VIEW;
             }
         }
 
@@ -69,7 +77,7 @@ namespace PokeU.View
 
             AObject2D.zoomAnimationManager = new ZoomAnimationManager();
 
-            AObject2D.filter = new RectangleShape(new Vector2f(MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW));
+            AObject2D.filter = new RectangleShape(new Vector2f(MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW));
         }
 
         public AObject2D()
@@ -86,7 +94,7 @@ namespace PokeU.View
             
         }
 
-        public virtual void DrawIn(RenderWindow window, ref FloatRect boundsView)
+        public virtual void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView)
         {
 
             float ratioAltitude = 1 - Math.Abs(this.ratioAltitude);
@@ -109,9 +117,12 @@ namespace PokeU.View
             //    this.ObjectSprite.Color = new Color(255, 255, 255, this.ObjectSprite.Color.A);
             //}
 
-            this.ObjectSprite.Color = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
+            Rectangle sourceRectangle = new Rectangle(this.ObjectSprite.TextureRect.Left, this.ObjectSprite.TextureRect.Top, this.ObjectSprite.TextureRect.Width, this.ObjectSprite.TextureRect.Height);
+            Rectangle destinationRectangle = new Rectangle((int)this.ObjectSprite.Position.X, (int)this.ObjectSprite.Position.Y, (int)(this.ObjectSprite.TextureRect.Width * this.ObjectSprite.Scale.X), (int)(this.ObjectSprite.TextureRect.Height * this.ObjectSprite.Scale.Y));
 
-            window.Draw(this.ObjectSprite);
+            Color spriteColor = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
+
+            spriteBatch.Draw(texture: this.Texture, destinationRectangle: destinationRectangle, sourceRectangle: sourceRectangle, color: spriteColor);
 
             //if (this.RatioAltitude != 0)
             //{

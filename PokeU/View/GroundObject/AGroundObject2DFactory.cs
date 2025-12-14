@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
+﻿using Microsoft.Xna.Framework.Graphics;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 
 namespace PokeU.View.GroundObject
 {
     public abstract class AGroundObject2DFactory : AObject2DFactory
     {
-        public abstract Texture GetTextureByLandType(LandType landType);
+        public abstract Texture2D GetTextureByLandType(LandType landType);
 
-        public abstract Texture GetWallTexture();
+        public abstract Texture2D GetWallTexture();
 
         public bool IsWall
         {

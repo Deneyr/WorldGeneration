@@ -1,11 +1,7 @@
-﻿using PokeU.View.GroundObject;
-using SFML.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using PokeU.View.GroundObject;
 using SFML.System;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 using WorldGeneration.ObjectChunks.ObjectLands.TownGroundObject;
 
@@ -21,14 +17,14 @@ namespace PokeU.View.BiomeGroundObject.TownGroundObject
             // GRASS = 3,
             // MONTAIN = 4,
             // SNOW = 5,
-            this.texturesPath.Add(@"Autotiles\Brick path2.png");
+            this.texturesPath.Add(@"Autotiles\Brick path2");
 
-            this.texturesPath.Add(@"Autotiles\cliff.png");
+            this.texturesPath.Add(@"Autotiles\cliff");
 
             base.InitializeFactory();
         }
 
-        public override Texture GetTextureByLandType(LandType landType)
+        public override Texture2D GetTextureByLandType(LandType landType)
         {
             //switch (landType)
             //{
@@ -48,7 +44,7 @@ namespace PokeU.View.BiomeGroundObject.TownGroundObject
             return this.Resources[this.texturesPath.ElementAt(0)];
         }
 
-        public override Texture GetWallTexture()
+        public override Texture2D GetWallTexture()
         {
             return this.Resources[this.texturesPath.ElementAt(1)];
         }

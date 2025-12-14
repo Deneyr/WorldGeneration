@@ -1,11 +1,7 @@
-﻿using PokeU.View.Animations;
+﻿using Microsoft.Xna.Framework.Graphics;
+using PokeU.View.Animations;
 using SFML.Graphics;
 using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 
 namespace PokeU.View.WaterObject
@@ -41,10 +37,10 @@ namespace PokeU.View.WaterObject
 
         public WaterObject2D(IObject2DFactory factory, WaterLandObject landObject, Vector2i position)
         {
-            Texture texture = factory.GetTextureByIndex(0);
+            this.Texture = factory.GetTextureByIndex(0);
 
             this.textureRect = this.GetTransitionTextureCoord(landObject.LandTransition);
-            this.ObjectSprite = new Sprite(texture, this.textureRect);
+            this.ObjectSprite = new Sprite(DEFAULT_TEXTURE, this.textureRect);
 
             this.ObjectSprite.Position = this.ObjectSprite.Position;
             this.ObjectSprite.Color = new Color(255, 255, 255, 127);
@@ -53,11 +49,11 @@ namespace PokeU.View.WaterObject
             this.Position = new Vector2f(position.X, position.Y);
         }
 
-        public override void DrawIn(RenderWindow window, ref FloatRect boundsView)
+        public override void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView)
         {
             animationWater.Visit(this);
 
-            base.DrawIn(window, ref boundsView);
+            base.DrawIn(spriteBatch, ref boundsView);
         }
 
         public override void SetCanevas(IntRect newCanevas)

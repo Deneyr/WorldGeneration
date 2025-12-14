@@ -1,11 +1,5 @@
-﻿using PokeU.View.GroundObject;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures;
 using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeObjectStructure;
@@ -22,17 +16,20 @@ namespace PokeU.View.ElementLandObject
         {
             TreeObjectStructure treeObjectStructure = factory.CurrentObjectChunk.GetObjectStructure(treeElementLandObject.ParentStructureUID) as TreeObjectStructure;
 
-            Texture texture = factory.GetTextureFromBiomeLandType(treeObjectStructure.LandType, treeElementLandObject.LandObjectId);
+            this.Texture = factory.GetTextureFromBiomeLandType(treeObjectStructure.LandType, treeElementLandObject.LandObjectId);
 
-            int nbCaseWidth = (int) (texture.Size.X / MainWindow.MODEL_TO_VIEW);
-            int nbCaseHeight = (int) (texture.Size.Y / MainWindow.MODEL_TO_VIEW);
+            if (this.Texture != null)
+            {
+                int nbCaseWidth = (int)(this.Texture.Width / MainGame.MODEL_TO_VIEW);
+                int nbCaseHeight = (int)(this.Texture.Height / MainGame.MODEL_TO_VIEW);
 
-            this.ObjectSprite = new Sprite(texture, this.GetSpriteRectFrom(treeElementLandObject.Part, nbCaseWidth, nbCaseHeight));
+                this.ObjectSprite = new Sprite(DEFAULT_TEXTURE, this.GetSpriteRectFrom(treeElementLandObject.Part, nbCaseWidth, nbCaseHeight));
 
-            this.ObjectSprite.Position = this.ObjectSprite.Position;
-            //this.ObjectSprite.Color = new Color(255, 255, 255, 127);
+                this.ObjectSprite.Position = this.ObjectSprite.Position;
+                //this.ObjectSprite.Color = new Color(255, 255, 255, 127);
 
-            this.Position = new Vector2f(position.X, position.Y);
+                this.Position = new Vector2f(position.X, position.Y);
+            }
         }
 
 
@@ -41,26 +38,26 @@ namespace PokeU.View.ElementLandObject
             switch (treePart)
             {
                 case TreePart.TOP_LEFT:
-                    return new IntRect(0, 0, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.TOP_MID:
-                    return new IntRect(MainWindow.MODEL_TO_VIEW, 0, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.TOP_RIGHT:
-                    return new IntRect((nbCaseWidth - 1) * MainWindow.MODEL_TO_VIEW, 0, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
 
                 case TreePart.MID_LEFT:
-                    return new IntRect(0, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.MID_MID:
-                    return new IntRect(MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.MID_RIGHT:
-                    return new IntRect((nbCaseWidth - 1) * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
 
                 case TreePart.BOT_LEFT:
-                    return new IntRect(0, (nbCaseHeight - 1) * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(0, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.BOT_MID:
-                    return new IntRect(MainWindow.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.BOT_RIGHT:
-                    return new IntRect((nbCaseWidth - 1) * MainWindow.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
-            }
+                    return new IntRect((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+            }   
 
             return new IntRect();
         }

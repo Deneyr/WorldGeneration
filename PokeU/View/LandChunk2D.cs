@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PokeU.View.GroundObject;
+﻿using Microsoft.Xna.Framework.Graphics;
 using SFML.Graphics;
 using SFML.System;
+using System.Collections.Generic;
+using System.Linq;
 using WorldGeneration.ObjectChunks;
 using WorldGeneration.ObjectChunks.ObjectLands;
 
@@ -14,10 +11,6 @@ namespace PokeU.View
     public class LandChunk2D : AObject2D
     {
         private List<LandCase2D[,]> landObjects2DLayers;
-
-        //private int altitudeMin;
-
-        //private int altitudeMax;  
 
         private int width;
 
@@ -61,7 +54,7 @@ namespace PokeU.View
 
             set
             {
-                this.width = value * MainWindow.MODEL_TO_VIEW;
+                this.width = value * MainGame.MODEL_TO_VIEW;
             }
         }
 
@@ -74,7 +67,7 @@ namespace PokeU.View
 
             set
             {
-                this.height = value * MainWindow.MODEL_TO_VIEW;
+                this.height = value * MainGame.MODEL_TO_VIEW;
             }
         }
 
@@ -233,7 +226,7 @@ namespace PokeU.View
             //return trueCurrentAltitude;
         }
 
-        public override void DrawIn(RenderWindow window, ref FloatRect boundsView)
+        public override void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView)
         {
             LandCase2D[,] layer2D = this.landObjects2DLayers.FirstOrDefault();
 
@@ -246,7 +239,7 @@ namespace PokeU.View
             {
                 for (int j = 0; j < layer2D.GetLength(1); j++)
                 {
-                    FloatRect bounds = new FloatRect(this.Position.X + j * MainWindow.MODEL_TO_VIEW, this.Position.Y + i * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    FloatRect bounds = new FloatRect(this.Position.X + j * MainGame.MODEL_TO_VIEW, this.Position.Y + i * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
 
                     /*if (bounds.Left < boundsView.Left + boundsView.Width
                         && bounds.Left + bounds.Width > boundsView.Left
@@ -263,7 +256,7 @@ namespace PokeU.View
 
                             if (landObjectsList != null)
                             {
-                                landObjectsList.DrawIn(window, ref boundsView);
+                                landObjectsList.DrawIn(spriteBatch, ref boundsView);
 
                                 firstCaseDrawn = landObjectsList.IsValid;
                             }
@@ -293,78 +286,5 @@ namespace PokeU.View
 
             this.landObjects2DLayers.Clear();
         }
-
-        //private void CreateAltitude2D(LandWorld2D landWorld2D, IObjectChunk landChunk, int altitude, ref LandCase2D[,] landObject2Ds)
-        //{
-        //    List<IObject2D> listobject2Ds = new List<IObject2D>();
-
-        //    //LandCase[,] landCases = landChunk.GetLandObjectsAtAltitude(altitude);
-
-        //    //LandCase[,] landCasesUp = null;
-        //    //LandCase[,] landCasesDown = null;
-        //    //if (altitude < landChunk.AltitudeMax)
-        //    //{
-        //    //    landCasesUp = landChunk.GetLandObjectsAtAltitude(altitude + 1);
-        //    //}
-        //    //if (altitude > landChunk.AltitudeMin)
-        //    //{
-        //    //    landCasesDown = landChunk.GetLandObjectsAtAltitude(altitude - 1);
-        //    //}
-
-
-        //    for (int i = 0; i < landChunk.NbCaseSide; i++)
-        //    {
-        //        for (int j = 0; j < landChunk.NbCaseSide; j++)
-        //        {
-        //            IZObjectCase zObjectCase = landChunk.GetCaseAtLocal(j, i) as IZObjectCase;
-        //            ObjectCase objectCase = zObjectCase[altitude] as ObjectCase;
-
-        //            LandCase landCase = null;
-        //            if(objectCase != null)
-        //            {
-        //                landCase = objectCase.Land;
-        //            }
-
-        //            LandCase landCaseDown = null;
-        //            if (altitude > 0)
-        //            {
-        //                objectCase = zObjectCase[altitude - 1] as ObjectCase;
-        //                if (objectCase != null)
-        //                {
-        //                    landCaseDown = objectCase.Land;
-        //                }
-        //            }
-
-        //            LandCase landCaseUp = null;
-        //            if (altitude < zObjectCase.NbAltitudeLevel - 1)
-        //            {
-        //                objectCase = zObjectCase[altitude + 1] as ObjectCase;
-        //                if (objectCase != null)
-        //                {
-        //                    landCaseUp = objectCase.Land;
-        //                }
-        //            }
-
-        //            if (landCase != null
-        //                && (landCase.IsOnlyWater == false || landCaseUp == null || landCaseUp == null))
-        //            {
-        //                landObject2Ds[i, j] = LandWorld2D.MappingObjectModelView[typeof(LandCase)].CreateObject2D(landWorld2D, landCase, zObjectCase.Position) as LandCase2D;
-
-        //                if (landCaseUp != null)
-        //                {
-        //                    landObject2Ds[i, j].UpdateOverLandCase(landCaseUp);
-        //                }
-        //                if (landCaseDown != null)
-        //                {
-        //                    landObject2Ds[i, j].UpdateUnderLandCase(landCaseDown);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                landObject2Ds[i, j] = null;
-        //            }
-        //        }
-        //    }
-        //}
     }
 }

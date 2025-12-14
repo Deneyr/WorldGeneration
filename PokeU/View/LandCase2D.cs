@@ -1,11 +1,9 @@
-﻿using PokeU.View.GroundObject;
+﻿using Microsoft.Xna.Framework.Graphics;
+using PokeU.View.GroundObject;
 using SFML.Graphics;
 using SFML.System;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks;
 using WorldGeneration.ObjectChunks.ObjectLands;
 
@@ -27,6 +25,12 @@ namespace PokeU.View
 
         private LandCaseData underLandCaseData;
         private LandCaseData overLandCaseData;
+
+        public int CaseAltitude
+        {
+            get;
+            protected set;
+        }
 
         public LandCase2D(LandWorld2D landWorld2D, IObjectChunk parentObjectChunk, LandCase landCase, Vector2i position)
         {
@@ -118,6 +122,8 @@ namespace PokeU.View
 
                 this.landOverWall = landObject2D;
             }
+
+            this.Position = new Vector2f(position.X, position.Y);
         }
 
         public void UpdateUnderLandCase(LandCase underLandCase)
@@ -138,7 +144,7 @@ namespace PokeU.View
 
         public void SetLandCaseRatio(int level, int maxLevel)
         {
-            this.RatioAltitude = Math.Min(1, Math.Max(-1, ((float) level) / maxLevel));
+            this.RatioAltitude = Math.Min(1, Math.Max(-1, ((float)level) / maxLevel));
             float ratioUp = Math.Min(1, Math.Max(-1, ((float)level + 1) / maxLevel));
 
             foreach (ILandObject2D landGroundObject in this.landGroundList)
@@ -191,7 +197,7 @@ namespace PokeU.View
             }
         }
 
-        public override void DrawIn(RenderWindow window, ref FloatRect boundsView)
+        public override void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView)
         {
             if (this.IsValid)
             {
@@ -201,20 +207,20 @@ namespace PokeU.View
                     {
                         //landGroundObject.RatioAltitude = this.RatioAltitude;
 
-                        landGroundObject.DrawIn(window, ref boundsView);
+                        landGroundObject.DrawIn(spriteBatch, ref boundsView);
                     }
                 }
 
                 if (this.landOverGround != null)
                 {
-                    this.landOverGround.DrawIn(window, ref boundsView);
+                    this.landOverGround.DrawIn(spriteBatch, ref boundsView);
                 }
 
                 if (this.landWall != null)
                 {
                     foreach (ILandObject2D landGroundOverWallObject in this.landGroundOverWallList)
                     {
-                        landGroundOverWallObject.DrawIn(window, ref boundsView);
+                        landGroundOverWallObject.DrawIn(spriteBatch, ref boundsView);
                     }
                 }
 
@@ -228,20 +234,20 @@ namespace PokeU.View
 
                 if (this.landWall != null)
                 {
-                    this.landWall.DrawIn(window, ref boundsView);
+                    this.landWall.DrawIn(spriteBatch, ref boundsView);
                 }
 
                 if (this.overLandCaseData.IsThereWater == false)
                 {
                     if (this.landWater != null)
                     {
-                        this.landWater.DrawIn(window, ref boundsView);
+                        this.landWater.DrawIn(spriteBatch, ref boundsView);
                     }
                 }
 
                 if (this.landOverWall != null)
                 {
-                    this.landOverWall.DrawIn(window, ref boundsView);
+                    this.landOverWall.DrawIn(spriteBatch, ref boundsView);
                 }
             }
         }

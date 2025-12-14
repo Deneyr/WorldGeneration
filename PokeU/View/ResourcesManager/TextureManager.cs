@@ -1,26 +1,30 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PokeU.View.ResourcesManager
 {
     public class TextureManager
     {
-        private Dictionary<string, Texture> texturesDictionary;
+        private Dictionary<string, Texture2D> texturesDictionary;
 
-        public event Action<string, Texture> TextureLoaded;
+        public event Action<string, Texture2D> TextureLoaded;
 
         public event Action<string> TextureUnloaded;
 
-        public TextureManager()
+        public Game MainGame
         {
-            this.texturesDictionary = new Dictionary<string, Texture>();
+            get;
+            set;
         }
 
-        public Texture GetTexture(string path)
+        public TextureManager()
+        {
+            this.texturesDictionary = new Dictionary<string, Texture2D>();
+        }
+
+        public Texture2D GetTexture(string path)
         {
             return this.texturesDictionary[path];
         }
@@ -31,11 +35,15 @@ namespace PokeU.View.ResourcesManager
             {
                 if (this.texturesDictionary.ContainsKey(path) == false)
                 {
-                    Texture texture = new Texture(path);
+                    Texture2D texture = null;
+                    texture = Texture2D.FromFile(this.MainGame.GraphicsDevice, path + ".png");
 
-                    this.texturesDictionary.Add(path, texture);
+                    if (texture != null)
+                    {
+                        this.texturesDictionary.Add(path, texture);
 
-                    this.NotifyTextureLoaded(path, texture);
+                        this.NotifyTextureLoaded(path, texture);
+                    }
                 }
             }
         }
@@ -55,7 +63,7 @@ namespace PokeU.View.ResourcesManager
             }
         }
 
-        private void NotifyTextureLoaded(string path, Texture texture)
+        private void NotifyTextureLoaded(string path, Texture2D texture)
         {
             if(this.TextureLoaded != null)
             {

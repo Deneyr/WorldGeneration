@@ -1,15 +1,17 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using SFML.Graphics;
 using SFML.System;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PokeU.View
 {
     public interface IObject2D: IDisposable
     {
+        Texture2D Texture
+        {
+            get;
+        }
+
         Sprite ObjectSprite
         {
             get;
@@ -26,7 +28,7 @@ namespace PokeU.View
             set;
         }
 
-        void DrawIn(RenderWindow window, ref FloatRect boundsView);
+        void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView);
 
         // Part animations
         void SetCanevas(IntRect newCanevas);

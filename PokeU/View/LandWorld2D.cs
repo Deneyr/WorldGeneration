@@ -1,29 +1,27 @@
-﻿using SFML.Graphics;
-using PokeU.View.GroundObject;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using PokeU.View.BiomeGroundObject;
+using PokeU.View.BiomeGroundObject.TownGroundObject;
+using PokeU.View.ElementLandObject;
 using PokeU.View.ResourcesManager;
 using PokeU.View.WaterObject;
+using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks;
-using WorldGeneration.WorldGenerating;
-using WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject;
-using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 using WorldGeneration.ObjectChunks.ObjectLands;
-using PokeU.View.BiomeGroundObject;
-using PokeU.View.ElementLandObject;
-using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
+using WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject;
+using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Flora;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
-using WorldGeneration.DataChunks.WeatherMonitoring;
-using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Flora;
 using WorldGeneration.ObjectChunks.ObjectLands.TownGroundObject;
-using PokeU.View.BiomeGroundObject.TownGroundObject;
+using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
+using WorldGeneration.WorldGenerating;
+using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
 
 namespace PokeU.View
 {
@@ -45,10 +43,11 @@ namespace PokeU.View
         // TEST
         private TestAutoDriver testAutoDriver;
         // 
-
         private WorldMonitor landWorld;
 
         private Vector2f currentViewSize;
+
+        private Camera2D mainCamera;
 
         public int CurrentZoom
         {
@@ -207,6 +206,8 @@ namespace PokeU.View
 
             this.landWorld = landWorld;
 
+            this.mainCamera = new Camera2D();
+
             this.currentViewSize = new Vector2f(1920, 1080);
             //this.Position = new Vector2f(-150000, 20000);
             this.Position = new Vector2f(-122259, 55112);
@@ -216,13 +217,13 @@ namespace PokeU.View
             this.testAutoDriver = new TestAutoDriver(this.Position, 200);
             //
 
-            this.CurrentZoom = 1;
+            this.CurrentZoom = 0;
 
             landWorld.MainChunksMonitor.ChunksToAdd += OnChunkAdded;
             landWorld.MainChunksMonitor.ChunksRemoved += OnChunkRemoved;
         }
 
-        public void DrawIn(RenderWindow window, Time deltaTime)
+        public void DrawIn(SpriteBatch spriteBatch, GameTime deltaTime)
         {
             //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
@@ -231,67 +232,71 @@ namespace PokeU.View
             // TEST
             //this.Position = this.testAutoDriver.GetNextPosition(this.Position, deltaTime.AsSeconds());
             //
-
-            if (Keyboard.IsKeyPressed(Keyboard.Key.T))
+            float elapsedSeconds = (float)deltaTime.ElapsedGameTime.TotalSeconds;
+            if (Keyboard.GetState().IsKeyDown(Keys.T))
             {
                 this.Position = new Vector2f(0, 0);
             }
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.Z))
+            else if (Keyboard.GetState().IsKeyDown(Keys.Z))
             {
                 Vector2f position = this.Position;
 
-                position.Y -= deltaTime.AsSeconds() * 320;
+                position.Y -= elapsedSeconds * 320;
 
                 this.Position = position;
             }
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+            else if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 Vector2f position = this.Position;
 
-                position.Y += deltaTime.AsSeconds() * 320;
+                position.Y += elapsedSeconds * 320;
 
                 this.Position = position;
             }
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 Vector2f position = this.Position;
 
-                position.X -= deltaTime.AsSeconds() * 320;
+                position.X -= elapsedSeconds * 320;
 
                 this.Position = position;
             }
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 Vector2f position = this.Position;
 
-                position.X += deltaTime.AsSeconds() * 320;
+                position.X += elapsedSeconds * 320;
 
                 this.Position = position;
             }
 
             this.CurrentViewSize = new Vector2f(1920, 1080);
-            SFML.Graphics.View newView = new SFML.Graphics.View(new Vector2f((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2), this.CurrentViewSize);
-            newView.Zoom(this.CurrentZoom);
 
-            FloatRect viewBound = new FloatRect(newView.Center.X - newView.Size.X / 2, newView.Center.Y - newView.Size.Y / 2, newView.Size.X, newView.Size.Y);
+            this.mainCamera.Position = new Vector2((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2);
+            this.mainCamera.ViewSize = new Vector2(this.CurrentViewSize.X, this.CurrentViewSize.Y);
+            this.mainCamera.Zoom = this.CurrentZoom;
+
+            FloatRect viewBound = new FloatRect(this.mainCamera.Position.X - (this.CurrentViewSize.X / 2) / this.mainCamera.Scaling, this.mainCamera.Position.Y - (this.CurrentViewSize.Y / 2) / this.mainCamera.Scaling, this.CurrentViewSize.X / this.mainCamera.Scaling, this.CurrentViewSize.Y / this.mainCamera.Scaling);
             IntRect worldViewArea = ViewAreaToWorldArea(viewBound);
             this.landWorld.WorldArea = worldViewArea;
 
             //viewBound = new FloatRect(newView.Center.X - newView.Size.X / 4, newView.Center.Y - newView.Size.Y / 4, newView.Size.X / 2, newView.Size.Y / 2);
             //newView = new SFML.Graphics.View(new Vector2f((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2), new Vector2f(viewBound.Width, viewBound.Height));
 
-            window.SetView(newView);
+            spriteBatch.Begin(blendState:BlendState.NonPremultiplied, samplerState:SamplerState.PointClamp, transformMatrix:this.mainCamera.GetTransform());
 
             foreach (LandChunk2D landChunk2D in this.landChunksDictionary.Values)
             {
-                FloatRect bounds = new FloatRect(landChunk2D.Position, new SFML.System.Vector2f(landChunk2D.Width, landChunk2D.Height));
+                FloatRect bounds = new FloatRect(landChunk2D.Position, new Vector2f(landChunk2D.Width, landChunk2D.Height));
 
                 if (bounds.Intersects(viewBound))
                 {
-                    landChunk2D.DrawIn(window, ref viewBound);
+                    landChunk2D.DrawIn(spriteBatch, ref viewBound);
                 }
             }
+
+            spriteBatch.End();
 
             //this.entity2DManager.DrawIn(window, ref boundsView);
 
@@ -317,10 +322,10 @@ namespace PokeU.View
         public static IntRect ViewAreaToWorldArea(FloatRect viewArea)
         {
             IntRect area = new IntRect((int)(viewArea.Left), (int)(viewArea.Top), (int)(viewArea.Width), (int)(viewArea.Height));
-            area.Left /= MainWindow.MODEL_TO_VIEW;
-            area.Top /= MainWindow.MODEL_TO_VIEW;
-            area.Width /= MainWindow.MODEL_TO_VIEW;
-            area.Height /= MainWindow.MODEL_TO_VIEW;
+            area.Left /= MainGame.MODEL_TO_VIEW;
+            area.Top /= MainGame.MODEL_TO_VIEW;
+            area.Width /= MainGame.MODEL_TO_VIEW;
+            area.Height /= MainGame.MODEL_TO_VIEW;
 
             return area;
         }
@@ -328,10 +333,10 @@ namespace PokeU.View
         public static FloatRect ViewAreaToWorldArea(IntRect viewArea)
         {
             FloatRect area = new FloatRect((int)(viewArea.Left), (int)(viewArea.Top), (int)(viewArea.Width), (int)(viewArea.Height));
-            area.Left *= MainWindow.MODEL_TO_VIEW;
-            area.Top *= MainWindow.MODEL_TO_VIEW;
-            area.Width *= MainWindow.MODEL_TO_VIEW;
-            area.Height *= MainWindow.MODEL_TO_VIEW;
+            area.Left *= MainGame.MODEL_TO_VIEW;
+            area.Top *= MainGame.MODEL_TO_VIEW;
+            area.Width *= MainGame.MODEL_TO_VIEW;
+            area.Height *= MainGame.MODEL_TO_VIEW;
 
             return area;
         }

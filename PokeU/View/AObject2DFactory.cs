@@ -1,19 +1,16 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using SFML.System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks;
 
 namespace PokeU.View
 {
     public abstract class AObject2DFactory: IObject2DFactory
     {
-        private static readonly Texture BLANK_TEXTURE;
+        //private static readonly Texture2D BLANK_TEXTURE;
 
-        private Dictionary<string, Texture> resources;
+        private Dictionary<string, Texture2D> resources;
 
         protected HashSet<string> texturesPath;
 
@@ -25,7 +22,7 @@ namespace PokeU.View
 
         static AObject2DFactory()
         {
-            BLANK_TEXTURE = new Texture((uint)MainWindow.MODEL_TO_VIEW, (uint)MainWindow.MODEL_TO_VIEW);
+            //BLANK_TEXTURE = new Texture2D((uint)MainGame.MODEL_TO_VIEW, (uint)MainGame.MODEL_TO_VIEW);
         }
 
         public AObject2DFactory()
@@ -37,17 +34,17 @@ namespace PokeU.View
 
         protected virtual void InitializeFactory()
         {
-            this.resources = new Dictionary<string, Texture>();
-            Texture blankTexture = BLANK_TEXTURE;
+            this.resources = new Dictionary<string, Texture2D>();
+            //Texture2D blankTexture = BLANK_TEXTURE;
             foreach (string texturesPath in this.texturesPath)
             {
-                this.resources.Add(texturesPath, blankTexture);
+                this.resources.Add(texturesPath, null);
             }
         }
 
         public abstract IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Vector2i position);
 
-        public Dictionary<string, Texture> Resources
+        public Dictionary<string, Texture2D> Resources
         {
             get
             {
@@ -55,12 +52,12 @@ namespace PokeU.View
             }
         }
 
-        public Texture GetTextureByIndex(int index)
+        public Texture2D GetTextureByIndex(int index)
         {
             return this.Resources[this.texturesPath.ElementAt(index)];
         }
 
-        public void OnTextureLoaded(string path, Texture texture)
+        public void OnTextureLoaded(string path, Texture2D texture)
         {
             if (this.Resources.ContainsKey(path))
             {
@@ -72,7 +69,7 @@ namespace PokeU.View
         {
             if (this.Resources.ContainsKey(path))
             {
-                this.Resources[path] = BLANK_TEXTURE;
+                this.Resources[path] = null;
             }
         }
     }

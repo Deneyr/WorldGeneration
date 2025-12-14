@@ -1,10 +1,5 @@
-﻿using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace PokeU.View.Animations
 {
@@ -24,36 +19,36 @@ namespace PokeU.View.Animations
         {
             get
             {
-                return this.play;
+                return play;
             }
             set
             {
-                this.play = value;
+                play = value;
             }
         }
 
         public AnimationManager()
         {
-            this.mutex = new Mutex();
+            mutex = new Mutex();
 
-            this.mainThread = new Thread(new ThreadStart(this.Run));
+            mainThread = new Thread(new ThreadStart(Run));
 
-            this.Play = true;
+            Play = true;
 
-            this.animationsToPlay = new Dictionary<IObject2D, IAnimation>();
+            animationsToPlay = new Dictionary<IObject2D, IAnimation>();
 
-            this.mainThread.Start();
+            mainThread.Start();
         }
 
         private void Run()
         {
-            while (this.Play)
+            while (Play)
             {
                 List<IObject2D> finishedAnimation = new List<IObject2D>();
 
-                this.mutex.WaitOne();
+                mutex.WaitOne();
 
-                foreach (KeyValuePair<IObject2D, IAnimation> keyValuePair in this.animationsToPlay)
+                foreach (KeyValuePair<IObject2D, IAnimation> keyValuePair in animationsToPlay)
                 {
                     if(keyValuePair.Value.State == AnimationState.ENDING)
                     {
@@ -67,10 +62,10 @@ namespace PokeU.View.Animations
 
                 foreach (IObject2D object2D in finishedAnimation)
                 {
-                    this.animationsToPlay.Remove(object2D);
+                    animationsToPlay.Remove(object2D);
                 }
 
-                this.mutex.ReleaseMutex();
+                mutex.ReleaseMutex();
 
                 Thread.Sleep(100);
             }
@@ -78,36 +73,36 @@ namespace PokeU.View.Animations
 
         public IAnimation GetAnimationFromAObject2D(IObject2D object2D)
         {
-            this.mutex.WaitOne();
+            mutex.WaitOne();
 
             IAnimation animation = null;
 
-            if (this.animationsToPlay.ContainsKey(object2D))
+            if (animationsToPlay.ContainsKey(object2D))
             {
-                animation = this.animationsToPlay[object2D];
+                animation = animationsToPlay[object2D];
             }
 
-            this.mutex.ReleaseMutex();
+            mutex.ReleaseMutex();
 
             return animation;
         }
 
         public void PlayAnimation(IObject2D object2D, IAnimation animation)
         {
-            this.mutex.WaitOne();
+            mutex.WaitOne();
 
             animation.Reset();
 
-            if (this.animationsToPlay.ContainsKey(object2D))
+            if (animationsToPlay.ContainsKey(object2D))
             {
-                this.animationsToPlay[object2D] = animation;
+                animationsToPlay[object2D] = animation;
             }
             else
             {
-                this.animationsToPlay.Add(object2D, animation);
+                animationsToPlay.Add(object2D, animation);
             }
 
-            this.mutex.ReleaseMutex();
+            mutex.ReleaseMutex();
         }
 
     }

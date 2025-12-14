@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
+using System;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 
@@ -18,23 +14,22 @@ namespace PokeU.View.GroundObject
         {
             this.isWall = isWall;
 
-            Texture texture = null;
             if (this.isWall)
             {
-                texture = factory.GetWallTexture();
+                this.Texture = factory.GetWallTexture();
             }
             else
             {
-                texture = factory.GetTextureByLandType(landObject.Type);
+                this.Texture = factory.GetTextureByLandType(landObject.Type);
             }
 
             if (landObject.LandTransition == LandTransition.NONE)
             {
-                this.ObjectSprite = new Sprite(texture, this.GetFillTextureCoord(landObject.LandObjectId));
+                this.ObjectSprite = new Sprite(DEFAULT_TEXTURE, this.GetFillTextureCoord(landObject.LandObjectId));
             }
             else
             {
-                this.ObjectSprite = new Sprite(texture, this.GetTransitionTextureCoord(landObject.LandTransition));
+                this.ObjectSprite = new Sprite(DEFAULT_TEXTURE, this.GetTransitionTextureCoord(landObject.LandTransition));
             }
 
             this.ObjectSprite.Scale = new Vector2f(0.5f, 0.5f);

@@ -1,11 +1,6 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace PokeU.View.Animations
 {
@@ -25,15 +20,15 @@ namespace PokeU.View.Animations
 
         public Animation(IntRect[] animation, Time animationPeriod, AnimationType type)
         {
-            this.mutex = new Mutex();
+            mutex = new Mutex();
 
             this.animation = animation;
 
             this.animationPeriod = animationPeriod.AsMilliseconds() / AnimationManager.ANIMATION_MANAGER_PERIOD;
-            this.currentIteration = 0;
-            this.currentIndex = 0;
+            currentIteration = 0;
+            currentIndex = 0;
 
-            this.currentState = AnimationState.STARTING;
+            currentState = AnimationState.STARTING;
 
             this.type = type;
         }
@@ -42,100 +37,100 @@ namespace PokeU.View.Animations
         {
             get
             {
-                return this.currentState;
+                return currentState;
             }
         }
 
         public void Run()
         {
-            this.mutex.WaitOne();
+            mutex.WaitOne();
 
-            switch (this.currentState)
+            switch (currentState)
             {
                 case AnimationState.STARTING:
-                    this.currentState = AnimationState.RUNNING;
+                    currentState = AnimationState.RUNNING;
 
-                    this.iterate();
+                    iterate();
                     break;
                 case AnimationState.RUNNING:
-                    this.iterate();
+                    iterate();
 
-                    if(this.currentIndex >= this.animation.Length - 1)
+                    if(currentIndex >= animation.Length - 1)
                     {
-                        this.currentState = AnimationState.FINALIZING;
+                        currentState = AnimationState.FINALIZING;
                     }
                     break;
                 case AnimationState.FINALIZING:
 
-                    if(this.type == AnimationType.LOOP)
+                    if(type == AnimationType.LOOP)
                     {
-                        this.currentState = AnimationState.RUNNING;
+                        currentState = AnimationState.RUNNING;
 
-                        this.iterate();
+                        iterate();
                     }
                     else
                     {
-                        this.currentState = AnimationState.ENDING;
+                        currentState = AnimationState.ENDING;
                     }
                     break;
                 case AnimationState.ENDING:
                     break;
             }
 
-            this.mutex.ReleaseMutex();
+            mutex.ReleaseMutex();
         }
 
         private void iterate()
         {
-            if(this.currentIteration < this.animationPeriod)
+            if(currentIteration < animationPeriod)
             {
-                this.currentIteration++;
+                currentIteration++;
             }
             else
             {
-                this.currentIndex++;
+                currentIndex++;
 
-                if(this.currentIndex >= this.animation.Length)
+                if(currentIndex >= animation.Length)
                 {
-                    this.currentIndex = 0;
+                    currentIndex = 0;
                 }
 
-                this.currentIteration = 0;
+                currentIteration = 0;
             }
         }
 
         public void Reset()
         {
-            this.mutex.WaitOne();
+            mutex.WaitOne();
 
-            this.currentIteration = 0;
-            this.currentIndex = 0;
-            this.currentState = AnimationState.STARTING;
+            currentIteration = 0;
+            currentIndex = 0;
+            currentState = AnimationState.STARTING;
 
-            this.mutex.ReleaseMutex();
+            mutex.ReleaseMutex();
         }
 
         public void Stop(bool reset)
         {
-            this.mutex.WaitOne();
+            mutex.WaitOne();
 
             if (reset)
             {
-                this.currentIndex = 0;
+                currentIndex = 0;
             }
 
-            this.currentState = AnimationState.ENDING;
+            currentState = AnimationState.ENDING;
 
-            this.mutex.ReleaseMutex();
+            mutex.ReleaseMutex();
         }
 
         public void Visit(IObject2D parentObject2D)
         {
-            this.mutex.WaitOne();
+            mutex.WaitOne();
 
-            parentObject2D.SetCanevas(this.animation[this.currentIndex]);
+            parentObject2D.SetCanevas(animation[currentIndex]);
 
-            this.mutex.ReleaseMutex();
+            mutex.ReleaseMutex();
         }
     }
 }

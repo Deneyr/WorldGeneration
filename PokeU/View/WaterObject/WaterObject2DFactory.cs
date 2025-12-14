@@ -1,9 +1,4 @@
 ﻿using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 
 namespace PokeU.View.WaterObject
@@ -12,7 +7,7 @@ namespace PokeU.View.WaterObject
     {
         protected override void InitializeFactory()
         {
-            this.texturesPath.Add(@"Autotiles\waterSea.png");
+            this.texturesPath.Add(@"Autotiles\waterSea");
 
             base.InitializeFactory();
         }

@@ -1,15 +1,10 @@
-﻿using PokeU.View.GroundObject;
-using SFML.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using PokeU.View.GroundObject;
 using SFML.System;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
-using static WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures.TreeObjectStructure;
 
 namespace PokeU.View.ElementLandObject
 {
@@ -28,24 +23,24 @@ namespace PokeU.View.ElementLandObject
 
         protected override void InitializeFactory()
         {
-            this.texturesPath.Add(@"Autotiles\tree.png");
-            this.texturesPath.Add(@"Autotiles\tree2.png");
-            this.texturesPath.Add(@"Autotiles\tree3.png");
+            this.texturesPath.Add(@"Autotiles\tree");
+            this.texturesPath.Add(@"Autotiles\tree2");
+            this.texturesPath.Add(@"Autotiles\tree3");
 
-            this.texturesPath.Add(@"Autotiles\treeBeach2.png");
+            this.texturesPath.Add(@"Autotiles\treeBeach2");
 
-            this.texturesPath.Add(@"Autotiles\treeBeach.png");
+            this.texturesPath.Add(@"Autotiles\treeBeach");
 
-            this.texturesPath.Add(@"Autotiles\treeHot.png");
-            this.texturesPath.Add(@"Autotiles\tree4.png");
+            this.texturesPath.Add(@"Autotiles\treeHot");
+            this.texturesPath.Add(@"Autotiles\tree4");
 
-            this.texturesPath.Add(@"Autotiles\treeSnow.png");
-            this.texturesPath.Add(@"Autotiles\treeSnow2.png");
-            this.texturesPath.Add(@"Autotiles\tree8.png");
+            this.texturesPath.Add(@"Autotiles\treeSnow");
+            this.texturesPath.Add(@"Autotiles\treeSnow2");
+            this.texturesPath.Add(@"Autotiles\tree8");
 
-            this.texturesPath.Add(@"Autotiles\cactus.png");
+            this.texturesPath.Add(@"Autotiles\cactus");
 
-            this.texturesPath.Add(@"Autotiles\treeBoreal.png");
+            this.texturesPath.Add(@"Autotiles\treeBoreal");
 
             base.InitializeFactory();
         }
@@ -61,7 +56,7 @@ namespace PokeU.View.ElementLandObject
             return null;
         }
 
-        public Texture GetTextureFromBiomeLandType(LandType landType, int treeId)
+        public Texture2D GetTextureFromBiomeLandType(LandType landType, int treeId)
         {
             if (landType == LandType.GRASS
                 || landType == LandType.MOUNTAIN)
@@ -112,12 +107,12 @@ namespace PokeU.View.ElementLandObject
             return treeId % 3;
         }
 
-        public override Texture GetTextureByLandType(LandType landType)
+        public override Texture2D GetTextureByLandType(LandType landType)
         {
             throw new NotImplementedException();
         }
 
-        public override Texture GetWallTexture()
+        public override Texture2D GetWallTexture()
         {
             throw new NotImplementedException();
         }

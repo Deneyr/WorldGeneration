@@ -1,9 +1,5 @@
 ﻿using SFML.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace PokeU.View
@@ -66,10 +62,10 @@ namespace PokeU.View
                     break;
             }
 
-            result.Left *= 2 * MainWindow.MODEL_TO_VIEW;
-            result.Top *= 2 * MainWindow.MODEL_TO_VIEW;
-            result.Width *= 2 * MainWindow.MODEL_TO_VIEW;
-            result.Height *= 2 * MainWindow.MODEL_TO_VIEW;
+            result.Left *= 2 * MainGame.MODEL_TO_VIEW;
+            result.Top *= 2 * MainGame.MODEL_TO_VIEW;
+            result.Width *= 2 * MainGame.MODEL_TO_VIEW;
+            result.Height *= 2 * MainGame.MODEL_TO_VIEW;
 
             return result;
         }
@@ -79,15 +75,15 @@ namespace PokeU.View
             switch (Math.Abs(landObjectId % 4))
             {
                 case 0:
-                    return new IntRect(2 * MainWindow.MODEL_TO_VIEW, 4 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(2 * MainGame.MODEL_TO_VIEW, 4 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW);
                 case 1:
-                    return new IntRect(0 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW);
                 case 2:
-                    return new IntRect(2 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(2 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW);
                 case 3:
-                    return new IntRect(4 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(4 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW);
             }
-            return new IntRect(0 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW);
+            return new IntRect(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW);
         }
     }
 }

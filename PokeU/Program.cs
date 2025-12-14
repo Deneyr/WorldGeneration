@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PokeU
+﻿
+internal class Program
 {
-    class Program
+    private static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            MainWindow window = new MainWindow();
-
-            window.Run();
-        }
+        using var game = new PokeU.MainGame();
+        game.Run();
     }
 }

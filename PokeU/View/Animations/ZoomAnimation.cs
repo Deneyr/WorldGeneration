@@ -1,9 +1,4 @@
 ﻿using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PokeU.View.Animations
 {
@@ -26,13 +21,13 @@ namespace PokeU.View.Animations
         public ZoomAnimation(float zoomFrom, float zoomTo, Time animationPeriod, AnimationType type)
         {
             this.animationPeriod = animationPeriod;
-            this.timeElapsed = Time.Zero;
+            timeElapsed = Time.Zero;
 
             this.zoomFrom = zoomFrom;
             this.zoomTo = zoomTo;
-            this.currentZoom = zoomFrom;
+            currentZoom = zoomFrom;
 
-            this.currentState = AnimationState.STARTING;
+            currentState = AnimationState.STARTING;
 
             this.type = type;
         }
@@ -41,7 +36,7 @@ namespace PokeU.View.Animations
         {
             get
             {
-                return this.currentState;
+                return currentState;
             }
         }
 
@@ -49,46 +44,46 @@ namespace PokeU.View.Animations
         {
             get
             {
-                return this.deltaTime;
+                return deltaTime;
             }
 
             set
             {
-                this.deltaTime = value;
+                deltaTime = value;
             }
         }
 
         public void Run()
         {
 
-            switch (this.currentState)
+            switch (currentState)
             {
                 case AnimationState.STARTING:
-                    this.currentState = AnimationState.RUNNING;
+                    currentState = AnimationState.RUNNING;
 
-                    this.iterate();
+                    iterate();
                     break;
                 case AnimationState.RUNNING:
-                    this.iterate();
+                    iterate();
 
-                    if (this.timeElapsed >= this.animationPeriod)
+                    if (timeElapsed >= animationPeriod)
                     {
-                        this.currentState = AnimationState.FINALIZING;
+                        currentState = AnimationState.FINALIZING;
                     }
                     break;
                 case AnimationState.FINALIZING:
 
-                    if (this.type == AnimationType.LOOP)
+                    if (type == AnimationType.LOOP)
                     {
-                        this.timeElapsed = Time.Zero;
+                        timeElapsed = Time.Zero;
 
-                        this.currentState = AnimationState.RUNNING;
+                        currentState = AnimationState.RUNNING;
 
-                        this.iterate();
+                        iterate();
                     }
                     else
                     {
-                        this.currentState = AnimationState.ENDING;
+                        currentState = AnimationState.ENDING;
                     }
                     break;
                 case AnimationState.ENDING:
@@ -98,48 +93,48 @@ namespace PokeU.View.Animations
 
         private void iterate()
         {
-            this.timeElapsed += this.deltaTime;
+            this.timeElapsed += deltaTime;
 
             Time timeElapsed = this.timeElapsed;
-            if(this.timeElapsed > this.animationPeriod / 2)
+            if(this.timeElapsed > animationPeriod / 2)
             {
-                timeElapsed = this.timeElapsed - this.animationPeriod / 2;
+                timeElapsed = this.timeElapsed - animationPeriod / 2;
             }
 
-            float scale = ((float) timeElapsed.AsMicroseconds()) / (this.animationPeriod / 2).AsMicroseconds();
+            float scale = (float) timeElapsed.AsMicroseconds() / (animationPeriod / 2).AsMicroseconds();
 
-            if (this.timeElapsed < this.animationPeriod / 2)
+            if (this.timeElapsed < animationPeriod / 2)
             {
-                this.currentZoom = this.zoomTo * scale + this.zoomFrom * (1 - scale);
+                currentZoom = zoomTo * scale + zoomFrom * (1 - scale);
             }
             else
             {
-                this.currentZoom = this.zoomFrom * scale + this.zoomTo * (1 - scale);
+                currentZoom = zoomFrom * scale + zoomTo * (1 - scale);
             }
         }
 
         public void Reset()
         {
-            this.timeElapsed = Time.Zero;
+            timeElapsed = Time.Zero;
 
-            this.currentZoom = zoomFrom;
+            currentZoom = zoomFrom;
 
-            this.currentState = AnimationState.STARTING;
+            currentState = AnimationState.STARTING;
         }
 
         public void Stop(bool reset)
         {
             if (reset)
             {
-                this.currentZoom = 1;
+                currentZoom = 1;
             }
 
-            this.currentState = AnimationState.ENDING;
+            currentState = AnimationState.ENDING;
         }
 
         public void Visit(IObject2D parentObject2D)
         {
-            parentObject2D.SetZoom(this.currentZoom);
+            parentObject2D.SetZoom(currentZoom);
         }
     }
 }

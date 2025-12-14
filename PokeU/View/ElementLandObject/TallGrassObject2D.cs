@@ -1,13 +1,7 @@
-﻿using PokeU.View.Animations;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.ObjectChunks.ObjectLands;
-using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 using WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures;
 
@@ -23,15 +17,15 @@ namespace PokeU.View.ElementLandObject
         {
             TallGrassObjectStructure tallGrassObjectStructure = factory.CurrentObjectChunk.GetObjectStructure(landObject.ParentStructureUID) as TallGrassObjectStructure;
 
-            Texture texture = factory.GetTextureFromBiomeLandType(landObject.LandType, tallGrassObjectStructure.IsFullPatch);
+            this.Texture = factory.GetTextureFromBiomeLandType(landObject.LandType, tallGrassObjectStructure.IsFullPatch);
 
-            this.ObjectSprite = new Sprite(texture);
+            this.ObjectSprite = new Sprite(DEFAULT_TEXTURE);
 
             if(tallGrassObjectStructure.IsFullPatch)
             {
                 if (landObject.LandTransition == LandTransition.NONE)
                 {
-                    this.ObjectSprite = new Sprite(texture, this.GetFillTextureCoord(landObject.LandObjectId));
+                    this.ObjectSprite = new Sprite(DEFAULT_TEXTURE, this.GetFillTextureCoord(landObject.LandObjectId));
                 }
                 else
                 {
@@ -40,7 +34,7 @@ namespace PokeU.View.ElementLandObject
             }
             else
             {
-                this.ObjectSprite.TextureRect = new IntRect(0, 0, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                this.ObjectSprite.TextureRect = new IntRect(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
             }
 
             this.ObjectSprite.Position = this.ObjectSprite.Position;
@@ -105,10 +99,10 @@ namespace PokeU.View.ElementLandObject
                     break;
             }
 
-            result.Left *= MainWindow.MODEL_TO_VIEW;
-            result.Top *= MainWindow.MODEL_TO_VIEW;
-            result.Width *= MainWindow.MODEL_TO_VIEW;
-            result.Height *= MainWindow.MODEL_TO_VIEW;
+            result.Left *= MainGame.MODEL_TO_VIEW;
+            result.Top *= MainGame.MODEL_TO_VIEW;
+            result.Width *= MainGame.MODEL_TO_VIEW;
+            result.Height *= MainGame.MODEL_TO_VIEW;
 
             return result;
         }
@@ -118,15 +112,15 @@ namespace PokeU.View.ElementLandObject
             switch (Math.Abs(landObjectId % 4))
             {
                 case 0:
-                    return new IntRect(MainWindow.MODEL_TO_VIEW, 2 * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case 1:
-                    return new IntRect(0 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case 2:
-                    return new IntRect(MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case 3:
-                    return new IntRect(2 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+                    return new IntRect(2 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
             }
-            return new IntRect(0 * MainWindow.MODEL_TO_VIEW, 0 * MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW, MainWindow.MODEL_TO_VIEW);
+            return new IntRect(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
         }
     }
 }

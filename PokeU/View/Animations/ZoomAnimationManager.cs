@@ -1,10 +1,5 @@
 ﻿using SFML.System;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace PokeU.View.Animations
 {
@@ -14,14 +9,14 @@ namespace PokeU.View.Animations
 
         public ZoomAnimationManager()
         {
-            this.animationsToPlay = new Dictionary<IObject2D, ZoomAnimation>();
+            animationsToPlay = new Dictionary<IObject2D, ZoomAnimation>();
         }
 
         public void Run(Time deltaTime)
         {
             List<IObject2D> finishedAnimation = new List<IObject2D>();
 
-            foreach (KeyValuePair<IObject2D, ZoomAnimation> keyValuePair in this.animationsToPlay)
+            foreach (KeyValuePair<IObject2D, ZoomAnimation> keyValuePair in animationsToPlay)
             {
                 if (keyValuePair.Value.State == AnimationState.ENDING)
                 {
@@ -37,7 +32,7 @@ namespace PokeU.View.Animations
 
             foreach (IObject2D object2D in finishedAnimation)
             {
-                this.animationsToPlay.Remove(object2D);
+                animationsToPlay.Remove(object2D);
             }
         }
 
@@ -46,9 +41,9 @@ namespace PokeU.View.Animations
           
             IAnimation animation = null;
 
-            if (this.animationsToPlay.ContainsKey(object2D))
+            if (animationsToPlay.ContainsKey(object2D))
             {
-                animation = this.animationsToPlay[object2D];
+                animation = animationsToPlay[object2D];
             }
 
             return animation;
@@ -58,13 +53,13 @@ namespace PokeU.View.Animations
         {
             animation.Reset();
 
-            if (this.animationsToPlay.ContainsKey(object2D))
+            if (animationsToPlay.ContainsKey(object2D))
             {
-                this.animationsToPlay[object2D] = animation;
+                animationsToPlay[object2D] = animation;
             }
             else
             {
-                this.animationsToPlay.Add(object2D, animation);
+                animationsToPlay.Add(object2D, animation);
             }
         }
 

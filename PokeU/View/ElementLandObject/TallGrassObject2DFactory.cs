@@ -1,15 +1,8 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.DataChunks.WeatherMonitoring;
-using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
-using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 
 namespace PokeU.View.ElementLandObject
 {
@@ -28,13 +21,12 @@ namespace PokeU.View.ElementLandObject
 
         protected override void InitializeFactory()
         {
-            this.texturesPath.Add(@"Autotiles\tallGrass.png");
-            this.texturesPath.Add(@"Autotiles\tallGrassBeach.png");
-            this.texturesPath.Add(@"Autotiles\tallGrassDesert.png");
-            this.texturesPath.Add(@"Autotiles\tallGrassForest.png");
-            this.texturesPath.Add(@"Autotiles\tallGrassSnow.png");
-
-            this.texturesPath.Add(@"Autotiles\tallGrassSavanna.png");
+            this.texturesPath.Add(@"Autotiles\tallGrass");
+            this.texturesPath.Add(@"Autotiles\tallGrassBeach");
+            this.texturesPath.Add(@"Autotiles\tallGrassDesert");
+            this.texturesPath.Add(@"Autotiles\tallGrassForest");
+            this.texturesPath.Add(@"Autotiles\tallGrassSnow");
+            this.texturesPath.Add(@"Autotiles\tallGrassSavanna");
 
             base.InitializeFactory();
         }
@@ -50,7 +42,7 @@ namespace PokeU.View.ElementLandObject
             return null;
         }
 
-        public Texture GetTextureFromBiomeLandType(LandType landType, bool isFullPatch)
+        public Texture2D GetTextureFromBiomeLandType(LandType landType, bool isFullPatch)
         {
             if(landType == LandType.GRASS
                 || isFullPatch)

@@ -1,10 +1,5 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Flora;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
@@ -26,14 +21,14 @@ namespace PokeU.View.ElementLandObject
 
         protected override void InitializeFactory()
         {
-            this.texturesPath.Add(@"Autotiles\elementsGrass.png");
-            this.texturesPath.Add(@"Autotiles\elementsGrassLight.png");
+            this.texturesPath.Add(@"Autotiles\elementsGrass");
+            this.texturesPath.Add(@"Autotiles\elementsGrassLight");
 
-            this.texturesPath.Add(@"Autotiles\elementsMountain.png");
+            this.texturesPath.Add(@"Autotiles\elementsMountain");
 
-            this.texturesPath.Add(@"Autotiles\elementsTropical.png");
+            this.texturesPath.Add(@"Autotiles\elementsTropical");
 
-            this.texturesPath.Add(@"Autotiles\elementsSavanna.png");
+            this.texturesPath.Add(@"Autotiles\elementsSavanna");
 
             base.InitializeFactory();
         }
@@ -49,7 +44,7 @@ namespace PokeU.View.ElementLandObject
             return null;
         }
 
-        public Texture GetTextureFromBiomeLandType(LandType landType)
+        public Texture2D GetTextureFromBiomeLandType(LandType landType)
         {
             if (landType == LandType.GRASS)
             {
