@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 
@@ -62,8 +63,8 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             this.altitudeDataAgreggator = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["altitude"] as AltitudeDataAgreggator);
             this.riverDataAgreggator = (objectChunksMonitor.DataChunkMonitor.DataAgreggators["river"] as RiverDataAgreggator);
 
-            int chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
+            WGRandom random = new WGRandom(chunkSeed);
 
             for (int i = -this.ObjectChunkMargin; i < objectChunk.NbCaseSide + this.ObjectChunkMargin; i++)
             {
@@ -115,7 +116,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             }
         }
 
-        protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             int altitude = this.altitudeDataAgreggator.GetAltitudeAtWorldCoordinates(worldPosition.X, worldPosition.Y, out bool isUnderSea);
 
@@ -153,7 +154,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             this.AreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = altitude;
         }
 
-        protected override void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             int i = localPosition.Y + this.ObjectChunkMargin - 1;
             int j = localPosition.X + this.ObjectChunkMargin - 1;
@@ -203,7 +204,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         //    }
         //}
 
-        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
 

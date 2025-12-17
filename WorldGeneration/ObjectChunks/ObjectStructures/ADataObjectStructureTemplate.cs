@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures
 {
@@ -23,7 +24,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             this.TemplateUID = templateUID;
         }
 
-        public virtual IObjectStructure GenerateStructureAtWorldPosition(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk)
+        public virtual IObjectStructure GenerateStructureAtWorldPosition(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk)
         {
             //Vector2i worldPosition = dataStructure.StructureWorldPosition;
 
@@ -105,7 +106,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             return true;
         }
 
-        protected virtual IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, Random random, string uid, IDataStructure dataStructure, int worldAltitude)
+        protected virtual IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, string uid, IDataStructure dataStructure, int worldAltitude)
         {
             return new CaseObjectStructure(this.TemplateUID, uid, random.Next(), dataStructure.StructureWorldPosition, worldAltitude);
         }
@@ -115,6 +116,6 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             return String.Concat(this.TemplateUID, "_", worldPosition.X, "-", worldPosition.Y, "-", worldAltitude);
         }
 
-        protected abstract void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j);
+        protected abstract void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j);
     }
 }

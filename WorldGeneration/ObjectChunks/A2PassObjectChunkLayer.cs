@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace WorldGeneration.ObjectChunks
@@ -55,8 +56,8 @@ namespace WorldGeneration.ObjectChunks
 
         public override void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk)
         {
-            int chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
+            WGRandom random = new WGRandom(chunkSeed);
 
             for (int i = -this.ObjectChunkMargin; i < objectChunk.NbCaseSide + this.ObjectChunkMargin; i++)
             {
@@ -99,7 +100,7 @@ namespace WorldGeneration.ObjectChunks
             }
         }
 
-        protected virtual void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected virtual void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             int i = localPosition.Y + this.ObjectChunkMargin - 1;
             int j = localPosition.X + this.ObjectChunkMargin - 1;
@@ -107,7 +108,7 @@ namespace WorldGeneration.ObjectChunks
             this.SecondAreaBuffer[i, j] = LandCreationHelper.NeedToFillMaxAt(this.AreaBuffer, localPosition.Y, localPosition.X, this.ObjectChunkMargin);
         }
 
-        protected virtual void ComputeTransitionAreaBuffer(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected virtual void ComputeTransitionAreaBuffer(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             int[,] subAreaInt = new int[3, 3];
             int maxLocalAltitude = int.MinValue;

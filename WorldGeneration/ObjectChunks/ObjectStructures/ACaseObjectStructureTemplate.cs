@@ -1,12 +1,13 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures
 {
@@ -46,7 +47,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             return worldAltitude + this.MaxLocalElevation - 1 < zObjectCase.NbAltitudeLevel;
         }
 
-        protected override void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j)
+        protected override void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j)
         {
             if (zObjectCase != null)
             {
@@ -69,7 +70,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             }
         }
 
-        protected virtual IObjectCase CreateObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IZObjectCase zObjectCase, int worldAltitude)
+        protected virtual IObjectCase CreateObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IZObjectCase zObjectCase, int worldAltitude)
         {
             ObjectCase objectCase = new ObjectCase(zObjectCase.Position, worldAltitude);
             zObjectCase.SetCaseAt(objectCase);
@@ -77,6 +78,6 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             return objectCase;
         }
 
-        protected abstract void UpdateObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectCase objectCase, IDataStructure dataStructure, IObjectStructure parentObjectStructure, int enumValue);
+        protected abstract void UpdateObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectCase objectCase, IDataStructure dataStructure, IObjectStructure parentObjectStructure, int enumValue);
     }
 }

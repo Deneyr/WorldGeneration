@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.PureNoise
 {
@@ -20,7 +21,7 @@ namespace WorldGeneration.DataChunks.PureNoise
             
         }
 
-        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
+        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, WGRandom random)
         {
             PureNoiseDataCase pureNoiseDataCase = new PureNoiseDataCase(x, y);
 

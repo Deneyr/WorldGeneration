@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.ObjectChunks
 {
@@ -25,15 +26,22 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
+        public ulong HashedId
+        {
+            get;
+            private set;
+        }
+
         public AObjectChunkLayer(string id)
         {
             this.Id = id;
+            this.HashedId = HashHelpers.HashString(id);
         }
 
         public virtual void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk)
         {
-            int chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
+            WGRandom random = new WGRandom(chunkSeed);
 
             for (int i = 0; i < objectChunk.NbCaseSide; i++)
             {
@@ -44,12 +52,24 @@ namespace WorldGeneration.ObjectChunks
             }
         }
 
-        protected abstract void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition);
+        protected abstract void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition);
 
-        protected virtual int GenerateChunkSeed(IObjectChunk objectChunk, int seed)
+        protected virtual ulong GenerateChunkSeed(IObjectChunk objectChunk, ulong worldSeed)
         {
-            int realSeed = seed + this.Id.GetHashCode();
-            return objectChunk.Position.X * objectChunk.Position.Y - realSeed - objectChunk.NbCaseSide - objectChunk.Position.X + objectChunk.Position.Y * objectChunk.Position.Y;
+            ulong h = worldSeed;
+            h ^= HashHelpers.Mix(this.HashedId * 0x8BADF00DDEADC0DEUL);
+            h ^= HashHelpers.Mix((ulong)(long)objectChunk.Position.X);
+            h ^= HashHelpers.Mix((ulong)(long)objectChunk.Position.Y);
+            return HashHelpers.Mix(h);
+
+            //ulong modifiedLayerSeed = (ulong)this.Id.GetHashCode() * 0x8BADF00DDEADC0DEUL;
+            //seed ^= (ulong)(objectChunk.Position.X) * 0x9E3779B97F4A7C15UL;
+            //seed ^= (ulong)(objectChunk.Position.Y) * 0xC2B2AE3D27D4EB4FUL;
+            //seed ^= (ulong)(modifiedLayerSeed) * 0x165667B19E3779F9UL;
+            //return HashHelpers.Hash(seed);
+
+            //int realSeed = seed + this.Id.GetHashCode();
+            //return objectChunk.Position.X * objectChunk.Position.Y - realSeed - objectChunk.NbCaseSide - objectChunk.Position.X + objectChunk.Position.Y * objectChunk.Position.Y;
         }
 
         protected Vector2i GetWorldPosition(IObjectChunk objectChunk, int localX, int localY)

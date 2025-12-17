@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
 {
@@ -18,7 +19,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
             this.ObjectStructureTemplateId = "TreeStructure";
         }
 
-        public override void GenerateStructure(Random random, IDataStructureTemplate structureTemplate)
+        public override void GenerateStructure(WGRandom random, IDataStructureTemplate structureTemplate)
         {
             //int heightMax = this.DataStructureCases.GetLength(0);
             //int widthMax = this.DataStructureCases.GetLength(1);
@@ -40,7 +41,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
             //}
         }
 
-        public void UpdateStructureTypeIndexFrom(Random random, BiomeType biomeType)
+        public void UpdateStructureTypeIndexFrom(WGRandom random, BiomeType biomeType)
         {
             this.StructureBiome = biomeType;
 

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
 {
@@ -28,7 +29,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
         }
 
 
-        protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
+        protected override IDataStructure CreateDataStructure(WGRandom random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
         {
             //TallGrassDataStructure newTallGrassDataStructure = new TallGrassDataStructure(structureWorldPosition, boundingBox, baseBoundingBox);
 
@@ -37,7 +38,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             return new TallGrassDataStructure(structureWorldPosition, boundingBox, baseBoundingBox);
         }
 
-        protected override bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
+        protected override bool IsDataStructureValid(WGRandom random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
         {
             Vector2i structureWorldCenter = dataStructure.StructureWorldPosition;
 

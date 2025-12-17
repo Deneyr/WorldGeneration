@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.Maths;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
 {
@@ -60,7 +61,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise.BiomeVoronoiNoise
             base.GenerateChunk(dataChunksMonitor, parentLayer);
         }
 
-        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
+        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, WGRandom random)
         {
             BiomeVoronoiDataCase generatedCase = new BiomeVoronoiDataCase(x * this.SampleLevel, y * this.SampleLevel);
 

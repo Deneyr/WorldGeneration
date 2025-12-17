@@ -18,6 +18,11 @@ namespace WorldGeneration.ObjectChunks
             get;
         }
 
+        ulong HashedId
+        {
+            get;
+        }
+
         void InitObjectChunkLayer(int nbCaseSide);
 
         void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk);

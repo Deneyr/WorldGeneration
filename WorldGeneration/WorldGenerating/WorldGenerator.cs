@@ -49,13 +49,13 @@ namespace WorldGeneration.WorldGenerating
             private set;
         }
 
-        public int WorldSeed
+        public ulong WorldSeed
         {
             get;
             private set;
         }
 
-        public WorldGenerator(int nbChunkCaseSide, int seed)
+        public WorldGenerator(int nbChunkCaseSide, ulong seed)
         {
             this.NbChunkCaseSide = nbChunkCaseSide;
             this.WorldSeed = seed;

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TownStructure
@@ -18,7 +19,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TownStructure
             this.ObjectStructureTemplateId = "TownStructure";
         }
 
-        public override void GenerateStructure(Random random, IDataStructureTemplate structureTemplate)
+        public override void GenerateStructure(WGRandom random, IDataStructureTemplate structureTemplate)
         {
             int heightMax = this.DataStructureCases.GetLength(0);
             int widthMax = this.DataStructureCases.GetLength(1);
@@ -36,12 +37,12 @@ namespace WorldGeneration.DataChunks.StructureNoise.TownStructure
             this.GenerateStructureCases(random);
         }
 
-        protected override void GenerateStructureFillCase(Random random, int i, int j)
+        protected override void GenerateStructureFillCase(WGRandom random, int i, int j)
         {
             this.DataStructureCases[i, j] = new TownDataStructureCase(this, this.StructureBoundingBox.Left + j, this.StructureBoundingBox.Top + i);
         }
 
-        protected override void GenerateStructureBorderCase(Random random, int i, int j, LandTransition landTransition)
+        protected override void GenerateStructureBorderCase(WGRandom random, int i, int j, LandTransition landTransition)
         {
             TownDataStructureCase newTallGrassStructureCase = new TownDataStructureCase(this, this.StructureBoundingBox.Left + j, this.StructureBoundingBox.Top + i);
 

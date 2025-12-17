@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
 {
@@ -56,7 +57,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             get;
         }
 
-        void GenerateStructure(Random random, IDataStructureTemplate structureTemplate);
+        void GenerateStructure(WGRandom random, IDataStructureTemplate structureTemplate);
 
         IDataStructureCase GetStructureCaseAtChunkCoordinate(int x, int y);
     }

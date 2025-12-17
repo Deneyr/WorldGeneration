@@ -1,14 +1,15 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
@@ -26,7 +27,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
         {
         }
 
-        protected override void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j)
+        protected override void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j)
         {
             if (zObjectCase.GroundAltitude >= 0)
             {
@@ -84,7 +85,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TallGrassStructures
             }
         }
 
-        protected override IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
+        protected override IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
             this.altitudeObjectChunkLayer = (objectChunksMonitor.ObjectChunksLayers["altitudeLayer"] as AltitudeObjectChunkLayer);
 

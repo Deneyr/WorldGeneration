@@ -31,7 +31,7 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
-        internal int WorldSeed
+        internal ulong WorldSeed
         {
             get;
             private set;
@@ -55,7 +55,7 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
-        internal DataChunkLayersMonitor(int worldSeed)
+        internal DataChunkLayersMonitor(ulong worldSeed)
         {
             this.WorldSeed = worldSeed;
 

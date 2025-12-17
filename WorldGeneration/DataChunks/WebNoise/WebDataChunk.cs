@@ -8,6 +8,7 @@ using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.Maths;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.WebNoise
 {
@@ -48,8 +49,8 @@ namespace WorldGeneration.DataChunks.WebNoise
 
         public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
-            int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed + parentLayer.Id.GetHashCode());
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed, parentLayer.HashedId);
+            WGRandom random = new WGRandom(chunkSeed);
 
             int generatingWindow = this.NbCaseSide - this.WebMargin;
 
@@ -67,7 +68,7 @@ namespace WorldGeneration.DataChunks.WebNoise
             this.surroundingEdges = null;
         }
 
-        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
+        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, WGRandom random)
         {
             if (this.surroundingEdges == null)
             {
@@ -137,7 +138,7 @@ namespace WorldGeneration.DataChunks.WebNoise
 
         private void CreateWebDataEdges(Vector2f point1, Vector2f point2, Vector2f point3, Vector2f point4)
         {
-            Random random = new Random((int) (point1.X + point1.Y + point2.X + point2.Y + point3.X + point3.Y + point4.X + point4.Y));
+            WGRandom random = new WGRandom((ulong) (point1.X + point1.Y + point2.X + point2.Y + point3.X + point3.Y + point4.X + point4.Y));
 
             float weight1 = 1;//0.5f + (float)(random.NextDouble() * 0.5f);
             float weight2 = 1;//0.5f + (float)(random.NextDouble() * 0.5f);

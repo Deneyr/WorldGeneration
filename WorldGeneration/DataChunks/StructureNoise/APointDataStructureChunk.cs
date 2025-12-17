@@ -1,14 +1,15 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.StructureNoise
 {
@@ -61,7 +62,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             //this.BorderDataStructureList = new List<IDataStructure>();
         }
 
-        private void InitDataStructureArray(Random random)
+        private void InitDataStructureArray(WGRandom random)
         {
             this.nbStructures = random.Next(this.nbMinDataStructure, this.nbMaxDataStructure + 1);
 
@@ -109,8 +110,8 @@ namespace WorldGeneration.DataChunks.StructureNoise
 
         public virtual void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
-            int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed + parentLayer.Id.GetHashCode());
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed, parentLayer.HashedId);
+            WGRandom random = new WGRandom(chunkSeed);
 
             this.InitDataStructureArray(random);
 
@@ -156,7 +157,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             //}
         }
 
-        private IDataStructure GenerateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, Vector2i structureCoordinates)
+        private IDataStructure GenerateDataStructure(WGRandom random, DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, Vector2i structureCoordinates)
         {
             int width = random.Next(this.structDimension.Left, this.structDimension.Width + 1);
             int height = random.Next(this.structDimension.Top, this.structDimension.Height + 1);
@@ -169,12 +170,12 @@ namespace WorldGeneration.DataChunks.StructureNoise
             return dataStructure;
         }
 
-        protected abstract IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition);
+        protected abstract IDataStructure CreateDataStructure(WGRandom random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition);
 
         public virtual void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
-            int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed - parentLayer.Id.GetHashCode());
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed, parentLayer.HashedId);
+            WGRandom random = new WGRandom(chunkSeed);
 
             List<IDataStructure> nearbyDataStructures = new List<IDataStructure>();
             for (int i = 0; i < this.nbCellSide; i++)
@@ -243,7 +244,7 @@ namespace WorldGeneration.DataChunks.StructureNoise
             //}
         }
 
-        protected virtual bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
+        protected virtual bool IsDataStructureValid(WGRandom random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
         {
             return true;
         }
@@ -470,9 +471,19 @@ namespace WorldGeneration.DataChunks.StructureNoise
             return null;
         }
 
-        protected virtual int GenerateChunkSeed(int seed)
+        protected virtual ulong GenerateChunkSeed(ulong worldSeed, ulong layerSeed)
         {
-            return this.Position.X * this.Position.Y * seed - seed + this.NbCaseSide - this.Position.X + this.Position.Y * this.Position.Y;
+            ulong h = worldSeed;
+            h ^= HashHelpers.Mix(layerSeed * 0xCAFEBABEDEADBEEFUL);
+            h ^= HashHelpers.Mix((ulong)(long)this.Position.X);
+            h ^= HashHelpers.Mix((ulong)(long)this.Position.Y);
+            return HashHelpers.Mix(h);
+            //ulong modifiedLayerSeed = (ulong)layerSeed * 0xCAFEBABEDEADBEEFUL;
+            //worldSeed ^= (ulong)(this.Position.X) * 0x9E3779B97F4A7C15UL;
+            //worldSeed ^= (ulong)(this.Position.Y) * 0xC2B2AE3D27D4EB4FUL;
+            //worldSeed ^= (ulong)(modifiedLayerSeed) * 0x165667B19E3779F9UL;
+            //return HashHelpers.Hash(worldSeed);
+            //return this.Position.X * this.Position.Y * seed + seed + this.NbCaseSide + this.Position.X + this.Position.Y * this.Position.Y;
         }
     }
 }

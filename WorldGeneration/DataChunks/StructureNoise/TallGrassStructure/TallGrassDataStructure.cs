@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
@@ -26,7 +27,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             this.IsFullPatch = false;
         }
 
-        public override void GenerateStructure(Random random, IDataStructureTemplate structureTemplate)
+        public override void GenerateStructure(WGRandom random, IDataStructureTemplate structureTemplate)
         {
             int heightMax = this.DataStructureCases.GetLength(0);
             int widthMax = this.DataStructureCases.GetLength(1);
@@ -49,7 +50,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             this.GenerateStructureCases(random);
         }
 
-        protected override void GenerateStructureFillCase(Random random, int i, int j)
+        protected override void GenerateStructureFillCase(WGRandom random, int i, int j)
         {
             if (this.StructureBiome == BiomeType.SAVANNA
                 || random.NextDouble() < 0.95)
@@ -58,7 +59,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TallGrassStructure
             }
         }
 
-        protected override void GenerateStructureBorderCase(Random random, int i, int j, LandTransition landTransition)
+        protected override void GenerateStructureBorderCase(WGRandom random, int i, int j, LandTransition landTransition)
         {
             TallGrassDataStructureCase newTallGrassStructureCase = new TallGrassDataStructureCase(this, this.StructureBoundingBox.Left + j, this.StructureBoundingBox.Top + i);
 

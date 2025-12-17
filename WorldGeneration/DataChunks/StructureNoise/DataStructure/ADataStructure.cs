@@ -7,6 +7,7 @@ using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.DataChunks.StructureNoise.TallGrassStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 
 namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
@@ -102,7 +103,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             this.StructureBaseBoundingBox = structureBaseBoundingBox;
         }
 
-        public abstract void GenerateStructure(Random random, IDataStructureTemplate structureTemplate);
+        public abstract void GenerateStructure(WGRandom random, IDataStructureTemplate structureTemplate);
 
         protected virtual void InitializeDataStructureCases()
         {
@@ -244,7 +245,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             botBorderIndexes = new int[structureBoundingBox.Width];
         }
 
-        protected virtual void GenerateStructureBoundaries(Random random, int margin, int space, 
+        protected virtual void GenerateStructureBoundaries(WGRandom random, int margin, int space, 
             int[] leftBorderIndexes = null, int[] rightBorderIndexes = null, int[] topBorderIndexes = null, int[] botBorderIndexes = null)
         {
             int height = this.DataStructureCases.GetLength(0);
@@ -578,7 +579,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             botBorderIndexes[width - botRightValue] = botRightValue - 1;
         }
 
-        protected virtual void GenerateStructureBoundariesLimit(Random random,
+        protected virtual void GenerateStructureBoundariesLimit(WGRandom random,
             int[] leftBorderIndexes, int[] rightBorderIndexes, int[] topBorderIndexes, int[] botBorderIndexes)
         {
             int height = this.DataStructureCases.GetLength(0);
@@ -672,7 +673,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             //this.ExportDataStructureInFile();
         }
 
-        protected virtual void GenerateStructureCases(Random random)
+        protected virtual void GenerateStructureCases(WGRandom random)
         {
             bool[,] caseArea = new bool[3, 3];
 
@@ -700,17 +701,17 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             }
         }
 
-        protected virtual void GenerateStructureFillCase(Random random, int i, int j)
+        protected virtual void GenerateStructureFillCase(WGRandom random, int i, int j)
         {
             // to override
         }
 
-        protected virtual void GenerateStructureBorderCase(Random random, int i, int j, LandTransition landTransition)
+        protected virtual void GenerateStructureBorderCase(WGRandom random, int i, int j, LandTransition landTransition)
         {
             // to override
         }
 
-        protected virtual void GenerateStructureEmptyCase(Random random, int i, int j)
+        protected virtual void GenerateStructureEmptyCase(WGRandom random, int i, int j)
         {
             this.DataStructureCases[i, j] = null;
         }
@@ -787,7 +788,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.DataStructure
             System.IO.File.WriteAllText("dataStructure.xlsx", result);
         }
 
-        private int GetNextIndex(Random random, int space, int previousIndex, int otherIndex, float ratio)
+        private int GetNextIndex(WGRandom random, int space, int previousIndex, int otherIndex, float ratio)
         {
             float ratioSide = 0.5f;
             if(previousIndex < otherIndex)

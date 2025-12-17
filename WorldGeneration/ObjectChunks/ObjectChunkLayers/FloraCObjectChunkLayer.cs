@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.DataAgreggator;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.BiomeManager;
 using WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures;
 
@@ -38,12 +39,12 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             base.ComputeObjectChunk(objectChunksMonitor, objectChunk);
         }
 
-        protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             
         }
 
-        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             FloraRatioBiomeManager floraRatioManager = objectChunksMonitor.DataChunkMonitor.FloraRatioManager;
             IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.ObjectChunks
 {
@@ -33,8 +34,8 @@ namespace WorldGeneration.ObjectChunks
 
         public override void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk)
         {
-            int chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
+            WGRandom random = new WGRandom(chunkSeed);
 
             for (int i = -this.ObjectChunkMargin; i < objectChunk.NbCaseSide + this.ObjectChunkMargin; i++)
             {
@@ -55,7 +56,7 @@ namespace WorldGeneration.ObjectChunks
             }
         }
 
-        protected abstract void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition);
+        protected abstract void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition);
 
         public override void InitObjectChunkLayer(int nbCaseSide)
         {

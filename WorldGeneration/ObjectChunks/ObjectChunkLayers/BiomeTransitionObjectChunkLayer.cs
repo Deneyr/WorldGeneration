@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 
@@ -26,7 +27,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             base.ComputeObjectChunk(objectChunksMonitor, objectChunk);
         }
 
-        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             List<LandTransition> landTransitions = this.biomeObjectChunkLayer.GetLandTransitionAtLocal(localPosition.X, localPosition.Y);
 

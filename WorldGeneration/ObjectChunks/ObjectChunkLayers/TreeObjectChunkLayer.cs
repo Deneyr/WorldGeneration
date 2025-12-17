@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectStructures;
 
 namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
@@ -29,7 +30,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         {
         }
 
-        protected override IObjectStructure ConstructObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk, Random random, IDataStructure dataStructure)
+        protected override IObjectStructure ConstructObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk, WGRandom random, IDataStructure dataStructure)
         {
             if (this.IsStructureBaseValid(objectChunksMonitor, objectChunk, random, dataStructure, out int structureAltitude))
             {

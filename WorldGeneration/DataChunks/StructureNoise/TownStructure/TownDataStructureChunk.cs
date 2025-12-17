@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TownStructure
 {
@@ -26,7 +27,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TownStructure
         }
 
 
-        protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
+        protected override IDataStructure CreateDataStructure(WGRandom random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
         {
             //TallGrassDataStructure newTallGrassDataStructure = new TallGrassDataStructure(structureWorldPosition, boundingBox, baseBoundingBox);
 

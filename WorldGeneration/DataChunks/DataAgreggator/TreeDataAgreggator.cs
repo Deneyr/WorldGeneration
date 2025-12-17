@@ -8,11 +8,14 @@ using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise;
 using WorldGeneration.DataChunks.PureNoise;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
 {
     internal class TreeDataAgreggator : AStructureDataAgreggator
     {
+        private static readonly int IS_THERE_TREE_HASHCODE = HashHelpers.FoldToInt(HashHelpers.HashString("IsThereTreeAtWorldCoordinate"));
+
         internal HPerlinDataChunkLayer ForestLayer
         {
             get;
@@ -41,7 +44,7 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
             perlinValue = perlinValue * perlinValue;
 
-            return this.GenerateRandomValue(x, y, "IsThereTreeAtWorldCoordinate".GetHashCode()) < perlinValue;
+            return this.GenerateRandomValue(x, y, IS_THERE_TREE_HASHCODE) < perlinValue;
         }
 
 

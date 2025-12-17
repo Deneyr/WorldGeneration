@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.ObjectChunks.ObjectStructures
 {
@@ -15,7 +16,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures
             get;
         }
 
-        IObjectStructure GenerateStructureAtWorldPosition(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk);
+        IObjectStructure GenerateStructureAtWorldPosition(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk);
 
         bool IsGenerationValidAtWorldPosition(ObjectChunkLayersMonitor objectChunksMonitor, IDataStructure dataStructure, int worldAltitude, IObjectChunk objectChunk);
     }

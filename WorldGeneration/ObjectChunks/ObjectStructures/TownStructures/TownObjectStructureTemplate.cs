@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.StructureNoise.TownStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
@@ -23,7 +24,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TownStructures
         {
         }
 
-        protected override void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j)
+        protected override void UpdateZObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IZObjectCase zObjectCase, IDataStructure dataStructure, int worldAltitude, IObjectStructure parentObjectStructure, int i, int j)
         {
             if (zObjectCase.GroundAltitude >= 0)
             {
@@ -81,7 +82,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TownStructures
             }
         }
 
-        private List<ILandGround> CreateTownLandGroundFrom(Random random, IObjectStructure parentObjectStructure, TownDataStructure townDataStructure, LandTransition landWallTransition, LandTransition townLandTransition, List<ILandGround> initialLandGround)
+        private List<ILandGround> CreateTownLandGroundFrom(WGRandom random, IObjectStructure parentObjectStructure, TownDataStructure townDataStructure, LandTransition landWallTransition, LandTransition townLandTransition, List<ILandGround> initialLandGround)
         {
             GroundLandObject groundLandObject = initialLandGround.First() as GroundLandObject;
 
@@ -111,7 +112,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TownStructures
             return true;
         }
 
-        protected override IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
+        protected override IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
             //this.altitudeObjectChunkLayer = (objectChunksMonitor.ObjectChunksLayers["altitudeLayer"] as AltitudeObjectChunkLayer);
 
@@ -124,7 +125,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TownStructures
         }
 
 
-        public static ATownGroundLandObject CreateTownGroundLandObject(Random random, BiomeType biomeType, LandType landType)
+        public static ATownGroundLandObject CreateTownGroundLandObject(WGRandom random, BiomeType biomeType, LandType landType)
         {
             int landObjectId = random.Next();
             switch (biomeType)

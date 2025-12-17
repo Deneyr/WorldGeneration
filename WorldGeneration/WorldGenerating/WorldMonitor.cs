@@ -65,7 +65,7 @@ namespace WorldGeneration.WorldGenerating
             private set;
         }
 
-        public WorldMonitor(int nbChunkCaseSide, int poolLimit, int seed)
+        public WorldMonitor(int nbChunkCaseSide, int poolLimit, ulong seed)
         {
             this.NbChunkCaseSide = nbChunkCaseSide;
 

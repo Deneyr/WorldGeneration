@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.DSNoise
 {
@@ -24,8 +25,8 @@ namespace WorldGeneration.DataChunks.DSNoise
 
         public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
-            int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed + parentLayer.Id.GetHashCode());
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed, parentLayer.HashedId);
+            WGRandom random = new WGRandom(chunkSeed);
 
             DSDataCase generatedCase = new DSDataCase(0, 0);
 
@@ -46,8 +47,8 @@ namespace WorldGeneration.DataChunks.DSNoise
                 this.currentChunkPosition = this.GetChunkPosition(parentLayer);
             }
 
-            int chunkSeed = this.GenerateChunkSeed((dataChunksMonitor.WorldSeed - parentLayer.Id.GetHashCode()) * currentNbStep);
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed, parentLayer.HashedId + (ulong)currentNbStep);
+            WGRandom random = new WGRandom(chunkSeed);
 
             int xCaseToGenerate = 0;
             int yCaseToGenerate = 0;
@@ -201,7 +202,7 @@ namespace WorldGeneration.DataChunks.DSNoise
 
         protected virtual ICase GenerateCaseFrom(IDataChunkLayer parentLayer, int x, int y, ICase topLeftCase, ICase topRightCase, ICase botLeftCase, ICase botRightCase, int valueGenerated)
         {
-            Random random = new Random(valueGenerated);
+            WGRandom random = new WGRandom((ulong)valueGenerated);
 
             DSDataCase generatedCase = new DSDataCase(x * this.SampleLevel, y * this.SampleLevel);
 
@@ -219,7 +220,7 @@ namespace WorldGeneration.DataChunks.DSNoise
             return ratio * ratio * 0.75f;
         }
 
-        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
+        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, WGRandom random)
         {
             int valueGenerated = random.Next();
 

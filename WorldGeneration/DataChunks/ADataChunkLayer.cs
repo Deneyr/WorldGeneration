@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.WorldGenerating;
 
 namespace WorldGeneration.DataChunks
@@ -34,6 +35,12 @@ namespace WorldGeneration.DataChunks
             private set;
         }
 
+        public ulong HashedId
+        {
+            get;
+            private set;
+        }
+
         public int NbCaseSide
         {
             get;
@@ -55,6 +62,8 @@ namespace WorldGeneration.DataChunks
         public ADataChunkLayer(string id, int nbCaseSide)
         {
             this.Id = id;
+            this.HashedId = HashHelpers.HashString(id);
+
             this.NbCaseSide = nbCaseSide;
 
             this.Margin = 0;

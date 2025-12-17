@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.System;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 using WorldGeneration.ObjectChunks.ObjectLands.LandInterface;
@@ -26,7 +27,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             base.ComputeObjectChunk(objectChunksMonitor, objectChunk);
         }
 
-        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
 

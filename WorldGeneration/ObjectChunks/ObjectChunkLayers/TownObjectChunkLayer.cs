@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 using WorldGeneration.ObjectChunks.ObjectLands.TownGroundObject;
 using WorldGeneration.ObjectChunks.ObjectStructures;
@@ -22,7 +23,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         {
         }
 
-        protected override IObjectStructure ConstructObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk, Random random, IDataStructure dataStructure)
+        protected override IObjectStructure ConstructObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk, WGRandom random, IDataStructure dataStructure)
         {
             IObjectStructureTemplate townStructureTemplate = objectChunksMonitor.ObjectStructureTemplates[dataStructure.ObjectStructureTemplateId];
 

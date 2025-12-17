@@ -9,6 +9,7 @@ using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.DSNoise.BiomeDSNoise;
 using WorldGeneration.Maths;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.VoronoiNoise
 {
@@ -46,8 +47,8 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
 
         public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
-            int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed + parentLayer.Id.GetHashCode());
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed, parentLayer.HashedId);
+            WGRandom random = new WGRandom(chunkSeed);
             for (int i = 0; i < this.NbPointsInside; i++)
             {
                 Vector2i pointPosition = new Vector2i(random.Next(0, this.NbCaseSide), random.Next(0, this.NbCaseSide));
@@ -67,7 +68,7 @@ namespace WorldGeneration.DataChunks.VoronoiNoise
             return new VoronoiDataPoint();
         }
 
-        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
+        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, WGRandom random)
         {
             VoronoiDataCase generatedCase = new VoronoiDataCase(x * this.SampleLevel, y * this.SampleLevel);
 

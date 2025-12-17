@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.DataChunks.DataAgreggator;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 
@@ -39,7 +40,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
         }
 
 
-        protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             int waterAltitude = this.altitudeObjectChunkLayer.GetWaterLevelAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
             int groundAltitude = this.altitudeObjectChunkLayer.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
@@ -74,7 +75,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             //this.AreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = result;
         }
 
-        protected override void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeSecondBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             int i = localPosition.Y + this.ObjectChunkMargin - 1;
             int j = localPosition.X + this.ObjectChunkMargin - 1;
@@ -87,7 +88,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
 
         //}
 
-        protected override void ComputeTransitionAreaBuffer(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeTransitionAreaBuffer(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             int waterLevel = this.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y);
 
@@ -187,7 +188,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             }
         }
 
-        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             //bool isThereWater = this.GetSecondAreaBufferValueAtLocal(localPosition.X, localPosition.Y) == 1 ? true : false;
 

@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 using WorldGeneration.DataChunks.PerlinNoise;
 using WorldGeneration.DataChunks.PerlinNoise.HPerlinNoise;
 using WorldGeneration.DataChunks.PureNoise;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.DataAgreggator
 {
     internal class FloraDataAgreggator : IDataAgreggator
     {
+        private static readonly int IS_THERE_TREE_HASHCODE = HashHelpers.FoldToInt(HashHelpers.HashString("IsThereTreeAtWorldCoordinate"));
+
+        private static readonly int IS_THERE_FLOWER_HASHCODE = HashHelpers.FoldToInt(HashHelpers.HashString("IsThereFlowerAtWorldCoordinate"));
+
+        private static readonly int IS_THERE_ROCK_HASHCODE = HashHelpers.FoldToInt(HashHelpers.HashString("IsThereRockAtWorldCoordinate"));
+
         internal HPerlinDataChunkLayer FloraLayer
         {
             get;
@@ -38,17 +45,17 @@ namespace WorldGeneration.DataChunks.DataAgreggator
 
             perlinValue = perlinValue * perlinValue;
 
-            return this.GenerateRandomValue(x, y, "IsThereTreeAtWorldCoordinate".GetHashCode()) < (treeRatio * perlinValue);
+            return this.GenerateRandomValue(x, y, IS_THERE_TREE_HASHCODE) < (treeRatio * perlinValue);
         }
 
         public bool IsThereFlowerAtWorldCoordinate(int x, int y, float flowerRatio)
         {
-            return this.GenerateRandomValue(x, y, "IsThereFlowerAtWorldCoordinate".GetHashCode()) < flowerRatio;
+            return this.GenerateRandomValue(x, y, IS_THERE_FLOWER_HASHCODE) < flowerRatio;
         }
 
         public bool IsThereRockAtWorldCoordinate(int x, int y, float rockRatio)
         {
-            return this.GenerateRandomValue(x, y, "IsThereRockAtWorldCoordinate".GetHashCode()) < rockRatio;
+            return this.GenerateRandomValue(x, y, IS_THERE_ROCK_HASHCODE) < rockRatio;
         }
 
         protected virtual float GenerateRandomValue(int x, int y, int additionaInteger)

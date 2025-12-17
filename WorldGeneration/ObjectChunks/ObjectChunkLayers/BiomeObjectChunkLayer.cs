@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectLands;
 using WorldGeneration.ObjectChunks.ObjectLands.BiomeGroundObject;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
@@ -38,12 +39,12 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             base.ComputeObjectChunk(objectChunksMonitor, objectChunk);
         }
 
-        protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeBufferArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             this.AreaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin] = (int)this.biomeDataAgreggator.GetBiomeAtWorldCoordinates(worldPosition.X, worldPosition.Y, out float borderValue);
         }
 
-        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
+        protected override void ComputeChunkArea(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectChunk objectChunk, Vector2i localPosition, Vector2i worldPosition)
         {
             IZObjectCase zObjectCase = objectChunk.GetCaseAtLocal(localPosition.X, localPosition.Y) as IZObjectCase;
 
@@ -52,7 +53,7 @@ namespace WorldGeneration.ObjectChunks.ObjectChunkLayers
             zObjectCase.ObjectBiome = (BiomeType)newBiomeValue;//this.areaBuffer[localPosition.Y + this.ObjectChunkMargin, localPosition.X + this.ObjectChunkMargin];
         }
 
-        public static GroundLandObject CreateGroundLandObject(Random random, BiomeType biomeType, LandType landType)
+        public static GroundLandObject CreateGroundLandObject(WGRandom random, BiomeType biomeType, LandType landType)
         {
             int landObjectId = random.Next();
             switch (biomeType)

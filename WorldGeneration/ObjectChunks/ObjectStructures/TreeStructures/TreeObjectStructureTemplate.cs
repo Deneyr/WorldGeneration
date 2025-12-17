@@ -1,12 +1,13 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
@@ -35,7 +36,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             };
         }
 
-        protected override void UpdateObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, Random random, IObjectCase objectCase, IDataStructure dataStructure, IObjectStructure parentObjectStructure, int enumValue)
+        protected override void UpdateObjectCase(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, IObjectCase objectCase, IDataStructure dataStructure, IObjectStructure parentObjectStructure, int enumValue)
         {
             TreePart treePart = (TreePart)enumValue;
             ObjectCase currentObjectCase = objectCase as ObjectCase;
@@ -59,7 +60,7 @@ namespace WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures
             }
         }
 
-        protected override IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, Random random, string structureUid, IDataStructure dataStructure, int worldAltitude)
+        protected override IObjectStructure CreateObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, WGRandom random, string structureUid, IDataStructure dataStructure, int worldAltitude)
         {
             AltitudeObjectChunkLayer altitudeObjectChunkLayer = (objectChunksMonitor.ObjectChunksLayers["altitudeLayer"] as AltitudeObjectChunkLayer);
 

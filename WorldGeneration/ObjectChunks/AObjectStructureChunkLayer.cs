@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.ObjectChunks.ObjectChunkLayers;
 using WorldGeneration.ObjectChunks.ObjectStructures;
 
@@ -30,17 +31,24 @@ namespace WorldGeneration.ObjectChunks
             private set;
         }
 
+        public ulong HashedId
+        {
+            get;
+            private set;
+        }
+
         public AObjectStructureChunkLayer(string id)
         {
             this.Id = id;
+            this.HashedId = HashHelpers.HashString(id);
         }
 
         public virtual void ComputeObjectChunk(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk)
         {
             this.altitudeObjectChunkLayer = (objectChunksMonitor.ObjectChunksLayers["altitudeLayer"] as AltitudeObjectChunkLayer);
 
-            int chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(objectChunk, objectChunksMonitor.WorldSeed);
+            WGRandom random = new WGRandom(chunkSeed);
 
             IntRect worldArea = ChunkHelper.GetWorldAreaFromChunkArea(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, 1, 1));
 
@@ -60,12 +68,23 @@ namespace WorldGeneration.ObjectChunks
 
         protected abstract List<IDataStructure> GetDataStructuresInWorldArea(IntRect worldArea);
 
-        protected abstract IObjectStructure ConstructObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk, Random random, IDataStructure dataStructure);
+        protected abstract IObjectStructure ConstructObjectStructureFrom(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk, WGRandom random, IDataStructure dataStructure);
 
-        protected virtual int GenerateChunkSeed(IObjectChunk objectChunk, int seed)
+        protected virtual ulong GenerateChunkSeed(IObjectChunk objectChunk, ulong worldSeed)
         {
-            int realSeed = seed + this.Id.GetHashCode();
-            return objectChunk.Position.X * objectChunk.Position.Y - realSeed - objectChunk.NbCaseSide - objectChunk.Position.X + objectChunk.Position.Y * objectChunk.Position.Y;
+            ulong h = worldSeed;
+            h ^= HashHelpers.Mix(this.HashedId * 0xB16B00B5DEADFA11UL);
+            h ^= HashHelpers.Mix((ulong)(long)objectChunk.Position.X);
+            h ^= HashHelpers.Mix((ulong)(long)objectChunk.Position.Y);
+            return HashHelpers.Mix(h);
+            //ulong modifiedLayerSeed = (ulong)this.Id.GetHashCode() * 0xB16B00B5DEADFA11UL;
+            //seed ^= (ulong)(objectChunk.Position.X) * 0x9E3779B97F4A7C15UL;
+            //seed ^= (ulong)(objectChunk.Position.Y) * 0xC2B2AE3D27D4EB4FUL;
+            //seed ^= (ulong)(modifiedLayerSeed) * 0x165667B19E3779F9UL;
+            //return HashHelpers.Hash(seed);
+
+            //int realSeed = seed + this.Id.GetHashCode();
+            //return objectChunk.Position.X * objectChunk.Position.Y - realSeed - objectChunk.NbCaseSide - objectChunk.Position.X + objectChunk.Position.Y * objectChunk.Position.Y;
         }
 
         protected Vector2i GetWorldPosition(IObjectChunk objectChunk, int localX, int localY)
@@ -73,7 +92,7 @@ namespace WorldGeneration.ObjectChunks
             return ChunkHelper.GetWorldPositionFromChunkPosition(objectChunk.NbCaseSide, new IntRect(objectChunk.Position.X, objectChunk.Position.Y, localX, localY));
         }
 
-        protected virtual bool IsStructureBaseValid(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk, Random random, IDataStructure dataStructure, out int structureAltitude)
+        protected virtual bool IsStructureBaseValid(ObjectChunkLayersMonitor objectChunksMonitor, IObjectChunk objectChunk, WGRandom random, IDataStructure dataStructure, out int structureAltitude)
         {
             IntRect structureWorldBaseBoundingBox = dataStructure.StructureWorldBaseBoundingBox;
 

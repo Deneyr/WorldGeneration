@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.System;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
 {
@@ -24,8 +25,8 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
 
         public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
-            int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed + parentLayer.Id.GetHashCode());
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed, parentLayer.HashedId);
+            WGRandom random = new WGRandom(chunkSeed);
 
             BiomeDSDataCase generatedCase = new BiomeDSDataCase(this.NbBiome, 0, 0);
 
@@ -43,7 +44,7 @@ namespace WorldGeneration.DataChunks.DSNoise.BiomeDSNoise
 
         protected override ICase GenerateCaseFrom(IDataChunkLayer parentLayer, int x, int y, ICase topLeftCase, ICase topRightCase, ICase botLeftCase, ICase botRightCase, int valueGenerated)
         {
-            Random random = new Random(valueGenerated);
+            WGRandom random = new WGRandom((ulong)valueGenerated);
 
             BiomeDSDataCase generatedCase = new BiomeDSDataCase(this.NbBiome, x * this.SampleLevel, y * this.SampleLevel);
 

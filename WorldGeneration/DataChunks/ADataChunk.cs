@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ChunksMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 using WorldGeneration.WorldGenerating;
 
 namespace WorldGeneration.DataChunks
@@ -59,8 +60,8 @@ namespace WorldGeneration.DataChunks
 
         public virtual void GenerateChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
-            int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed - parentLayer.Id.GetHashCode());
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed, parentLayer.HashedId);
+            WGRandom random = new WGRandom(chunkSeed);
 
             //this.notGeneratedCases = new List<Vector2i>();
 
@@ -75,38 +76,20 @@ namespace WorldGeneration.DataChunks
             }
         }
 
-        //public bool EndGenerateChunk(DataChunkLayersMonitor dataChunksMonitor, ADataChunkLayer parentLayer)
-        //{
-        //    if(this.notGeneratedCases != null && this.notGeneratedCases.Count > 0)
-        //    {
-        //        int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed - parentLayer.Id.GetHashCode());
-        //        Random random = new Random(chunkSeed);
+        protected abstract ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, WGRandom random);
 
-        //        List<Vector2i> remainingNotGeneratedCases = new List<Vector2i>();
-        //        foreach(Vector2i coordinateToGenerate in this.notGeneratedCases)
-        //        {
-        //            ICase generatedCase = this.GenerateCase(dataChunksMonitor, parentLayer, coordinateToGenerate.X, coordinateToGenerate.Y, random);
-
-        //            if (generatedCase != null)
-        //            {
-        //                this.CasesArray[coordinateToGenerate.Y, coordinateToGenerate.X] = generatedCase;
-        //            }
-        //            else
-        //            {
-        //                this.notGeneratedCases.Add(coordinateToGenerate);
-        //            }
-        //        }
-        //        this.notGeneratedCases = remainingNotGeneratedCases;
-        //    }
-
-        //    return this.notGeneratedCases.Count == 0;
-        //}
-
-        protected abstract ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random);
-
-        protected virtual int GenerateChunkSeed(int seed)
+        protected virtual ulong GenerateChunkSeed(ulong worldSeed, ulong layerSeed)
         {
-            return this.Position.X * this.Position.Y * seed + seed + this.NbCaseSide + this.Position.X + this.Position.Y * this.Position.Y;
+            ulong h = worldSeed;
+            h ^= HashHelpers.Mix(layerSeed);
+            h ^= HashHelpers.Mix((ulong)(long)this.Position.X);
+            h ^= HashHelpers.Mix((ulong)(long)this.Position.Y);
+            return HashHelpers.Mix(h);
+            //worldSeed ^= (ulong)(this.Position.X) * 0x9E3779B97F4A7C15UL;
+            //worldSeed ^= (ulong)(this.Position.Y) * 0xC2B2AE3D27D4EB4FUL;
+            //worldSeed ^= (ulong)(layerSeed) * 0x165667B19E3779F9UL;
+            //return HashHelpers.Mix(worldSeed);
+            //return this.Position.X * this.Position.Y * seed + seed + this.NbCaseSide + this.Position.X + this.Position.Y * this.Position.Y;
         }
 
         public ICase GetCaseAtLocal(int x, int y)

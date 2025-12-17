@@ -22,6 +22,11 @@ namespace WorldGeneration.DataChunks
             get;
         }
 
+        ulong HashedId
+        {
+            get;
+        }
+
         int NbCaseSide
         {
             get;

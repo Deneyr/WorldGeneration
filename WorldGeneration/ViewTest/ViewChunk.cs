@@ -36,7 +36,6 @@ namespace WorldGeneration.ViewTest
          
         static ViewChunk()
         {
-            Random rand = new Random();
             biomeValueToColor = new Dictionary<BiomeType, Color>();
 
             biomeValueToColor.Add(BiomeType.BOREAL_FOREST, new Color(0x23725eff));

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WorldGeneration.DataChunks.DataAgreggator;
 using WorldGeneration.DataChunks.StructureNoise.DataStructure;
 using WorldGeneration.DataChunks.WeatherMonitoring;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
 {
@@ -28,7 +29,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
         }
 
 
-        protected override IDataStructure CreateDataStructure(Random random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
+        protected override IDataStructure CreateDataStructure(WGRandom random, DataChunkLayersMonitor dataChunksMonitor, IntRect boundingBox, IntRect baseBoundingBox, Vector2i structureWorldPosition)
         {
             //TreeDataStructure newTreeDataStructure = new TreeDataStructure(structureWorldPosition, boundingBox, new IntRect(0, boundingBox.Height - 1, boundingBox.Width, 1));
 
@@ -37,7 +38,7 @@ namespace WorldGeneration.DataChunks.StructureNoise.TreeStructure
             return new TreeDataStructure(structureWorldPosition, boundingBox, new IntRect(0, boundingBox.Height - 1, boundingBox.Width, 1));
         }
 
-        protected override bool IsDataStructureValid(Random random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
+        protected override bool IsDataStructureValid(WGRandom random, DataChunkLayersMonitor dataChunksMonitor, IDataStructure dataStructure)
         {
             Vector2i structureWorldPosition = dataStructure.StructureWorldPosition;
 

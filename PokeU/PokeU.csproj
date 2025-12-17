@@ -26,6 +26,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta2" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.5-develop.13" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.5-develop.13" />
     <PackageReference Include="SFML.Net" Version="2.6.1" />

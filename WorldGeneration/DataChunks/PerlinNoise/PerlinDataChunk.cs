@@ -8,6 +8,7 @@ using SFML.System;
 using WorldGeneration.ChunksMonitoring;
 using WorldGeneration.WorldGenerating;
 using WorldGeneration.Maths;
+using WorldGeneration.Maths.RandomHelpers;
 
 namespace WorldGeneration.DataChunks.PerlinNoise
 {
@@ -65,8 +66,8 @@ namespace WorldGeneration.DataChunks.PerlinNoise
 
         public override void PrepareChunk(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer)
         {
-            int chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed + parentLayer.Id.GetHashCode());
-            Random random = new Random(chunkSeed);
+            ulong chunkSeed = this.GenerateChunkSeed(dataChunksMonitor.WorldSeed, parentLayer.HashedId);
+            WGRandom random = new WGRandom(chunkSeed);
             int nbSummitCase = this.SummitArray.GetLength(0);
             for (int i = 0; i < this.nbSummitCase; i++)
             {
@@ -77,14 +78,14 @@ namespace WorldGeneration.DataChunks.PerlinNoise
             }
         }
 
-        protected Vector2f GenerateSummitVector(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
+        protected Vector2f GenerateSummitVector(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, WGRandom random)
         {
             double angle = random.NextDouble() * 2 * Math.PI;
 
             return new Vector2f((float)Math.Cos(angle), (float)Math.Sin(angle));
         }
 
-        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, Random random)
+        protected override ICase GenerateCase(DataChunkLayersMonitor dataChunksMonitor, IDataChunkLayer parentLayer, int x, int y, WGRandom random)
         {
             Vector2f topLeftVector = this.GetTopLeftVector(parentLayer, x, y);
 
