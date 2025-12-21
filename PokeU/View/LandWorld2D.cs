@@ -271,30 +271,44 @@ namespace PokeU.View
                 this.Position = position;
             }
 
-            this.CurrentViewSize = new Vector2f(1920, 1080);
-
             this.mainCamera.Position = new Vector2((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2);
             this.mainCamera.ViewSize = new Vector2(this.CurrentViewSize.X, this.CurrentViewSize.Y);
             this.mainCamera.Zoom = this.CurrentZoom;
 
-            FloatRect viewBound = new FloatRect(this.mainCamera.Position.X - (this.CurrentViewSize.X / 2) / this.mainCamera.Scaling, this.mainCamera.Position.Y - (this.CurrentViewSize.Y / 2) / this.mainCamera.Scaling, this.CurrentViewSize.X / this.mainCamera.Scaling, this.CurrentViewSize.Y / this.mainCamera.Scaling);
+            FloatRect viewBound = this.mainCamera.ViewBound;
             IntRect worldViewArea = ViewAreaToWorldArea(viewBound);
             this.landWorld.WorldArea = worldViewArea;
 
-            //viewBound = new FloatRect(newView.Center.X - newView.Size.X / 4, newView.Center.Y - newView.Size.Y / 4, newView.Size.X / 2, newView.Size.Y / 2);
-            //newView = new SFML.Graphics.View(new Vector2f((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2), new Vector2f(viewBound.Width, viewBound.Height));
+            //Texture2D pixelTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+            //pixelTexture.SetData(new Microsoft.Xna.Framework.Color[1] { Microsoft.Xna.Framework.Color.White});
+            //this.mainCamera.Zoom = this.CurrentZoom - 2;
 
             spriteBatch.Begin(blendState:BlendState.NonPremultiplied, samplerState:SamplerState.PointClamp, transformMatrix:this.mainCamera.GetTransform());
 
             foreach (LandChunk2D landChunk2D in this.landChunksDictionary.Values)
             {
-                FloatRect bounds = new FloatRect(landChunk2D.Position, new Vector2f(landChunk2D.Width, landChunk2D.Height));
-
-                if (bounds.Intersects(viewBound))
+                if (landChunk2D.ViewBound.Intersects(viewBound))
                 {
                     landChunk2D.DrawIn(spriteBatch, ref viewBound);
+                    //spriteBatch.Draw(
+                    //    pixelTexture,
+                    //    new Rectangle((int)landChunk2D.ViewBound.Left, (int)landChunk2D.ViewBound.Top, (int)landChunk2D.ViewBound.Width, (int)landChunk2D.ViewBound.Height),
+                    //    new Microsoft.Xna.Framework.Color(0, 255, 0, 100));
+                }
+                else
+                {
+                    //spriteBatch.Draw(
+                    //    pixelTexture,
+                    //    new Rectangle((int)landChunk2D.ViewBound.Left, (int)landChunk2D.ViewBound.Top, (int)landChunk2D.ViewBound.Width, (int)landChunk2D.ViewBound.Height),
+                    //    new Microsoft.Xna.Framework.Color(0, 0, 255, 100));
                 }
             }
+
+
+            //spriteBatch.Draw(
+            //    pixelTexture, 
+            //    new Rectangle((int)viewBound.Left, (int)viewBound.Top, (int)viewBound.Width, (int)viewBound.Height), 
+            //    new Microsoft.Xna.Framework.Color(255, 0, 0, 100));
 
             spriteBatch.End();
 
@@ -315,7 +329,7 @@ namespace PokeU.View
 
                 IObject2DFactory landChunk2DFactory = LandWorld2D.MappingObjectModelView[objectChunk.GetType()];
 
-                this.landChunksDictionary.Add(objectChunk, landChunk2DFactory.CreateObject2D(this, objectChunk, objectChunk.Position) as LandChunk2D);
+                this.landChunksDictionary.Add(objectChunk, landChunk2DFactory.CreateObject2D(this, objectChunk, new Point(objectChunk.Position.X * MainGame.MODEL_TO_VIEW, objectChunk.Position.Y * MainGame.MODEL_TO_VIEW)) as LandChunk2D);
             }
         }
 

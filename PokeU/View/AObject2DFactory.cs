@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SFML.System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace PokeU.View
             }
         }
 
-        public abstract IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Vector2i position);
+        public abstract IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Point position);
 
         public Dictionary<string, Texture2D> Resources
         {

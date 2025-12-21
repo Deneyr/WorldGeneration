@@ -6,87 +6,153 @@ using SFML.System;
 using System;
 using System.Collections.Generic;
 using Color = Microsoft.Xna.Framework.Color;
-using Texture = SFML.Graphics.Texture;
 
 namespace PokeU.View
 {
     public abstract class AObject2D : IObject2D
     {
-        protected static Texture DEFAULT_TEXTURE = new Texture(16, 16);
-
         protected static AnimationManager animationManager;
 
         protected static ZoomAnimationManager zoomAnimationManager;
 
-        protected static RectangleShape filter;
-
-        protected Sprite sprite;
 
         protected List<IAnimation> animationsList;
 
         private float ratioAltitude;
 
+        // Transform
+        private Vector2 position;
+        private float rotation;
+        private Vector2 scale;
+        private Vector2 origin;
+
+        protected Rectangle textureRect;
+        private FloatRect viewBound;
+
+        // Appearance
+        private Color color;
+        private Color effectColor;
+        private SpriteEffects effects;
+        private float layerDepth;
+
+        // Texture
         public Texture2D Texture
         {
             get;
             protected set;
         }
 
-        public Sprite ObjectSprite
+        public Vector2 Position
         {
-            get
+            get => this.position;
+            set
             {
-                return this.sprite;
-            }
+                this.position = value;
 
-            protected set
-            {
-                this.sprite = value;
+                this.UpdateViewBound();
             }
         }
 
-        public Vector2f Position
+        public float Rotation
         {
-            get
-            {
-                return this.ObjectSprite.Position;
-            }
+            get => this.rotation;
+            set => this.rotation = value;
+        }
 
-            protected set
+        public Vector2 Scale
+        {
+            get => this.scale;
+            set => this.scale = value;
+        }
+
+        public Vector2 Origin
+        {
+            get => this.origin;
+            set => this.origin = value;
+        }
+
+        public Color Color
+        {
+            get => this.color;
+        }
+
+        public Color EffectColor
+        {
+            get => this.effectColor;
+            set
             {
-                this.ObjectSprite.Position = value * MainGame.MODEL_TO_VIEW;
+                this.effectColor = value;
+
+                this.UpdateRealColor();
             }
+        }
+
+        public SpriteEffects Effects
+        {
+            get => this.effects;
+            set => this.effects = value;
         }
 
         public float RatioAltitude
         {
-            get
-            {
-                return this.ratioAltitude;
-            }
-
+            get => this.ratioAltitude;
             set
             {
                 this.ratioAltitude = value;
+
+                this.UpdateRealColor();
             }
         }
+
+        public Rectangle TextureRect
+        {
+            get => this.textureRect;
+            set
+            {
+                this.textureRect = value;
+
+                this.UpdateViewBound();
+            }
+        }
+
+        public FloatRect ViewBound
+        {
+            get
+            {
+                return this.viewBound;
+            }
+        }
+
+        // Size helpers
+        public virtual int Width => this.textureRect.Width;
+        public virtual int Height => this.textureRect.Height;
 
         static AObject2D()
         {
             AObject2D.animationManager = new AnimationManager();
 
             AObject2D.zoomAnimationManager = new ZoomAnimationManager();
-
-            AObject2D.filter = new RectangleShape(new Vector2f(MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW));
         }
 
         public AObject2D()
         {
-            this.sprite = new Sprite();
-
             this.animationsList = new List<IAnimation>();
 
+            this.Texture = null;
+
+            this.position = Vector2.Zero;
+            this.textureRect = new Rectangle(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+            this.rotation = 0f;
+            this.scale = Vector2.One;
+            this.origin = Vector2.Zero;
+
+            this.effectColor = Color.White;
+            this.effects = SpriteEffects.None;
+
             this.ratioAltitude = 0;
+
+            this.UpdateViewBound();
+            this.UpdateRealColor();
         }       
 
         public virtual void Dispose()
@@ -96,44 +162,16 @@ namespace PokeU.View
 
         public virtual void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView)
         {
-
-            float ratioAltitude = 1 - Math.Abs(this.ratioAltitude);
-            byte colorAltitude = (byte)(ratioAltitude * ratioAltitude * 255f);
-
-            //if (this.RatioAltitude < 0)
-            //{
-            //    byte colorAltitude = (byte)(-this.ratioAltitude * 255);
-
-            //    this.ObjectSprite.Color = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
-            //}
-            //else if(this.RatioAltitude > 0)
-            //{
-            //    byte colorAltitude = (byte)(this.ratioAltitude * 255);
-
-            //    this.ObjectSprite.Color = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
-            //}
-            //else
-            //{
-            //    this.ObjectSprite.Color = new Color(255, 255, 255, this.ObjectSprite.Color.A);
-            //}
-
-            Rectangle sourceRectangle = new Rectangle(this.ObjectSprite.TextureRect.Left, this.ObjectSprite.TextureRect.Top, this.ObjectSprite.TextureRect.Width, this.ObjectSprite.TextureRect.Height);
-            Rectangle destinationRectangle = new Rectangle((int)this.ObjectSprite.Position.X, (int)this.ObjectSprite.Position.Y, (int)(this.ObjectSprite.TextureRect.Width * this.ObjectSprite.Scale.X), (int)(this.ObjectSprite.TextureRect.Height * this.ObjectSprite.Scale.Y));
-
-            Color spriteColor = new Color(colorAltitude, colorAltitude, colorAltitude, this.ObjectSprite.Color.A);
-
-            spriteBatch.Draw(texture: this.Texture, destinationRectangle: destinationRectangle, sourceRectangle: sourceRectangle, color: spriteColor);
-
-            //if (this.RatioAltitude != 0)
-            //{
-            //    byte colorAltitude = (byte)(128 + this.ratioAltitude * 127);
-            //    byte alpha = (byte)(Math.Abs(this.ratioAltitude) * 200);
-
-            //    AObject2D.filter.Position = this.ObjectSprite.Position;
-            //    AObject2D.filter.FillColor = new Color(colorAltitude, colorAltitude, colorAltitude, alpha);
-
-            //    window.Draw(AObject2D.filter);
-            //}
+            spriteBatch.Draw(
+                texture: this.Texture,
+                position: this.position,
+                sourceRectangle: this.textureRect,
+                color: this.color,
+                rotation: this.rotation,
+                origin: this.origin,
+                scale: this.scale,
+                effects: this.effects,
+                0);
         }
 
         // Part animations.
@@ -173,14 +211,27 @@ namespace PokeU.View
             AObject2D.zoomAnimationManager.Run(deltaTime);
         }
 
-        public virtual void SetCanevas(IntRect newCanevas)
+        public virtual void SetCanevas(Rectangle newCanevas)
         {
-            this.sprite.TextureRect = newCanevas;
+            this.TextureRect = newCanevas;
         }
 
-        public void SetZoom(float newZoom)
+        public void SetZoom(float newScale)
         {
-            this.sprite.Scale = new Vector2f(newZoom, newZoom);
+            this.Scale = new Vector2(newScale, newScale);
+        }
+
+        private void UpdateRealColor()
+        {
+            float ratioAltitude = 1 - Math.Abs(this.ratioAltitude);
+            byte colorAltitude = (byte)(ratioAltitude * ratioAltitude * 255f);
+
+            this.color = new Color(colorAltitude, colorAltitude, colorAltitude, this.effectColor.A);
+        }
+
+        private void UpdateViewBound()
+        {
+            this.viewBound = new FloatRect(this.position.X, this.Position.Y, this.Width, this.Height);
         }
     }
 }

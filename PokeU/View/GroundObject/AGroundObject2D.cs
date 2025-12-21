@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework;
+using SFML.Graphics;
 using SFML.System;
 using System;
 using WorldGeneration.ObjectChunks.ObjectLands;
@@ -10,7 +11,7 @@ namespace PokeU.View.GroundObject
     {
         private bool isWall;
 
-        public AGroundObject2D(AGroundObject2DFactory factory, GroundLandObject landObject, Vector2i position, bool isWall)
+        public AGroundObject2D(AGroundObject2DFactory factory, GroundLandObject landObject, Point position, bool isWall)
         {
             this.isWall = isWall;
 
@@ -25,16 +26,15 @@ namespace PokeU.View.GroundObject
 
             if (landObject.LandTransition == LandTransition.NONE)
             {
-                this.ObjectSprite = new Sprite(DEFAULT_TEXTURE, this.GetFillTextureCoord(landObject.LandObjectId));
+                this.TextureRect = this.GetFillTextureCoord(landObject.LandObjectId);
             }
             else
             {
-                this.ObjectSprite = new Sprite(DEFAULT_TEXTURE, this.GetTransitionTextureCoord(landObject.LandTransition));
+                this.TextureRect = this.GetTransitionTextureCoord(landObject.LandTransition);
             }
 
-            this.ObjectSprite.Scale = new Vector2f(0.5f, 0.5f);
-
-            this.Position = new Vector2f(position.X, position.Y);
+            this.Scale = new Vector2(0.5f, 0.5f);
+            this.Position = position.ToVector2();
         }
     }
 }

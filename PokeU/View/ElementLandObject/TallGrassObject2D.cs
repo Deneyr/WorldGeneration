@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework;
+using SFML.Graphics;
 using SFML.System;
 using System;
 using WorldGeneration.ObjectChunks.ObjectLands;
@@ -13,114 +14,109 @@ namespace PokeU.View.ElementLandObject
         {
         }
 
-        public TallGrassObject2D(TallGrassObject2DFactory factory, ATallGrassElementLandObject landObject, Vector2i position)
+        public TallGrassObject2D(TallGrassObject2DFactory factory, ATallGrassElementLandObject landObject, Point position)
         {
             TallGrassObjectStructure tallGrassObjectStructure = factory.CurrentObjectChunk.GetObjectStructure(landObject.ParentStructureUID) as TallGrassObjectStructure;
 
             this.Texture = factory.GetTextureFromBiomeLandType(landObject.LandType, tallGrassObjectStructure.IsFullPatch);
 
-            this.ObjectSprite = new Sprite(DEFAULT_TEXTURE);
-
             if(tallGrassObjectStructure.IsFullPatch)
             {
                 if (landObject.LandTransition == LandTransition.NONE)
                 {
-                    this.ObjectSprite = new Sprite(DEFAULT_TEXTURE, this.GetFillTextureCoord(landObject.LandObjectId));
+                    this.TextureRect = this.GetFillTextureCoord(landObject.LandObjectId);
                 }
                 else
                 {
-                    this.ObjectSprite.TextureRect = this.GetTransitionTextureCoord(landObject.LandTransition);
+                    this.TextureRect = this.GetTransitionTextureCoord(landObject.LandTransition);
                 }
             }
             else
             {
-                this.ObjectSprite.TextureRect = new IntRect(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                this.TextureRect = new Rectangle(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
             }
 
-            this.ObjectSprite.Position = this.ObjectSprite.Position;
-            //this.ObjectSprite.Color = new Color(255, 255, 255, 127);
-
-            this.Position = new Vector2f(position.X, position.Y);
+            this.Position = position.ToVector2();
         }
 
-        protected override IntRect GetTransitionTextureCoord(LandTransition landTransition)
+        protected override Rectangle GetTransitionTextureCoord(LandTransition landTransition)
         {
-            IntRect result = new IntRect(0, 0, 1, 1);
+            Rectangle result = new Rectangle(0, 0, 1, 1);
 
             switch (landTransition)
             {
                 case LandTransition.TOP:
-                    result.Left = 1;
-                    result.Top = 1;
+                    result.X = 1;
+                    result.Y = 1;
                     break;
                 case LandTransition.RIGHT:
-                    result.Left = 2;
-                    result.Top = 2;
+                    result.X = 2;
+                    result.Y = 2;
                     break;
                 case LandTransition.BOT:
-                    result.Left = 1;
-                    result.Top = 3;
+                    result.X = 1;
+                    result.Y = 3;
                     break;
                 case LandTransition.LEFT:
-                    result.Left = 0;
-                    result.Top = 2;
+                    result.X = 0;
+                    result.Y = 2;
                     break;
                 case LandTransition.TOP_LEFT:
-                    result.Left = 0;
-                    result.Top = 1;
+                    result.X = 0;
+                    result.Y = 1;
                     break;
                 case LandTransition.TOP_RIGHT:
-                    result.Left = 2;
-                    result.Top = 1;
+                    result.X = 2;
+                    result.Y = 1;
                     break;
                 case LandTransition.BOT_LEFT:
-                    result.Left = 0;
-                    result.Top = 3;
+                    result.X = 0;
+                    result.Y = 3;
                     break;
                 case LandTransition.BOT_RIGHT:
-                    result.Left = 2;
-                    result.Top = 3;
+                    result.X = 2;
+                    result.Y = 3;
                     break;
                 case LandTransition.TOP_INT_LEFT:
-                    result.Left = 3;
-                    result.Top = 0;
+                    result.X = 3;
+                    result.Y = 0;
                     break;
                 case LandTransition.TOP_INT_RIGHT:
-                    result.Left = 3;
-                    result.Top = 1;
+                    result.X = 3;
+                    result.Y = 1;
                     break;
                 case LandTransition.BOT_INT_LEFT:
-                    result.Left = 3;
-                    result.Top = 2;
+                    result.X = 3;
+                    result.Y = 2;
                     break;
                 case LandTransition.BOT_INT_RIGHT:
-                    result.Left = 3;
-                    result.Top = 3;
+                    result.X = 3;
+                    result.Y = 3;
                     break;
             }
 
-            result.Left *= MainGame.MODEL_TO_VIEW;
-            result.Top *= MainGame.MODEL_TO_VIEW;
+            result.X *= MainGame.MODEL_TO_VIEW;
+            result.Y *= MainGame.MODEL_TO_VIEW;
             result.Width *= MainGame.MODEL_TO_VIEW;
             result.Height *= MainGame.MODEL_TO_VIEW;
 
             return result;
         }
 
-        protected override IntRect GetFillTextureCoord(int landObjectId)
+        protected override Rectangle GetFillTextureCoord(int landObjectId)
         {
             switch (Math.Abs(landObjectId % 4))
             {
                 case 0:
-                    return new IntRect(MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case 1:
-                    return new IntRect(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case 2:
-                    return new IntRect(MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case 3:
-                    return new IntRect(2 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(2 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
             }
-            return new IntRect(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+            return new Rectangle(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
         }
     }
 }

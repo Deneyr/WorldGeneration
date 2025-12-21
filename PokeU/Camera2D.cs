@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SFML.Graphics;
 
 public class Camera2D
 {
@@ -21,12 +22,20 @@ public class Camera2D
             {
                 return this.Zoom + 1;
             }
-            return -1f / this.Zoom;
+            return -1f / (this.Zoom - 1);
         }
     }
     public Vector2 Position { get; set; }
     public float Rotation { get; set; }
     public Vector2 ViewSize { get; set; }
+
+    public FloatRect ViewBound
+    {
+        get
+        {
+            return new FloatRect(this.Position.X - (this.ViewSize.X / 2) / this.Scaling, this.Position.Y - (this.ViewSize.Y / 2) / this.Scaling, this.ViewSize.X / this.Scaling, this.ViewSize.Y / this.Scaling);
+        }
+    }
 
     public void Move(Vector2 direction)
     {

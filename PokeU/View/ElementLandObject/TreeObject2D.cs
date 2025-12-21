@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework;
+using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.Tree;
 using WorldGeneration.ObjectChunks.ObjectStructures.TreeStructures;
@@ -12,7 +13,7 @@ namespace PokeU.View.ElementLandObject
         {
         }
 
-        public TreeObject2D(TreeObject2DFactory factory, ATreeElementLandObject treeElementLandObject, Vector2i position)
+        public TreeObject2D(TreeObject2DFactory factory, ATreeElementLandObject treeElementLandObject, Point position)
         {
             TreeObjectStructure treeObjectStructure = factory.CurrentObjectChunk.GetObjectStructure(treeElementLandObject.ParentStructureUID) as TreeObjectStructure;
 
@@ -23,43 +24,40 @@ namespace PokeU.View.ElementLandObject
                 int nbCaseWidth = (int)(this.Texture.Width / MainGame.MODEL_TO_VIEW);
                 int nbCaseHeight = (int)(this.Texture.Height / MainGame.MODEL_TO_VIEW);
 
-                this.ObjectSprite = new Sprite(DEFAULT_TEXTURE, this.GetSpriteRectFrom(treeElementLandObject.Part, nbCaseWidth, nbCaseHeight));
+                this.TextureRect = this.GetSpriteRectFrom(treeElementLandObject.Part, nbCaseWidth, nbCaseHeight);
 
-                this.ObjectSprite.Position = this.ObjectSprite.Position;
-                //this.ObjectSprite.Color = new Color(255, 255, 255, 127);
-
-                this.Position = new Vector2f(position.X, position.Y);
+                this.Position = position.ToVector2();
             }
         }
 
 
-        public IntRect GetSpriteRectFrom(TreePart treePart, int nbCaseWidth, int nbCaseHeight)
+        public Rectangle GetSpriteRectFrom(TreePart treePart, int nbCaseWidth, int nbCaseHeight)
         {
             switch (treePart)
             {
                 case TreePart.TOP_LEFT:
-                    return new IntRect(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.TOP_MID:
-                    return new IntRect(MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.TOP_RIGHT:
-                    return new IntRect((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
 
                 case TreePart.MID_LEFT:
-                    return new IntRect(0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.MID_MID:
-                    return new IntRect(MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.MID_RIGHT:
-                    return new IntRect((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
 
                 case TreePart.BOT_LEFT:
-                    return new IntRect(0, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(0, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.BOT_MID:
-                    return new IntRect(MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle(MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
                 case TreePart.BOT_RIGHT:
-                    return new IntRect((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    return new Rectangle((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
             }   
 
-            return new IntRect();
+            return new Rectangle();
         }
 
         //public override void DrawIn(RenderWindow window, ref FloatRect boundsView)

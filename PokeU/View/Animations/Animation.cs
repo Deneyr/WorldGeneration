@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using Microsoft.Xna.Framework;
+using SFML.Graphics;
 using SFML.System;
 using System.Threading;
 
@@ -12,13 +13,13 @@ namespace PokeU.View.Animations
 
         private AnimationType type;
 
-        private IntRect[] animation;
+        private Rectangle[] animation;
 
         private int animationPeriod;
         private int currentIteration;
         private int currentIndex;
 
-        public Animation(IntRect[] animation, Time animationPeriod, AnimationType type)
+        public Animation(Rectangle[] animation, Time animationPeriod, AnimationType type)
         {
             mutex = new Mutex();
 

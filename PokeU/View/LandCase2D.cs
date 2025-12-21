@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using PokeU.View.GroundObject;
 using SFML.Graphics;
 using SFML.System;
@@ -32,7 +33,7 @@ namespace PokeU.View
             protected set;
         }
 
-        public LandCase2D(LandWorld2D landWorld2D, IObjectChunk parentObjectChunk, LandCase landCase, Vector2i position)
+        public LandCase2D(LandWorld2D landWorld2D, IObjectChunk parentObjectChunk, LandCase landCase, Point position)
         {
             this.landGroundOverWallList = new List<ILandObject2D>();
 
@@ -123,7 +124,7 @@ namespace PokeU.View
                 this.landOverWall = landObject2D;
             }
 
-            this.Position = new Vector2f(position.X, position.Y);
+            this.Position = position.ToVector2();
         }
 
         public void UpdateUnderLandCase(LandCase underLandCase)

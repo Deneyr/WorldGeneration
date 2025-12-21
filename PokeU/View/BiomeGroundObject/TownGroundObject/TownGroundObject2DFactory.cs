@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using PokeU.View.GroundObject;
 using SFML.System;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace PokeU.View.BiomeGroundObject.TownGroundObject
         }
 
 
-        public override IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Vector2i position)
+        public override IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Point position)
         {
             ATownGroundLandObject townLandObject = obj as ATownGroundLandObject;
 

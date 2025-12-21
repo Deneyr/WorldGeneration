@@ -1,4 +1,5 @@
-﻿using SFML.System;
+﻿using Microsoft.Xna.Framework;
+using SFML.System;
 using WorldGeneration.ObjectChunks.ObjectLands.WaterObject;
 
 namespace PokeU.View.WaterObject
@@ -12,7 +13,7 @@ namespace PokeU.View.WaterObject
             base.InitializeFactory();
         }
 
-        public override IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Vector2i position)
+        public override IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Point position)
         {
             WaterLandObject waterLandObject = obj as WaterLandObject;
 

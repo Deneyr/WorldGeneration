@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SFML.Graphics;
 using SFML.System;
 using System.Collections.Generic;
@@ -11,10 +12,6 @@ namespace PokeU.View
     public class LandChunk2D : AObject2D
     {
         private List<LandCase2D[,]> landObjects2DLayers;
-
-        private int width;
-
-        private int height;
 
         private int currentAltitude;
 
@@ -45,41 +42,9 @@ namespace PokeU.View
             }
         }
 
-        public int Width
-        {
-            get
-            {
-                return this.width;
-            }
-
-            set
-            {
-                this.width = value * MainGame.MODEL_TO_VIEW;
-            }
-        }
-
-        public int Height
-        {
-            get
-            {
-                return this.height;
-            }
-
-            set
-            {
-                this.height = value * MainGame.MODEL_TO_VIEW;
-            }
-        }
-
         public LandChunk2D(LandWorld2D landWorld2D, IObjectChunk landChunk)
         {
-            //this.altitudeMin = int.MaxValue;
-
-            //this.altitudeMax = int.MinValue;
-
-            this.Width = landChunk.NbCaseSide;
-
-            this.Height = landChunk.NbCaseSide;
+            this.TextureRect = new Rectangle(0, 0, landChunk.NbCaseSide * MainGame.MODEL_TO_VIEW, landChunk.NbCaseSide * MainGame.MODEL_TO_VIEW);
 
             this.landObjects2DLayers = new List<LandCase2D[,]>();
 
@@ -89,7 +54,6 @@ namespace PokeU.View
             {
                 List<IObject2D> listobject2Ds = new List<IObject2D>();
 
-                //LandCase[,] landCases = landChunk.GetLandObjectsAtAltitude(this.altitudeMin + z);
                 LandCase2D[,] landObject2Ds = new LandCase2D[landChunk.NbCaseSide, landChunk.NbCaseSide];
 
                 LandCase2DFactory caseObject2DFactory = LandWorld2D.MappingObjectModelView[typeof(LandCase)] as LandCase2DFactory;
@@ -108,20 +72,21 @@ namespace PokeU.View
 
                             if (landCase != null)
                             {
-                                landObject2Ds[i, j] = caseObject2DFactory.CreateObject2D(landWorld2D, landCase, zObjectCase.Position) as LandCase2D;
+                                LandCase2D landCase2D = caseObject2DFactory.CreateObject2D(landWorld2D, landCase, new Point(zObjectCase.Position.X * MainGame.MODEL_TO_VIEW, zObjectCase.Position.Y * MainGame.MODEL_TO_VIEW)) as LandCase2D;
+                                landObject2Ds[i, j] = landCase2D;
 
                                 if (z < altitudeMax - 1 && zObjectCase[z + 1] != null)
                                 {
                                     LandCase landCaseUp = (zObjectCase[z + 1] as ObjectCase).Land;
-                                    landObject2Ds[i, j].UpdateOverLandCase(landCaseUp);
+                                    landCase2D.UpdateOverLandCase(landCaseUp);
                                 }
                                 if (z > 0 && zObjectCase[z - 1] != null)
                                 {
                                     LandCase landCaseDown = (zObjectCase[z - 1] as ObjectCase).Land;
-                                    landObject2Ds[i, j].UpdateUnderLandCase(landCaseDown);
+                                    landCase2D.UpdateUnderLandCase(landCaseDown);
                                 }
 
-                                landObject2Ds[i, j].SetLandCaseRatio(z, LandWorld2D.LOADED_ALTITUDE_RANGE);
+                                landCase2D.SetLandCaseRatio(z, LandWorld2D.LOADED_ALTITUDE_RANGE);
                             }
                             else
                             {
@@ -141,70 +106,11 @@ namespace PokeU.View
             this.currentAltitude = -1;
             this.CurrentAltitude = landWorld2D.CurrentAltitude;
 
-            this.Position = new Vector2f(landChunk.Position.X * landChunk.NbCaseSide, landChunk.Position.Y * landChunk.NbCaseSide);
+            this.Position = new Vector2(landChunk.Position.X * landChunk.NbCaseSide * MainGame.MODEL_TO_VIEW, landChunk.Position.Y * landChunk.NbCaseSide * MainGame.MODEL_TO_VIEW);
         }
 
         public void UpdateCurrentAltitude()
         {
-
-
-            //int trueCurrentAltitude = Math.Max(Math.Min(newAltitude, landChunk.AltitudeMax), landChunk.AltitudeMin);
-
-            //int altitudeMin = Math.Max(landChunk.AltitudeMin, trueCurrentAltitude - LandWorld2D.LOADED_ALTITUDE_RANGE);
-
-            //int altitudeMax = Math.Min(landChunk.AltitudeMax, trueCurrentAltitude + LandWorld2D.LOADED_ALTITUDE_RANGE);
-
-            //int AltitudesMinToRemove = Math.Min(this.altitudeMax + 1, altitudeMin) - this.altitudeMin;
-
-            //if (this.landObjects2DLayers.Count > 0)
-            //{
-            //    for (int i = 0; i < AltitudesMinToRemove; i++)
-            //    {
-            //        this.landObjects2DLayers.RemoveAt(0);
-
-            //        //Console.WriteLine("Remove altitude : " + (this.altitudeMin + i));
-            //    }
-
-            //    int AltitudesMaxToRemove = this.altitudeMax - Math.Max(this.altitudeMin - 1, altitudeMax);
-            //    for (int i = 0; i < AltitudesMaxToRemove; i++)
-            //    {
-            //        this.landObjects2DLayers.RemoveAt(this.landObjects2DLayers.Count - 1);
-
-            //        //Console.WriteLine("Remove altitude : " + (this.altitudeMax - i));
-            //    }
-
-
-            //    int supLimit = Math.Min(this.altitudeMin, altitudeMax + 1);
-            //    int AltitudesMinToAdd = supLimit - altitudeMin;
-            //    for (int i = 0; i < AltitudesMinToAdd; i++)
-            //    {
-            //        LandCase2D[,] landObject2Ds = new LandCase2D[landChunk.Area.Height, landChunk.Area.Width];
-
-            //        this.CreateAltitude2D(landWorld2D, landChunk, supLimit - i - 1, ref landObject2Ds);
-
-            //        this.landObjects2DLayers.Insert(0, landObject2Ds);
-
-            //        //Console.WriteLine("Add altitude : " + (supLimit - i - 1));
-            //    }
-            //}
-
-            //int infLimit = Math.Max(this.altitudeMax, altitudeMin - 1);
-            //int AltitudesMaxToAdd = altitudeMax - infLimit;
-            //for (int i = 0; i < AltitudesMaxToAdd; i++)
-            //{
-            //    LandCase2D[,] landObject2Ds = new LandCase2D[landChunk.Area.Height, landChunk.Area.Width];
-
-            //    this.CreateAltitude2D(landWorld2D, landChunk, infLimit + i + 1, ref landObject2Ds);
-
-            //    this.landObjects2DLayers.Add(landObject2Ds);
-
-            //    //Console.WriteLine("Add altitude : " + (infLimit + i + 1));
-            //}
-
-            //this.altitudeMin = altitudeMin;
-
-            //this.altitudeMax = altitudeMax;
-
             int z = 0;
             foreach (LandCase2D[,] landCases in this.landObjects2DLayers)
             {
@@ -222,8 +128,6 @@ namespace PokeU.View
                 }
                 z++;
             }
-
-            //return trueCurrentAltitude;
         }
 
         public override void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView)
@@ -240,16 +144,8 @@ namespace PokeU.View
                 for (int j = 0; j < layer2D.GetLength(1); j++)
                 {
                     FloatRect bounds = new FloatRect(this.Position.X + j * MainGame.MODEL_TO_VIEW, this.Position.Y + i * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
-
-                    /*if (bounds.Left < boundsView.Left + boundsView.Width
-                        && bounds.Left + bounds.Width > boundsView.Left
-                        && bounds.Top < boundsView.Top + boundsView.Height
-                        && bounds.Top + bounds.Height > boundsView.Top)
-                    {*/
                     if (bounds.Intersects(boundsView))
                     {
-                        bool firstCaseDrawn = false; 
-
                         foreach (LandCase2D[,] landObject2DsArray in this.landObjects2DLayers)
                         {
                             LandCase2D landObjectsList = landObject2DsArray[i, j];
@@ -257,8 +153,6 @@ namespace PokeU.View
                             if (landObjectsList != null)
                             {
                                 landObjectsList.DrawIn(spriteBatch, ref boundsView);
-
-                                firstCaseDrawn = landObjectsList.IsValid;
                             }
                         }
                     }

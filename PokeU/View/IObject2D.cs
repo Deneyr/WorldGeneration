@@ -1,7 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SFML.Graphics;
-using SFML.System;
-using System;
 
 namespace PokeU.View
 {
@@ -12,26 +11,64 @@ namespace PokeU.View
             get;
         }
 
-        Sprite ObjectSprite
+        Vector2 Position
+        {
+            get; set;
+        }
+
+        float Rotation
+        {
+            get; set;
+        }
+
+        Vector2 Scale
+        {
+            get; set;
+        }
+
+        Vector2 Origin
+        {
+            get; set;
+        }
+
+        Microsoft.Xna.Framework.Color Color
         {
             get;
         }
 
-        Vector2f Position
+        Microsoft.Xna.Framework.Color EffectColor
         {
-            get;
+            get; set;
+        }
+
+        SpriteEffects Effects
+        {
+            get; set;
         }
 
         float RatioAltitude
         {
-            get;
-            set;
+            get; set;
         }
+
+        Rectangle TextureRect
+        {
+            get; set;
+        }
+
+        FloatRect ViewBound
+        {
+            get;
+        }
+
+        // Size helpers
+        int Width => Texture.Width;
+        int Height => Texture.Height;
 
         void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView);
 
         // Part animations
-        void SetCanevas(IntRect newCanevas);
+        void SetCanevas(Rectangle newCanevas);
 
         void SetZoom(float newZoom);
     }

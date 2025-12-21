@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SFML.System;
 using WorldGeneration.DataChunks.WeatherMonitoring;
 using WorldGeneration.ObjectChunks.ObjectLands.ElementObject.TallGrass;
@@ -31,7 +32,7 @@ namespace PokeU.View.ElementLandObject
             base.InitializeFactory();
         }
 
-        public override IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Vector2i position)
+        public override IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Point position)
         {
             ATallGrassElementLandObject tallGrassElementLandObject = obj as ATallGrassElementLandObject;
 
