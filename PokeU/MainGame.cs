@@ -15,37 +15,37 @@ namespace PokeU
 {
     public class MainGame : Microsoft.Xna.Framework.Game
     {
+        public static readonly int MODEL_TO_VIEW = 16;
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-
-        public static readonly int MODEL_TO_VIEW = 16;
 
         private WorldMonitor landWorld;
 
         private LandWorld2D landWorld2D;
 
-        KeyboardState oldState;
+        private KeyboardState oldState;
 
         public MainGame()
         {
-            // TODO static constructor need that
-            WaterObject2D waterObject2D = new WaterObject2D();
-
             this.landWorld = new WorldMonitor(32, 16, 123456789);
             this.landWorld.InitWorldMonitor();
 
-            this.landWorld2D = new LandWorld2D(this.landWorld);
-            LandWorld2D.TextureManager.MainGame = this;
+            // TODO static constructor need that
+            WaterObject2D waterObject2D = new WaterObject2D();
 
             graphics = new GraphicsDeviceManager(this);
 
+            DisplayMode currentDisplay = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.IsFullScreen = true;
 
             //graphics.SynchronizeWithVerticalRetrace = false;
-
             graphics.ApplyChanges();
+
+            this.landWorld2D = new LandWorld2D(this.landWorld, this.GraphicsDevice.Viewport);//new Viewport(1920/2, 0, 1920/2, 1080));
+            LandWorld2D.TextureManager.MainGame = this;
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -60,7 +60,7 @@ namespace PokeU
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
             //ballTexture = Content.Load<Texture2D>(@"Autotiles\treeSwamp");
@@ -80,11 +80,11 @@ namespace PokeU
 
             this.landWorld.UpdateWorld(timeElapsed);
 
+            this.landWorld2D.UpdateWorld2D(gameTime);
+
             //this.landWorld2D.UpdateWorld2D(gameTime);
 
             base.Update(gameTime);
-
-            //System.IO.File.AppendAllText("test.txt", "< End Logic\n");
         }
 
         private void UpdateInput()
@@ -124,37 +124,11 @@ namespace PokeU
 
         protected override void Draw(GameTime gameTime)
         {
-            //System.IO.File.AppendAllText("test.txt", "> Start Draw\n");
-
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.RoyalBlue);
 
-            this.landWorld2D.DrawIn(spriteBatch, gameTime);
-
-            // TODO: Add your drawing code here
-            //spriteBatch.Begin(transformMatrix: this.camera.GetTransform());
-            ////for (int z = 0; z < 30; z++)
-            ////{
-            ////    for (int i = 0; i < 80; i++)
-            ////    {
-            ////        for (int j = 0; j < 130; j++)
-            ////        {
-            ////            _spriteBatch.Draw(ballTexture, new Vector2(j * 16, i * 16), Microsoft.Xna.Framework.Color.White);
-            ////        }
-            ////    }
-            ////}
-
-            //spriteBatch.Draw(ballTexture, new Vector2(0, 0), Microsoft.Xna.Framework.Color.White);
-
-            ////Rectangle source = new Rectangle(0, 0, 48, 48);
-            ////Rectangle destination = new Rectangle(2 * 16, 2 * 16, (int)(0.5f * 48), (int)(0.5f * 48));
-
-            ////_spriteBatch.Draw(ballTexture, destination, source, Microsoft.Xna.Framework.Color.White);
-
-            //spriteBatch.End();
+            this.landWorld2D.DrawIn(this, spriteBatch);
 
             base.Draw(gameTime);
-
-            //System.IO.File.AppendAllText("test.txt", "< End Draw\n");
         }
     }
 }

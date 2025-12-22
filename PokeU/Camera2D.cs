@@ -3,6 +3,23 @@ using SFML.Graphics;
 
 public class Camera2D
 {
+    public Matrix Transform
+    {
+        get;
+        private set;
+    }
+
+    public FloatRect ViewBound
+    {
+        get;
+        private set;
+    }
+
+    public int Zoom { get; set; }
+    public Vector2 Position { get; set; }
+    public float Rotation { get; set; }
+    public Vector2 ViewSize { get; set; }
+
     public Camera2D()
     {
         this.Zoom = 0;
@@ -10,45 +27,34 @@ public class Camera2D
         this.Rotation = 0;
         this.ViewSize = Vector2.Zero;
         this.Position = Vector2.Zero;
-    }
 
-    public int Zoom { get; set; }
+        this.Transform = Matrix.Identity;
+        this.ViewBound = new FloatRect();
+    }
 
     public float Scaling
     {
         get
         {
-            if(this.Zoom >= 0)
+            if (this.Zoom >= 0)
             {
                 return this.Zoom + 1;
             }
             return -1f / (this.Zoom - 1);
         }
     }
-    public Vector2 Position { get; set; }
-    public float Rotation { get; set; }
-    public Vector2 ViewSize { get; set; }
 
-    public FloatRect ViewBound
+    internal void UpdateTransform()
     {
-        get
-        {
-            return new FloatRect(this.Position.X - (this.ViewSize.X / 2) / this.Scaling, this.Position.Y - (this.ViewSize.Y / 2) / this.Scaling, this.ViewSize.X / this.Scaling, this.ViewSize.Y / this.Scaling);
-        }
+        this.Transform = 
+            Matrix.CreateTranslation(-Position.X, -Position.Y, 0f) *
+            Matrix.CreateRotationZ(Rotation) *
+            Matrix.CreateScale(Scaling, Scaling, 1f) *
+            Matrix.CreateTranslation(ViewSize.X * 0.5f, ViewSize.Y * 0.5f, 0f);
     }
 
-    public void Move(Vector2 direction)
+    internal void UpdateViewBound()
     {
-        Position += direction;
-    }
-
-    public Matrix GetTransform()
-    {
-        var translationMatrix = Matrix.CreateTranslation(new Vector3((int) (-this.Position.X), (int) (-this.Position.Y), 0));
-        var rotationMatrix = Matrix.CreateRotationZ(this.Rotation);
-        var scaleMatrix = Matrix.CreateScale(new Vector3(this.Scaling, this.Scaling, 1));
-        var originMatrix = Matrix.CreateTranslation(new Vector3((int) (this.ViewSize.X / 2), (int) (this.ViewSize.Y / 2), 0));
-
-        return translationMatrix * rotationMatrix * scaleMatrix * originMatrix;
+        this.ViewBound = new FloatRect(this.Position.X - (this.ViewSize.X / 2) / this.Scaling, this.Position.Y - (this.ViewSize.Y / 2) / this.Scaling, this.ViewSize.X / this.Scaling, this.ViewSize.Y / this.Scaling);
     }
 }

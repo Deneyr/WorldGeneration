@@ -39,41 +39,76 @@ namespace PokeU.View
 
         private int currentAltitude;
 
-
         // TEST
         private TestAutoDriver testAutoDriver;
-        // 
+        //
+
         private WorldMonitor landWorld;
 
-        private Vector2f currentViewSize;
+        private Viewport currentViewport;
 
         private Camera2D mainCamera;
 
         public int CurrentZoom
         {
-            get;
-            set;
-        }
-
-        public Vector2f CurrentViewSize
-        {
             get
             {
-                return this.currentViewSize;
+                return this.mainCamera.Zoom;
             }
             set
             {
-                if (this.currentViewSize != value)
+                if (this.mainCamera.Zoom != value)
                 {
-                    this.currentViewSize = value;
+                    this.mainCamera.Zoom = value;
                 }
             }
         }
 
-        public Vector2f Position
+        public Viewport CurrentViewport
         {
-            get;
-            private set;
+            get
+            {
+                return this.currentViewport;
+            }
+            set
+            {
+                if (this.currentViewport.Equals(value) == false)
+                {
+                    this.currentViewport = value;
+                    this.mainCamera.ViewSize = new Vector2(this.currentViewport.Width, this.currentViewport.Height);
+                }
+            }
+        }
+
+        public Vector2 Position
+        {
+            get
+            {
+                return this.mainCamera.Position;
+            }
+            set
+            {
+                Vector2 snappedPosition = this.SnapPosition(value);
+                if (this.mainCamera.Position != snappedPosition)
+                {
+                    this.mainCamera.Position = value;
+                }
+            }
+        }
+
+        public float Rotation
+        {
+            get
+            {
+                return this.mainCamera.Rotation;
+            }
+            set
+            {
+                if (this.mainCamera.Rotation != value)
+                {
+                    this.mainCamera.Rotation = value;
+                }
+            }
         }
 
         public ChunkResourcesLoader ResourcesLoader
@@ -192,38 +227,50 @@ namespace PokeU.View
             }
         }
 
-        public LandWorld2D(WorldMonitor landWorld)
+        public LandWorld2D(WorldMonitor landWorld, Viewport viewPort)
         {
             this.landChunksDictionary = new Dictionary<IObjectChunk, LandChunk2D>();
-
             this.chunkResourcesLoader = new ChunkResourcesLoader();
 
-            //this.entity2DManager = new Entity2DManager(this);
-            //landWorld.EntityManager.EntityAdded += this.entity2DManager.OnEntityAdded;
-            //landWorld.EntityManager.EntityRemoved += this.entity2DManager.OnEntityRemoved;
-
             this.currentAltitude = 16;
-
             this.landWorld = landWorld;
 
             this.mainCamera = new Camera2D();
-
-            this.currentViewSize = new Vector2f(1920, 1080);
+            this.CurrentViewport = viewPort;
             //this.Position = new Vector2f(-150000, 20000);
-            this.Position = new Vector2f(-12259, 5512);
+            this.Position = new Vector2(-12259, 5512);
             //this.Position = new Vector2f(-74 * 16 * 32, 337 * 16 * 32);
 
+            this.mainCamera.UpdateTransform();
+            this.mainCamera.UpdateViewBound();
+
+            this.UpdateWorldArea();
+
             // TEST
-            this.testAutoDriver = new TestAutoDriver(this.Position, 200);
+            this.testAutoDriver = new TestAutoDriver(new Vector2f(this.Position.X, this.Position.Y), 200);
             //
 
             this.CurrentZoom = 0;
 
             landWorld.MainChunksMonitor.ChunksToAdd += OnChunkAdded;
             landWorld.MainChunksMonitor.ChunksRemoved += OnChunkRemoved;
+
+            //this.entity2DManager = new Entity2DManager(this);
+            //landWorld.EntityManager.EntityAdded += this.entity2DManager.OnEntityAdded;
+            //landWorld.EntityManager.EntityRemoved += this.entity2DManager.OnEntityRemoved;
         }
 
-        public void DrawIn(SpriteBatch spriteBatch, GameTime deltaTime)
+        public void UpdateWorld2D(GameTime deltaTime)
+        {
+            this.UpdatePlayerPosition(deltaTime);
+
+            this.mainCamera.UpdateTransform();
+            this.mainCamera.UpdateViewBound();
+
+            this.UpdateWorldArea();
+        }
+
+        public void DrawIn(Game mainGame, SpriteBatch spriteBatch)
         {
             //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
@@ -232,58 +279,11 @@ namespace PokeU.View
             // TEST
             //this.Position = this.testAutoDriver.GetNextPosition(this.Position, deltaTime.AsSeconds());
             //
-            float elapsedSeconds = (float)deltaTime.ElapsedGameTime.TotalSeconds;
-            if (Keyboard.GetState().IsKeyDown(Keys.T))
-            {
-                this.Position = new Vector2f(0, 0);
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Z))
-            {
-                Vector2f position = this.Position;
-
-                position.Y -= elapsedSeconds * 320;
-
-                this.Position = position;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                Vector2f position = this.Position;
-
-                position.Y += elapsedSeconds * 320;
-
-                this.Position = position;
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
-            {
-                Vector2f position = this.Position;
-
-                position.X -= elapsedSeconds * 320;
-
-                this.Position = position;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                Vector2f position = this.Position;
-
-                position.X += elapsedSeconds * 320;
-
-                this.Position = position;
-            }
-
-            this.mainCamera.Position = new Vector2((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2);
-            this.mainCamera.ViewSize = new Vector2(this.CurrentViewSize.X, this.CurrentViewSize.Y);
-            this.mainCamera.Zoom = this.CurrentZoom;
 
             FloatRect viewBound = this.mainCamera.ViewBound;
-            IntRect worldViewArea = ViewAreaToWorldArea(viewBound);
-            this.landWorld.WorldArea = worldViewArea;
 
-            //Texture2D pixelTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-            //pixelTexture.SetData(new Microsoft.Xna.Framework.Color[1] { Microsoft.Xna.Framework.Color.White});
-            //this.mainCamera.Zoom = this.CurrentZoom - 2;
-
-            spriteBatch.Begin(blendState:BlendState.NonPremultiplied, samplerState:SamplerState.PointClamp, transformMatrix:this.mainCamera.GetTransform());
+            mainGame.GraphicsDevice.Viewport = this.CurrentViewport;
+            spriteBatch.Begin(blendState:BlendState.NonPremultiplied, samplerState:SamplerState.PointClamp, transformMatrix:this.mainCamera.Transform);
 
             foreach (LandChunk2D landChunk2D in this.landChunksDictionary.Values)
             {
@@ -295,22 +295,24 @@ namespace PokeU.View
                     //    new Rectangle((int)landChunk2D.ViewBound.Left, (int)landChunk2D.ViewBound.Top, (int)landChunk2D.ViewBound.Width, (int)landChunk2D.ViewBound.Height),
                     //    new Microsoft.Xna.Framework.Color(0, 255, 0, 100));
                 }
-                else
-                {
-                    //spriteBatch.Draw(
-                    //    pixelTexture,
-                    //    new Rectangle((int)landChunk2D.ViewBound.Left, (int)landChunk2D.ViewBound.Top, (int)landChunk2D.ViewBound.Width, (int)landChunk2D.ViewBound.Height),
-                    //    new Microsoft.Xna.Framework.Color(0, 0, 255, 100));
-                }
+                //else
+                //{
+                //    spriteBatch.Draw(
+                //        pixelTexture,
+                //        new Rectangle((int)landChunk2D.ViewBound.Left, (int)landChunk2D.ViewBound.Top, (int)landChunk2D.ViewBound.Width, (int)landChunk2D.ViewBound.Height),
+                //        new Microsoft.Xna.Framework.Color(0, 0, 255, 100));
+                //}
             }
 
-
             //spriteBatch.Draw(
-            //    pixelTexture, 
-            //    new Rectangle((int)viewBound.Left, (int)viewBound.Top, (int)viewBound.Width, (int)viewBound.Height), 
+            //    pixelTexture,
+            //    new Rectangle((int)viewBound.Left, (int)viewBound.Top, (int)viewBound.Width, (int)viewBound.Height),
             //    new Microsoft.Xna.Framework.Color(255, 0, 0, 100));
 
             spriteBatch.End();
+
+            //this.mainCamera.Zoom += 2;
+            //this.mainCamera.UpdateTransform();
 
             //this.entity2DManager.DrawIn(window, ref boundsView);
 
@@ -319,18 +321,61 @@ namespace PokeU.View
             //Console.WriteLine("time consume = " + sw.Elapsed);
         }
 
-        private void OnChunkAdded(List<ChunkContainer> objs)
+        private void UpdatePlayerPosition(GameTime deltaTime)
         {
-            foreach (ChunkContainer chunkContainer in objs)
+            float elapsedSeconds = (float)deltaTime.ElapsedGameTime.TotalSeconds;
+            if (Keyboard.GetState().IsKeyDown(Keys.T))
             {
-                IObjectChunk objectChunk = chunkContainer.ContainedChunk as IObjectChunk;
-
-                this.chunkResourcesLoader.LoadChunkResources(objectChunk);
-
-                IObject2DFactory landChunk2DFactory = LandWorld2D.MappingObjectModelView[objectChunk.GetType()];
-
-                this.landChunksDictionary.Add(objectChunk, landChunk2DFactory.CreateObject2D(this, objectChunk, new Point(objectChunk.Position.X * MainGame.MODEL_TO_VIEW, objectChunk.Position.Y * MainGame.MODEL_TO_VIEW)) as LandChunk2D);
+                this.Position = new Vector2(0, 0);
             }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Z))
+            {
+                Vector2 position = this.Position;
+
+                position.Y -= elapsedSeconds * 320;
+
+                this.Position = position;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                Vector2 position = this.Position;
+
+                position.Y += elapsedSeconds * 320;
+
+                this.Position = position;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            {
+                Vector2 position = this.Position;
+
+                position.X -= elapsedSeconds * 320;
+
+                this.Position = position;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                Vector2 position = this.Position;
+
+                position.X += elapsedSeconds * 320;
+
+                this.Position = position;
+            }
+        }
+
+        private Vector2 SnapPosition(Vector2 position)
+        {
+            float snappedX = (float)Math.Floor(position.X / 2) * 2;
+            float snappedY = (float)Math.Floor(position.Y / 2) * 2;
+            //this.mainCamera.Position = new Vector2((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2);
+            return new Vector2(snappedX, snappedY);
+        }
+
+        private void UpdateWorldArea()
+        {
+            FloatRect viewBound = this.mainCamera.ViewBound;
+            IntRect worldViewArea = ViewAreaToWorldArea(viewBound);
+            this.landWorld.WorldArea = worldViewArea;
         }
 
         public static IntRect ViewAreaToWorldArea(FloatRect viewArea)
@@ -353,6 +398,20 @@ namespace PokeU.View
             area.Height *= MainGame.MODEL_TO_VIEW;
 
             return area;
+        }
+
+        private void OnChunkAdded(List<ChunkContainer> objs)
+        {
+            foreach (ChunkContainer chunkContainer in objs)
+            {
+                IObjectChunk objectChunk = chunkContainer.ContainedChunk as IObjectChunk;
+
+                this.chunkResourcesLoader.LoadChunkResources(objectChunk);
+
+                IObject2DFactory landChunk2DFactory = LandWorld2D.MappingObjectModelView[objectChunk.GetType()];
+
+                this.landChunksDictionary.Add(objectChunk, landChunk2DFactory.CreateObject2D(this, objectChunk, new Point(objectChunk.Position.X * MainGame.MODEL_TO_VIEW, objectChunk.Position.Y * MainGame.MODEL_TO_VIEW)) as LandChunk2D);
+            }
         }
 
         private void OnChunkRemoved(List<ChunkContainer> objs)
