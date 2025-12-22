@@ -52,8 +52,6 @@ namespace PokeU.View
 
             for (int z = 0; z < altitudeMax; z++)
             {
-                List<IObject2D> listobject2Ds = new List<IObject2D>();
-
                 LandCase2D[,] landObject2Ds = new LandCase2D[landChunk.NbCaseSide, landChunk.NbCaseSide];
 
                 LandCase2DFactory caseObject2DFactory = LandWorld2D.MappingObjectModelView[typeof(LandCase)] as LandCase2DFactory;
@@ -139,21 +137,27 @@ namespace PokeU.View
                 return;
             }
 
-            for (int i = 0; i < layer2D.GetLength(0); i++)
-            {
-                for (int j = 0; j < layer2D.GetLength(1); j++)
-                {
-                    FloatRect bounds = new FloatRect(this.Position.X + j * MainGame.MODEL_TO_VIEW, this.Position.Y + i * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
-                    if (bounds.Intersects(boundsView))
-                    {
-                        foreach (LandCase2D[,] landObject2DsArray in this.landObjects2DLayers)
-                        {
-                            LandCase2D landObjectsList = landObject2DsArray[i, j];
+            FloatRect landChunkViewBound = this.ViewBound;
 
-                            if (landObjectsList != null)
-                            {
-                                landObjectsList.DrawIn(spriteBatch, ref boundsView);
-                            }
+            int offsetLeft = (int)Math.Floor((Math.Max(boundsView.Left, landChunkViewBound.Left) - landChunkViewBound.Left) / MainGame.MODEL_TO_VIEW);
+            int offsetTop = (int)Math.Floor((Math.Max(boundsView.Top, landChunkViewBound.Top) - landChunkViewBound.Top) / MainGame.MODEL_TO_VIEW);
+
+            float landChunkRight = landChunkViewBound.Left + landChunkViewBound.Width;
+            float landChunkBottom = landChunkViewBound.Top + landChunkViewBound.Height;
+
+            int offsetRight = (int)Math.Floor((landChunkRight - Math.Min(boundsView.Left + boundsView.Width, landChunkRight)) / MainGame.MODEL_TO_VIEW);
+            int offsetBottom = (int)Math.Floor((landChunkBottom - Math.Min(boundsView.Top + boundsView.Height, landChunkBottom)) / MainGame.MODEL_TO_VIEW);
+
+            foreach (LandCase2D[,] landObject2DsArray in this.landObjects2DLayers)
+            {
+                for (int i = offsetTop; i < layer2D.GetLength(0) - offsetBottom; i++)
+                {
+                    for (int j = offsetLeft; j < layer2D.GetLength(1) - offsetRight; j++)
+                    {
+                        LandCase2D landObjectsList = landObject2DsArray[i, j];
+                        if (landObjectsList != null)
+                        {
+                            landObjectsList.DrawIn(spriteBatch, ref boundsView);
                         }
                     }
                 }

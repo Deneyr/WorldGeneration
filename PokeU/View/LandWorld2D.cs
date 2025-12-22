@@ -282,6 +282,11 @@ namespace PokeU.View
 
             FloatRect viewBound = this.mainCamera.ViewBound;
 
+            //Texture2D pixelTexture = new Texture2D(mainGame.GraphicsDevice, 1, 1);
+            //pixelTexture.SetData(new Microsoft.Xna.Framework.Color[] { Microsoft.Xna.Framework.Color.White });
+            //this.mainCamera.Zoom -= 2;
+            //this.mainCamera.UpdateTransform();
+
             mainGame.GraphicsDevice.Viewport = this.CurrentViewport;
             spriteBatch.Begin(blendState:BlendState.NonPremultiplied, samplerState:SamplerState.PointClamp, transformMatrix:this.mainCamera.Transform);
 
