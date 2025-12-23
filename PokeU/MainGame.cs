@@ -25,7 +25,6 @@ namespace PokeU
         private LandWorld2D landWorld2D;
 
         private KeyboardState oldState;
-
         public MainGame()
         {
             this.landWorld = new WorldMonitor(32, 16, 123456789);
@@ -69,20 +68,15 @@ namespace PokeU
 
         protected override void Update(GameTime gameTime)
         {
-            //System.IO.File.AppendAllText("test.txt", "> Start Logic\n");
+            Time timeElapsed = Time.FromMilliseconds((int)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             this.UpdateInput();
 
-            // TODO: Add your update logic here
-            Time timeElapsed = Time.FromMilliseconds((int)gameTime.ElapsedGameTime.TotalMilliseconds);
-
-            AObject2D.UpdateZoomAnimationManager(timeElapsed);
-
             this.landWorld.UpdateWorld(timeElapsed);
 
-            this.landWorld2D.UpdateWorld2D(gameTime);
+            AObject2D.UpdateAnimationManager(timeElapsed);
 
-            //this.landWorld2D.UpdateWorld2D(gameTime);
+            this.landWorld2D.UpdateWorld2D(gameTime);
 
             base.Update(gameTime);
         }

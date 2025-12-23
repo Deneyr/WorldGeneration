@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PokeU.View.Animations;
+using PokeU.Animation;
 using SFML.Graphics;
 using SFML.System;
 using System;
@@ -12,9 +12,6 @@ namespace PokeU.View
     public abstract class AObject2D : IObject2D
     {
         protected static AnimationManager animationManager;
-
-        protected static ZoomAnimationManager zoomAnimationManager;
-
 
         protected List<IAnimation> animationsList;
 
@@ -33,7 +30,6 @@ namespace PokeU.View
         private Color color;
         private Color effectColor;
         private SpriteEffects effects;
-        private float layerDepth;
 
         // Texture
         public Texture2D Texture
@@ -104,7 +100,7 @@ namespace PokeU.View
             }
         }
 
-        public Rectangle TextureRect
+        public virtual Rectangle TextureRect
         {
             get => this.textureRect;
             set
@@ -130,8 +126,6 @@ namespace PokeU.View
         static AObject2D()
         {
             AObject2D.animationManager = new AnimationManager();
-
-            AObject2D.zoomAnimationManager = new ZoomAnimationManager();
         }
 
         public AObject2D()
@@ -165,7 +159,7 @@ namespace PokeU.View
             spriteBatch.Draw(
                 texture: this.Texture,
                 position: this.position,
-                sourceRectangle: this.textureRect,
+                sourceRectangle: this.TextureRect,
                 color: this.color,
                 rotation: this.rotation,
                 origin: this.origin,
@@ -190,25 +184,12 @@ namespace PokeU.View
         public void PlayAnimation(int index)
         {
             IAnimation animation = this.animationsList[index];
-
-            if (animation is ZoomAnimation)
-            {
-                AObject2D.zoomAnimationManager.PlayAnimation(this, animation as ZoomAnimation);
-            }
-            else
-            {
-                AObject2D.animationManager.PlayAnimation(this, animation);
-            }
+            AObject2D.animationManager.PlayAnimation(this, animation);
         }
 
-        public static void StopAnimationManager()
+        public static void UpdateAnimationManager(Time deltaTime)
         {
-            AObject2D.animationManager.Play = false;
-        }
-
-        public static void UpdateZoomAnimationManager(Time deltaTime)
-        {
-            AObject2D.zoomAnimationManager.Run(deltaTime);
+            AObject2D.animationManager.Run(deltaTime);
         }
 
         public virtual void SetCanevas(Rectangle newCanevas)

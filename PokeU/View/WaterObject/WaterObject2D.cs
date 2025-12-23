@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PokeU.View.Animations;
+using PokeU.Animation;
 using SFML.Graphics;
 using SFML.System;
 using WorldGeneration.ObjectChunks.ObjectLands;
@@ -11,16 +11,26 @@ namespace PokeU.View.WaterObject
 {
     public class WaterObject2D : ALandObject2D
     {
-        private static WaterObject2D singletonWaterObject2D;
+        private static MasterObject2D masterWaterObject2D;
 
         private static IAnimation animationWater;
 
         private Rectangle offsetTextureRect;
 
+        public override Rectangle TextureRect
+        {
+            get
+            {
+                return new Rectangle(
+                    masterWaterObject2D.TextureRect.Left + this.offsetTextureRect.Left,
+                    masterWaterObject2D.TextureRect.Top + this.offsetTextureRect.Top,
+                    this.offsetTextureRect.Width,
+                    this.offsetTextureRect.Height);
+            }
+        }
+
         static WaterObject2D()
         {
-            singletonWaterObject2D = new WaterObject2D();
-
             Rectangle[] waterMatrix =
             [
                 new Rectangle(0, 0, 128, 128),
@@ -29,9 +39,8 @@ namespace PokeU.View.WaterObject
                 new Rectangle(384, 0, 128, 128)
             ];
 
-            animationWater = new Animation(waterMatrix, Time.FromMilliseconds(250), AnimationType.LOOP);
-
-            animationManager.PlayAnimation(singletonWaterObject2D, animationWater);
+            animationWater = new FrameAnimation(waterMatrix, Time.FromMilliseconds(1000), AnimationType.LOOP, InterpolationMethod.LINEAR);
+            masterWaterObject2D = new MasterObject2D(animationWater);
         }
 
         public WaterObject2D()
@@ -48,29 +57,6 @@ namespace PokeU.View.WaterObject
             this.Scale = new Vector2(0.5f, 0.5f);
 
             this.Position = position.ToVector2();
-        }
-
-        public override void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView)
-        {
-            //TODO remove this from draw
-            animationWater.Visit(this);
-
-            base.DrawIn(spriteBatch, ref boundsView);
-        }
-
-        public override void SetCanevas(Rectangle newCanevas)
-        {
-            //this.TextureRect = new IntRect(
-            //    newCanevas.Left + this.textureRect.Left, 
-            //    newCanevas.Top + this.textureRect.Top, 
-            //    this.textureRect.Width, 
-            //    this.textureRect.Height);
-
-            this.TextureRect = new Rectangle(
-                newCanevas.Left + this.offsetTextureRect.Left,
-                newCanevas.Top + this.offsetTextureRect.Top,
-                this.offsetTextureRect.Width,
-                this.offsetTextureRect.Height);
         }
     }
 }
