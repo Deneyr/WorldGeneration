@@ -1,4 +1,9 @@
 # WorldGeneration
+
+/!\ Resources folders (unzip Autotiles and Resources folders in the PokeU.exe folder of the PokeU project)
+1. Resources_old (main branch) https://drive.google.com/file/d/1tS5-23w_4S0W_81cYT-ZSPxyE6TgU6Kq/view?usp=drive_link
+2. Resources (monogame branch) https://drive.google.com/file/d/1MpELeOBsLjXGRFnAI3mxWUV10lSMz6fm/view?usp=drive_link
+
 procedural world generation (model layer)
 ![screenwhotWorld](https://user-images.githubusercontent.com/9294021/192156207-99686576-7ebb-44f3-8ec6-f0ac42daea76.PNG)
 ![WorldGenerator](https://user-images.githubusercontent.com/9294021/170227323-5916e6b1-b4f2-44ab-a1cd-0cc26ad4311a.PNG)
