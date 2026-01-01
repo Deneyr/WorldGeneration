@@ -19,10 +19,10 @@ namespace PokeU.View.ElementLandObject
 
             this.Texture = factory.GetTextureFromBiomeLandType(treeObjectStructure.LandType, treeElementLandObject.LandObjectId);
 
-            if (this.Texture != null)
+            if (this.Texture.Item1 != null)
             {
-                int nbCaseWidth = (int)(this.Texture.Width / MainGame.MODEL_TO_VIEW);
-                int nbCaseHeight = (int)(this.Texture.Height / MainGame.MODEL_TO_VIEW);
+                int nbCaseWidth = (int)(this.Texture.Item2.Width / MainGame.MODEL_TO_VIEW);
+                int nbCaseHeight = (int)(this.Texture.Item2.Height / MainGame.MODEL_TO_VIEW);
 
                 this.TextureRect = this.GetSpriteRectFrom(treeElementLandObject.Part, nbCaseWidth, nbCaseHeight);
 
@@ -33,31 +33,44 @@ namespace PokeU.View.ElementLandObject
 
         public Rectangle GetSpriteRectFrom(TreePart treePart, int nbCaseWidth, int nbCaseHeight)
         {
+            Rectangle result = Rectangle.Empty;
             switch (treePart)
             {
                 case TreePart.TOP_LEFT:
-                    return new Rectangle(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
                 case TreePart.TOP_MID:
-                    return new Rectangle(MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
                 case TreePart.TOP_RIGHT:
-                    return new Rectangle((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
 
                 case TreePart.MID_LEFT:
-                    return new Rectangle(0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
                 case TreePart.MID_MID:
-                    return new Rectangle(MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
                 case TreePart.MID_RIGHT:
-                    return new Rectangle((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
 
                 case TreePart.BOT_LEFT:
-                    return new Rectangle(0, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(0, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
                 case TreePart.BOT_MID:
-                    return new Rectangle(MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
                 case TreePart.BOT_RIGHT:
-                    return new Rectangle((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
-            }   
+                    result = new Rectangle((nbCaseWidth - 1) * MainGame.MODEL_TO_VIEW, (nbCaseHeight - 1) * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
+            }
 
-            return new Rectangle();
+            result.X += this.Texture.Item2.X;
+            result.Y += this.Texture.Item2.Y;
+
+            return result;
         }
 
         //public override void DrawIn(RenderWindow window, ref FloatRect boundsView)

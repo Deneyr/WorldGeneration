@@ -7,9 +7,11 @@ namespace PokeU.View.ResourcesManager
 {
     public class TextureManager
     {
-        private Dictionary<string, Texture2D> texturesDictionary;
+        private AtlasManager atlasManager;
 
-        public event Action<string, Texture2D> TextureLoaded;
+        private Dictionary<string, (Texture2D, Rectangle)> texturesDictionary;
+
+        public event Action<string, (Texture2D, Rectangle)> TextureLoaded;
 
         public event Action<string> TextureUnloaded;
 
@@ -19,12 +21,14 @@ namespace PokeU.View.ResourcesManager
             set;
         }
 
-        public TextureManager()
+        public TextureManager(GraphicsDevice graphicsDevice)
         {
-            this.texturesDictionary = new Dictionary<string, Texture2D>();
+            this.atlasManager = new AtlasManager(graphicsDevice, 2048, 2048);
+
+            this.texturesDictionary = new Dictionary<string, (Texture2D, Rectangle)>();
         }
 
-        public Texture2D GetTexture(string path)
+        public (Texture2D, Rectangle) GetTexture(string path)
         {
             return this.texturesDictionary[path];
         }
@@ -40,9 +44,12 @@ namespace PokeU.View.ResourcesManager
 
                     if (texture != null)
                     {
-                        this.texturesDictionary.Add(path, texture);
+                        this.atlasManager.AddTexture(path, texture);
+                        (Texture2D, Rectangle) loadedTexture = this.atlasManager.GetTextureRegion(path);
 
-                        this.NotifyTextureLoaded(path, texture);
+                        this.texturesDictionary.Add(path, loadedTexture);
+
+                        this.NotifyTextureLoaded(path, loadedTexture);
                     }
                 }
             }
@@ -54,7 +61,9 @@ namespace PokeU.View.ResourcesManager
             {
                 if (this.texturesDictionary.ContainsKey(path))
                 {
-                    this.texturesDictionary[path].Dispose();
+                    //this.texturesDictionary[path].Dispose();
+
+                    this.atlasManager.Remove(path);
 
                     this.texturesDictionary.Remove(path);
 
@@ -63,11 +72,11 @@ namespace PokeU.View.ResourcesManager
             }
         }
 
-        private void NotifyTextureLoaded(string path, Texture2D texture)
+        private void NotifyTextureLoaded(string path, (Texture2D, Rectangle) textureLoaded)
         {
             if(this.TextureLoaded != null)
             {
-                this.TextureLoaded(path, texture);
+                this.TextureLoaded(path, textureLoaded);
             }
         }
 

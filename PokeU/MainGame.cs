@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PokeU.View;
 using PokeU.View.ElementLandObject;
+using PokeU.View.ResourcesManager;
 using PokeU.View.WaterObject;
 using SFML.Graphics;
 using SFML.System;
@@ -44,7 +45,9 @@ namespace PokeU
             graphics.ApplyChanges();
 
             this.landWorld2D = new LandWorld2D(this.landWorld, this.GraphicsDevice.Viewport);//new Viewport(1920/2, 0, 1920/2, 1080));
+            LandWorld2D.TextureManager = new TextureManager(this.GraphicsDevice);
             LandWorld2D.TextureManager.MainGame = this;
+            this.landWorld2D.RegisterFactoryEvents();
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;

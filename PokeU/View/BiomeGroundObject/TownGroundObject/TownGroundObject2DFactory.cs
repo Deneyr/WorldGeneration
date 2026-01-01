@@ -25,7 +25,7 @@ namespace PokeU.View.BiomeGroundObject.TownGroundObject
             base.InitializeFactory();
         }
 
-        public override Texture2D GetTextureByLandType(LandType landType)
+        public override (Texture2D, Rectangle) GetTextureByLandType(LandType landType)
         {
             //switch (landType)
             //{
@@ -45,7 +45,7 @@ namespace PokeU.View.BiomeGroundObject.TownGroundObject
             return this.Resources[this.texturesPath.ElementAt(0)];
         }
 
-        public override Texture2D GetWallTexture()
+        public override (Texture2D, Rectangle) GetWallTexture()
         {
             return this.Resources[this.texturesPath.ElementAt(1)];
         }

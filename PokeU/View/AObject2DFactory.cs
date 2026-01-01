@@ -9,9 +9,7 @@ namespace PokeU.View
 {
     public abstract class AObject2DFactory: IObject2DFactory
     {
-        //private static readonly Texture2D BLANK_TEXTURE;
-
-        private Dictionary<string, Texture2D> resources;
+        private Dictionary<string, (Texture2D, Rectangle)> resources;
 
         protected HashSet<string> texturesPath;
 
@@ -19,11 +17,6 @@ namespace PokeU.View
         {
             get;
             set;
-        }
-
-        static AObject2DFactory()
-        {
-            //BLANK_TEXTURE = new Texture2D((uint)MainGame.MODEL_TO_VIEW, (uint)MainGame.MODEL_TO_VIEW);
         }
 
         public AObject2DFactory()
@@ -35,17 +28,17 @@ namespace PokeU.View
 
         protected virtual void InitializeFactory()
         {
-            this.resources = new Dictionary<string, Texture2D>();
+            this.resources = new Dictionary<string, (Texture2D, Rectangle)>();
             //Texture2D blankTexture = BLANK_TEXTURE;
             foreach (string texturesPath in this.texturesPath)
             {
-                this.resources.Add(texturesPath, null);
+                this.resources.Add(texturesPath, (null, Rectangle.Empty));
             }
         }
 
         public abstract IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Point position);
 
-        public Dictionary<string, Texture2D> Resources
+        public Dictionary<string, (Texture2D, Rectangle)> Resources
         {
             get
             {
@@ -53,12 +46,12 @@ namespace PokeU.View
             }
         }
 
-        public Texture2D GetTextureByIndex(int index)
+        public (Texture2D, Rectangle) GetTextureByIndex(int index)
         {
             return this.Resources[this.texturesPath.ElementAt(index)];
         }
 
-        public void OnTextureLoaded(string path, Texture2D texture)
+        public void OnTextureLoaded(string path, (Texture2D, Rectangle) texture)
         {
             if (this.Resources.ContainsKey(path))
             {
@@ -70,7 +63,7 @@ namespace PokeU.View
         {
             if (this.Resources.ContainsKey(path))
             {
-                this.Resources[path] = null;
+                this.Resources[path] = (null, Rectangle.Empty);
             }
         }
     }

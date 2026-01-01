@@ -32,7 +32,7 @@ namespace PokeU.View
         private SpriteEffects effects;
 
         // Texture
-        public Texture2D Texture
+        public (Texture2D, Rectangle) Texture
         {
             get;
             protected set;
@@ -132,7 +132,7 @@ namespace PokeU.View
         {
             this.animationsList = new List<IAnimation>();
 
-            this.Texture = null;
+            this.Texture = (null, Rectangle.Empty);
 
             this.position = Vector2.Zero;
             this.textureRect = new Rectangle(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
@@ -157,7 +157,7 @@ namespace PokeU.View
         public virtual void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView)
         {
             spriteBatch.Draw(
-                texture: this.Texture,
+                texture: this.Texture.Item1,
                 position: this.position,
                 sourceRectangle: this.TextureRect,
                 color: this.color,

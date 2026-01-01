@@ -10,7 +10,7 @@ namespace PokeU.View
     {
         IObject2D CreateObject2D(LandWorld2D landWorld2D, object obj, Point position);
 
-        Dictionary<string, Texture2D> Resources
+        Dictionary<string, (Texture2D, Rectangle)> Resources
         {
             get;
         }
@@ -21,9 +21,9 @@ namespace PokeU.View
             set;
         }
 
-        Texture2D GetTextureByIndex(int index);
+        (Texture2D, Rectangle) GetTextureByIndex(int index);
 
-        void OnTextureLoaded(string path, Texture2D texture);
+        void OnTextureLoaded(string path, (Texture2D, Rectangle) texture);
 
         void OnTextureUnloaded(string path);
     }

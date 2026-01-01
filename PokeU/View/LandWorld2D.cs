@@ -31,7 +31,7 @@ namespace PokeU.View
 
         public static readonly Dictionary<Type, IObject2DFactory> MappingObjectModelView;
 
-        public static readonly TextureManager TextureManager;
+        public static TextureManager TextureManager;
 
         private Dictionary<IObjectChunk, LandChunk2D> landChunksDictionary;
 
@@ -141,8 +141,6 @@ namespace PokeU.View
 
         static LandWorld2D()
         {
-            TextureManager = new TextureManager();
-
             MappingObjectModelView = new Dictionary<Type, IObject2DFactory>();
 
             // Land Objects (ground objects and town ground objects)
@@ -219,12 +217,6 @@ namespace PokeU.View
 
             MappingObjectModelView.Add(typeof(ObjectChunk), new LandChunk2DFactory());
             MappingObjectModelView.Add(typeof(LandCase), new LandCase2DFactory());
-
-            foreach (IObject2DFactory factory in MappingObjectModelView.Values)
-            {
-                TextureManager.TextureLoaded += factory.OnTextureLoaded;
-                TextureManager.TextureUnloaded += factory.OnTextureUnloaded;
-            }
         }
 
         public LandWorld2D(WorldMonitor landWorld, Viewport viewPort)
@@ -258,6 +250,15 @@ namespace PokeU.View
             //this.entity2DManager = new Entity2DManager(this);
             //landWorld.EntityManager.EntityAdded += this.entity2DManager.OnEntityAdded;
             //landWorld.EntityManager.EntityRemoved += this.entity2DManager.OnEntityRemoved;
+        }
+
+        public void RegisterFactoryEvents()
+        {
+            foreach (IObject2DFactory factory in MappingObjectModelView.Values)
+            {
+                TextureManager.TextureLoaded += factory.OnTextureLoaded;
+                TextureManager.TextureUnloaded += factory.OnTextureUnloaded;
+            }
         }
 
         public void UpdateWorld2D(GameTime deltaTime)

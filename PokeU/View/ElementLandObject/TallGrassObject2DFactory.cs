@@ -43,7 +43,7 @@ namespace PokeU.View.ElementLandObject
             return null;
         }
 
-        public Texture2D GetTextureFromBiomeLandType(LandType landType, bool isFullPatch)
+        public (Texture2D, Rectangle) GetTextureFromBiomeLandType(LandType landType, bool isFullPatch)
         {
             if(landType == LandType.GRASS
                 || isFullPatch)

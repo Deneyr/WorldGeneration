@@ -57,7 +57,7 @@ namespace PokeU.View.ElementLandObject
             return null;
         }
 
-        public Texture2D GetTextureFromBiomeLandType(LandType landType, int treeId)
+        public (Texture2D, Rectangle) GetTextureFromBiomeLandType(LandType landType, int treeId)
         {
             if (landType == LandType.GRASS
                 || landType == LandType.MOUNTAIN)
@@ -108,12 +108,12 @@ namespace PokeU.View.ElementLandObject
             return treeId % 3;
         }
 
-        public override Texture2D GetTextureByLandType(LandType landType)
+        public override (Texture2D, Rectangle) GetTextureByLandType(LandType landType)
         {
             throw new NotImplementedException();
         }
 
-        public override Texture2D GetWallTexture()
+        public override (Texture2D, Rectangle) GetWallTexture()
         {
             throw new NotImplementedException();
         }

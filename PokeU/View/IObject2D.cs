@@ -6,7 +6,7 @@ namespace PokeU.View
 {
     public interface IObject2D: IDisposable
     {
-        Texture2D Texture
+        (Texture2D, Rectangle) Texture
         {
             get;
         }
@@ -62,8 +62,14 @@ namespace PokeU.View
         }
 
         // Size helpers
-        int Width => Texture.Width;
-        int Height => Texture.Height;
+        int Width
+        {
+            get;
+        }
+        int Height
+        {
+            get;
+        }
 
         void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView);
 

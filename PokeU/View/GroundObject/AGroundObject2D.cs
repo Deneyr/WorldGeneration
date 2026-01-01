@@ -33,7 +33,7 @@ namespace PokeU.View.GroundObject
                 this.TextureRect = this.GetTransitionTextureCoord(landObject.LandTransition);
             }
 
-            this.Scale = new Vector2(0.5f, 0.5f);
+            //this.Scale = new Vector2(0.5f, 0.5f);
             this.Position = position.ToVector2();
         }
     }

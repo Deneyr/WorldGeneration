@@ -15,10 +15,10 @@ namespace PokeU.View.ElementLandObject
         {
             this.Texture = factory.GetTextureFromBiomeLandType(landObject.LandType);
 
-            if (this.Texture != null)
+            if (this.Texture.Item1 != null)
             {
-                int nbFrames = (int)this.Texture.Width / MainGame.MODEL_TO_VIEW;
-                this.TextureRect = new Rectangle(landObject.LandObjectId % nbFrames * 16, 0, 16, 16);
+                int nbFrames = this.Texture.Item2.Width / MainGame.MODEL_TO_VIEW;
+                this.TextureRect = new Rectangle(this.Texture.Item2.X + landObject.LandObjectId % nbFrames * MainGame.MODEL_TO_VIEW, this.Texture.Item2.Y, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
 
                 this.Position = position.ToVector2();
             }

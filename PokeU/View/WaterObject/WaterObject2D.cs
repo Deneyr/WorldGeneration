@@ -33,10 +33,10 @@ namespace PokeU.View.WaterObject
         {
             Rectangle[] waterMatrix =
             [
-                new Rectangle(0, 0, 128, 128),
-                new Rectangle(128, 0, 128, 128),
-                new Rectangle(256, 0, 128, 128),
-                new Rectangle(384, 0, 128, 128)
+                new Rectangle(0, 0, 64, 64),
+                new Rectangle(64, 0, 64, 64),
+                new Rectangle(128, 0, 64, 64),
+                new Rectangle(192, 0, 64, 64)
             ];
 
             animationWater = new FrameAnimation(waterMatrix, Time.FromMilliseconds(1000), AnimationType.LOOP, InterpolationMethod.LINEAR);
@@ -54,7 +54,7 @@ namespace PokeU.View.WaterObject
             this.offsetTextureRect = this.GetTransitionTextureCoord(landObject.LandTransition);
             this.TextureRect = this.offsetTextureRect;
             this.EffectColor = new Color(255, 255, 255, 127);
-            this.Scale = new Vector2(0.5f, 0.5f);
+            //this.Scale = new Vector2(0.5f, 0.5f);
 
             this.Position = position.ToVector2();
         }

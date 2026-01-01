@@ -27,7 +27,7 @@ namespace PokeU.View.BiomeGroundObject
             base.InitializeFactory();
         }
 
-        public override Texture2D GetTextureByLandType(LandType landType)
+        public override (Texture2D, Rectangle) GetTextureByLandType(LandType landType)
         {
             switch (landType)
             {
@@ -44,10 +44,10 @@ namespace PokeU.View.BiomeGroundObject
                 case LandType.SNOW:
                     return this.Resources[this.texturesPath.ElementAt(2)];
             }
-            return null;
+            return (null, Rectangle.Empty);
         }
 
-        public override Texture2D GetWallTexture()
+        public override (Texture2D, Rectangle) GetWallTexture()
         {
             return this.Resources[this.texturesPath.ElementAt(4)];
         }

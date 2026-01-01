@@ -1,13 +1,14 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using WorldGeneration.ObjectChunks.ObjectLands.GroundObject;
 
 namespace PokeU.View.GroundObject
 {
     public abstract class AGroundObject2DFactory : AObject2DFactory
     {
-        public abstract Texture2D GetTextureByLandType(LandType landType);
+        public abstract (Texture2D, Rectangle) GetTextureByLandType(LandType landType);
 
-        public abstract Texture2D GetWallTexture();
+        public abstract (Texture2D, Rectangle) GetWallTexture();
 
         public bool IsWall
         {

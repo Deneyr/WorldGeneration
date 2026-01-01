@@ -33,7 +33,7 @@ namespace PokeU.View.ElementLandObject
             }
             else
             {
-                this.TextureRect = new Rectangle(0, 0, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                this.TextureRect = new Rectangle(this.Texture.Item2.X, this.Texture.Item2.Y, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
             }
 
             this.Position = position.ToVector2();
@@ -100,23 +100,36 @@ namespace PokeU.View.ElementLandObject
             result.Width *= MainGame.MODEL_TO_VIEW;
             result.Height *= MainGame.MODEL_TO_VIEW;
 
+            result.X += this.Texture.Item2.X;
+            result.Y += this.Texture.Item2.Y;
+
             return result;
         }
 
         protected override Rectangle GetFillTextureCoord(int landObjectId)
         {
+            Rectangle result = new Rectangle(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+
             switch (Math.Abs(landObjectId % 4))
             {
                 case 0:
-                    return new Rectangle(MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(MainGame.MODEL_TO_VIEW, 2 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
                 case 1:
-                    return new Rectangle(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
                 case 2:
-                    return new Rectangle(MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
                 case 3:
-                    return new Rectangle(2 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    result = new Rectangle(2 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+                    break;
             }
-            return new Rectangle(0 * MainGame.MODEL_TO_VIEW, 0 * MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW, MainGame.MODEL_TO_VIEW);
+
+            result.X += this.Texture.Item2.X;
+            result.Y += this.Texture.Item2.Y;
+
+            return result;
         }
     }
 }

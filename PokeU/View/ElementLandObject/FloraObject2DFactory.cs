@@ -45,7 +45,7 @@ namespace PokeU.View.ElementLandObject
             return null;
         }
 
-        public Texture2D GetTextureFromBiomeLandType(LandType landType)
+        public (Texture2D, Rectangle) GetTextureFromBiomeLandType(LandType landType)
         {
             if (landType == LandType.GRASS)
             {
