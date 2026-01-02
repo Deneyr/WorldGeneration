@@ -186,6 +186,8 @@ namespace WorldGeneration.WorldGenerating
 
             this.MainChunksMonitor.ChunksRemoved -= OnChunksRemoved;
             this.MainChunksMonitor.ChunksToUnload -= OnChunksToUnload;
+
+            this.WorldGenerator.Dispose();
         }
     }
 }

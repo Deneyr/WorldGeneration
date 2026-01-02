@@ -91,7 +91,7 @@ namespace PokeU.View
                 Vector2 snappedPosition = this.SnapPosition(value);
                 if (this.mainCamera.Position != snappedPosition)
                 {
-                    this.mainCamera.Position = value;
+                    this.mainCamera.Position = snappedPosition;
                 }
             }
         }
@@ -371,10 +371,12 @@ namespace PokeU.View
 
         private Vector2 SnapPosition(Vector2 position)
         {
-            float snappedX = (float)Math.Floor(position.X / 2) * 2;
-            float snappedY = (float)Math.Floor(position.Y / 2) * 2;
+            //float snappedX = (float)Math.Floor(position.X / 2) * 2;
+            //float snappedY = (float)Math.Floor(position.Y / 2) * 2;
             //this.mainCamera.Position = new Vector2((((int)this.Position.X) / 2) * 2, (((int)this.Position.Y) / 2) * 2);
-            return new Vector2(snappedX, snappedY);
+            //float snappedX = (float)Math.Floor(position.X);
+            //float snappedY = (float)Math.Floor(position.Y);
+            return position;
         }
 
         private void UpdateWorldArea()

@@ -339,7 +339,7 @@ namespace WorldGeneration.WorldGenerating
                     }
                 }
 
-                if (wasAreaUpdated)
+                if (this.isThreadRunning && wasAreaUpdated)
                 {
                     // Extend newWorldArea to fit margin exigences from the objectChunkMonitor
                     newWorldArea = this.ExtendAreaToGenerate(newWorldArea);
@@ -362,8 +362,6 @@ namespace WorldGeneration.WorldGenerating
                         this.wasAreaUpdated = false;
                     }
                 }
-
-                //Thread.Sleep(20);
             }
         }
 
@@ -404,7 +402,11 @@ namespace WorldGeneration.WorldGenerating
 
         public void Dispose()
         {
-            this.isThreadRunning = false;
+            lock (this.mainLock)
+            {
+                this.isThreadRunning = false;
+                Monitor.Pulse(this.mainLock);
+            }
         }
     }
 }
