@@ -11,6 +11,7 @@ namespace PokeU.View.WaterObject
 {
     public class WaterObject2D : ALandObject2D
     {
+        private static Rectangle defaultWaterFrame;
         private static MasterObject2D masterWaterObject2D;
 
         private static IAnimation animationWater;
@@ -39,6 +40,8 @@ namespace PokeU.View.WaterObject
                 new Rectangle(192, 0, 64, 64)
             ];
 
+            defaultWaterFrame = waterMatrix[0];
+
             animationWater = new FrameAnimation(waterMatrix, Time.FromMilliseconds(1000), AnimationType.LOOP, InterpolationMethod.LINEAR);
             masterWaterObject2D = new MasterObject2D(animationWater);
         }
@@ -57,6 +60,20 @@ namespace PokeU.View.WaterObject
             //this.Scale = new Vector2(0.5f, 0.5f);
 
             this.Position = position.ToVector2();
+        }
+
+        public override void RenderIn(Vector2 renderPosition, SpriteBatch spriteBatch, ref FloatRect boundsView)
+        {
+            spriteBatch.Draw(
+                texture: this.Texture.Item1,
+                position: renderPosition,
+                sourceRectangle: defaultWaterFrame,
+                color: Color.White,
+                rotation: this.Rotation,
+                origin: this.Origin,
+                scale: this.Scale,
+                effects: this.Effects,
+                0);
         }
     }
 }

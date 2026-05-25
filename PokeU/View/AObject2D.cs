@@ -168,6 +168,20 @@ namespace PokeU.View
                 0);
         }
 
+        public virtual void RenderIn(Vector2 renderPosition, SpriteBatch spriteBatch, ref FloatRect boundsView)
+        {
+            spriteBatch.Draw(
+                texture: this.Texture.Item1,
+                position: renderPosition,
+                sourceRectangle: this.TextureRect,
+                color: Color.White,
+                rotation: this.rotation,
+                origin: this.origin,
+                scale: this.scale,
+                effects: this.effects,
+                0);
+        }
+
         // Part animations.
         public static IntRect[] CreateAnimation(int leftStart, int topStart, int width, int height, int nbFrame)
         {

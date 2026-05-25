@@ -49,6 +49,12 @@ namespace PokeU.View
 
         private Camera2D mainCamera;
 
+        public event Action<Vector2> PositionUpdated;
+
+        public event Action<IObjectChunk, LandChunk2D> LandChunk2DAdded;
+
+        public event Action<IObjectChunk, LandChunk2D> LandChunk2DRemoved;
+
         public int CurrentZoom
         {
             get
@@ -92,6 +98,8 @@ namespace PokeU.View
                 if (this.mainCamera.Position != snappedPosition)
                 {
                     this.mainCamera.Position = snappedPosition;
+
+                    this.PositionUpdated?.Invoke(this.mainCamera.Position);
                 }
             }
         }
@@ -230,8 +238,10 @@ namespace PokeU.View
             this.mainCamera = new Camera2D();
             this.CurrentViewport = viewPort;
             //this.Position = new Vector2f(-150000, 20000);
-            this.Position = new Vector2(-12259, 5512);
+            this.Position = new Vector2(-14754, 14077);
             //this.Position = new Vector2f(-74 * 16 * 32, 337 * 16 * 32);
+
+            this.CurrentZoom = 0;
 
             this.mainCamera.UpdateTransform();
             this.mainCamera.UpdateViewBound();
@@ -242,23 +252,14 @@ namespace PokeU.View
             this.testAutoDriver = new TestAutoDriver(new Vector2f(this.Position.X, this.Position.Y), 200);
             //
 
-            this.CurrentZoom = 0;
+            this.RegisterFactoryEvents();
 
-            landWorld.MainChunksMonitor.ChunksToAdd += OnChunkAdded;
-            landWorld.MainChunksMonitor.ChunksRemoved += OnChunkRemoved;
+            this.landWorld.MainChunksMonitor.ChunksToAdd += OnChunkAdded;
+            this.landWorld.MainChunksMonitor.ChunksRemoved += OnChunkRemoved;
 
             //this.entity2DManager = new Entity2DManager(this);
             //landWorld.EntityManager.EntityAdded += this.entity2DManager.OnEntityAdded;
             //landWorld.EntityManager.EntityRemoved += this.entity2DManager.OnEntityRemoved;
-        }
-
-        public void RegisterFactoryEvents()
-        {
-            foreach (IObject2DFactory factory in MappingObjectModelView.Values)
-            {
-                TextureManager.TextureLoaded += factory.OnTextureLoaded;
-                TextureManager.TextureUnloaded += factory.OnTextureUnloaded;
-            }
         }
 
         public void UpdateWorld2D(GameTime deltaTime)
@@ -417,8 +418,10 @@ namespace PokeU.View
                 this.chunkResourcesLoader.LoadChunkResources(objectChunk);
 
                 IObject2DFactory landChunk2DFactory = LandWorld2D.MappingObjectModelView[objectChunk.GetType()];
+                LandChunk2D landChunk2DToAdd = landChunk2DFactory.CreateObject2D(this, objectChunk, new Point(objectChunk.Position.X * MainGame.MODEL_TO_VIEW, objectChunk.Position.Y * MainGame.MODEL_TO_VIEW)) as LandChunk2D;
+                this.landChunksDictionary.Add(objectChunk, landChunk2DToAdd);
 
-                this.landChunksDictionary.Add(objectChunk, landChunk2DFactory.CreateObject2D(this, objectChunk, new Point(objectChunk.Position.X * MainGame.MODEL_TO_VIEW, objectChunk.Position.Y * MainGame.MODEL_TO_VIEW)) as LandChunk2D);
+                this.LandChunk2DAdded?.Invoke(objectChunk, landChunk2DToAdd);
             }
         }
 
@@ -430,16 +433,39 @@ namespace PokeU.View
 
                 this.chunkResourcesLoader.UnloadChunkResources(objectChunk);
 
-                this.landChunksDictionary[objectChunk].Dispose();
+                LandChunk2D landChunk2DToRemove = this.landChunksDictionary[objectChunk];
+                landChunk2DToRemove.Dispose();
 
                 this.landChunksDictionary.Remove(objectChunk);
+
+                this.LandChunk2DRemoved?.Invoke(objectChunk, landChunk2DToRemove);
             }
         }
 
-        public void Dispose(WorldMonitor landWorld)
+        private void RegisterFactoryEvents()
         {
-            landWorld.MainChunksMonitor.ChunksToAdd -= OnChunkAdded;
-            landWorld.MainChunksMonitor.ChunksRemoved -= OnChunkRemoved;
+            foreach (IObject2DFactory factory in MappingObjectModelView.Values)
+            {
+                TextureManager.TextureLoaded += factory.OnTextureLoaded;
+                TextureManager.TextureUnloaded += factory.OnTextureUnloaded;
+            }
+        }
+
+        private void UnregisterFactoryEvents()
+        {
+            foreach (IObject2DFactory factory in MappingObjectModelView.Values)
+            {
+                TextureManager.TextureLoaded -= factory.OnTextureLoaded;
+                TextureManager.TextureUnloaded -= factory.OnTextureUnloaded;
+            }
+        }
+
+        public void Dispose()
+        {
+            this.landWorld.MainChunksMonitor.ChunksToAdd -= OnChunkAdded;
+            this.landWorld.MainChunksMonitor.ChunksRemoved -= OnChunkRemoved;
+
+            this.UnregisterFactoryEvents();
         }
     }
 }

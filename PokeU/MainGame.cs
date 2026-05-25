@@ -17,6 +17,7 @@ namespace PokeU
     public class MainGame : Microsoft.Xna.Framework.Game
     {
         public static readonly int MODEL_TO_VIEW = 16;
+        public static readonly int CHUNK_CASE_SIDE = 32;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -24,15 +25,16 @@ namespace PokeU
         private WorldMonitor landWorld;
 
         private LandWorld2D landWorld2D;
+        private MapWorld2D mapWorld2D;
 
         private KeyboardState oldState;
         public MainGame()
         {
-            this.landWorld = new WorldMonitor(32, 16, 123456789);
-            this.landWorld.InitWorldMonitor();
-
             // TODO static constructor need that
             WaterObject2D waterObject2D = new WaterObject2D();
+
+            this.landWorld = new WorldMonitor(MainGame.CHUNK_CASE_SIDE, 16, 123456789);
+            this.landWorld.InitWorldMonitor();
 
             graphics = new GraphicsDeviceManager(this);
 
@@ -43,11 +45,6 @@ namespace PokeU
 
             //graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
-
-            this.landWorld2D = new LandWorld2D(this.landWorld, this.GraphicsDevice.Viewport);//new Viewport(1920/2, 0, 1920/2, 1080));
-            LandWorld2D.TextureManager = new TextureManager(this.GraphicsDevice);
-            LandWorld2D.TextureManager.MainGame = this;
-            this.landWorld2D.RegisterFactoryEvents();
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -62,11 +59,13 @@ namespace PokeU
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(this.GraphicsDevice);
+            this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            //ballTexture = Content.Load<Texture2D>(@"Autotiles\treeSwamp");
-            //ballTexture2 = Content.Load<Texture2D>(@"Autotiles\tree");
+            LandWorld2D.TextureManager = new TextureManager(this.GraphicsDevice);
+            LandWorld2D.TextureManager.MainGame = this;
+
+            this.landWorld2D = new LandWorld2D(this.landWorld, this.GraphicsDevice.Viewport);//new Viewport(1920/2, 0, 1920/2, 1080));
+            this.mapWorld2D = new MapWorld2D(this.GraphicsDevice, this.spriteBatch, this.landWorld2D, new Viewport(0, 0, this.GraphicsDevice.Viewport.Width / 8, this.GraphicsDevice.Viewport.Width / 8), 1f/16);
         }
 
         protected override void Update(GameTime gameTime)
@@ -80,6 +79,7 @@ namespace PokeU
             AObject2D.UpdateAnimationManager(timeElapsed);
 
             this.landWorld2D.UpdateWorld2D(gameTime);
+            this.mapWorld2D.UpdateWorld2D(gameTime);
 
             base.Update(gameTime);
         }
@@ -90,9 +90,9 @@ namespace PokeU
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                //this.landWorld2D.Dispose(this.landWorld);
+                this.mapWorld2D.Dispose();
+                this.landWorld2D.Dispose();
                 this.landWorld.Dispose();
-                this.landWorld2D.Dispose(this.landWorld);
 
                 Exit();
             }
@@ -124,6 +124,7 @@ namespace PokeU
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.RoyalBlue);
 
             this.landWorld2D.DrawIn(this, spriteBatch);
+            this.mapWorld2D.DrawIn(this, spriteBatch);
 
             base.Draw(gameTime);
         }

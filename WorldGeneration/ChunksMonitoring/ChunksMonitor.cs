@@ -10,7 +10,6 @@ namespace WorldGeneration.ChunksMonitoring
 {
     public class ChunksMonitor
     {
-        protected Dictionary<Vector2i, ChunkContainer> chunksPoolDictionary;
         protected List<ChunkContainer> chunksPoolQueue;
 
         private List<ChunkContainer> chunksToRemove;
@@ -48,7 +47,6 @@ namespace WorldGeneration.ChunksMonitoring
 
         public ChunksMonitor(int chunksPoolLimit)
         {
-            this.chunksPoolDictionary = new Dictionary<Vector2i, ChunkContainer>();
             this.chunksPoolQueue = new List<ChunkContainer>();
             this.ChunksPoolLimit = chunksPoolLimit;
 
@@ -63,7 +61,6 @@ namespace WorldGeneration.ChunksMonitoring
 
         public void Reinitialize()
         {
-            this.chunksPoolDictionary.Clear();
             this.chunksPoolQueue.Clear();
 
             this.CurrentArea = new IntRect(0, 0, 0, 0);

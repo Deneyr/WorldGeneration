@@ -73,6 +73,8 @@ namespace PokeU.View
 
         void DrawIn(SpriteBatch spriteBatch, ref FloatRect boundsView);
 
+        void RenderIn(Vector2 renderPosition, SpriteBatch spriteBatch, ref FloatRect boundsView);
+
         // Part animations
         void SetCanevas(Rectangle newCanevas);
 

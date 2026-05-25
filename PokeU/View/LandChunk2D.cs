@@ -164,6 +164,34 @@ namespace PokeU.View
             }
         }
 
+        public override void RenderIn(Vector2 renderPosition, SpriteBatch spriteBatch, ref FloatRect boundsView)
+        {
+            LandCase2D[,] layer2D = this.landObjects2DLayers.FirstOrDefault();
+
+            if (layer2D == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < layer2D.GetLength(0); i++)
+            {
+                for (int j = 0; j < layer2D.GetLength(1); j++)
+                {
+                    renderPosition.X = j * MainGame.MODEL_TO_VIEW;
+                    renderPosition.Y = i * MainGame.MODEL_TO_VIEW;
+
+                    foreach (LandCase2D[,] landObject2DsArray in this.landObjects2DLayers)
+                    {
+                        LandCase2D landObjectsList = landObject2DsArray[i, j];
+                        if (landObjectsList != null)
+                        {
+                            landObjectsList.RenderIn(renderPosition, spriteBatch, ref boundsView);
+                        }
+                    }
+                }
+            }
+        }
+
         public override void Dispose()
         {
             foreach (LandCase2D[,] landObject2DsArray in this.landObjects2DLayers)

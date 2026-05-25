@@ -253,6 +253,61 @@ namespace PokeU.View
             }
         }
 
+        public override void RenderIn(Vector2 renderPosition, SpriteBatch spriteBatch, ref FloatRect boundsView)
+        {
+            if (this.IsValid)
+            {
+                if (this.underLandCaseData.IsThereWall == false)
+                {
+                    foreach (ILandObject2D landGroundObject in this.landGroundList)
+                    {
+                        //landGroundObject.RatioAltitude = this.RatioAltitude;
+
+                        landGroundObject.RenderIn(renderPosition, spriteBatch, ref boundsView);
+                    }
+                }
+
+                if (this.landOverGround != null)
+                {
+                    this.landOverGround.RenderIn(renderPosition, spriteBatch, ref boundsView);
+                }
+
+                if (this.landWall != null)
+                {
+                    foreach (ILandObject2D landGroundOverWallObject in this.landGroundOverWallList)
+                    {
+                        landGroundOverWallObject.RenderIn(renderPosition, spriteBatch, ref boundsView);
+                    }
+                }
+
+                //if (this.overLandCaseData.IsThereWater == false || this.RatioAltitude == 0)
+                //{
+                //    if (this.landWater != null)
+                //    {
+                //        this.landWater.DrawIn(window, ref boundsView);
+                //    }
+                //}
+
+                if (this.landWall != null)
+                {
+                    this.landWall.RenderIn(renderPosition, spriteBatch, ref boundsView);
+                }
+
+                if (this.overLandCaseData.IsThereWater == false)
+                {
+                    if (this.landWater != null)
+                    {
+                        this.landWater.RenderIn(renderPosition, spriteBatch, ref boundsView);
+                    }
+                }
+
+                if (this.landOverWall != null)
+                {
+                    this.landOverWall.RenderIn(renderPosition, spriteBatch, ref boundsView);
+                }
+            }
+        }
+
         public override void Dispose()
         {
             foreach (ILandObject2D landGroundObject in this.landGroundList)
