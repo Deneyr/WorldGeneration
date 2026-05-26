@@ -218,22 +218,25 @@ namespace PokeU.View
             {
                 foreach (ChunkContainer chunkContainer in chunkContainerRow)
                 {
-                    MapChunk2D mapChunk2D = (MapChunk2D)chunkContainer.ContainedChunk;
-                    //if (mapChunk2D.ViewBound.Intersects(viewBound))
-                    //{
+                    if (chunkContainer.ContainedChunk != null)
+                    {
+                        MapChunk2D mapChunk2D = (MapChunk2D)chunkContainer.ContainedChunk;
+                        //if (mapChunk2D.ViewBound.Intersects(viewBound))
+                        //{
                         mapChunk2D.DrawIn(spriteBatch, ref viewBound);
                         //spriteBatch.Draw(
                         //    pixelTexture,
                         //    new Rectangle((int)mapChunk2D.ViewBound.Left, (int)mapChunk2D.ViewBound.Top, (int)mapChunk2D.ViewBound.Width, (int)mapChunk2D.ViewBound.Height),
                         //    new Microsoft.Xna.Framework.Color(0, 255, 0, 100));
-                    //}
-                    //else
-                    //{
-                    //    spriteBatch.Draw(
-                    //        pixelTexture,
-                    //        new Rectangle((int)mapChunk2D.ViewBound.Left, (int)mapChunk2D.ViewBound.Top, (int)mapChunk2D.ViewBound.Width, (int)mapChunk2D.ViewBound.Height),
-                    //        new Microsoft.Xna.Framework.Color(0, 0, 255, 100));
-                    //}
+                        //}
+                        //else
+                        //{
+                        //    spriteBatch.Draw(
+                        //        pixelTexture,
+                        //        new Rectangle((int)mapChunk2D.ViewBound.Left, (int)mapChunk2D.ViewBound.Top, (int)mapChunk2D.ViewBound.Width, (int)mapChunk2D.ViewBound.Height),
+                        //        new Microsoft.Xna.Framework.Color(0, 0, 255, 100));
+                        //}
+                    }
                 }
             }
 
@@ -294,9 +297,10 @@ namespace PokeU.View
             }
             else
             {
-                mapChunk2D.LandChunk2D = landChunk2DAdded;
                 needRenderChunk = mapChunk2D.DoesTextureFileExist(MAP_DIRECTORY) == false;
             }
+
+            mapChunk2D.LandChunk2D = landChunk2DAdded;
 
             if (mapChunk2D.Texture.Item1 == null)
             {
