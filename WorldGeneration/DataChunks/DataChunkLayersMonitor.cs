@@ -59,7 +59,7 @@ namespace WorldGeneration.DataChunks
         {
             this.WorldSeed = worldSeed;
 
-            this.WeatherMonitor = new WeatherMonitor(@"Resources\WorldGenerator\weatherTexture.bmp");
+            this.WeatherMonitor = new WeatherMonitor();
 
             this.DataChunksLayers = new Dictionary<string, IDataChunkLayer>();
             this.DataAgreggators = new Dictionary<string, IDataAgreggator>();

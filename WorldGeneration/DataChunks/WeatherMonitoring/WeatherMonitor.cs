@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace WorldGeneration.DataChunks.WeatherMonitoring
 
         private BiomeType[,] biomeMatrix;
 
-        public WeatherMonitor(string weatherImagePath)
+        public WeatherMonitor()
         {
             this.colorToBiome = new Dictionary<Color, BiomeType>();
             this.colorToBiome.Add(new Color(0x23725eff), BiomeType.BOREAL_FOREST);
@@ -26,20 +27,24 @@ namespace WorldGeneration.DataChunks.WeatherMonitoring
             this.colorToBiome.Add(new Color(0x6a9026ff), BiomeType.SEASONAL_FOREST);
             this.colorToBiome.Add(new Color(0xbca135ff), BiomeType.TROPICAL_WOODLAND);
 
-            this.ConstructColorToBiome(weatherImagePath);
+            this.ConstructColorToBiome();
         }
 
-        private void ConstructColorToBiome(string weatherImagePath)
+        private void ConstructColorToBiome()
         {
-            using(Image weatherImage = new Image(weatherImagePath))
+            using (var weatherTextureStream = Assembly.GetExecutingAssembly()
+                   .GetManifestResourceStream(@"WorldGeneration.DataChunks.WeatherMonitoring.Resources.weatherTexture.bmp"))
             {
-                this.biomeMatrix = new BiomeType[weatherImage.Size.X, weatherImage.Size.Y];
-
-                for(uint i = 0; i < weatherImage.Size.Y; i++)
+                using (Image weatherImage = new Image(weatherTextureStream))
                 {
-                    for (uint j = 0; j < weatherImage.Size.X; j++)
+                    this.biomeMatrix = new BiomeType[weatherImage.Size.X, weatherImage.Size.Y];
+
+                    for (uint i = 0; i < weatherImage.Size.Y; i++)
                     {
-                        this.biomeMatrix[i, j] = this.colorToBiome[weatherImage.GetPixel(i, j)];
+                        for (uint j = 0; j < weatherImage.Size.X; j++)
+                        {
+                            this.biomeMatrix[i, j] = this.colorToBiome[weatherImage.GetPixel(i, j)];
+                        }
                     }
                 }
             }
